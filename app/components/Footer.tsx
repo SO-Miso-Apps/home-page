@@ -14,7 +14,7 @@ export const Footer = () => {
               Miso Apps
             </h3>
             <p className={styles.footerDescription}>
-              Building innovative software solutions that transform businesses and empower users worldwide.
+              Building innovative Shopify apps that transform e-commerce businesses and empower merchants worldwide.
             </p>
           </div>
           

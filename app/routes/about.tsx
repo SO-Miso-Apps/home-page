@@ -9,8 +9,8 @@ import {
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "About Us - Miso Apps" },
-    { name: "description", content: "Learn about Miso Apps - our mission, vision, values, and the team behind innovative software solutions." },
+    { title: "About Us - Miso Apps | Shopify App Development Experts" },
+    { name: "description", content: "Learn about Miso Apps - leading Shopify app developers. Our mission, vision, values, and the expert team behind innovative Shopify solutions." },
   ];
 }
 
@@ -33,10 +33,10 @@ export default function About() {
           <div style={{ maxWidth: '800px', margin: '0 auto' }}>
             <NeubrutalistBadge variant="yellow" size="large">About Miso Apps</NeubrutalistBadge>
             <h1 style={{ fontSize: '4rem', fontWeight: 900, margin: '2rem 0 1rem' }}>
-              Building the Future of Software
+              Shopify App Experts Since 2018
             </h1>
             <p style={{ fontSize: '1.5rem', lineHeight: 1.6, opacity: 0.95 }}>
-              We're a passionate team of developers, designers, and innovators dedicated to creating exceptional software solutions that make a real difference.
+              We're a passionate team of Shopify specialists dedicated to creating powerful apps that help merchants succeed in the competitive e-commerce landscape.
             </p>
           </div>
         </section>
@@ -54,13 +54,13 @@ export default function About() {
                 Our Story
               </h2>
               <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: '#555', marginBottom: '1rem' }}>
-                Founded in 2018, Miso Apps began with a simple vision: to create software that people actually love to use. What started as a small team of three developers has grown into a thriving company serving clients worldwide.
+                Founded in 2018, Miso Apps was born from a simple observation: Shopify merchants needed better tools to compete in the rapidly growing e-commerce space. As experienced Shopify developers, we saw the gaps in the app ecosystem and decided to fill them.
               </p>
               <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: '#555', marginBottom: '1rem' }}>
-                We've completed over 1,000 projects across various industries, from startups to Fortune 500 companies. Our commitment to excellence and innovation drives everything we do.
+                What started as two developers building apps in a garage has grown into a thriving company serving over 10,000 Shopify stores across 50+ countries. Our apps have been installed millions of times and have helped merchants generate over $500M in additional revenue.
               </p>
               <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: '#555' }}>
-                Today, we're proud to be recognized as one of the leading software development companies, known for our cutting-edge solutions and exceptional client service.
+                Today, we're recognized as Shopify Experts and trusted partners in the Shopify ecosystem. We continue to innovate, releasing new apps and updates that help merchants grow their businesses and deliver exceptional customer experiences.
               </p>
             </div>
             <div style={{ 
@@ -72,10 +72,10 @@ export default function About() {
             }}>
               <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🏆</div>
               <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '1rem' }}>
-                Award-Winning Team
+                Shopify Experts
               </h3>
               <p style={{ fontSize: '1.125rem', fontWeight: 600 }}>
-                Recognized for excellence in software development and innovation
+                Certified Shopify Partners & App Developers with proven track record
               </p>
             </div>
           </div>
@@ -100,7 +100,7 @@ export default function About() {
                   Our Mission
                 </h3>
                 <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: '#555' }}>
-                  To empower businesses worldwide with innovative software solutions that drive growth, enhance productivity, and create lasting value. We strive to make technology accessible, intuitive, and transformative for every client we serve.
+                  To empower Shopify merchants with innovative apps that drive sales, enhance customer experiences, and automate operations. We believe every merchant deserves access to enterprise-level tools, regardless of their store size. Our mission is to level the playing field and help small businesses compete with larger retailers.
                 </p>
               </div>
 
@@ -115,7 +115,7 @@ export default function About() {
                   Our Vision
                 </h3>
                 <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: '#555' }}>
-                  To be the world's most trusted software development partner, known for delivering exceptional solutions that set industry standards. We envision a future where our technology helps businesses of all sizes achieve their full potential.
+                  To become the most trusted name in Shopify app development, setting the standard for quality, reliability, and merchant success. We envision a future where every Shopify store, from emerging startups to established brands, uses our apps to achieve their full potential and deliver world-class shopping experiences.
                 </p>
               </div>
             </div>
@@ -143,37 +143,37 @@ export default function About() {
               icon="💡"
               color="yellow"
               title="Innovation"
-              description="We constantly push boundaries and explore new technologies to deliver cutting-edge solutions that keep our clients ahead of the curve."
+              description="We stay ahead of e-commerce trends and Shopify updates, continuously innovating to give merchants competitive advantages in their markets."
             />
             <NeubrutalistCard
-              icon="🤝"
+              icon="🎯"
               color="blue"
-              title="Integrity"
-              description="We build trust through transparency, honesty, and accountability in all our interactions and deliverables."
+              title="Merchant-First"
+              description="Every decision we make puts Shopify merchants at the center. We build apps that solve real problems and deliver measurable results."
             />
             <NeubrutalistCard
               icon="⭐"
               color="purple"
               title="Excellence"
-              description="We're committed to delivering the highest quality in everything we do, exceeding expectations at every turn."
+              description="We maintain the highest standards in code quality, app performance, and customer support, ensuring reliable solutions merchants can trust."
             />
             <NeubrutalistCard
-              icon="🌟"
+              icon="🤝"
               color="green"
-              title="Customer Focus"
-              description="Our clients' success is our success. We listen, understand, and deliver solutions that truly meet their needs."
+              title="Partnership"
+              description="We view merchants as partners, not just customers. Their success is our success, and we're committed to their long-term growth."
             />
             <NeubrutalistCard
-              icon="🚀"
+              icon="�"
               color="red"
-              title="Agility"
-              description="We adapt quickly to change, embracing new challenges and opportunities with flexibility and speed."
+              title="Security & Privacy"
+              description="We take data security seriously, following Shopify's strict guidelines and implementing best practices to protect merchant and customer data."
             />
             <NeubrutalistCard
-              icon="🌍"
+              icon="�"
               color="blue"
-              title="Collaboration"
-              description="We believe in the power of teamwork, both within our organization and with our clients and partners."
+              title="Continuous Improvement"
+              description="We actively listen to merchant feedback and continuously update our apps with new features, improvements, and optimizations."
             />
           </div>
         </section>
@@ -203,10 +203,10 @@ export default function About() {
               gap: '2rem'
             }}>
               {[
-                { name: 'Alex Morgan', role: 'CEO & Founder', icon: '👔', description: '15+ years in software development' },
-                { name: 'Jamie Lee', role: 'CTO', icon: '💻', description: 'Expert in cloud architecture' },
-                { name: 'Sam Rivera', role: 'Head of Design', icon: '🎨', description: 'Award-winning UX designer' },
-                { name: 'Taylor Chen', role: 'VP of Engineering', icon: '⚙️', description: 'Leading innovation initiatives' }
+                { name: 'Alex Morgan', role: 'CEO & Founder', icon: '👔', description: 'Former Shopify developer with 10+ years' },
+                { name: 'Jamie Lee', role: 'CTO', icon: '💻', description: 'Shopify API specialist & architect' },
+                { name: 'Sam Rivera', role: 'Head of Product', icon: '🎨', description: 'UX expert focused on merchant needs' },
+                { name: 'Taylor Chen', role: 'VP of Engineering', icon: '⚙️', description: 'Leading our app development team' }
               ].map((member, index) => (
                 <div key={index} style={{
                   padding: '2rem',
@@ -244,12 +244,12 @@ export default function About() {
             gap: '2rem'
           }}>
             {[
-              { number: '500+', label: 'Happy Clients', icon: '😊' },
-              { number: '1000+', label: 'Projects Delivered', icon: '✅' },
-              { number: '50+', label: 'Team Members', icon: '👥' },
-              { number: '15+', label: 'Countries Served', icon: '🌍' },
-              { number: '99.9%', label: 'Client Satisfaction', icon: '⭐' },
-              { number: '24/7', label: 'Support Available', icon: '🛟' }
+              { number: '10K+', label: 'Shopify Stores', icon: '�️' },
+              { number: '5M+', label: 'App Installations', icon: '⬇️' },
+              { number: '30+', label: 'Shopify Experts', icon: '👥' },
+              { number: '50+', label: 'Countries Served', icon: '🌍' },
+              { number: '4.9★', label: 'Average Rating', icon: '⭐' },
+              { number: '$500M+', label: 'Revenue Generated', icon: '�' }
             ].map((stat, index) => (
               <div key={index} style={{
                 padding: '2rem',
@@ -279,14 +279,14 @@ export default function About() {
           boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
         }}>
           <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem' }}>
-            Want to Work With Us?
+            Join Thousands of Successful Merchants
           </h2>
           <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
-            Let's build something amazing together. Get in touch to discuss your next project.
+            Ready to take your Shopify store to the next level? Discover our powerful apps today.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <NeubrutalistButton href="/products" variant="primary" size="large">
-              View Our Services
+              Explore Our Shopify Apps
             </NeubrutalistButton>
             <NeubrutalistButton href="/" variant="secondary" size="large">
               Back to Home

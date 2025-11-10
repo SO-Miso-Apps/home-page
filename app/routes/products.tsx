@@ -9,8 +9,8 @@ import {
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Our Products - Miso Apps" },
-    { name: "description", content: "Explore our suite of innovative software products and services designed to transform your business operations." },
+    { title: "Our Shopify Apps - Miso Apps" },
+    { name: "description", content: "Explore our suite of powerful Shopify apps designed to increase sales, improve customer experience, and automate your e-commerce operations." },
   ];
 }
 
@@ -31,12 +31,12 @@ export default function Products() {
           boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
         }}>
           <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-            <NeubrutalistBadge variant="yellow" size="large">Our Products</NeubrutalistBadge>
+            <NeubrutalistBadge variant="yellow" size="large">Our Shopify Apps</NeubrutalistBadge>
             <h1 style={{ fontSize: '4rem', fontWeight: 900, margin: '2rem 0 1rem' }}>
-              Powerful Solutions for Modern Businesses
+              Powerful Apps for Shopify Success
             </h1>
             <p style={{ fontSize: '1.5rem', lineHeight: 1.6, fontWeight: 600 }}>
-              Discover our comprehensive suite of software products designed to streamline operations, boost productivity, and drive growth.
+              Discover our comprehensive suite of Shopify apps designed to boost conversions, enhance customer engagement, and streamline your store operations.
             </p>
           </div>
         </section>
@@ -44,9 +44,9 @@ export default function Products() {
         {/* Featured Products */}
         <section style={{ padding: '4rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <NeubrutalistBadge variant="blue" size="large">Featured Products</NeubrutalistBadge>
+            <NeubrutalistBadge variant="blue" size="large">Featured Apps</NeubrutalistBadge>
             <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0' }}>
-              Our Flagship Solutions
+              Our Most Popular Shopify Apps
             </h2>
           </div>
 
@@ -62,12 +62,12 @@ export default function Products() {
               boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
             }}>
               <div>
-                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📊</div>
+                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🎁</div>
                 <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>
-                  Miso Analytics Pro
+                  Upsell & Cross-Sell Pro
                 </h3>
                 <p style={{ fontSize: '1.25rem', color: '#666', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                  Transform your data into actionable insights with our powerful analytics platform. Real-time dashboards, advanced reporting, and AI-powered predictions.
+                  Increase average order value with intelligent product recommendations. AI-powered upsells, cross-sells, and bundles that convert at checkout and throughout your store.
                 </p>
                 <div style={{ marginBottom: '1.5rem' }}>
                   <NeubrutalistBadge variant="green">Most Popular</NeubrutalistBadge>
@@ -77,12 +77,12 @@ export default function Products() {
                 <h4 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>Key Features:</h4>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                   {[
-                    '✅ Real-time data visualization',
-                    '✅ Custom dashboard builder',
-                    '✅ AI-powered insights',
-                    '✅ Multi-source data integration',
-                    '✅ Automated reporting',
-                    '✅ Mobile app included'
+                    '✅ AI-powered product recommendations',
+                    '✅ One-click upsells at checkout',
+                    '✅ Frequently bought together bundles',
+                    '✅ Post-purchase upsell offers',
+                    '✅ Customizable design templates',
+                    '✅ Detailed analytics & A/B testing'
                   ].map((feature, i) => (
                     <li key={i} style={{ 
                       padding: '0.75rem 1rem',
@@ -97,7 +97,7 @@ export default function Products() {
                 </ul>
                 <div style={{ marginTop: '1.5rem' }}>
                   <NeubrutalistButton variant="primary" size="large">
-                    Learn More
+                    Install App
                   </NeubrutalistButton>
                 </div>
               </div>
@@ -114,12 +114,12 @@ export default function Products() {
               boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
             }}>
               <div>
-                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🚀</div>
+                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>�</div>
                 <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>
-                  Miso Project Manager
+                  Email Marketing Master
                 </h3>
                 <p style={{ fontSize: '1.25rem', color: '#333', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                  Streamline your project workflow with intuitive tools for planning, tracking, and collaboration. Perfect for teams of any size.
+                  Recover abandoned carts and boost customer retention with automated email campaigns. Beautiful templates, segmentation, and powerful automation workflows.
                 </p>
                 <div style={{ marginBottom: '1.5rem' }}>
                   <NeubrutalistBadge variant="blue">Enterprise Ready</NeubrutalistBadge>
@@ -129,12 +129,12 @@ export default function Products() {
                 <h4 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>Key Features:</h4>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                   {[
-                    '✅ Kanban & Gantt views',
-                    '✅ Team collaboration tools',
-                    '✅ Time tracking & billing',
-                    '✅ Resource management',
-                    '✅ Custom workflows',
-                    '✅ Integration with 100+ apps'
+                    '✅ Abandoned cart recovery emails',
+                    '✅ Welcome series automation',
+                    '✅ Customer win-back campaigns',
+                    '✅ Product review requests',
+                    '✅ Drag-and-drop email builder',
+                    '✅ Advanced segmentation & analytics'
                   ].map((feature, i) => (
                     <li key={i} style={{ 
                       padding: '0.75rem 1rem',
@@ -149,7 +149,7 @@ export default function Products() {
                 </ul>
                 <div style={{ marginTop: '1.5rem' }}>
                   <NeubrutalistButton variant="accent" size="large">
-                    Learn More
+                    Install App
                   </NeubrutalistButton>
                 </div>
               </div>
@@ -166,12 +166,12 @@ export default function Products() {
               boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
             }}>
               <div>
-                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>💬</div>
+                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>⭐</div>
                 <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>
-                  Miso CRM Suite
+                  Reviews & Social Proof
                 </h3>
                 <p style={{ fontSize: '1.25rem', color: '#333', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                  Build stronger customer relationships with our comprehensive CRM solution. Sales pipeline, customer service, and marketing automation in one platform.
+                  Build trust and increase conversions with authentic customer reviews and social proof. Photo reviews, Q&A, ratings, and automated review collection.
                 </p>
                 <div style={{ marginBottom: '1.5rem' }}>
                   <NeubrutalistBadge variant="purple">Best Value</NeubrutalistBadge>
@@ -181,12 +181,12 @@ export default function Products() {
                 <h4 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>Key Features:</h4>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                   {[
-                    '✅ Contact management',
-                    '✅ Sales pipeline tracking',
-                    '✅ Email marketing automation',
-                    '✅ Customer support ticketing',
-                    '✅ Lead scoring & nurturing',
-                    '✅ Advanced analytics'
+                    '✅ Automated review requests',
+                    '✅ Photo & video reviews',
+                    '✅ Q&A for products',
+                    '✅ Google Rich Snippets (SEO)',
+                    '✅ Review widgets & popups',
+                    '✅ Import reviews from platforms'
                   ].map((feature, i) => (
                     <li key={i} style={{ 
                       padding: '0.75rem 1rem',
@@ -201,7 +201,7 @@ export default function Products() {
                 </ul>
                 <div style={{ marginTop: '1.5rem' }}>
                   <NeubrutalistButton variant="primary" size="large">
-                    Learn More
+                    Install App
                   </NeubrutalistButton>
                 </div>
               </div>
@@ -213,9 +213,9 @@ export default function Products() {
         <section style={{ padding: '4rem 2rem', background: '#f8f9fa' }}>
           <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
             <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-              <NeubrutalistBadge variant="red" size="large">More Solutions</NeubrutalistBadge>
+              <NeubrutalistBadge variant="red" size="large">More Apps</NeubrutalistBadge>
               <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0' }}>
-                Complete Your Toolkit
+                Complete Your Store Toolkit
               </h2>
             </div>
 
@@ -225,40 +225,40 @@ export default function Products() {
               gap: '2rem'
             }}>
               <NeubrutalistCard
-                icon="🛒"
+                icon="�"
                 color="blue"
-                title="Miso E-Commerce"
-                description="Build and scale your online store with our powerful e-commerce platform. Includes payment processing, inventory management, and marketing tools."
+                title="Inventory Management"
+                description="Track stock levels across multiple locations. Get low-stock alerts, automate reordering, and sync with suppliers in real-time."
+              />
+              <NeubrutalistCard
+                icon="🎯"
+                color="green"
+                title="Pop-ups & Forms"
+                description="Capture emails and reduce cart abandonment with exit-intent popups, spin-to-win wheels, and customizable forms."
+              />
+              <NeubrutalistCard
+                icon="�"
+                color="red"
+                title="Shipping Calculator"
+                description="Display real-time shipping rates on product pages. Reduce cart abandonment by showing shipping costs upfront."
+              />
+              <NeubrutalistCard
+                icon="�"
+                color="purple"
+                title="Discount Manager Pro"
+                description="Create advanced discount campaigns with tiered pricing, BOGO offers, volume discounts, and flash sales."
               />
               <NeubrutalistCard
                 icon="📱"
-                color="green"
-                title="Miso Mobile App Builder"
-                description="Create stunning mobile apps without code. Drag-and-drop interface, real-time preview, and one-click publishing to app stores."
-              />
-              <NeubrutalistCard
-                icon="🔐"
-                color="red"
-                title="Miso Security Suite"
-                description="Protect your business with enterprise-grade security. Includes firewall, threat detection, data encryption, and compliance tools."
-              />
-              <NeubrutalistCard
-                icon="📧"
-                color="purple"
-                title="Miso Email Marketing"
-                description="Design beautiful email campaigns with our intuitive editor. A/B testing, automation workflows, and detailed analytics included."
-              />
-              <NeubrutalistCard
-                icon="☁️"
                 color="yellow"
-                title="Miso Cloud Storage"
-                description="Secure cloud storage with unlimited capacity. File sharing, version control, and seamless collaboration features built-in."
+                title="SMS Marketing"
+                description="Send personalized SMS campaigns for cart recovery, order updates, shipping notifications, and promotions."
               />
               <NeubrutalistCard
-                icon="🤖"
+                icon="🔍"
                 color="blue"
-                title="Miso AI Assistant"
-                description="Leverage AI to automate tasks and gain insights. Natural language processing, predictive analytics, and smart recommendations."
+                title="Smart Search & Filter"
+                description="Help customers find products faster with AI-powered search, instant results, and advanced filtering options."
               />
             </div>
           </div>
@@ -269,10 +269,10 @@ export default function Products() {
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
             <NeubrutalistBadge variant="green" size="large">Pricing</NeubrutalistBadge>
             <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0' }}>
-              Choose Your Plan
+              Flexible Plans for Every Store
             </h2>
             <p style={{ fontSize: '1.25rem', color: '#666' }}>
-              Flexible pricing for businesses of all sizes
+              Start free, upgrade as you grow. All plans include 14-day free trial.
             </p>
           </div>
 
@@ -290,10 +290,10 @@ export default function Products() {
               textAlign: 'center'
             }}>
               <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>Starter</h3>
-              <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>$49</div>
+              <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>$9.99</div>
               <div style={{ color: '#666', marginBottom: '2rem' }}>per month</div>
               <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', textAlign: 'left' }}>
-                {['1 Product', 'Up to 5 users', 'Basic support', '10GB storage'].map((item, i) => (
+                {['1 App of your choice', 'Up to 500 orders/month', 'Email support', 'Basic analytics', '14-day free trial'].map((item, i) => (
                   <li key={i} style={{ padding: '0.5rem 0', borderBottom: '2px solid #f0f0f0' }}>
                     ✓ {item}
                   </li>
@@ -326,11 +326,11 @@ export default function Products() {
               }}>
                 POPULAR
               </div>
-              <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>Professional</h3>
-              <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>$149</div>
+              <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>Growth</h3>
+              <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>$29.99</div>
               <div style={{ color: '#333', marginBottom: '2rem' }}>per month</div>
               <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', textAlign: 'left' }}>
-                {['3 Products', 'Up to 25 users', 'Priority support', '100GB storage', 'Advanced analytics'].map((item, i) => (
+                {['Up to 3 Apps', 'Up to 2,000 orders/month', 'Priority email support', 'Advanced analytics', 'A/B testing', 'Remove branding'].map((item, i) => (
                   <li key={i} style={{ padding: '0.5rem 0', borderBottom: '2px solid rgba(0,0,0,0.1)' }}>
                     ✓ {item}
                   </li>
@@ -350,10 +350,10 @@ export default function Products() {
               textAlign: 'center'
             }}>
               <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>Enterprise</h3>
-              <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>Custom</div>
-              <div style={{ color: '#666', marginBottom: '2rem' }}>contact us</div>
+              <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>$99.99</div>
+              <div style={{ color: '#666', marginBottom: '2rem' }}>per month</div>
               <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', textAlign: 'left' }}>
-                {['All Products', 'Unlimited users', '24/7 support', 'Unlimited storage', 'Custom integrations', 'Dedicated account manager'].map((item, i) => (
+                {['All Apps included', 'Unlimited orders', '24/7 priority support', 'Custom integrations', 'Dedicated account manager', 'White-label options'].map((item, i) => (
                   <li key={i} style={{ padding: '0.5rem 0', borderBottom: '2px solid #f0f0f0' }}>
                     ✓ {item}
                   </li>
@@ -377,10 +377,10 @@ export default function Products() {
           boxShadow: '12px 12px 0 rgba(0, 0, 0, 0.3)'
         }}>
           <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem' }}>
-            Ready to Transform Your Business?
+            Ready to Boost Your Shopify Store?
           </h2>
           <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
-            Start your free 14-day trial today. No credit card required.
+            Start your 14-day free trial today. No credit card required. Cancel anytime.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <NeubrutalistButton variant="accent" size="large">

@@ -10,8 +10,8 @@ import {
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Miso Apps - Innovative Software Solutions" },
-    { name: "description", content: "Transform your business with cutting-edge software solutions from Miso Apps. We build powerful, user-friendly applications that drive growth." },
+    { title: "Miso Apps - Premium Shopify Apps Development" },
+    { name: "description", content: "Transform your Shopify store with powerful apps from Miso Apps. We build innovative Shopify applications that boost sales, enhance customer experience, and streamline operations." },
   ];
 }
 
@@ -23,10 +23,10 @@ export default function Home() {
       <main style={{ minHeight: '100vh' }}>
         {/* Hero Section */}
         <NeubrutalistHero
-          title="Transform Your Business with Innovative Software Solutions"
-          subtitle="We create powerful, user-friendly applications that help businesses thrive in the digital age. From concept to deployment, we're your trusted technology partner."
+          title="Powerful Shopify Apps That Drive Real Results"
+          subtitle="We specialize in building premium Shopify apps that help merchants increase sales, improve customer engagement, and automate their operations. Trusted by thousands of Shopify stores worldwide."
           primaryCTA={{
-            text: "Explore Our Products",
+            text: "Explore Our Apps",
             href: "/products"
           }}
           secondaryCTA={{
@@ -38,12 +38,12 @@ export default function Home() {
         {/* Features Section */}
         <section style={{ padding: '4rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <NeubrutalistBadge variant="yellow">Why Choose Us</NeubrutalistBadge>
+            <NeubrutalistBadge variant="yellow">Why Choose Miso Apps</NeubrutalistBadge>
             <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0' }}>
-              Built for Success
+              Built for Shopify Success
             </h2>
-            <p style={{ fontSize: '1.25rem', color: '#666', maxWidth: '600px', margin: '0 auto' }}>
-              We combine cutting-edge technology with user-centric design to deliver exceptional results.
+            <p style={{ fontSize: '1.25rem', color: '#666', maxWidth: '700px', margin: '0 auto' }}>
+              We're Shopify experts dedicated to creating apps that solve real merchant problems and deliver measurable results.
             </p>
           </div>
 
@@ -54,40 +54,40 @@ export default function Home() {
             marginBottom: '4rem'
           }}>
             <NeubrutalistCard
-              icon="🚀"
+              icon="�️"
               color="blue"
-              title="Lightning Fast"
-              description="Our applications are optimized for speed and performance, ensuring smooth user experiences across all devices and platforms."
-            />
-            <NeubrutalistCard
-              icon="🎨"
-              color="purple"
-              title="Beautiful Design"
-              description="Every pixel is crafted with care. We create intuitive, visually stunning interfaces that users love to interact with."
-            />
-            <NeubrutalistCard
-              icon="🔒"
-              color="green"
-              title="Secure & Reliable"
-              description="Security is our priority. We implement industry-leading practices to keep your data safe and your systems running smoothly."
-            />
-            <NeubrutalistCard
-              icon="📱"
-              color="yellow"
-              title="Mobile First"
-              description="Responsive design that works flawlessly on any device. Your users can access your apps anywhere, anytime."
+              title="Shopify Certified"
+              description="Our team consists of certified Shopify experts with deep knowledge of the platform's APIs, best practices, and ecosystem."
             />
             <NeubrutalistCard
               icon="⚡"
-              color="red"
-              title="Scalable Solutions"
-              description="Built to grow with your business. Our architecture supports scaling from startup to enterprise levels."
+              color="purple"
+              title="Lightning Fast Performance"
+              description="Our apps are optimized for speed, ensuring zero impact on your store's loading time and excellent user experience."
             />
             <NeubrutalistCard
-              icon="💡"
+              icon="🎨"
+              color="green"
+              title="Seamless Integration"
+              description="Beautiful, intuitive interfaces that match Shopify's design language and integrate perfectly with your store's theme."
+            />
+            <NeubrutalistCard
+              icon="�"
+              color="yellow"
+              title="Proven Results"
+              description="Our apps have helped merchants increase conversions by up to 40% and save countless hours on manual tasks."
+            />
+            <NeubrutalistCard
+              icon="🔧"
+              color="red"
+              title="Regular Updates"
+              description="We continuously improve our apps with new features, bug fixes, and compatibility updates for the latest Shopify releases."
+            />
+            <NeubrutalistCard
+              icon="�"
               color="blue"
-              title="Innovation Driven"
-              description="We stay ahead of the curve, continuously exploring new technologies to give you competitive advantages."
+              title="World-Class Support"
+              description="Get help when you need it with our responsive 24/7 customer support team that knows Shopify inside and out."
             />
           </div>
         </section>
@@ -108,20 +108,20 @@ export default function Home() {
               textAlign: 'center'
             }}>
               <div>
-                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>500+</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Happy Clients</div>
+                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>10K+</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Shopify Stores</div>
               </div>
               <div>
-                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>1000+</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Projects Completed</div>
+                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>50+</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Countries Worldwide</div>
               </div>
               <div>
-                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>99.9%</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Uptime Guarantee</div>
+                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>4.9★</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Average App Rating</div>
               </div>
               <div>
                 <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>24/7</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Support Available</div>
+                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Expert Support</div>
               </div>
             </div>
           </div>
@@ -149,10 +149,10 @@ export default function Home() {
             }}>
               <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⭐⭐⭐⭐⭐</div>
               <p style={{ fontSize: '1.125rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
-                "Miso Apps transformed our business operations. The software is intuitive, powerful, and has dramatically improved our efficiency."
+                "Miso Apps' Shopify apps have completely transformed our store. Sales are up 35% and we've automated so many tedious tasks. Best investment ever!"
               </p>
               <div style={{ fontWeight: 700 }}>Sarah Johnson</div>
-              <div style={{ color: '#666' }}>CEO, TechCorp</div>
+              <div style={{ color: '#666' }}>Owner, Fashion Boutique</div>
             </div>
 
             <div style={{
@@ -163,10 +163,10 @@ export default function Home() {
             }}>
               <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⭐⭐⭐⭐⭐</div>
               <p style={{ fontSize: '1.125rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
-                "Outstanding service and incredible results. The team at Miso Apps truly understands what businesses need to succeed."
+                "We've tried many Shopify apps, but Miso Apps stands out. The apps are reliable, the support is amazing, and they truly understand e-commerce."
               </p>
               <div style={{ fontWeight: 700 }}>Michael Chen</div>
-              <div style={{ color: '#666' }}>Founder, StartupHub</div>
+              <div style={{ color: '#666' }}>CEO, ElectroStore</div>
             </div>
 
             <div style={{
@@ -177,10 +177,10 @@ export default function Home() {
             }}>
               <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⭐⭐⭐⭐⭐</div>
               <p style={{ fontSize: '1.125rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
-                "The best investment we've made. Miso Apps delivered beyond our expectations and continues to provide excellent support."
+                "These apps paid for themselves in the first month. Customer engagement is through the roof and managing our store has never been easier!"
               </p>
               <div style={{ fontWeight: 700 }}>Emily Rodriguez</div>
-              <div style={{ color: '#666' }}>Director, GrowthLab</div>
+              <div style={{ color: '#666' }}>Founder, BeautyHub</div>
             </div>
           </div>
         </section>
@@ -196,14 +196,14 @@ export default function Home() {
           boxShadow: '12px 12px 0 rgba(0, 0, 0, 0.3)'
         }}>
           <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem' }}>
-            Ready to Get Started?
+            Ready to Supercharge Your Shopify Store?
           </h2>
-          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
-            Join hundreds of satisfied clients and transform your business today.
+          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '700px', margin: '0 auto 2rem' }}>
+            Join 10,000+ Shopify merchants using our apps to increase sales, improve customer experience, and grow their business.
           </p>
           <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
             <NeubrutalistButton href="/products" variant="accent" size="large">
-              View Our Products
+              Browse Our Shopify Apps
             </NeubrutalistButton>
             <NeubrutalistButton href="/about" variant="secondary" size="large">
               Learn More About Us
