@@ -37,6 +37,7 @@ export const Navigation = () => {
             <li><Link to="/" className={styles.navLink} onClick={closeMenu}>Home</Link></li>
             <li><Link to="/about" className={styles.navLink} onClick={closeMenu}>About Us</Link></li>
             <li><Link to="/products" className={styles.navLink} onClick={closeMenu}>Products</Link></li>
+            <li><Link to="https://docs.misoapps.com" className={styles.navLink} onClick={closeMenu}>Docs</Link></li>
             <li><Link to="/privacy" className={styles.navLink} onClick={closeMenu}>Privacy</Link></li>
           </ul>
           
