@@ -6,6 +6,7 @@ import {
   NeubrutalistButton,
   NeubrutalistBadge 
 } from "../components/Neubrutalism";
+import aboutStyles from "./about.module.css";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -19,62 +20,41 @@ export default function About() {
     <>
       <Navigation />
       
-      <main style={{ minHeight: '100vh' }}>
+      <main className={aboutStyles.aboutContainer}>
         {/* Hero Section */}
-        <section style={{ 
-          padding: '6rem 2rem 4rem',
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: '#fff',
-          textAlign: 'center',
-          border: '6px solid #000',
-          margin: '0 2rem 4rem',
-          boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
-        }}>
-          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <section className={aboutStyles.heroSection}>
+          <div className={aboutStyles.heroContent}>
             <NeubrutalistBadge variant="yellow" size="large">About Miso Apps</NeubrutalistBadge>
-            <h1 style={{ fontSize: '4rem', fontWeight: 900, margin: '2rem 0 1rem' }}>
+            <h1 className={aboutStyles.heroTitle}>
               Shopify App Experts Since 2018
             </h1>
-            <p style={{ fontSize: '1.5rem', lineHeight: 1.6, opacity: 0.95 }}>
+            <p className={aboutStyles.heroSubtitle}>
               We're a passionate team of Shopify specialists dedicated to creating powerful apps that help merchants succeed in the competitive e-commerce landscape.
             </p>
           </div>
         </section>
 
         {/* Story Section */}
-        <section style={{ padding: '4rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-            gap: '3rem',
-            alignItems: 'center'
-          }}>
-            <div>
-              <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1.5rem' }}>
-                Our Story
-              </h2>
-              <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: '#555', marginBottom: '1rem' }}>
+        <section className={aboutStyles.storySection}>
+          <div className={aboutStyles.storyGrid}>
+            <div className={aboutStyles.storyContent}>
+              <h2>Our Story</h2>
+              <p>
                 Founded in 2018, Miso Apps was born from a simple observation: Shopify merchants needed better tools to compete in the rapidly growing e-commerce space. As experienced Shopify developers, we saw the gaps in the app ecosystem and decided to fill them.
               </p>
-              <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: '#555', marginBottom: '1rem' }}>
+              <p>
                 What started as two developers building apps in a garage has grown into a thriving company serving over 10,000 Shopify stores across 50+ countries. Our apps have been installed millions of times and have helped merchants generate over $500M in additional revenue.
               </p>
-              <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: '#555' }}>
+              <p>
                 Today, we're recognized as Shopify Experts and trusted partners in the Shopify ecosystem. We continue to innovate, releasing new apps and updates that help merchants grow their businesses and deliver exceptional customer experiences.
               </p>
             </div>
-            <div style={{ 
-              background: '#ffd700',
-              padding: '3rem',
-              border: '6px solid #000',
-              boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)',
-              textAlign: 'center'
-            }}>
-              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🏆</div>
-              <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '1rem' }}>
+            <div className={aboutStyles.storyCard}>
+              <div className={aboutStyles.storyCardIcon}>🏆</div>
+              <h3 className={aboutStyles.storyCardTitle}>
                 Shopify Experts
               </h3>
-              <p style={{ fontSize: '1.125rem', fontWeight: 600 }}>
+              <p className={aboutStyles.storyCardText}>
                 Certified Shopify Partners & App Developers with proven track record
               </p>
             </div>
@@ -82,39 +62,25 @@ export default function About() {
         </section>
 
         {/* Mission & Vision */}
-        <section style={{ padding: '4rem 2rem', background: '#f8f9fa' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', 
-              gap: '2rem'
-            }}>
-              <div style={{
-                padding: '3rem',
-                background: '#fff',
-                border: '5px solid #000',
-                boxShadow: '10px 10px 0 rgba(0, 0, 0, 1)'
-              }}>
-                <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>🎯</div>
-                <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '1rem' }}>
+        <section className={aboutStyles.missionSection}>
+          <div className={aboutStyles.missionContainer}>
+            <div className={aboutStyles.missionGrid}>
+              <div className={aboutStyles.missionCard}>
+                <div className={aboutStyles.missionCardIcon}>🎯</div>
+                <h3 className={aboutStyles.missionCardTitle}>
                   Our Mission
                 </h3>
-                <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: '#555' }}>
+                <p className={aboutStyles.missionCardText}>
                   To empower Shopify merchants with innovative apps that drive sales, enhance customer experiences, and automate operations. We believe every merchant deserves access to enterprise-level tools, regardless of their store size. Our mission is to level the playing field and help small businesses compete with larger retailers.
                 </p>
               </div>
 
-              <div style={{
-                padding: '3rem',
-                background: '#fff',
-                border: '5px solid #000',
-                boxShadow: '10px 10px 0 rgba(0, 0, 0, 1)'
-              }}>
-                <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>🔭</div>
-                <h3 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '1rem' }}>
+              <div className={aboutStyles.missionCard}>
+                <div className={aboutStyles.missionCardIcon}>🔭</div>
+                <h3 className={aboutStyles.missionCardTitle}>
                   Our Vision
                 </h3>
-                <p style={{ fontSize: '1.125rem', lineHeight: 1.8, color: '#555' }}>
+                <p className={aboutStyles.missionCardText}>
                   To become the most trusted name in Shopify app development, setting the standard for quality, reliability, and merchant success. We envision a future where every Shopify store, from emerging startups to established brands, uses our apps to achieve their full potential and deliver world-class shopping experiences.
                 </p>
               </div>
@@ -269,22 +235,14 @@ export default function About() {
         </section>
 
         {/* CTA Section */}
-        <section style={{ 
-          padding: '4rem 2rem',
-          margin: '4rem 2rem',
-          background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-          color: '#fff',
-          textAlign: 'center',
-          border: '6px solid #000',
-          boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
-        }}>
-          <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem' }}>
+        <section className={aboutStyles.finalCtaSection}>
+          <h2 className={aboutStyles.finalCtaTitle}>
             Join Thousands of Successful Merchants
           </h2>
-          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
+          <p className={aboutStyles.finalCtaText}>
             Ready to take your Shopify store to the next level? Discover our powerful apps today.
           </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div className={aboutStyles.finalCtaButtons}>
             <NeubrutalistButton href="/products" variant="primary" size="large">
               Explore Our Shopify Apps
             </NeubrutalistButton>

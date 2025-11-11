@@ -2,6 +2,7 @@ import type { Route } from "./+types/privacy";
 import { Navigation } from "../components/Navigation";
 import { Footer } from "../components/Footer";
 import { NeubrutalistBadge } from "../components/Neubrutalism";
+import privacyStyles from "./privacy.module.css";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,36 +18,25 @@ export default function Privacy() {
     <>
       <Navigation />
       
-      <main style={{ minHeight: '100vh', padding: '2rem' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+      <main className={privacyStyles.privacyContainer}>
+        <div className={privacyStyles.privacyContent}>
           {/* Header */}
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+          <div className={privacyStyles.privacyHeader}>
             <NeubrutalistBadge variant="blue" size="large">Legal</NeubrutalistBadge>
-            <h1 style={{ 
-              fontSize: '4rem', 
-              fontWeight: 900, 
-              margin: '1.5rem 0 1rem',
-              lineHeight: 1.1
-            }}>
+            <h1 className={privacyStyles.privacyTitle}>
               Privacy Policy
             </h1>
-            <p style={{ fontSize: '1.25rem', color: '#666' }}>
+            <p className={privacyStyles.privacyLastUpdated}>
               Last Updated: {lastUpdated}
             </p>
           </div>
 
           {/* Intro */}
-          <div style={{
-            padding: '2rem',
-            background: '#ffd700',
-            border: '5px solid #000',
-            boxShadow: '8px 8px 0 rgba(0, 0, 0, 1)',
-            marginBottom: '3rem'
-          }}>
-            <h2 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '1rem' }}>
+          <div className={privacyStyles.introBox}>
+            <h2 className={privacyStyles.introTitle}>
               Your Privacy Matters to Us
             </h2>
-            <p style={{ fontSize: '1.125rem', lineHeight: 1.8, margin: 0 }}>
+            <p className={privacyStyles.introText}>
               At Miso Apps, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your data when you use our services.
             </p>
           </div>

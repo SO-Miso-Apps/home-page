@@ -6,6 +6,8 @@
   border-bottom: 4px solid #000;
   box-shadow: 8px 8px 0 rgba(0, 0, 0, 1);
   margin-bottom: 2rem;
+  /* allow link color to be themed via CSS variable */
+  --nav-link-color: #000;
 }
 
 .navContainer {
@@ -41,6 +43,60 @@
 
 .logoText {
   font-family: 'Inter', sans-serif;
+}
+
+/* Dark mode for header */
+@media (prefers-color-scheme: dark) {
+  .nav {
+    background: #071226; /* dark panel */
+    border-bottom: 4px solid #ffd700;
+    box-shadow: 8px 8px 0 rgba(0,0,0,0.6);
+  }
+
+  .navLogo {
+    color: #fff;
+  }
+
+  .navLink {
+    color: #fff;
+  }
+
+  .navLink:hover {
+    border: 3px solid #fff;
+    background: #ffd700;
+    color: #000;
+    box-shadow: 4px 4px 0 rgba(255,255,255,0.2);
+  }
+
+  .navLinkActive {
+    border: 3px solid #fff;
+    background: #ffd700;
+    color: #000;
+    box-shadow: 4px 4px 0 rgba(255,255,255,0.2);
+  }
+
+  .hamburgerLine {
+    background: #fff;
+  }
+
+  .hamburger:hover .hamburgerLine {
+    background: #ffd700;
+  }
+
+  .navMenuWrapper {
+    background: #071226; /* match header */
+  }
+
+  .navCta {
+    background: #ffd700;
+    color: #000;
+    border-color: #ffd700;
+  }
+
+  .navCta:hover {
+    background: #fff;
+    box-shadow: 6px 6px 0 rgba(255,255,255,0.2);
+  }
 }
 
 /* Hamburger Menu */
@@ -102,9 +158,9 @@
   justify-content: center;
 }
 
-.navLink {
+  .navLink {
   text-decoration: none;
-  color: #000;
+  color: var(--nav-link-color);
   font-weight: 600;
   font-size: 1rem;
   padding: 0.5rem 1rem;
@@ -119,6 +175,15 @@
   background: #ffd700;
   transform: translate(-2px, -2px);
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 1);
+}
+
+/* Active link state */
+.navLinkActive {
+  border: 3px solid #000;
+  background: #ffd700;
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 rgba(0,0,0,1);
+  font-weight: 800;
 }
 
 .navCta {
@@ -226,6 +291,26 @@
     }
     to {
       opacity: 1;
+    }
+  }
+
+  /* Dark mode mobile styles */
+  @media (prefers-color-scheme: dark) {
+    .navMenuWrapper {
+      background: #071226;
+      border-left: 6px solid #ffd700;
+    }
+
+    .navLink {
+      border-bottom: 3px solid rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    .navLink:hover {
+      background: #ffd700;
+      border-bottom: 3px solid #ffd700;
+      color: #000;
+      box-shadow: 4px 0 0 rgba(255,215,0,0.3);
     }
   }
 }

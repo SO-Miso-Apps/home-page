@@ -6,6 +6,7 @@ import {
   NeubrutalistButton,
   NeubrutalistBadge 
 } from "../components/Neubrutalism";
+import productsStyles from "./products.module.css";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -19,23 +20,15 @@ export default function Products() {
     <>
       <Navigation />
       
-      <main style={{ minHeight: '100vh' }}>
+      <main className={productsStyles.productsContainer}>
         {/* Hero Section */}
-        <section style={{ 
-          padding: '6rem 2rem 4rem',
-          background: 'linear-gradient(135deg, #fa8bff 0%, #2bd2ff 52%, #2bff88 90%)',
-          color: '#000',
-          textAlign: 'center',
-          border: '6px solid #000',
-          margin: '0 2rem 4rem',
-          boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
-        }}>
-          <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        <section className={productsStyles.heroSection}>
+          <div className={productsStyles.heroContent}>
             <NeubrutalistBadge variant="yellow" size="large">Our Shopify Apps</NeubrutalistBadge>
-            <h1 style={{ fontSize: '4rem', fontWeight: 900, margin: '2rem 0 1rem' }}>
+            <h1 className={productsStyles.heroTitle}>
               Powerful Apps for Shopify Success
             </h1>
-            <p style={{ fontSize: '1.5rem', lineHeight: 1.6, fontWeight: 600 }}>
+            <p className={productsStyles.heroSubtitle}>
               Discover our comprehensive suite of Shopify apps designed to boost conversions, enhance customer engagement, and streamline your store operations.
             </p>
           </div>

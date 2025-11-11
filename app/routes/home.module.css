@@ -1,0 +1,122 @@
+/* Home Page Styles */
+.homeContainer {
+  min-height: 100vh;
+}
+
+/* Features Section */
+.featuresSection {
+  padding: 4rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.featuresHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+/* Stats Section - using the existing class from Neubrutalism */
+.statsSection {
+  background: var(--panel-bg);
+  border: 4px solid var(--panel-border);
+  padding: 4rem 2rem;
+  margin: 0 2rem 4rem;
+  box-shadow: 8px 8px 0 var(--panel-shadow-color);
+  color: var(--neu-black);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 3rem;
+  text-align: center;
+}
+
+.statNumber {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #000;
+}
+
+.statLabel {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+/* Testimonials Section */
+.testimonialsSection {
+  padding: 4rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.testimonialsHeader {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.testimonialCard {
+  padding: 2rem;
+  background: var(--panel-bg);
+  border: 4px solid var(--panel-border);
+  box-shadow: 6px 6px 0 var(--panel-shadow-color);
+  color: var(--neu-black);
+}
+
+.testimonialRating {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.testimonialText {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.testimonialAuthor {
+  font-weight: 700;
+}
+
+.testimonialTitle {
+  color: var(--muted-text);
+}
+
+/* CTA Section */
+.ctaSection {
+  padding: 4rem 2rem;
+  margin: 4rem 2rem;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  border: 6px solid #000;
+  box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.3);
+}
+
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+  .statNumber {
+    color: var(--neu-black);
+  }
+}

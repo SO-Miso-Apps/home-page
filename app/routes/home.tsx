@@ -7,6 +7,8 @@ import {
   NeubrutalistButton,
   NeubrutalistBadge 
 } from "../components/Neubrutalism";
+import neuStyles from "../components/Neubrutalism/Neubrutalism.module.css";
+import homeStyles from "./home.module.css";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -20,7 +22,7 @@ export default function Home() {
     <>
       <Navigation />
       
-      <main style={{ minHeight: '100vh' }}>
+      <main className={homeStyles.homeContainer}>
         {/* Hero Section */}
         <NeubrutalistHero
           title="Powerful Shopify Apps That Drive Real Results"
@@ -36,23 +38,18 @@ export default function Home() {
         />
 
         {/* Features Section */}
-        <section style={{ padding: '4rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+        <section className={homeStyles.featuresSection}>
+          <div className={homeStyles.featuresHeader}>
             <NeubrutalistBadge variant="yellow">Why Choose Miso Apps</NeubrutalistBadge>
-            <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0' }}>
+            <h2>
               Built for Shopify Success
             </h2>
-            <p style={{ fontSize: '1.25rem', color: '#666', maxWidth: '700px', margin: '0 auto' }}>
+            <p>
               We're Shopify experts dedicated to creating apps that solve real merchant problems and deliver measurable results.
             </p>
           </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-            gap: '2rem',
-            marginBottom: '4rem'
-          }}>
+          <div className={homeStyles.featuresGrid}>
             <NeubrutalistCard
               icon="�️"
               color="blue"
@@ -92,116 +89,88 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section style={{ 
-          background: '#ffd700', 
-          border: '6px solid #000',
-          padding: '4rem 2rem',
-          margin: '0 2rem 4rem',
-          boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
-        }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-              gap: '3rem',
-              textAlign: 'center'
-            }}>
-              <div>
-                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>10K+</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Shopify Stores</div>
-              </div>
-              <div>
-                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>50+</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Countries Worldwide</div>
-              </div>
-              <div>
-                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>4.9★</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Average App Rating</div>
-              </div>
-              <div>
-                <div style={{ fontSize: '4rem', fontWeight: 900, color: '#000' }}>24/7</div>
-                <div style={{ fontSize: '1.25rem', fontWeight: 600, marginTop: '0.5rem' }}>Expert Support</div>
-              </div>
+        {/* Stats Section (muted palette to reduce glare) */}
+        <section className={neuStyles.statsSection}>
+          <div className={homeStyles.statsGrid}>
+            <div>
+              <div className={homeStyles.statNumber}>10K+</div>
+              <div className={homeStyles.statLabel}>Shopify Stores</div>
+            </div>
+            <div>
+              <div className={homeStyles.statNumber}>50+</div>
+              <div className={homeStyles.statLabel}>Countries Worldwide</div>
+            </div>
+            <div>
+              <div className={homeStyles.statNumber}>4.9★</div>
+              <div className={homeStyles.statLabel}>Average App Rating</div>
+            </div>
+            <div>
+              <div className={homeStyles.statNumber}>24/7</div>
+              <div className={homeStyles.statLabel}>Expert Support</div>
             </div>
           </div>
         </section>
 
         {/* Testimonials Section */}
-        <section style={{ padding: '4rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+        <section className={homeStyles.testimonialsSection}>
+          <div className={homeStyles.testimonialsHeader}>
             <NeubrutalistBadge variant="green">Testimonials</NeubrutalistBadge>
-            <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0' }}>
+            <h2>
               What Our Clients Say
             </h2>
+            <p className={neuStyles.mutedText}>
+              Real merchants. Real results — quotes and short case highlights from stores using our Shopify apps.
+            </p>
           </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-            gap: '2rem'
-          }}>
-            <div style={{
-              padding: '2rem',
-              background: '#fff',
-              border: '4px solid #000',
-              boxShadow: '8px 8px 0 rgba(0, 0, 0, 1)'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⭐⭐⭐⭐⭐</div>
-              <p style={{ fontSize: '1.125rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+          <div className={homeStyles.testimonialsGrid}>
+            <div className={neuStyles.testimonialCard}>
+              <div className={homeStyles.testimonialRating}>⭐⭐⭐⭐⭐</div>
+              <p className={homeStyles.testimonialText}>
                 "Miso Apps' Shopify apps have completely transformed our store. Sales are up 35% and we've automated so many tedious tasks. Best investment ever!"
               </p>
-              <div style={{ fontWeight: 700 }}>Sarah Johnson</div>
-              <div style={{ color: '#666' }}>Owner, Fashion Boutique</div>
+              <div className={homeStyles.testimonialAuthor}>Sarah Johnson</div>
+              <div className={neuStyles.mutedText}>Owner, Fashion Boutique — +28% AOV in 3 months</div>
             </div>
 
-            <div style={{
-              padding: '2rem',
-              background: '#fff',
-              border: '4px solid #000',
-              boxShadow: '8px 8px 0 rgba(0, 0, 0, 1)'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⭐⭐⭐⭐⭐</div>
-              <p style={{ fontSize: '1.125rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+            <div className={neuStyles.testimonialCard}>
+              <div className={homeStyles.testimonialRating}>⭐⭐⭐⭐⭐</div>
+              <p className={homeStyles.testimonialText}>
                 "We've tried many Shopify apps, but Miso Apps stands out. The apps are reliable, the support is amazing, and they truly understand e-commerce."
               </p>
-              <div style={{ fontWeight: 700 }}>Michael Chen</div>
-              <div style={{ color: '#666' }}>CEO, ElectroStore</div>
+              <div className={homeStyles.testimonialAuthor}>Michael Chen</div>
+              <div className={neuStyles.mutedText}>CEO, ElectroStore — 4.8★ avg across apps</div>
             </div>
 
-            <div style={{
-              padding: '2rem',
-              background: '#fff',
-              border: '4px solid #000',
-              boxShadow: '8px 8px 0 rgba(0, 0, 0, 1)'
-            }}>
-              <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⭐⭐⭐⭐⭐</div>
-              <p style={{ fontSize: '1.125rem', lineHeight: 1.6, marginBottom: '1.5rem' }}>
+            <div className={neuStyles.testimonialCard}>
+              <div className={homeStyles.testimonialRating}>⭐⭐⭐⭐⭐</div>
+              <p className={homeStyles.testimonialText}>
                 "These apps paid for themselves in the first month. Customer engagement is through the roof and managing our store has never been easier!"
               </p>
-              <div style={{ fontWeight: 700 }}>Emily Rodriguez</div>
-              <div style={{ color: '#666' }}>Founder, BeautyHub</div>
+              <div className={homeStyles.testimonialAuthor}>Emily Rodriguez</div>
+              <div className={neuStyles.mutedText}>Founder, BeautyHub — +42% repeat purchases</div>
+            </div>
+
+            <div className={neuStyles.testimonialCard}>
+              <div className={homeStyles.testimonialRating}>⭐⭐⭐⭐⭐</div>
+              <p className={homeStyles.testimonialText}>
+                "Integration was seamless and the team implemented custom logic for our promotions. Support replied within an hour and the results speak for themselves."
+              </p>
+              <div className={homeStyles.testimonialAuthor}>Raj Patel</div>
+              <div className={neuStyles.mutedText}>Head of Growth, HomeGoodsCo — +18% conversion on campaigns</div>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section style={{ 
-          padding: '4rem 2rem',
-          margin: '4rem 2rem',
-          background: '#000',
-          color: '#fff',
-          textAlign: 'center',
-          border: '6px solid #000',
-          boxShadow: '12px 12px 0 rgba(0, 0, 0, 0.3)'
-        }}>
-          <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem' }}>
+        <section className={homeStyles.ctaSection}>
+          <h2>
             Ready to Supercharge Your Shopify Store?
           </h2>
-          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '700px', margin: '0 auto 2rem' }}>
+          <p>
             Join 10,000+ Shopify merchants using our apps to increase sales, improve customer experience, and grow their business.
           </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <div className={homeStyles.ctaButtons}>
             <NeubrutalistButton href="/products" variant="accent" size="large">
               Browse Our Shopify Apps
             </NeubrutalistButton>

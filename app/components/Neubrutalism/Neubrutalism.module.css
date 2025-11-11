@@ -20,8 +20,94 @@
   --neu-pink-dark: #DB2777;
   
   --neu-border-width: 4px;
-  --neu-shadow-offset: 6px;
+  /* slightly reduced shadow offset to make contrasts gentler */
+  --neu-shadow-offset: 4px;
   --neu-border-radius: 12px;
+
+  /* Page / panel variables for components that need adaptive backgrounds */
+  --panel-bg: var(--neu-white);
+  --panel-border: rgba(0,0,0,0.95);
+  --panel-shadow-color: rgba(0,0,0,0.95);
+  --muted-text: #666666;
+}
+
+/* Dark mode - map the same variables to a dark-friendly palette so components adapt automatically */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --neu-white: #071226; /* panel backgrounds */
+    --neu-black: #e6eef8; /* primary text & borders on dark */
+    --neu-blue: #60a5fa;
+    --neu-blue-dark: #3b82f6;
+    --neu-red: #f87171;
+    --neu-red-dark: #ef4444;
+    --neu-yellow: #fbbf24;
+    --neu-yellow-dark: #f59e0b;
+    --neu-green: #34d399;
+    --neu-green-dark: #10b981;
+    --neu-purple: #a78bfa;
+    --neu-purple-dark: #8b5cf6;
+    --neu-pink: #f472b6;
+    --neu-pink-dark: #ec4899;
+    /* slightly reduce shadow depth for dark surfaces */
+    --neu-shadow-offset: 4px;
+  }
+
+  /* make subtle adjustments where darker backgrounds need lighter shadows */
+  .neuButton--primary,
+  .neuButton--secondary,
+  .neuButton--accent,
+  .neuButton--warning {
+    box-shadow: calc(var(--neu-shadow-offset)) calc(var(--neu-shadow-offset)) 0 var(--neu-black);
+  }
+
+  .neuCard,
+  .neuNotification,
+  .neuInput,
+  .neuTextarea {
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.15);
+    border-color: var(--neu-black);
+    color: var(--neu-black);
+    background-color: var(--neu-white);
+  }
+
+  .neuHero {
+    background-color: transparent;
+  }
+
+  /* Dark mode overrides for page/panel variables */
+  :root {
+    --panel-bg: #071226;
+    --panel-border: rgba(255,255,255,0.06);
+    --panel-shadow-color: rgba(0,0,0,0.6);
+    --muted-text: #bfc7d3;
+  }
+}
+
+/* ===================================
+   SITE-SPECIFIC CLASSES (adaptive)
+   =================================== */
+
+.statsSection {
+  background: var(--panel-bg);
+  border: 4px solid var(--panel-border);
+  padding: 4rem 2rem;
+  margin: 0 2rem 4rem;
+  box-shadow: 8px 8px 0 var(--panel-shadow-color);
+  color: var(--neu-black);
+}
+
+/* testimonial cards used on the home page */
+.testimonialCard {
+  padding: 2rem;
+  background: var(--panel-bg);
+  border: 4px solid var(--panel-border);
+  box-shadow: 6px 6px 0 var(--panel-shadow-color);
+  color: var(--neu-black);
+}
+
+/* use muted text color where appropriate */
+.mutedText {
+  color: var(--muted-text);
 }
 
 /* ===================================
@@ -44,7 +130,7 @@
 }
 
 .neuButton:hover {
-  transform: translate(2px, 2px);
+  transform: translate(1.5px, 1.5px);
 }
 
 .neuButton:active {
@@ -128,7 +214,8 @@
   padding-top: 38px;
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 8px 8px 0 var(--neu-black);
+  /* gentler shadow to reduce visual harshness */
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.85);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -138,8 +225,8 @@
 }
 
 .neuCard:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 10px 10px 0 var(--neu-black);
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.85);
 }
 
 .neuCardIcon {
@@ -331,20 +418,28 @@
   letter-spacing: -1px;
   color: var(--neu-black);
   line-height: 1.1;
+  /* subtler layered shadows to reduce glare */
   text-shadow: 
-    4px 4px 0 var(--neu-yellow),
-    8px 8px 0 var(--neu-black);
+    2px 2px 0 rgba(243,208,122,0.95),
+    6px 6px 0 rgba(0,0,0,0.85);
 }
 
 .neuHeroSubtitle {
   font-size: 24px;
   font-weight: 600;
   margin: 0 0 40px 0;
-  color: var(--neu-black);
+  color: #333333;
   line-height: 1.5;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+}
+
+/* Dark mode subtitle text */
+@media (prefers-color-scheme: dark) {
+  .neuHeroSubtitle {
+    color: var(--muted-text);
+  }
 }
 
 .neuHeroButtons {
