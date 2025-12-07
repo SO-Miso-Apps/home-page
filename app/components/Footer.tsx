@@ -3,7 +3,7 @@ import styles from "./Footer.module.css";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
+
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContainer}>
@@ -17,7 +17,7 @@ export const Footer = () => {
               Building innovative Shopify apps that transform e-commerce businesses and empower merchants worldwide.
             </p>
           </div>
-          
+
           <div className={styles.footerSection}>
             <h4 className={styles.footerHeading}>Quick Links</h4>
             <ul className={styles.footerLinks}>
@@ -27,16 +27,16 @@ export const Footer = () => {
               <li><Link to="/privacy">Privacy Policy</Link></li>
             </ul>
           </div>
-          
+
           <div className={styles.footerSection}>
             <h4 className={styles.footerHeading}>Contact</h4>
             <ul className={styles.footerLinks}>
-              <li>📧 hello@misoapps.com</li>
-              <li>📱 +1 (555) 123-4567</li>
-              <li>📍 San Francisco, CA</li>
+              <li>📧 hi@misoapps.com</li>
+              <li>📱 +84 35-7654-619</li>
+              <li>📍 Hanoi, Vietnam</li>
             </ul>
           </div>
-          
+
           <div className={styles.footerSection}>
             <h4 className={styles.footerHeading}>Follow Us</h4>
             <div className={styles.socialLinks}>
@@ -46,7 +46,7 @@ export const Footer = () => {
             </div>
           </div>
         </div>
-        
+
         <div className={styles.footerBottom}>
           <p>© {currentYear} Miso Apps. All rights reserved.</p>
         </div>

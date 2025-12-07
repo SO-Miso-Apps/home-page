@@ -4,7 +4,7 @@ import { Footer } from "../components/Footer";
 import { NeubrutalistBadge } from "../components/Neubrutalism";
 import privacyStyles from "./privacy.module.css";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "Privacy Policy - Miso Apps" },
     { name: "description", content: "Learn how Miso Apps protects your privacy and handles your data. Our comprehensive privacy policy." },
@@ -17,7 +17,7 @@ export default function Privacy() {
   return (
     <>
       <Navigation />
-      
+
       <main className={privacyStyles.privacyContainer}>
         <div className={privacyStyles.privacyContent}>
           {/* Header */}
@@ -45,16 +45,16 @@ export default function Privacy() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
             {/* Section 1 */}
             <section>
-              <h2 style={{ 
-                fontSize: '2rem', 
-                fontWeight: 800, 
+              <h2 style={{
+                fontSize: '2rem',
+                fontWeight: 800,
                 marginBottom: '1rem',
                 paddingBottom: '0.5rem',
                 borderBottom: '4px solid #000'
               }}>
                 1. Information We Collect
               </h2>
-              
+
               <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginTop: '1.5rem', marginBottom: '1rem' }}>
                 1.1 Information You Provide
               </h3>
@@ -85,9 +85,9 @@ export default function Privacy() {
 
             {/* Section 2 */}
             <section>
-              <h2 style={{ 
-                fontSize: '2rem', 
-                fontWeight: 800, 
+              <h2 style={{
+                fontSize: '2rem',
+                fontWeight: 800,
                 marginBottom: '1rem',
                 paddingBottom: '0.5rem',
                 borderBottom: '4px solid #000'
@@ -132,9 +132,9 @@ export default function Privacy() {
 
             {/* Section 3 */}
             <section>
-              <h2 style={{ 
-                fontSize: '2rem', 
-                fontWeight: 800, 
+              <h2 style={{
+                fontSize: '2rem',
+                fontWeight: 800,
                 marginBottom: '1rem',
                 paddingBottom: '0.5rem',
                 borderBottom: '4px solid #000'
@@ -154,9 +154,9 @@ export default function Privacy() {
 
             {/* Section 4 */}
             <section>
-              <h2 style={{ 
-                fontSize: '2rem', 
-                fontWeight: 800, 
+              <h2 style={{
+                fontSize: '2rem',
+                fontWeight: 800,
                 marginBottom: '1rem',
                 paddingBottom: '0.5rem',
                 borderBottom: '4px solid #000'
@@ -186,9 +186,9 @@ export default function Privacy() {
 
             {/* Section 5 */}
             <section>
-              <h2 style={{ 
-                fontSize: '2rem', 
-                fontWeight: 800, 
+              <h2 style={{
+                fontSize: '2rem',
+                fontWeight: 800,
                 marginBottom: '1rem',
                 paddingBottom: '0.5rem',
                 borderBottom: '4px solid #000'
@@ -224,9 +224,9 @@ export default function Privacy() {
 
             {/* Section 6 */}
             <section>
-              <h2 style={{ 
-                fontSize: '2rem', 
-                fontWeight: 800, 
+              <h2 style={{
+                fontSize: '2rem',
+                fontWeight: 800,
                 marginBottom: '1rem',
                 paddingBottom: '0.5rem',
                 borderBottom: '4px solid #000'
@@ -249,9 +249,9 @@ export default function Privacy() {
 
             {/* Section 7 */}
             <section>
-              <h2 style={{ 
-                fontSize: '2rem', 
-                fontWeight: 800, 
+              <h2 style={{
+                fontSize: '2rem',
+                fontWeight: 800,
                 marginBottom: '1rem',
                 paddingBottom: '0.5rem',
                 borderBottom: '4px solid #000'
@@ -265,9 +265,9 @@ export default function Privacy() {
 
             {/* Section 8 */}
             <section>
-              <h2 style={{ 
-                fontSize: '2rem', 
-                fontWeight: 800, 
+              <h2 style={{
+                fontSize: '2rem',
+                fontWeight: 800,
                 marginBottom: '1rem',
                 paddingBottom: '0.5rem',
                 borderBottom: '4px solid #000'
@@ -281,9 +281,9 @@ export default function Privacy() {
 
             {/* Section 9 */}
             <section>
-              <h2 style={{ 
-                fontSize: '2rem', 
-                fontWeight: 800, 
+              <h2 style={{
+                fontSize: '2rem',
+                fontWeight: 800,
                 marginBottom: '1rem',
                 paddingBottom: '0.5rem',
                 borderBottom: '4px solid #000'
@@ -297,9 +297,9 @@ export default function Privacy() {
 
             {/* Section 10 */}
             <section>
-              <h2 style={{ 
-                fontSize: '2rem', 
-                fontWeight: 800, 
+              <h2 style={{
+                fontSize: '2rem',
+                fontWeight: 800,
                 marginBottom: '1rem',
                 paddingBottom: '0.5rem',
                 borderBottom: '4px solid #000'
@@ -326,7 +326,7 @@ export default function Privacy() {
               <p style={{ fontSize: '1.125rem', lineHeight: 1.8, marginBottom: '1.5rem' }}>
                 If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:
               </p>
-              <div style={{ 
+              <div style={{
                 background: '#ffd700',
                 color: '#000',
                 padding: '1.5rem',
@@ -334,10 +334,9 @@ export default function Privacy() {
                 fontSize: '1.125rem',
                 lineHeight: 1.8
               }}>
-                <p style={{ margin: '0.5rem 0' }}><strong>Email:</strong> privacy@misoapps.com</p>
-                <p style={{ margin: '0.5rem 0' }}><strong>Phone:</strong> +1 (555) 123-4567</p>
-                <p style={{ margin: '0.5rem 0' }}><strong>Address:</strong> 123 Tech Street, San Francisco, CA 94105, USA</p>
-                <p style={{ margin: '0.5rem 0' }}><strong>Data Protection Officer:</strong> dpo@misoapps.com</p>
+                <p style={{ margin: '0.5rem 0' }}><strong>Email:</strong> hi@misoapps.com</p>
+                <p style={{ margin: '0.5rem 0' }}><strong>Phone:</strong> +84 35-7654-619</p>
+                <p style={{ margin: '0.5rem 0' }}><strong>Address:</strong> Hanoi, Vietnam</p>
               </div>
             </section>
 
@@ -351,9 +350,9 @@ export default function Privacy() {
               <h3 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>
                 We comply with:
               </h3>
-              <div style={{ 
-                display: 'flex', 
-                gap: '1rem', 
+              <div style={{
+                display: 'flex',
+                gap: '1rem',
                 justifyContent: 'center',
                 flexWrap: 'wrap'
               }}>
