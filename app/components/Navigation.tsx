@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router";
 import { useState } from "react";
+import { Rocket } from "lucide-react";
 import styles from "./Navigation.module.css";
 
 export const Navigation = () => {
@@ -17,11 +18,11 @@ export const Navigation = () => {
     <nav className={styles.nav}>
       <div className={styles.navContainer}>
         <Link to="/" className={styles.navLogo} onClick={closeMenu}>
-          <span className={styles.logoIcon}>🚀</span>
+          <Rocket className={styles.logoIcon} size={22} strokeWidth={2.5} />
           <span className={styles.logoText}>Miso Apps</span>
         </Link>
-        
-        <button 
+
+        <button
           className={styles.hamburger}
           onClick={toggleMenu}
           aria-label="Toggle menu"
@@ -51,7 +52,6 @@ export const Navigation = () => {
               </NavLink>
             </li>
             <li>
-              {/* external docs should open in a new tab */}
               <a href="https://docs.misoapps.com" className={styles.navLink} onClick={closeMenu} target="_blank" rel="noopener noreferrer">Docs</a>
             </li>
             <li>
@@ -60,15 +60,15 @@ export const Navigation = () => {
               </NavLink>
             </li>
           </ul>
-          
+
           <Link to="/products" className={styles.navCta} onClick={closeMenu}>
             Get Started
           </Link>
         </div>
 
         {isMenuOpen && (
-          <div 
-            className={styles.overlay} 
+          <div
+            className={styles.overlay}
             onClick={closeMenu}
             aria-hidden="true"
           />

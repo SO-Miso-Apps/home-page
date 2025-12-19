@@ -1,113 +1,58 @@
 /* ===================================
-   NEUBRUTALISM GUMROAD-STYLE COMPONENTS
+   MINIMAL NEOBRUTALISM DESIGN SYSTEM
+   Monochrome: Black, White, Gray
    =================================== */
 
-/* Color Palette - Bright & Saturated */
+/* Color Palette - Monochrome */
 :root {
   --neu-white: #FFFFFF;
   --neu-black: #000000;
-  --neu-blue: #3B82F6;
-  --neu-blue-dark: #2563EB;
-  --neu-red: #EF4444;
-  --neu-red-dark: #DC2626;
-  --neu-yellow: #FBBF24;
-  --neu-yellow-dark: #F59E0B;
-  --neu-green: #10B981;
-  --neu-green-dark: #059669;
-  --neu-purple: #8B5CF6;
-  --neu-purple-dark: #7C3AED;
-  --neu-pink: #EC4899;
-  --neu-pink-dark: #DB2777;
   
-  --neu-border-width: 4px;
-  /* slightly reduced shadow offset to make contrasts gentler */
+  /* Grayscale */
+  --neu-gray-50: #FAFAFA;
+  --neu-gray-100: #F5F5F5;
+  --neu-gray-200: #E5E5E5;
+  --neu-gray-300: #D4D4D4;
+  --neu-gray-400: #A3A3A3;
+  --neu-gray-500: #737373;
+  --neu-gray-600: #525252;
+  --neu-gray-700: #404040;
+  --neu-gray-800: #262626;
+  --neu-gray-900: #171717;
+  
+  --neu-border-width: 3px;
   --neu-shadow-offset: 4px;
-  --neu-border-radius: 12px;
+  --neu-border-radius: 0px;
 
-  /* Page / panel variables for components that need adaptive backgrounds */
+  /* Page / panel variables */
   --panel-bg: var(--neu-white);
-  --panel-border: rgba(0,0,0,0.95);
-  --panel-shadow-color: rgba(0,0,0,0.95);
-  --muted-text: #666666;
+  --panel-border: var(--neu-black);
+  --panel-shadow-color: var(--neu-black);
+  --muted-text: var(--neu-gray-500);
 }
 
-/* Dark mode - map the same variables to a dark-friendly palette so components adapt automatically */
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --neu-white: #071226; /* panel backgrounds */
-    --neu-black: #e6eef8; /* primary text & borders on dark */
-    --neu-blue: #60a5fa;
-    --neu-blue-dark: #3b82f6;
-    --neu-red: #f87171;
-    --neu-red-dark: #ef4444;
-    --neu-yellow: #fbbf24;
-    --neu-yellow-dark: #f59e0b;
-    --neu-green: #34d399;
-    --neu-green-dark: #10b981;
-    --neu-purple: #a78bfa;
-    --neu-purple-dark: #8b5cf6;
-    --neu-pink: #f472b6;
-    --neu-pink-dark: #ec4899;
-    /* slightly reduce shadow depth for dark surfaces */
-    --neu-shadow-offset: 4px;
+    --neu-white: #0A0A0A;
+    --neu-black: #FAFAFA;
+    
+    --neu-gray-50: #171717;
+    --neu-gray-100: #262626;
+    --neu-gray-200: #404040;
+    --neu-gray-300: #525252;
+    --neu-gray-400: #737373;
+    --neu-gray-500: #A3A3A3;
+    --neu-gray-600: #D4D4D4;
+    --neu-gray-700: #E5E5E5;
+    --neu-gray-800: #F5F5F5;
+    --neu-gray-900: #FAFAFA;
+    
+    --panel-bg: #0A0A0A;
+    --panel-border: var(--neu-gray-300);
+    --panel-shadow-color: var(--neu-gray-700);
+    --muted-text: var(--neu-gray-400);
   }
-
-  /* make subtle adjustments where darker backgrounds need lighter shadows */
-  .neuButton--primary,
-  .neuButton--secondary,
-  .neuButton--accent,
-  .neuButton--warning {
-    box-shadow: calc(var(--neu-shadow-offset)) calc(var(--neu-shadow-offset)) 0 var(--neu-black);
-  }
-
-  .neuCard,
-  .neuNotification,
-  .neuInput,
-  .neuTextarea {
-    box-shadow: 6px 6px 0 rgba(0,0,0,0.15);
-    border-color: var(--neu-black);
-    color: var(--neu-black);
-    background-color: var(--neu-white);
-  }
-
-  .neuHero {
-    background-color: transparent;
-  }
-
-  /* Dark mode overrides for page/panel variables */
-  :root {
-    --panel-bg: #071226;
-    --panel-border: rgba(255,255,255,0.06);
-    --panel-shadow-color: rgba(0,0,0,0.6);
-    --muted-text: #bfc7d3;
-  }
-}
-
-/* ===================================
-   SITE-SPECIFIC CLASSES (adaptive)
-   =================================== */
-
-.statsSection {
-  background: var(--panel-bg);
-  border: 4px solid var(--panel-border);
-  padding: 4rem 2rem;
-  margin: 0 2rem 4rem;
-  box-shadow: 8px 8px 0 var(--panel-shadow-color);
-  color: var(--neu-black);
-}
-
-/* testimonial cards used on the home page */
-.testimonialCard {
-  padding: 2rem;
-  background: var(--panel-bg);
-  border: 4px solid var(--panel-border);
-  box-shadow: 6px 6px 0 var(--panel-shadow-color);
-  color: var(--neu-black);
-}
-
-/* use muted text color where appropriate */
-.mutedText {
-  color: var(--muted-text);
 }
 
 /* ===================================
@@ -115,8 +60,11 @@
    =================================== */
 
 .neuButton {
-  display: inline-block;
-  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -130,7 +78,7 @@
 }
 
 .neuButton:hover {
-  transform: translate(1.5px, 1.5px);
+  transform: translate(2px, 2px);
 }
 
 .neuButton:active {
@@ -141,65 +89,62 @@
 /* Button Sizes */
 .neuButton--small {
   padding: 8px 16px;
-  font-size: 14px;
-  border-radius: 8px;
+  font-size: 13px;
 }
 
 .neuButton--medium {
   padding: 12px 24px;
-  font-size: 16px;
-  border-radius: var(--neu-border-radius);
+  font-size: 14px;
 }
 
 .neuButton--large {
   padding: 16px 32px;
-  font-size: 18px;
-  border-radius: var(--neu-border-radius);
+  font-size: 16px;
 }
 
-/* Button Variants */
+/* Button Variants - Monochrome */
 .neuButton--primary {
-  background-color: var(--neu-blue);
+  background-color: var(--neu-black);
   color: var(--neu-white);
-  box-shadow: var(--neu-shadow-offset) var(--neu-shadow-offset) 0 var(--neu-black);
+  box-shadow: var(--neu-shadow-offset) var(--neu-shadow-offset) 0 var(--neu-gray-400);
 }
 
 .neuButton--primary:hover {
-  box-shadow: 4px 4px 0 var(--neu-black);
-  background-color: var(--neu-blue-dark);
+  box-shadow: 2px 2px 0 var(--neu-gray-400);
+  background-color: var(--neu-gray-800);
 }
 
 .neuButton--secondary {
-  background-color: var(--neu-yellow);
+  background-color: var(--neu-white);
   color: var(--neu-black);
   box-shadow: var(--neu-shadow-offset) var(--neu-shadow-offset) 0 var(--neu-black);
 }
 
 .neuButton--secondary:hover {
-  box-shadow: 4px 4px 0 var(--neu-black);
-  background-color: var(--neu-yellow-dark);
+  box-shadow: 2px 2px 0 var(--neu-black);
+  background-color: var(--neu-gray-100);
 }
 
 .neuButton--accent {
-  background-color: var(--neu-red);
+  background-color: var(--neu-gray-800);
   color: var(--neu-white);
   box-shadow: var(--neu-shadow-offset) var(--neu-shadow-offset) 0 var(--neu-black);
 }
 
 .neuButton--accent:hover {
-  box-shadow: 4px 4px 0 var(--neu-black);
-  background-color: var(--neu-red-dark);
+  box-shadow: 2px 2px 0 var(--neu-black);
+  background-color: var(--neu-gray-700);
 }
 
 .neuButton--warning {
-  background-color: var(--neu-pink);
-  color: var(--neu-white);
+  background-color: var(--neu-gray-200);
+  color: var(--neu-black);
   box-shadow: var(--neu-shadow-offset) var(--neu-shadow-offset) 0 var(--neu-black);
 }
 
 .neuButton--warning:hover {
-  box-shadow: 4px 4px 0 var(--neu-black);
-  background-color: var(--neu-pink-dark);
+  box-shadow: 2px 2px 0 var(--neu-black);
+  background-color: var(--neu-gray-300);
 }
 
 /* ===================================
@@ -209,13 +154,10 @@
 .neuCard {
   background-color: var(--neu-white);
   border: var(--neu-border-width) solid var(--neu-black);
-  border-radius: var(--neu-border-radius);
   padding: 32px;
-  padding-top: 38px;
   position: relative;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  /* gentler shadow to reduce visual harshness */
-  box-shadow: 6px 6px 0 rgba(0,0,0,0.85);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: var(--neu-shadow-offset) var(--neu-shadow-offset) 0 var(--neu-black);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -225,112 +167,42 @@
 }
 
 .neuCard:hover {
-  transform: translate(-1.5px, -1.5px);
-  box-shadow: 8px 8px 0 rgba(0,0,0,0.85);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--neu-black);
 }
 
 .neuCardIcon {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
   border: var(--neu-border-width) solid var(--neu-black);
-  border-radius: var(--neu-border-radius);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 40px;
-  font-weight: 800;
-  box-shadow: 4px 4px 0 var(--neu-black);
+  background-color: var(--neu-gray-100);
+  box-shadow: 3px 3px 0 var(--neu-black);
 }
 
-.neuCardIcon--blue {
-  background-color: var(--neu-blue);
-}
-
-.neuCardIcon--red {
-  background-color: var(--neu-red);
-}
-
-.neuCardIcon--yellow {
-  background-color: var(--neu-yellow);
-}
-
-.neuCardIcon--green {
-  background-color: var(--neu-green);
-}
-
-.neuCardIcon--purple {
-  background-color: var(--neu-purple);
+.neuCardIcon svg {
+  width: 28px;
+  height: 28px;
+  stroke-width: 2;
 }
 
 .neuCardTitle {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  color: var(--neu-black);
 }
 
 .neuCardDescription {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.6;
   margin: 0;
   font-weight: 500;
-}
-
-/* Card Color Accents */
-.neuCard--blue::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background-color: var(--neu-blue);
-  border-radius: var(--neu-border-radius) var(--neu-border-radius) 0 0;
-}
-
-.neuCard--red::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background-color: var(--neu-red);
-  border-radius: var(--neu-border-radius) var(--neu-border-radius) 0 0;
-}
-
-.neuCard--yellow::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background-color: var(--neu-yellow);
-  border-radius: var(--neu-border-radius) var(--neu-border-radius) 0 0;
-}
-
-.neuCard--green::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background-color: var(--neu-green);
-  border-radius: var(--neu-border-radius) var(--neu-border-radius) 0 0;
-}
-
-.neuCard--purple::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background-color: var(--neu-purple);
-  border-radius: var(--neu-border-radius) var(--neu-border-radius) 0 0;
+  color: var(--muted-text);
 }
 
 /* ===================================
@@ -339,7 +211,7 @@
 
 .neuHero {
   background-color: var(--neu-white);
-  padding: 80px 20px;
+  padding: 100px 20px;
   position: relative;
   overflow: hidden;
 }
@@ -362,84 +234,60 @@
   pointer-events: none;
 }
 
+/* Minimal geometric shapes - monochrome */
 .neuHeroShape1 {
   position: absolute;
-  width: 200px;
-  height: 200px;
-  background-color: var(--neu-yellow);
-  border: var(--neu-border-width) solid var(--neu-black);
-  border-radius: 50%;
-  top: 10%;
-  left: 5%;
-  opacity: 0.3;
-  animation: float 6s ease-in-out infinite;
+  width: 120px;
+  height: 120px;
+  background-color: transparent;
+  border: var(--neu-border-width) solid var(--neu-gray-200);
+  top: 15%;
+  left: 8%;
+  opacity: 0.6;
 }
 
 .neuHeroShape2 {
   position: absolute;
-  width: 150px;
-  height: 150px;
-  background-color: var(--neu-blue);
-  border: var(--neu-border-width) solid var(--neu-black);
+  width: 80px;
+  height: 80px;
+  background-color: var(--neu-gray-100);
+  border: var(--neu-border-width) solid var(--neu-gray-300);
   top: 60%;
-  right: 10%;
-  opacity: 0.3;
-  transform: rotate(45deg);
-  animation: float 8s ease-in-out infinite;
+  right: 12%;
+  opacity: 0.5;
 }
 
 .neuHeroShape3 {
   position: absolute;
-  width: 100px;
-  height: 100px;
-  background-color: var(--neu-red);
-  border: var(--neu-border-width) solid var(--neu-black);
-  border-radius: var(--neu-border-radius);
-  bottom: 15%;
+  width: 60px;
+  height: 60px;
+  background-color: transparent;
+  border: var(--neu-border-width) solid var(--neu-gray-300);
+  bottom: 20%;
   left: 15%;
-  opacity: 0.3;
-  animation: float 7s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(5deg);
-  }
+  opacity: 0.4;
+  transform: rotate(45deg);
 }
 
 .neuHeroTitle {
-  font-size: 72px;
+  font-size: 64px;
   font-weight: 900;
   margin: 0 0 24px 0;
   text-transform: uppercase;
-  letter-spacing: -1px;
+  letter-spacing: -2px;
   color: var(--neu-black);
-  line-height: 1.1;
-  /* subtler layered shadows to reduce glare */
-  text-shadow: 
-    2px 2px 0 rgba(243,208,122,0.95),
-    6px 6px 0 rgba(0,0,0,0.85);
+  line-height: 1.05;
 }
 
 .neuHeroSubtitle {
-  font-size: 24px;
-  font-weight: 600;
-  margin: 0 0 40px 0;
-  color: #333333;
-  line-height: 1.5;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0 0 48px 0;
+  color: var(--muted-text);
+  line-height: 1.6;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-}
-
-/* Dark mode subtitle text */
-@media (prefers-color-scheme: dark) {
-  .neuHeroSubtitle {
-    color: var(--muted-text);
-  }
 }
 
 .neuHeroButtons {
@@ -455,19 +303,17 @@
 
 @media (max-width: 768px) {
   .neuHeroTitle {
-    font-size: 48px;
-    text-shadow: 
-      3px 3px 0 var(--neu-yellow),
-      6px 6px 0 var(--neu-black);
+    font-size: 40px;
+    letter-spacing: -1px;
   }
 
   .neuHeroSubtitle {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .neuButton--large {
     padding: 14px 28px;
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .neuCard {
@@ -475,21 +321,25 @@
   }
 
   .neuCardIcon {
-    width: 60px;
-    height: 60px;
-    font-size: 32px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .neuCardIcon svg {
+    width: 24px;
+    height: 24px;
   }
 
   .neuHeroShape1,
   .neuHeroShape2,
   .neuHeroShape3 {
-    opacity: 0.15;
+    opacity: 0.2;
   }
 }
 
 @media (max-width: 480px) {
   .neuHeroTitle {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .neuHeroButtons {
@@ -507,173 +357,71 @@
 
 .neuBadge {
   display: inline-block;
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border: var(--neu-border-width) solid var(--neu-black);
-  box-shadow: 3px 3px 0 var(--neu-black);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
 }
 
 .neuBadge--small {
-  padding: 4px 8px;
+  padding: 4px 10px;
   font-size: 10px;
-  border-radius: 6px;
 }
 
 .neuBadge--medium {
-  padding: 6px 12px;
-  font-size: 12px;
-  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 11px;
 }
 
 .neuBadge--large {
-  padding: 8px 16px;
-  font-size: 14px;
-  border-radius: var(--neu-border-radius);
+  padding: 8px 18px;
+  font-size: 12px;
 }
 
-.neuBadge--blue {
-  background-color: var(--neu-blue);
+/* Badge Variants - Monochrome */
+.neuBadge--default {
+  background-color: var(--neu-black);
   color: var(--neu-white);
+  border: var(--neu-border-width) solid var(--neu-black);
+  box-shadow: 2px 2px 0 var(--neu-gray-400);
 }
 
-.neuBadge--red {
-  background-color: var(--neu-red);
-  color: var(--neu-white);
-}
-
-.neuBadge--yellow {
-  background-color: var(--neu-yellow);
+.neuBadge--outline {
+  background-color: var(--neu-white);
   color: var(--neu-black);
+  border: var(--neu-border-width) solid var(--neu-black);
+  box-shadow: 2px 2px 0 var(--neu-black);
 }
 
-.neuBadge--green {
-  background-color: var(--neu-green);
-  color: var(--neu-white);
-}
-
-.neuBadge--purple {
-  background-color: var(--neu-purple);
-  color: var(--neu-white);
-}
-
-.neuBadge--pink {
-  background-color: var(--neu-pink);
-  color: var(--neu-white);
+.neuBadge--ghost {
+  background-color: var(--neu-gray-100);
+  color: var(--neu-gray-600);
+  border: var(--neu-border-width) solid var(--neu-gray-300);
 }
 
 /* ===================================
-   NEUBRUTALIST NOTIFICATIONS
+   SITE-SPECIFIC CLASSES
    =================================== */
 
-.neuNotification {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background-color: var(--neu-white);
+.statsSection {
+  background: var(--neu-black);
+  color: var(--neu-white);
   border: var(--neu-border-width) solid var(--neu-black);
-  border-radius: var(--neu-border-radius);
-  padding: 20px;
-  box-shadow: 6px 6px 0 var(--neu-black);
-  position: relative;
-  max-width: 500px;
+  padding: 4rem 2rem;
+  margin: 0 2rem 4rem;
+  box-shadow: 6px 6px 0 var(--neu-gray-400);
 }
 
-.neuNotification--blue::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background-color: var(--neu-blue);
-  border-radius: var(--neu-border-radius) 0 0 var(--neu-border-radius);
-}
-
-.neuNotification--green::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background-color: var(--neu-green);
-  border-radius: var(--neu-border-radius) 0 0 var(--neu-border-radius);
-}
-
-.neuNotification--yellow::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background-color: var(--neu-yellow);
-  border-radius: var(--neu-border-radius) 0 0 var(--neu-border-radius);
-}
-
-.neuNotification--red::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 6px;
-  background-color: var(--neu-red);
-  border-radius: var(--neu-border-radius) 0 0 var(--neu-border-radius);
-}
-
-.neuNotificationIcon {
-  font-size: 28px;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.neuNotificationContent {
-  flex: 1;
-}
-
-.neuNotificationTitle {
-  font-size: 16px;
-  font-weight: 800;
-  margin: 0 0 8px 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.testimonialCard {
+  padding: 2rem;
+  background: var(--neu-white);
+  border: var(--neu-border-width) solid var(--neu-black);
+  box-shadow: var(--neu-shadow-offset) var(--neu-shadow-offset) 0 var(--neu-black);
   color: var(--neu-black);
 }
 
-.neuNotificationMessage {
-  font-size: 14px;
-  font-weight: 500;
-  margin: 0;
-  color: var(--neu-black);
-  line-height: 1.5;
-}
-
-.neuNotificationClose {
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  font-weight: 800;
-  cursor: pointer;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--neu-black);
-  flex-shrink: 0;
-  transition: transform 0.1s ease;
-}
-
-.neuNotificationClose:hover {
-  transform: scale(1.2);
-}
-
-.neuNotificationClose:active {
-  transform: scale(0.9);
+.mutedText {
+  color: var(--muted-text);
 }
 
 /* ===================================
@@ -687,8 +435,8 @@
 
 .neuInputLabel {
   display: block;
-  font-size: 14px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 8px;
@@ -696,7 +444,7 @@
 }
 
 .neuInputRequired {
-  color: var(--neu-red);
+  color: var(--neu-gray-500);
   margin-left: 4px;
 }
 
@@ -704,13 +452,12 @@
 .neuTextarea {
   width: 100%;
   padding: 12px 16px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   border: var(--neu-border-width) solid var(--neu-black);
-  border-radius: var(--neu-border-radius);
   background-color: var(--neu-white);
-  box-shadow: 4px 4px 0 var(--neu-black);
+  box-shadow: 3px 3px 0 var(--neu-black);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   color: var(--neu-black);
 }
@@ -719,19 +466,19 @@
 .neuTextarea:focus {
   outline: none;
   transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--neu-black);
+  box-shadow: 5px 5px 0 var(--neu-black);
 }
 
 .neuInput:disabled,
 .neuTextarea:disabled {
-  background-color: #F5F5F5;
+  background-color: var(--neu-gray-100);
   cursor: not-allowed;
   opacity: 0.6;
 }
 
 .neuInput::placeholder,
 .neuTextarea::placeholder {
-  color: #999999;
+  color: var(--neu-gray-400);
   font-weight: 500;
 }
 
@@ -741,12 +488,12 @@
 }
 
 .neuInputError {
-  border-color: var(--neu-red);
-  box-shadow: 4px 4px 0 var(--neu-red);
+  border-color: var(--neu-gray-600);
+  box-shadow: 3px 3px 0 var(--neu-gray-600);
 }
 
 .neuInputError:focus {
-  box-shadow: 6px 6px 0 var(--neu-red);
+  box-shadow: 5px 5px 0 var(--neu-gray-600);
 }
 
 .neuInputErrorText {
@@ -754,7 +501,7 @@
   margin-top: 8px;
   font-size: 12px;
   font-weight: 700;
-  color: var(--neu-red);
+  color: var(--neu-gray-600);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }

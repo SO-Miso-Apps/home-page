@@ -1,26 +1,26 @@
-import React from 'react';
-import styles from './Neubrutalism.module.css';
+import { Link } from "react-router";
+import styles from "./Neubrutalism.module.css";
 
 interface NeubrutalistCardProps {
+  icon?: React.ReactNode;
   title: string;
   description: string;
-  icon?: string;
-  color?: 'blue' | 'red' | 'yellow' | 'green' | 'purple';
   href?: string;
 }
 
-export const NeubrutalistCard: React.FC<NeubrutalistCardProps> = ({
+export const NeubrutalistCard = ({
+  icon,
   title,
   description,
-  icon = '✨',
-  color = 'blue',
-  href,
-}) => {
-  const content = (
+  href
+}: NeubrutalistCardProps) => {
+  const cardContent = (
     <>
-      <div className={`${styles.neuCardIcon} ${styles[`neuCardIcon--${color}`]}`}>
-        {icon}
-      </div>
+      {icon && (
+        <div className={styles.neuCardIcon}>
+          {icon}
+        </div>
+      )}
       <h3 className={styles.neuCardTitle}>{title}</h3>
       <p className={styles.neuCardDescription}>{description}</p>
     </>
@@ -28,15 +28,15 @@ export const NeubrutalistCard: React.FC<NeubrutalistCardProps> = ({
 
   if (href) {
     return (
-      <a href={href} className={`${styles.neuCard} ${styles[`neuCard--${color}`]}`}>
-        {content}
-      </a>
+      <Link to={href} className={styles.neuCard}>
+        {cardContent}
+      </Link>
     );
   }
 
   return (
-    <div className={`${styles.neuCard} ${styles[`neuCard--${color}`]}`}>
-      {content}
+    <div className={styles.neuCard}>
+      {cardContent}
     </div>
   );
 };

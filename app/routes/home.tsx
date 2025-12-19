@@ -1,16 +1,28 @@
 import type { Route } from "./+types/home";
 import { Navigation } from "../components/Navigation";
 import { Footer } from "../components/Footer";
-import { 
-  NeubrutalistHero, 
-  NeubrutalistCard, 
+import {
+  NeubrutalistHero,
+  NeubrutalistCard,
   NeubrutalistButton,
-  NeubrutalistBadge 
+  NeubrutalistBadge
 } from "../components/Neubrutalism";
+import {
+  Shield,
+  Zap,
+  Palette,
+  TrendingUp,
+  Wrench,
+  Headphones,
+  Star,
+  Store,
+  Globe,
+  Clock
+} from "lucide-react";
 import neuStyles from "../components/Neubrutalism/Neubrutalism.module.css";
 import homeStyles from "./home.module.css";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "Miso Apps - Premium Shopify Apps Development" },
     { name: "description", content: "Transform your Shopify store with powerful apps from Miso Apps. We build innovative Shopify applications that boost sales, enhance customer experience, and streamline operations." },
@@ -21,7 +33,7 @@ export default function Home() {
   return (
     <>
       <Navigation />
-      
+
       <main className={homeStyles.homeContainer}>
         {/* Hero Section */}
         <NeubrutalistHero
@@ -40,7 +52,7 @@ export default function Home() {
         {/* Features Section */}
         <section className={homeStyles.featuresSection}>
           <div className={homeStyles.featuresHeader}>
-            <NeubrutalistBadge variant="yellow">Why Choose Miso Apps</NeubrutalistBadge>
+            <NeubrutalistBadge variant="default">Why Choose Miso Apps</NeubrutalistBadge>
             <h2>
               Built for Shopify Success
             </h2>
@@ -51,60 +63,58 @@ export default function Home() {
 
           <div className={homeStyles.featuresGrid}>
             <NeubrutalistCard
-              icon="�️"
-              color="blue"
+              icon={<Shield />}
               title="Shopify Certified"
               description="Our team consists of certified Shopify experts with deep knowledge of the platform's APIs, best practices, and ecosystem."
             />
             <NeubrutalistCard
-              icon="⚡"
-              color="purple"
+              icon={<Zap />}
               title="Lightning Fast Performance"
               description="Our apps are optimized for speed, ensuring zero impact on your store's loading time and excellent user experience."
             />
             <NeubrutalistCard
-              icon="🎨"
-              color="green"
+              icon={<Palette />}
               title="Seamless Integration"
               description="Beautiful, intuitive interfaces that match Shopify's design language and integrate perfectly with your store's theme."
             />
             <NeubrutalistCard
-              icon="�"
-              color="yellow"
+              icon={<TrendingUp />}
               title="Proven Results"
               description="Our apps have helped merchants increase conversions by up to 40% and save countless hours on manual tasks."
             />
             <NeubrutalistCard
-              icon="🔧"
-              color="red"
+              icon={<Wrench />}
               title="Regular Updates"
               description="We continuously improve our apps with new features, bug fixes, and compatibility updates for the latest Shopify releases."
             />
             <NeubrutalistCard
-              icon="�"
-              color="blue"
+              icon={<Headphones />}
               title="World-Class Support"
               description="Get help when you need it with our responsive 24/7 customer support team that knows Shopify inside and out."
             />
           </div>
         </section>
 
-        {/* Stats Section (muted palette to reduce glare) */}
+        {/* Stats Section */}
         <section className={neuStyles.statsSection}>
           <div className={homeStyles.statsGrid}>
-            <div>
+            <div className={homeStyles.statItem}>
+              <Store className={homeStyles.statIcon} size={32} strokeWidth={1.5} />
               <div className={homeStyles.statNumber}>10K+</div>
               <div className={homeStyles.statLabel}>Shopify Stores</div>
             </div>
-            <div>
+            <div className={homeStyles.statItem}>
+              <Globe className={homeStyles.statIcon} size={32} strokeWidth={1.5} />
               <div className={homeStyles.statNumber}>50+</div>
               <div className={homeStyles.statLabel}>Countries Worldwide</div>
             </div>
-            <div>
-              <div className={homeStyles.statNumber}>4.9★</div>
+            <div className={homeStyles.statItem}>
+              <Star className={homeStyles.statIcon} size={32} strokeWidth={1.5} />
+              <div className={homeStyles.statNumber}>4.9</div>
               <div className={homeStyles.statLabel}>Average App Rating</div>
             </div>
-            <div>
+            <div className={homeStyles.statItem}>
+              <Clock className={homeStyles.statIcon} size={32} strokeWidth={1.5} />
               <div className={homeStyles.statNumber}>24/7</div>
               <div className={homeStyles.statLabel}>Expert Support</div>
             </div>
@@ -114,7 +124,7 @@ export default function Home() {
         {/* Testimonials Section */}
         <section className={homeStyles.testimonialsSection}>
           <div className={homeStyles.testimonialsHeader}>
-            <NeubrutalistBadge variant="green">Testimonials</NeubrutalistBadge>
+            <NeubrutalistBadge variant="outline">Testimonials</NeubrutalistBadge>
             <h2>
               What Our Clients Say
             </h2>
@@ -125,7 +135,11 @@ export default function Home() {
 
           <div className={homeStyles.testimonialsGrid}>
             <div className={neuStyles.testimonialCard}>
-              <div className={homeStyles.testimonialRating}>⭐⭐⭐⭐⭐</div>
+              <div className={homeStyles.testimonialRating}>
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
+                ))}
+              </div>
               <p className={homeStyles.testimonialText}>
                 "Miso Apps' Shopify apps have completely transformed our store. Sales are up 35% and we've automated so many tedious tasks. Best investment ever!"
               </p>
@@ -134,16 +148,24 @@ export default function Home() {
             </div>
 
             <div className={neuStyles.testimonialCard}>
-              <div className={homeStyles.testimonialRating}>⭐⭐⭐⭐⭐</div>
+              <div className={homeStyles.testimonialRating}>
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
+                ))}
+              </div>
               <p className={homeStyles.testimonialText}>
                 "We've tried many Shopify apps, but Miso Apps stands out. The apps are reliable, the support is amazing, and they truly understand e-commerce."
               </p>
               <div className={homeStyles.testimonialAuthor}>Michael Chen</div>
-              <div className={neuStyles.mutedText}>CEO, ElectroStore — 4.8★ avg across apps</div>
+              <div className={neuStyles.mutedText}>CEO, ElectroStore — 4.8 avg across apps</div>
             </div>
 
             <div className={neuStyles.testimonialCard}>
-              <div className={homeStyles.testimonialRating}>⭐⭐⭐⭐⭐</div>
+              <div className={homeStyles.testimonialRating}>
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
+                ))}
+              </div>
               <p className={homeStyles.testimonialText}>
                 "These apps paid for themselves in the first month. Customer engagement is through the roof and managing our store has never been easier!"
               </p>
@@ -152,7 +174,11 @@ export default function Home() {
             </div>
 
             <div className={neuStyles.testimonialCard}>
-              <div className={homeStyles.testimonialRating}>⭐⭐⭐⭐⭐</div>
+              <div className={homeStyles.testimonialRating}>
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
+                ))}
+              </div>
               <p className={homeStyles.testimonialText}>
                 "Integration was seamless and the team implemented custom logic for our promotions. Support replied within an hour and the results speak for themselves."
               </p>
@@ -171,10 +197,10 @@ export default function Home() {
             Join 10,000+ Shopify merchants using our apps to increase sales, improve customer experience, and grow their business.
           </p>
           <div className={homeStyles.ctaButtons}>
-            <NeubrutalistButton href="/products" variant="accent" size="large">
+            <NeubrutalistButton href="/products" variant="secondary" size="large">
               Browse Our Shopify Apps
             </NeubrutalistButton>
-            <NeubrutalistButton href="/about" variant="secondary" size="large">
+            <NeubrutalistButton href="/about" variant="accent" size="large">
               Learn More About Us
             </NeubrutalistButton>
           </div>

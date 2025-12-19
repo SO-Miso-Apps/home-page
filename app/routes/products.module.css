@@ -1,277 +1,282 @@
-/* Products Page Styles */
 .productsContainer {
-  min-height: 100vh;
+  padding-top: 70px;
 }
 
 /* Hero Section */
 .heroSection {
-  padding: 6rem 2rem 4rem;
-  background: linear-gradient(135deg, #fa8bff 0%, #2bd2ff 52%, #2bff88 90%);
-  color: #000;
+  padding: 6rem 2rem;
   text-align: center;
-  border: 6px solid #000;
-  margin: 0 2rem 4rem;
-  box-shadow: 12px 12px 0 rgba(0, 0, 0, 1);
+  border-bottom: 3px solid #000000;
 }
 
 .heroContent {
-  max-width: 900px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .heroTitle {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 900;
-  margin: 2rem 0 1rem;
+  margin: 1.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  line-height: 1.1;
 }
 
 .heroSubtitle {
-  font-size: 1.5rem;
-  line-height: 1.6;
-  font-weight: 600;
-}
-
-/* Featured Products Section */
-.featuredSection {
-  padding: 4rem 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.featuredHeader {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.productShowcase {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-.productCard {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  padding: 3rem;
-  border: 6px solid #000;
-  box-shadow: 12px 12px 0 rgba(0, 0, 0, 1);
-}
-
-.productCardWhite {
-  background: #fff;
-}
-
-.productCardYellow {
-  background: #ffd700;
-}
-
-.productCardPink {
-  background: #e0bbe4;
-}
-
-.productInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.productIcon {
-  font-size: 4rem;
-}
-
-.productTitle {
-  font-size: 2.5rem;
-  font-weight: 800;
-}
-
-.productDescription {
   font-size: 1.25rem;
+  color: #525252;
   line-height: 1.6;
-  margin-bottom: 1.5rem;
-}
-
-.productCardWhite .productDescription {
-  color: #666;
-}
-
-.productCardYellow .productDescription {
-  color: #333;
-}
-
-.productCardPink .productDescription {
-  color: #333;
-}
-
-.productFeatures {
-  display: flex;
-  flex-direction: column;
-}
-
-.productFeaturesTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.featureList {
-  list-style: none;
-  padding: 0;
   margin: 0;
 }
 
-.featureItem {
-  padding: 0.75rem 1rem;
-  border: 2px solid #000;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
-.productCardWhite .featureItem {
-  background: #f8f9fa;
-}
-
-.productCardYellow .featureItem {
-  background: #fff;
-}
-
-.productCardPink .featureItem {
-  background: #fff;
-}
-
-.productAction {
-  margin-top: 1.5rem;
-}
-
-/* More Products Section */
-.moreProductsSection {
-  padding: 4rem 2rem;
-  background: #f8f9fa;
-}
-
-.moreProductsContainer {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.moreProductsHeader {
+/* Section Headers */
+.sectionHeader {
   text-align: center;
   margin-bottom: 3rem;
 }
 
-.moreProductsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+.sectionHeader h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 1rem 0 0;
+  text-transform: uppercase;
+}
+
+/* Featured Section */
+.featuredSection {
+  padding: 5rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.featuredGrid {
+  display: flex;
+  flex-direction: column;
   gap: 2rem;
+}
+
+.featuredCard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  padding: 3rem;
+  background-color: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 8px 8px 0 #000000;
+}
+
+.featuredCard:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.featuredCardHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.featuredCardIcon {
+  color: #000000;
+}
+
+.featuredCardTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.featuredCardDescription {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #525252;
+  margin: 0;
+}
+
+.platformBadge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.rating {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #525252;
+}
+
+.featuredCardFeatures h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  text-transform: uppercase;
+}
+
+.featuredCardFeatures ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+
+.featuredCardFeatures li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background-color: #ffffff;
+  border: 2px solid #000000;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.featuredCardFeatures li svg {
+  flex-shrink: 0;
+}
+
+/* More Apps Section */
+.moreAppsSection {
+  padding: 5rem 2rem;
+  background-color: #f5f5f5;
+  border-top: 3px solid #000000;
+  border-bottom: 3px solid #000000;
+}
+
+.moreAppsContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.moreAppsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
 }
 
 /* Pricing Section */
 .pricingSection {
-  padding: 4rem 2rem;
-  max-width: 1400px;
+  padding: 5rem 2rem;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-.pricingHeader {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
 .pricingSubtitle {
-  font-size: 1.25rem;
-  color: #666;
+  font-size: 1.125rem;
+  color: #737373;
+  margin-top: 1rem;
 }
 
 .pricingGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .pricingCard {
   padding: 2.5rem;
-  background: #fff;
-  border: 5px solid #000;
-  box-shadow: 8px 8px 0 rgba(0, 0, 0, 1);
+  background-color: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 6px 6px 0 #000000;
   text-align: center;
-}
-
-.pricingCardPopular {
-  background: #ffd700;
   position: relative;
 }
 
-.pricingBadge {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #000;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  font-weight: 700;
-  border: 3px solid #000;
+.pricingCardPopular {
+  background-color: #f5f5f5;
 }
 
-.pricingTitle {
-  font-size: 1.75rem;
+.popularBadge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000000;
+  color: #ffffff;
+  padding: 0.5rem 1.25rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pricingName {
+  font-size: 1.5rem;
   font-weight: 800;
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
 }
 
 .pricingPrice {
   font-size: 3rem;
   font-weight: 900;
-  margin-bottom: 0.5rem;
 }
 
 .pricingPeriod {
-  color: #666;
+  color: #737373;
   margin-bottom: 2rem;
-}
-
-.pricingCardPopular .pricingPeriod {
-  color: #333;
+  font-size: 0.95rem;
 }
 
 .pricingFeatures {
   list-style: none;
   padding: 0;
-  margin: 0 0 2rem 0;
+  margin: 0 0 2rem;
   text-align: left;
 }
 
-.pricingFeature {
-  padding: 0.5rem 0;
-  border-bottom: 2px solid #f0f0f0;
+.pricingFeatures li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 2px solid #e5e5e5;
+  font-size: 0.95rem;
 }
 
-.pricingCardPopular .pricingFeature {
-  border-bottom: 2px solid rgba(0,0,0,0.1);
+.pricingFeatures li svg {
+  flex-shrink: 0;
+  color: #000000;
 }
 
 /* CTA Section */
 .ctaSection {
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
   margin: 4rem 2rem;
-  background: #000;
-  color: #fff;
+  background-color: #000000;
+  color: #ffffff;
+  border: 3px solid #000000;
+  box-shadow: 8px 8px 0 #525252;
   text-align: center;
-  border: 6px solid #000;
-  box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.3);
 }
 
-.ctaTitle {
-  font-size: 3rem;
+.ctaSection h2 {
+  font-size: 2.25rem;
   font-weight: 800;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem;
+  text-transform: uppercase;
 }
 
-.ctaText {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-  max-width: 600px;
+.ctaSection p {
+  font-size: 1.125rem;
   margin: 0 auto 2rem;
+  max-width: 600px;
+  color: #a3a3a3;
+  line-height: 1.6;
 }
 
 .ctaButtons {
@@ -281,29 +286,105 @@
   flex-wrap: wrap;
 }
 
-/* Dark mode adjustments */
+/* Responsive */
+@media (max-width: 900px) {
+  .featuredCard {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.75rem;
+  }
+
+  .featuredCard {
+    padding: 2rem;
+  }
+
+  .featuredCardTitle {
+    font-size: 1.5rem;
+  }
+
+  .ctaSection {
+    margin: 3rem 1rem;
+  }
+
+  .ctaSection h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   .heroSection {
-    box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.6);
+    border-bottom-color: #404040;
   }
-  
-  .moreProductsSection {
-    background: var(--panel-bg);
-  }
-  
+
+  .heroSubtitle,
+  .featuredCardDescription,
   .pricingSubtitle {
-    color: var(--muted-text);
+    color: #a3a3a3;
   }
-  
-  .pricingPeriod {
-    color: var(--muted-text);
+
+  .featuredCard {
+    background-color: #0a0a0a;
+    border-color: #404040;
+    box-shadow: 8px 8px 0 #262626;
   }
-  
-  .pricingCardPopular .pricingPeriod {
-    color: #333;
+
+  .featuredCard:nth-child(even) {
+    background-color: #171717;
   }
-  
+
+  .featuredCardIcon {
+    color: #fafafa;
+  }
+
+  .featuredCardFeatures li {
+    background-color: #171717;
+    border-color: #404040;
+  }
+
+  .platformBadge {
+    background-color: #404040;
+    color: #fafafa;
+  }
+
+  .rating {
+    color: #a3a3a3;
+  }
+
+  .moreAppsSection {
+    background-color: #171717;
+    border-color: #404040;
+  }
+
+  .pricingCard {
+    background-color: #0a0a0a;
+    border-color: #404040;
+    box-shadow: 6px 6px 0 #262626;
+  }
+
+  .pricingCardPopular {
+    background-color: #171717;
+  }
+
+  .pricingFeatures li {
+    border-bottom-color: #262626;
+  }
+
+  .pricingFeatures li svg {
+    color: #fafafa;
+  }
+
   .ctaSection {
-    box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.6);
+    background-color: #0a0a0a;
+    box-shadow: 8px 8px 0 #262626;
   }
 }

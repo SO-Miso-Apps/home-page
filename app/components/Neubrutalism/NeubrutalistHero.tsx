@@ -1,6 +1,5 @@
-import React from 'react';
-import styles from './Neubrutalism.module.css';
-import { NeubrutalistButton } from './NeubrutalistButton';
+import styles from "./Neubrutalism.module.css";
+import { NeubrutalistButton } from "./NeubrutalistButton";
 
 interface NeubrutalistHeroProps {
   title: string;
@@ -15,37 +14,39 @@ interface NeubrutalistHeroProps {
   };
 }
 
-export const NeubrutalistHero: React.FC<NeubrutalistHeroProps> = ({
+export const NeubrutalistHero = ({
   title,
   subtitle,
   primaryCTA,
-  secondaryCTA,
-}) => {
+  secondaryCTA
+}: NeubrutalistHeroProps) => {
   return (
-    <div className={styles.neuHero}>
+    <section className={styles.neuHero}>
+      <div className={styles.neuHeroDecoration}>
+        <div className={styles.neuHeroShape1}></div>
+        <div className={styles.neuHeroShape2}></div>
+        <div className={styles.neuHeroShape3}></div>
+      </div>
+
       <div className={styles.neuHeroContent}>
-        <div className={styles.neuHeroDecoration}>
-          <div className={styles.neuHeroShape1}></div>
-          <div className={styles.neuHeroShape2}></div>
-          <div className={styles.neuHeroShape3}></div>
-        </div>
-        
         <h1 className={styles.neuHeroTitle}>{title}</h1>
         <p className={styles.neuHeroSubtitle}>{subtitle}</p>
-        
-        <div className={styles.neuHeroButtons}>
-          {primaryCTA && (
-            <NeubrutalistButton href={primaryCTA.href} variant="primary" size="large">
-              {primaryCTA.text}
-            </NeubrutalistButton>
-          )}
-          {secondaryCTA && (
-            <NeubrutalistButton href={secondaryCTA.href} variant="secondary" size="large">
-              {secondaryCTA.text}
-            </NeubrutalistButton>
-          )}
-        </div>
+
+        {(primaryCTA || secondaryCTA) && (
+          <div className={styles.neuHeroButtons}>
+            {primaryCTA && (
+              <NeubrutalistButton href={primaryCTA.href} variant="primary" size="large">
+                {primaryCTA.text}
+              </NeubrutalistButton>
+            )}
+            {secondaryCTA && (
+              <NeubrutalistButton href={secondaryCTA.href} variant="secondary" size="large">
+                {secondaryCTA.text}
+              </NeubrutalistButton>
+            )}
+          </div>
+        )}
       </div>
-    </div>
+    </section>
   );
 };

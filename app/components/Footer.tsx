@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { Rocket, Mail, Phone, MapPin, Twitter, Linkedin, Github } from "lucide-react";
 import styles from "./Footer.module.css";
 
 export const Footer = () => {
@@ -10,7 +11,7 @@ export const Footer = () => {
         <div className={styles.footerGrid}>
           <div className={styles.footerSection}>
             <h3 className={styles.footerTitle}>
-              <span className={styles.footerIcon}>🚀</span>
+              <Rocket className={styles.footerIcon} size={20} strokeWidth={2.5} />
               Miso Apps
             </h3>
             <p className={styles.footerDescription}>
@@ -31,24 +32,39 @@ export const Footer = () => {
           <div className={styles.footerSection}>
             <h4 className={styles.footerHeading}>Contact</h4>
             <ul className={styles.footerLinks}>
-              <li>📧 hi@misoapps.com</li>
-              <li>📱 +84 35-7654-619</li>
-              <li>📍 Hanoi, Vietnam</li>
+              <li className={styles.contactItem}>
+                <Mail size={16} strokeWidth={2} />
+                hi@misoapps.com
+              </li>
+              <li className={styles.contactItem}>
+                <Phone size={16} strokeWidth={2} />
+                +84 35-7654-619
+              </li>
+              <li className={styles.contactItem}>
+                <MapPin size={16} strokeWidth={2} />
+                Hanoi, Vietnam
+              </li>
             </ul>
           </div>
 
           <div className={styles.footerSection}>
             <h4 className={styles.footerHeading}>Follow Us</h4>
             <div className={styles.socialLinks}>
-              <a href="#" className={styles.socialLink}>Twitter</a>
-              <a href="#" className={styles.socialLink}>LinkedIn</a>
-              <a href="#" className={styles.socialLink}>GitHub</a>
+              <a href="#" className={styles.socialLink} aria-label="Twitter">
+                <Twitter size={20} strokeWidth={2} />
+              </a>
+              <a href="#" className={styles.socialLink} aria-label="LinkedIn">
+                <Linkedin size={20} strokeWidth={2} />
+              </a>
+              <a href="#" className={styles.socialLink} aria-label="GitHub">
+                <Github size={20} strokeWidth={2} />
+              </a>
             </div>
           </div>
         </div>
 
         <div className={styles.footerBottom}>
-          <p>© {currentYear} Miso Apps. All rights reserved.</p>
+          <p>&copy; {currentYear} Miso Apps. All rights reserved.</p>
         </div>
       </div>
     </footer>

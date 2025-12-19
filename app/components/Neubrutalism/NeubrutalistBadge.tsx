@@ -1,63 +1,22 @@
-import React from 'react';
-import styles from './Neubrutalism.module.css';
+import styles from "./Neubrutalism.module.css";
 
 interface NeubrutalistBadgeProps {
   children: React.ReactNode;
-  variant?: 'blue' | 'red' | 'yellow' | 'green' | 'purple' | 'pink';
+  variant?: 'default' | 'outline' | 'ghost';
   size?: 'small' | 'medium' | 'large';
 }
 
-export const NeubrutalistBadge: React.FC<NeubrutalistBadgeProps> = ({
+export const NeubrutalistBadge = ({
   children,
-  variant = 'blue',
-  size = 'medium',
-}) => {
+  variant = 'default',
+  size = 'medium'
+}: NeubrutalistBadgeProps) => {
+  const variantClass = styles[`neuBadge--${variant}`];
+  const sizeClass = styles[`neuBadge--${size}`];
+
   return (
-    <span className={`${styles.neuBadge} ${styles[`neuBadge--${variant}`]} ${styles[`neuBadge--${size}`]}`}>
+    <span className={`${styles.neuBadge} ${variantClass} ${sizeClass}`}>
       {children}
     </span>
-  );
-};
-
-interface NeubrutalistNotificationProps {
-  title: string;
-  message: string;
-  type?: 'info' | 'success' | 'warning' | 'error';
-  onClose?: () => void;
-}
-
-export const NeubrutalistNotification: React.FC<NeubrutalistNotificationProps> = ({
-  title,
-  message,
-  type = 'info',
-  onClose,
-}) => {
-  const icons = {
-    info: '💡',
-    success: '✅',
-    warning: '⚠️',
-    error: '❌'
-  };
-
-  const colors = {
-    info: 'blue',
-    success: 'green',
-    warning: 'yellow',
-    error: 'red'
-  };
-
-  return (
-    <div className={`${styles.neuNotification} ${styles[`neuNotification--${colors[type]}`]}`}>
-      <div className={styles.neuNotificationIcon}>{icons[type]}</div>
-      <div className={styles.neuNotificationContent}>
-        <h4 className={styles.neuNotificationTitle}>{title}</h4>
-        <p className={styles.neuNotificationMessage}>{message}</p>
-      </div>
-      {onClose && (
-        <button className={styles.neuNotificationClose} onClick={onClose}>
-          ✕
-        </button>
-      )}
-    </div>
   );
 };

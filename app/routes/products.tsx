@@ -1,385 +1,166 @@
 import type { Route } from "./+types/products";
 import { Navigation } from "../components/Navigation";
 import { Footer } from "../components/Footer";
-import { 
-  NeubrutalistCard, 
+import {
   NeubrutalistButton,
-  NeubrutalistBadge 
+  NeubrutalistBadge
 } from "../components/Neubrutalism";
+import {
+  Tags,
+  ShoppingCart,
+  FileText,
+  Check,
+  ExternalLink
+} from "lucide-react";
 import productsStyles from "./products.module.css";
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
-    { title: "Our Shopify Apps - Miso Apps" },
-    { name: "description", content: "Explore our suite of powerful Shopify apps designed to increase sales, improve customer experience, and automate your e-commerce operations." },
+    { title: "Our Apps - Miso Apps" },
+    { name: "description", content: "Explore our suite of powerful e-commerce apps for Shopify and Shopline. Automate tagging, boost sales, and enhance AI discoverability." },
   ];
 }
 
 export default function Products() {
+  const products = [
+    {
+      icon: Tags,
+      name: "SO: Auto Tags | All-in-One",
+      platform: "Shopify",
+      description: "Automate Shopify store management with custom tagging rules for orders, customers, and products. Streamline workflows and organize data efficiently with AI-powered automation.",
+      badge: "Most Popular",
+      features: [
+        "AI-powered automatic tagging",
+        "Custom rules for Orders, Customers & Products",
+        "Bulk replace, merge & clean tags",
+        "Workflow automation",
+        "Real-time tag management",
+        "Detailed analytics & reporting"
+      ],
+      link: "https://apps.shopify.com/so-operations-suite-with-ai",
+      rating: "5.0",
+      reviews: 3
+    },
+    {
+      icon: ShoppingCart,
+      name: "SO: Sticky Add To Cart",
+      platform: "Shopify",
+      description: "Increase sales with the Sticky Add to Cart bar. Customize designs for any device, keep the button visible while scrolling, and track performance easily.",
+      badge: "Boost Sales",
+      features: [
+        "Always-visible Add to Cart button",
+        "Customizable design templates",
+        "Mobile & desktop responsive",
+        "Performance tracking",
+        "Easy customization",
+        "No coding required"
+      ],
+      link: "https://apps.shopify.com/so-sticky-add-to-cart",
+      rating: "5.0",
+      reviews: 1
+    },
+    {
+      icon: FileText,
+      name: "SO: llms.txt",
+      platform: "Shopline",
+      description: "Generate llms.txt files for your Shopline store to enhance AI discoverability. Help AI assistants and LLMs understand your store content better.",
+      badge: "AI Ready",
+      features: [
+        "Automatic llms.txt generation",
+        "AI-optimized content structure",
+        "Enhanced AI discoverability",
+        "Easy integration",
+        "SEO benefits",
+        "Regular auto-updates"
+      ],
+      link: "https://apps.shopline.com/detail?appHandle=so_llms_txt",
+      rating: "New",
+      reviews: 0
+    }
+  ];
+
   return (
     <>
       <Navigation />
-      
+
       <main className={productsStyles.productsContainer}>
         {/* Hero Section */}
         <section className={productsStyles.heroSection}>
           <div className={productsStyles.heroContent}>
-            <NeubrutalistBadge variant="yellow" size="large">Our Shopify Apps</NeubrutalistBadge>
+            <NeubrutalistBadge variant="default" size="large">Our Apps</NeubrutalistBadge>
             <h1 className={productsStyles.heroTitle}>
-              Powerful Apps for Shopify Success
+              Powerful Apps for E-commerce Success
             </h1>
             <p className={productsStyles.heroSubtitle}>
-              Discover our comprehensive suite of Shopify apps designed to boost conversions, enhance customer engagement, and streamline your store operations.
+              Discover our suite of apps for Shopify and Shopline designed to automate operations, boost conversions, and enhance AI discoverability.
             </p>
           </div>
         </section>
 
-        {/* Featured Products */}
-        <section style={{ padding: '4rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <NeubrutalistBadge variant="blue" size="large">Featured Apps</NeubrutalistBadge>
-            <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0' }}>
-              Our Most Popular Shopify Apps
-            </h2>
+        {/* Products Grid */}
+        <section className={productsStyles.featuredSection}>
+          <div className={productsStyles.sectionHeader}>
+            <NeubrutalistBadge variant="outline" size="large">Our Products</NeubrutalistBadge>
+            <h2>Apps Built for Modern E-commerce</h2>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
-            {/* Product 1 */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '2rem',
-              padding: '3rem',
-              background: '#fff',
-              border: '6px solid #000',
-              boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
-            }}>
-              <div>
-                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🎁</div>
-                <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>
-                  Upsell & Cross-Sell Pro
-                </h3>
-                <p style={{ fontSize: '1.25rem', color: '#666', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                  Increase average order value with intelligent product recommendations. AI-powered upsells, cross-sells, and bundles that convert at checkout and throughout your store.
-                </p>
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <NeubrutalistBadge variant="green">Most Popular</NeubrutalistBadge>
+          <div className={productsStyles.featuredGrid}>
+            {products.map((product, index) => {
+              const IconComponent = product.icon;
+              return (
+                <div key={index} className={productsStyles.featuredCard}>
+                  <div className={productsStyles.featuredCardHeader}>
+                    <div className={productsStyles.platformBadge}>
+                      {product.platform}
+                    </div>
+                    <IconComponent className={productsStyles.featuredCardIcon} size={48} strokeWidth={1.5} />
+                    <h3 className={productsStyles.featuredCardTitle}>{product.name}</h3>
+                    <p className={productsStyles.featuredCardDescription}>{product.description}</p>
+                    <div className={productsStyles.cardMeta}>
+                      <NeubrutalistBadge variant="ghost">{product.badge}</NeubrutalistBadge>
+                      {product.reviews > 0 && (
+                        <span className={productsStyles.rating}>
+                          ⭐ {product.rating} ({product.reviews} reviews)
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className={productsStyles.featuredCardFeatures}>
+                    <h4>Key Features:</h4>
+                    <ul>
+                      {product.features.map((feature, i) => (
+                        <li key={i}>
+                          <Check size={16} strokeWidth={2.5} />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                    <NeubrutalistButton
+                      href={product.link}
+                      variant="primary"
+                      size="medium"
+                    >
+                      <span>Install on {product.platform}</span>
+                      <ExternalLink size={16} />
+                    </NeubrutalistButton>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <h4 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>Key Features:</h4>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {[
-                    '✅ AI-powered product recommendations',
-                    '✅ One-click upsells at checkout',
-                    '✅ Frequently bought together bundles',
-                    '✅ Post-purchase upsell offers',
-                    '✅ Customizable design templates',
-                    '✅ Detailed analytics & A/B testing'
-                  ].map((feature, i) => (
-                    <li key={i} style={{ 
-                      padding: '0.75rem 1rem',
-                      background: '#f8f9fa',
-                      border: '2px solid #000',
-                      marginBottom: '0.5rem',
-                      fontWeight: 600
-                    }}>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <div style={{ marginTop: '1.5rem' }}>
-                  <NeubrutalistButton variant="primary" size="large">
-                    Install App
-                  </NeubrutalistButton>
-                </div>
-              </div>
-            </div>
-
-            {/* Product 2 */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '2rem',
-              padding: '3rem',
-              background: '#ffd700',
-              border: '6px solid #000',
-              boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
-            }}>
-              <div>
-                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>�</div>
-                <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>
-                  Email Marketing Master
-                </h3>
-                <p style={{ fontSize: '1.25rem', color: '#333', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                  Recover abandoned carts and boost customer retention with automated email campaigns. Beautiful templates, segmentation, and powerful automation workflows.
-                </p>
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <NeubrutalistBadge variant="blue">Enterprise Ready</NeubrutalistBadge>
-                </div>
-              </div>
-              <div>
-                <h4 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>Key Features:</h4>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {[
-                    '✅ Abandoned cart recovery emails',
-                    '✅ Welcome series automation',
-                    '✅ Customer win-back campaigns',
-                    '✅ Product review requests',
-                    '✅ Drag-and-drop email builder',
-                    '✅ Advanced segmentation & analytics'
-                  ].map((feature, i) => (
-                    <li key={i} style={{ 
-                      padding: '0.75rem 1rem',
-                      background: '#fff',
-                      border: '2px solid #000',
-                      marginBottom: '0.5rem',
-                      fontWeight: 600
-                    }}>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <div style={{ marginTop: '1.5rem' }}>
-                  <NeubrutalistButton variant="accent" size="large">
-                    Install App
-                  </NeubrutalistButton>
-                </div>
-              </div>
-            </div>
-
-            {/* Product 3 */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '2rem',
-              padding: '3rem',
-              background: '#e0bbe4',
-              border: '6px solid #000',
-              boxShadow: '12px 12px 0 rgba(0, 0, 0, 1)'
-            }}>
-              <div>
-                <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>⭐</div>
-                <h3 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>
-                  Reviews & Social Proof
-                </h3>
-                <p style={{ fontSize: '1.25rem', color: '#333', marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                  Build trust and increase conversions with authentic customer reviews and social proof. Photo reviews, Q&A, ratings, and automated review collection.
-                </p>
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <NeubrutalistBadge variant="purple">Best Value</NeubrutalistBadge>
-                </div>
-              </div>
-              <div>
-                <h4 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>Key Features:</h4>
-                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                  {[
-                    '✅ Automated review requests',
-                    '✅ Photo & video reviews',
-                    '✅ Q&A for products',
-                    '✅ Google Rich Snippets (SEO)',
-                    '✅ Review widgets & popups',
-                    '✅ Import reviews from platforms'
-                  ].map((feature, i) => (
-                    <li key={i} style={{ 
-                      padding: '0.75rem 1rem',
-                      background: '#fff',
-                      border: '2px solid #000',
-                      marginBottom: '0.5rem',
-                      fontWeight: 600
-                    }}>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <div style={{ marginTop: '1.5rem' }}>
-                  <NeubrutalistButton variant="primary" size="large">
-                    Install App
-                  </NeubrutalistButton>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* More Products */}
-        <section style={{ padding: '4rem 2rem', background: '#f8f9fa' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-              <NeubrutalistBadge variant="red" size="large">More Apps</NeubrutalistBadge>
-              <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0' }}>
-                Complete Your Store Toolkit
-              </h2>
-            </div>
-
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-              gap: '2rem'
-            }}>
-              <NeubrutalistCard
-                icon="�"
-                color="blue"
-                title="Inventory Management"
-                description="Track stock levels across multiple locations. Get low-stock alerts, automate reordering, and sync with suppliers in real-time."
-              />
-              <NeubrutalistCard
-                icon="🎯"
-                color="green"
-                title="Pop-ups & Forms"
-                description="Capture emails and reduce cart abandonment with exit-intent popups, spin-to-win wheels, and customizable forms."
-              />
-              <NeubrutalistCard
-                icon="�"
-                color="red"
-                title="Shipping Calculator"
-                description="Display real-time shipping rates on product pages. Reduce cart abandonment by showing shipping costs upfront."
-              />
-              <NeubrutalistCard
-                icon="�"
-                color="purple"
-                title="Discount Manager Pro"
-                description="Create advanced discount campaigns with tiered pricing, BOGO offers, volume discounts, and flash sales."
-              />
-              <NeubrutalistCard
-                icon="📱"
-                color="yellow"
-                title="SMS Marketing"
-                description="Send personalized SMS campaigns for cart recovery, order updates, shipping notifications, and promotions."
-              />
-              <NeubrutalistCard
-                icon="🔍"
-                color="blue"
-                title="Smart Search & Filter"
-                description="Help customers find products faster with AI-powered search, instant results, and advanced filtering options."
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Pricing Section */}
-        <section style={{ padding: '4rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-            <NeubrutalistBadge variant="green" size="large">Pricing</NeubrutalistBadge>
-            <h2 style={{ fontSize: '3rem', fontWeight: 800, margin: '1rem 0' }}>
-              Flexible Plans for Every Store
-            </h2>
-            <p style={{ fontSize: '1.25rem', color: '#666' }}>
-              Start free, upgrade as you grow. All plans include 14-day free trial.
-            </p>
-          </div>
-
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-            gap: '2rem'
-          }}>
-            {/* Starter */}
-            <div style={{
-              padding: '2.5rem',
-              background: '#fff',
-              border: '5px solid #000',
-              boxShadow: '8px 8px 0 rgba(0, 0, 0, 1)',
-              textAlign: 'center'
-            }}>
-              <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>Starter</h3>
-              <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>$9.99</div>
-              <div style={{ color: '#666', marginBottom: '2rem' }}>per month</div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', textAlign: 'left' }}>
-                {['1 App of your choice', 'Up to 500 orders/month', 'Email support', 'Basic analytics', '14-day free trial'].map((item, i) => (
-                  <li key={i} style={{ padding: '0.5rem 0', borderBottom: '2px solid #f0f0f0' }}>
-                    ✓ {item}
-                  </li>
-                ))}
-              </ul>
-              <NeubrutalistButton variant="secondary" size="medium">
-                Get Started
-              </NeubrutalistButton>
-            </div>
-
-            {/* Professional */}
-            <div style={{
-              padding: '2.5rem',
-              background: '#ffd700',
-              border: '5px solid #000',
-              boxShadow: '8px 8px 0 rgba(0, 0, 0, 1)',
-              textAlign: 'center',
-              position: 'relative'
-            }}>
-              <div style={{
-                position: 'absolute',
-                top: '-15px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                background: '#000',
-                color: '#fff',
-                padding: '0.5rem 1rem',
-                fontWeight: 700,
-                border: '3px solid #000'
-              }}>
-                POPULAR
-              </div>
-              <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>Growth</h3>
-              <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>$29.99</div>
-              <div style={{ color: '#333', marginBottom: '2rem' }}>per month</div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', textAlign: 'left' }}>
-                {['Up to 3 Apps', 'Up to 2,000 orders/month', 'Priority email support', 'Advanced analytics', 'A/B testing', 'Remove branding'].map((item, i) => (
-                  <li key={i} style={{ padding: '0.5rem 0', borderBottom: '2px solid rgba(0,0,0,0.1)' }}>
-                    ✓ {item}
-                  </li>
-                ))}
-              </ul>
-              <NeubrutalistButton variant="primary" size="medium">
-                Get Started
-              </NeubrutalistButton>
-            </div>
-
-            {/* Enterprise */}
-            <div style={{
-              padding: '2.5rem',
-              background: '#fff',
-              border: '5px solid #000',
-              boxShadow: '8px 8px 0 rgba(0, 0, 0, 1)',
-              textAlign: 'center'
-            }}>
-              <h3 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem' }}>Enterprise</h3>
-              <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '0.5rem' }}>$99.99</div>
-              <div style={{ color: '#666', marginBottom: '2rem' }}>per month</div>
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 2rem 0', textAlign: 'left' }}>
-                {['All Apps included', 'Unlimited orders', '24/7 priority support', 'Custom integrations', 'Dedicated account manager', 'White-label options'].map((item, i) => (
-                  <li key={i} style={{ padding: '0.5rem 0', borderBottom: '2px solid #f0f0f0' }}>
-                    ✓ {item}
-                  </li>
-                ))}
-              </ul>
-              <NeubrutalistButton variant="accent" size="medium">
-                Contact Sales
-              </NeubrutalistButton>
-            </div>
+              );
+            })}
           </div>
         </section>
 
         {/* CTA Section */}
-        <section style={{ 
-          padding: '4rem 2rem',
-          margin: '4rem 2rem',
-          background: '#000',
-          color: '#fff',
-          textAlign: 'center',
-          border: '6px solid #000',
-          boxShadow: '12px 12px 0 rgba(0, 0, 0, 0.3)'
-        }}>
-          <h2 style={{ fontSize: '3rem', fontWeight: 800, marginBottom: '1rem' }}>
-            Ready to Boost Your Shopify Store?
-          </h2>
-          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
-            Start your 14-day free trial today. No credit card required. Cancel anytime.
+        <section className={productsStyles.ctaSection}>
+          <h2>Need a Custom Solution?</h2>
+          <p>
+            We build custom apps and integrations for Shopify and Shopline. Let's discuss your requirements.
           </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <NeubrutalistButton variant="accent" size="large">
-              Start Free Trial
+          <div className={productsStyles.ctaButtons}>
+            <NeubrutalistButton href="/contact" variant="secondary" size="large">
+              Contact Us
             </NeubrutalistButton>
-            <NeubrutalistButton href="/about" variant="secondary" size="large">
+            <NeubrutalistButton href="/about" variant="accent" size="large">
               Learn More About Us
             </NeubrutalistButton>
           </div>

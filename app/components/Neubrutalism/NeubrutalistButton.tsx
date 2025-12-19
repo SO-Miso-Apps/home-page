@@ -1,33 +1,37 @@
-import React from 'react';
-import styles from './Neubrutalism.module.css';
+import { Link } from "react-router";
+import styles from "./Neubrutalism.module.css";
 
 interface NeubrutalistButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
   href?: string;
   variant?: 'primary' | 'secondary' | 'accent' | 'warning';
   size?: 'small' | 'medium' | 'large';
+  onClick?: () => void;
+  type?: 'button' | 'submit';
 }
 
-export const NeubrutalistButton: React.FC<NeubrutalistButtonProps> = ({
+export const NeubrutalistButton = ({
   children,
-  onClick,
   href,
   variant = 'primary',
   size = 'medium',
-}) => {
-  const className = `${styles.neuButton} ${styles[`neuButton--${variant}`]} ${styles[`neuButton--${size}`]}`;
+  onClick,
+  type = 'button'
+}: NeubrutalistButtonProps) => {
+  const variantClass = styles[`neuButton--${variant}`];
+  const sizeClass = styles[`neuButton--${size}`];
+  const className = `${styles.neuButton} ${variantClass} ${sizeClass}`;
 
   if (href) {
     return (
-      <a href={href} className={className}>
+      <Link to={href} className={className}>
         {children}
-      </a>
+      </Link>
     );
   }
 
   return (
-    <button onClick={onClick} className={className}>
+    <button type={type} onClick={onClick} className={className}>
       {children}
     </button>
   );
