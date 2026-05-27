@@ -5,6 +5,7 @@ import {
   ArrowUpRight,
   Check,
   FileText,
+  History,
   ShoppingCart,
   Tags,
   Zap
@@ -54,6 +55,23 @@ const products = [
       "Performance tracking for experiments"
     ],
     link: "https://apps.shopify.com/so-sticky-add-to-cart",
+    rating: "5.0",
+    reviews: 1
+  },
+  {
+    icon: History,
+    name: "SO: Product History & Revert",
+    platform: "Shopify",
+    description:
+      "Track product edits in real time and restore previous values when mistakes happen. Built for multi-editor teams that need product version history without spreadsheets.",
+    badge: "Recovery",
+    features: [
+      "Automatic tracking for product field changes",
+      "Before-and-after comparisons for each edit",
+      "One-click revert for fields or full product versions",
+      "History coverage for variants, metafields, categories, and media"
+    ],
+    link: "https://apps.shopify.com/so-history-revert",
     rating: "5.0",
     reviews: 1
   },

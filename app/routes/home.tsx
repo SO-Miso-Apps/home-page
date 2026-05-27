@@ -59,6 +59,7 @@ const capabilities = [
 const products = [
   "SO: Auto Tags | All-in-One",
   "SO: Sticky Add To Cart",
+  "SO: Product History & Revert",
   "SO: llms.txt"
 ];
 
