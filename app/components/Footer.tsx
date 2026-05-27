@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Rocket, Mail, Phone, MapPin, Twitter, Linkedin, Github } from "lucide-react";
+import { Blocks, Mail, Phone, MapPin, Twitter, Linkedin, Github, ArrowUpRight } from "lucide-react";
 import styles from "./Footer.module.css";
 
 export const Footer = () => {
@@ -11,16 +11,16 @@ export const Footer = () => {
         <div className={styles.footerGrid}>
           <div className={styles.footerSection}>
             <h3 className={styles.footerTitle}>
-              <Rocket className={styles.footerIcon} size={20} strokeWidth={2.5} />
+              <Blocks className={styles.footerIcon} size={20} strokeWidth={2} />
               Miso Apps
             </h3>
             <p className={styles.footerDescription}>
-              Building innovative Shopify apps that transform e-commerce businesses and empower merchants worldwide.
+              Building reliable Shopify and commerce apps for merchants who need sharper operations, stronger conversion paths, and dependable support.
             </p>
           </div>
 
           <div className={styles.footerSection}>
-            <h4 className={styles.footerHeading}>Quick Links</h4>
+            <h4 className={styles.footerHeading}>Company</h4>
             <ul className={styles.footerLinks}>
               <li><Link to="/">Home</Link></li>
               <li><Link to="/about">About Us</Link></li>
@@ -60,6 +60,9 @@ export const Footer = () => {
                 <Github size={20} strokeWidth={2} />
               </a>
             </div>
+            <a className={styles.docsLink} href="https://docs.misoapps.com" target="_blank" rel="noopener noreferrer">
+              Product docs <ArrowUpRight size={15} strokeWidth={2} />
+            </a>
           </div>
         </div>
 

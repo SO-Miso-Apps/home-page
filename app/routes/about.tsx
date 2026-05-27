@@ -1,230 +1,167 @@
 import type { Route } from "./+types/about";
+import { Link } from "react-router";
 import { Navigation } from "../components/Navigation";
 import { Footer } from "../components/Footer";
 import {
-  NeubrutalistCard,
-  NeubrutalistButton,
-  NeubrutalistBadge
-} from "../components/Neubrutalism";
-import {
-  Trophy,
-  Target,
-  Telescope,
-  Lightbulb,
-  Star,
-  Handshake,
+  ArrowRight,
+  Code2,
+  Compass,
+  DatabaseZap,
   Lock,
-  TrendingUp,
-  Briefcase,
-  Code,
-  Palette,
-  Settings,
+  MessageCircle,
   Store,
-  Download,
-  Users,
-  Globe,
-  DollarSign
+  Target,
+  Users
 } from "lucide-react";
 import aboutStyles from "./about.module.css";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
-    { title: "About Us - Miso Apps | Shopify App Development Experts" },
-    { name: "description", content: "Learn about Miso Apps - leading Shopify app developers. Our mission, vision, values, and the expert team behind innovative Shopify solutions." },
+    { title: "About - Miso Apps" },
+    {
+      name: "description",
+      content:
+        "Miso Apps is a commerce app studio building professional Shopify and Shopline products for automation, conversion, and merchant operations."
+    }
   ];
 }
 
+const values = [
+  {
+    icon: Target,
+    title: "Focused product scope",
+    text: "We prefer apps that solve a specific merchant problem clearly over large feature sets that make daily work harder."
+  },
+  {
+    icon: Code2,
+    title: "Maintainable engineering",
+    text: "Platform APIs, permission surfaces, performance budgets, and support tooling are part of product quality from day one."
+  },
+  {
+    icon: MessageCircle,
+    title: "Merchant-level support",
+    text: "Support is written for the person running the store, with clear steps and practical answers instead of vague tickets."
+  },
+  {
+    icon: Lock,
+    title: "Trust by design",
+    text: "We keep data access intentional, explain what apps need, and avoid patterns that create privacy or theme-risk surprises."
+  }
+];
+
+const stats = [
+  { number: "10K+", label: "stores reached" },
+  { number: "50+", label: "countries served" },
+  { number: "5.0", label: "public app rating" },
+  { number: "24/7", label: "support coverage" }
+];
+
 export default function About() {
-  const teamMembers = [
-    { name: 'Alex Morgan', role: 'CEO & Founder', icon: Briefcase, description: 'Former Shopify developer with 10+ years' },
-    { name: 'Jamie Lee', role: 'CTO', icon: Code, description: 'Shopify API specialist & architect' },
-    { name: 'Sam Rivera', role: 'Head of Product', icon: Palette, description: 'UX expert focused on merchant needs' },
-    { name: 'Taylor Chen', role: 'VP of Engineering', icon: Settings, description: 'Leading our app development team' }
-  ];
-
-  const stats = [
-    { number: '10K+', label: 'Shopify Stores', icon: Store },
-    { number: '5M+', label: 'App Installations', icon: Download },
-    { number: '30+', label: 'Shopify Experts', icon: Users },
-    { number: '50+', label: 'Countries Served', icon: Globe },
-    { number: '4.9', label: 'Average Rating', icon: Star },
-    { number: '$500M+', label: 'Revenue Generated', icon: DollarSign }
-  ];
-
   return (
     <>
       <Navigation />
 
-      <main className={aboutStyles.aboutContainer}>
-        {/* Hero Section */}
+      <main className={aboutStyles.pageShell}>
         <section className={aboutStyles.heroSection}>
-          <div className={aboutStyles.heroContent}>
-            <NeubrutalistBadge variant="default" size="large">About Miso Apps</NeubrutalistBadge>
-            <h1 className={aboutStyles.heroTitle}>
-              Shopify App Experts Since 2018
-            </h1>
-            <p className={aboutStyles.heroSubtitle}>
-              We're a passionate team of Shopify specialists dedicated to creating powerful apps that help merchants succeed in the competitive e-commerce landscape.
+          <div>
+            <span className={aboutStyles.eyebrow}>About Miso Apps</span>
+            <h1>A commerce app studio built around practical merchant work.</h1>
+          </div>
+          <div className={aboutStyles.heroPanel}>
+            <Compass size={34} strokeWidth={1.6} />
+            <p>
+              We design, build, and maintain focused apps for Shopify and
+              Shopline merchants. The team cares about speed, predictable
+              interfaces, and software that keeps working after the launch.
             </p>
           </div>
         </section>
 
-        {/* Story Section */}
         <section className={aboutStyles.storySection}>
-          <div className={aboutStyles.storyGrid}>
-            <div className={aboutStyles.storyContent}>
-              <h2>Our Story</h2>
-              <p>
-                Founded in 2018, Miso Apps was born from a simple observation: Shopify merchants needed better tools to compete in the rapidly growing e-commerce space. As experienced Shopify developers, we saw the gaps in the app ecosystem and decided to fill them.
-              </p>
-              <p>
-                What started as two developers building apps in a garage has grown into a thriving company serving over 10,000 Shopify stores across 50+ countries. Our apps have been installed millions of times and have helped merchants generate over $500M in additional revenue.
-              </p>
-              <p>
-                Today, we're recognized as Shopify Experts and trusted partners in the Shopify ecosystem. We continue to innovate, releasing new apps and updates that help merchants grow their businesses and deliver exceptional customer experiences.
-              </p>
-            </div>
-            <div className={aboutStyles.storyCard}>
-              <Trophy className={aboutStyles.storyCardIcon} size={48} strokeWidth={1.5} />
-              <h3 className={aboutStyles.storyCardTitle}>
-                Shopify Experts
-              </h3>
-              <p className={aboutStyles.storyCardText}>
-                Certified Shopify Partners & App Developers with proven track record
-              </p>
-            </div>
+          <div className={aboutStyles.storyCopy}>
+            <span className={aboutStyles.eyebrow}>Our point of view</span>
+            <h2>Good commerce software should feel quiet, capable, and easy to trust.</h2>
+          </div>
+          <div className={aboutStyles.storyText}>
+            <p>
+              Miso Apps started from direct Shopify implementation work: stores
+              needed better tools for repetitive operations, cleaner buying
+              paths, and new AI-readable surfaces without adding operational
+              drag.
+            </p>
+            <p>
+              Today we keep that same standard. Each product is scoped around a
+              real merchant workflow, shaped by platform constraints, and
+              maintained with the expectation that stores cannot pause for
+              fragile software.
+            </p>
           </div>
         </section>
 
-        {/* Mission & Vision */}
-        <section className={aboutStyles.missionSection}>
-          <div className={aboutStyles.missionContainer}>
-            <div className={aboutStyles.missionGrid}>
-              <div className={aboutStyles.missionCard}>
-                <Target className={aboutStyles.missionCardIcon} size={40} strokeWidth={1.5} />
-                <h3 className={aboutStyles.missionCardTitle}>
-                  Our Mission
-                </h3>
-                <p className={aboutStyles.missionCardText}>
-                  To empower Shopify merchants with innovative apps that drive sales, enhance customer experiences, and automate operations. We believe every merchant deserves access to enterprise-level tools, regardless of their store size. Our mission is to level the playing field and help small businesses compete with larger retailers.
-                </p>
-              </div>
-
-              <div className={aboutStyles.missionCard}>
-                <Telescope className={aboutStyles.missionCardIcon} size={40} strokeWidth={1.5} />
-                <h3 className={aboutStyles.missionCardTitle}>
-                  Our Vision
-                </h3>
-                <p className={aboutStyles.missionCardText}>
-                  To become the most trusted name in Shopify app development, setting the standard for quality, reliability, and merchant success. We envision a future where every Shopify store, from emerging startups to established brands, uses our apps to achieve their full potential and deliver world-class shopping experiences.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Core Values */}
         <section className={aboutStyles.valuesSection}>
-          <div className={aboutStyles.valuesHeader}>
-            <NeubrutalistBadge variant="outline" size="large">Core Values</NeubrutalistBadge>
-            <h2>What Drives Us</h2>
-            <p>Our values guide every decision we make and every solution we create.</p>
-          </div>
-
-          <div className={aboutStyles.valuesGrid}>
-            <NeubrutalistCard
-              icon={<Lightbulb />}
-              title="Innovation"
-              description="We stay ahead of e-commerce trends and Shopify updates, continuously innovating to give merchants competitive advantages in their markets."
-            />
-            <NeubrutalistCard
-              icon={<Target />}
-              title="Merchant-First"
-              description="Every decision we make puts Shopify merchants at the center. We build apps that solve real problems and deliver measurable results."
-            />
-            <NeubrutalistCard
-              icon={<Star />}
-              title="Excellence"
-              description="We maintain the highest standards in code quality, app performance, and customer support, ensuring reliable solutions merchants can trust."
-            />
-            <NeubrutalistCard
-              icon={<Handshake />}
-              title="Partnership"
-              description="We view merchants as partners, not just customers. Their success is our success, and we're committed to their long-term growth."
-            />
-            <NeubrutalistCard
-              icon={<Lock />}
-              title="Security & Privacy"
-              description="We take data security seriously, following Shopify's strict guidelines and implementing best practices to protect merchant and customer data."
-            />
-            <NeubrutalistCard
-              icon={<TrendingUp />}
-              title="Continuous Improvement"
-              description="We actively listen to merchant feedback and continuously update our apps with new features, improvements, and optimizations."
-            />
-          </div>
+          {values.map((value) => {
+            const Icon = value.icon;
+            return (
+              <article className={aboutStyles.valueCard} key={value.title}>
+                <Icon size={28} strokeWidth={1.7} />
+                <h3>{value.title}</h3>
+                <p>{value.text}</p>
+              </article>
+            );
+          })}
         </section>
 
-        {/* Team Section */}
-        <section className={aboutStyles.teamSection}>
-          <div className={aboutStyles.teamContainer}>
-            <div className={aboutStyles.teamHeader}>
-              <h2>Meet Our Leadership Team</h2>
-              <p>Experienced professionals driving innovation and excellence</p>
-            </div>
-
-            <div className={aboutStyles.teamGrid}>
-              {teamMembers.map((member, index) => {
-                const IconComponent = member.icon;
-                return (
-                  <div key={index} className={aboutStyles.teamCard}>
-                    <IconComponent className={aboutStyles.teamCardIcon} size={48} strokeWidth={1.5} />
-                    <h3 className={aboutStyles.teamCardName}>{member.name}</h3>
-                    <p className={aboutStyles.teamCardRole}>{member.role}</p>
-                    <p className={aboutStyles.teamCardDescription}>{member.description}</p>
-                  </div>
-                );
-              })}
-            </div>
+        <section className={aboutStyles.impactSection}>
+          <div className={aboutStyles.impactCopy}>
+            <span className={aboutStyles.eyebrow}>Impact</span>
+            <h2>Built for merchants across markets and operating styles.</h2>
+            <p>
+              We support stores that care about faster admin work, storefront
+              conversion, structured data, and dependable implementation help.
+            </p>
           </div>
-        </section>
-
-        {/* Statistics */}
-        <section className={aboutStyles.statsSection}>
-          <div className={aboutStyles.statsHeader}>
-            <h2>Our Impact by the Numbers</h2>
-          </div>
-
           <div className={aboutStyles.statsGrid}>
-            {stats.map((stat, index) => {
-              const IconComponent = stat.icon;
-              return (
-                <div key={index} className={aboutStyles.statCard}>
-                  <IconComponent className={aboutStyles.statIcon} size={28} strokeWidth={1.5} />
-                  <div className={aboutStyles.statNumber}>{stat.number}</div>
-                  <div className={aboutStyles.statLabel}>{stat.label}</div>
-                </div>
-              );
-            })}
+            {stats.map((stat) => (
+              <div className={aboutStyles.statCard} key={stat.label}>
+                <strong>{stat.number}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className={aboutStyles.finalCtaSection}>
-          <h2 className={aboutStyles.finalCtaTitle}>
-            Join Thousands of Successful Merchants
-          </h2>
-          <p className={aboutStyles.finalCtaText}>
-            Ready to take your Shopify store to the next level? Discover our powerful apps today.
-          </p>
-          <div className={aboutStyles.finalCtaButtons}>
-            <NeubrutalistButton href="/products" variant="primary" size="large">
-              Explore Our Shopify Apps
-            </NeubrutalistButton>
-            <NeubrutalistButton href="/" variant="secondary" size="large">
-              Back to Home
-            </NeubrutalistButton>
+        <section className={aboutStyles.teamSection}>
+          <div className={aboutStyles.teamCard}>
+            <Users size={30} strokeWidth={1.7} />
+            <h3>Product, engineering, and support stay close together.</h3>
+            <p>
+              The same feedback loops that identify product gaps also guide UI
+              cleanup, documentation, support answers, and maintenance work.
+            </p>
           </div>
+          <div className={aboutStyles.teamCard}>
+            <DatabaseZap size={30} strokeWidth={1.7} />
+            <h3>We measure what affects the store.</h3>
+            <p>
+              Storefront speed, workflow reliability, permission needs, and
+              merchant clarity matter more than decorative feature volume.
+            </p>
+          </div>
+          <div className={aboutStyles.teamCard}>
+            <Store size={30} strokeWidth={1.7} />
+            <h3>Commerce context shapes every decision.</h3>
+            <p>
+              Apps are designed for the messy reality of themes, catalogs,
+              promotions, order operations, and changing platform rules.
+            </p>
+          </div>
+        </section>
+
+        <section className={aboutStyles.ctaSection}>
+          <h2>See the apps we maintain for modern commerce teams.</h2>
+          <Link className={aboutStyles.primaryAction} to="/products">
+            Explore products <ArrowRight size={18} strokeWidth={2} />
+          </Link>
         </section>
       </main>
 

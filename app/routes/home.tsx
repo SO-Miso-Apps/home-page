@@ -1,209 +1,218 @@
 import type { Route } from "./+types/home";
+import type { CSSProperties } from "react";
+import { Link } from "react-router";
 import { Navigation } from "../components/Navigation";
 import { Footer } from "../components/Footer";
 import {
-  NeubrutalistHero,
-  NeubrutalistCard,
-  NeubrutalistButton,
-  NeubrutalistBadge
-} from "../components/Neubrutalism";
-import {
-  Shield,
-  Zap,
-  Palette,
-  TrendingUp,
-  Wrench,
+  ArrowRight,
+  BarChart3,
+  CheckCircle2,
+  Gauge,
   Headphones,
-  Star,
-  Store,
-  Globe,
-  Clock
+  LockKeyhole,
+  MessageSquareText,
+  PackageCheck,
+  Sparkles,
+  TrendingUp,
+  Workflow
 } from "lucide-react";
-import neuStyles from "../components/Neubrutalism/Neubrutalism.module.css";
 import homeStyles from "./home.module.css";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Miso Apps - Premium Shopify Apps Development" },
-    { name: "description", content: "Transform your Shopify store with powerful apps from Miso Apps. We build innovative Shopify applications that boost sales, enhance customer experience, and streamline operations." },
+    { title: "Miso Apps - Professional Shopify app studio" },
+    {
+      name: "description",
+      content:
+        "Miso Apps builds reliable Shopify and commerce apps for automation, conversion, AI discoverability, and merchant operations."
+    }
   ];
 }
+
+const capabilities = [
+  {
+    icon: Workflow,
+    title: "Operational automation",
+    description:
+      "Rule engines, bulk actions, and admin workflows that remove repetitive store work without hiding control from merchants."
+  },
+  {
+    icon: TrendingUp,
+    title: "Conversion-focused surfaces",
+    description:
+      "Storefront components built to stay fast, theme-aware, and measurable across mobile and desktop purchase paths."
+  },
+  {
+    icon: LockKeyhole,
+    title: "Platform-safe engineering",
+    description:
+      "Apps designed around Shopify limits, permissions, privacy expectations, and long-term platform compatibility."
+  },
+  {
+    icon: Headphones,
+    title: "Support that understands commerce",
+    description:
+      "Clear implementation help, practical debugging, and product updates shaped by real merchant cases."
+  }
+];
+
+const products = [
+  "SO: Auto Tags | All-in-One",
+  "SO: Sticky Add To Cart",
+  "SO: llms.txt"
+];
 
 export default function Home() {
   return (
     <>
       <Navigation />
 
-      <main className={homeStyles.homeContainer}>
-        {/* Hero Section */}
-        <NeubrutalistHero
-          title="Powerful Shopify Apps That Drive Real Results"
-          subtitle="We specialize in building premium Shopify apps that help merchants increase sales, improve customer engagement, and automate their operations. Trusted by thousands of Shopify stores worldwide."
-          primaryCTA={{
-            text: "Explore Our Apps",
-            href: "/products"
-          }}
-          secondaryCTA={{
-            text: "Learn About Us",
-            href: "/about"
-          }}
-        />
-
-        {/* Features Section */}
-        <section className={homeStyles.featuresSection}>
-          <div className={homeStyles.featuresHeader}>
-            <NeubrutalistBadge variant="default">Why Choose Miso Apps</NeubrutalistBadge>
-            <h2>
-              Built for Shopify Success
-            </h2>
+      <main className={homeStyles.pageShell}>
+        <section className={homeStyles.heroSection}>
+          <div className={homeStyles.heroCopy}>
+            <span className={homeStyles.eyebrow}>Shopify app studio</span>
+            <h1>Commerce apps built for stores that have to keep moving.</h1>
             <p>
-              We're Shopify experts dedicated to creating apps that solve real merchant problems and deliver measurable results.
+              Miso Apps designs and ships focused Shopify and Shopline apps for
+              automation, conversion, and AI-readable storefront data. The work
+              is clean, fast, and built around merchant operations.
+            </p>
+            <div className={homeStyles.heroActions}>
+              <Link className={homeStyles.primaryAction} to="/products">
+                View our apps <ArrowRight size={18} strokeWidth={2} />
+              </Link>
+              <Link className={homeStyles.textAction} to="/about">
+                About the studio
+              </Link>
+            </div>
+          </div>
+
+          <div className={homeStyles.heroVisual} aria-label="Miso Apps product operations preview">
+            <div className={homeStyles.visualToolbar}>
+              <span />
+              <span />
+              <span />
+              <strong>merchant console</strong>
+            </div>
+            <div className={homeStyles.signalPanel}>
+              <div>
+                <span className={homeStyles.panelLabel}>Automation load</span>
+                <strong>8,742</strong>
+              </div>
+              <BarChart3 size={42} strokeWidth={1.5} />
+            </div>
+            <div className={homeStyles.metricRow}>
+              <div>
+                <span>Avg. rating</span>
+                <strong>5.0</strong>
+              </div>
+              <div>
+                <span>Theme impact</span>
+                <strong>0.06s</strong>
+              </div>
+            </div>
+            <div className={homeStyles.workflowCard}>
+              {products.map((product, index) => (
+                <div className={homeStyles.workflowItem} key={product} style={{ "--index": index } as CSSProperties}>
+                  <CheckCircle2 size={18} strokeWidth={2} />
+                  <span>{product}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className={homeStyles.trustBand} aria-label="Company highlights">
+          <div>
+            <strong>10K+</strong>
+            <span>merchant stores reached</span>
+          </div>
+          <div>
+            <strong>50+</strong>
+            <span>countries using our apps</span>
+          </div>
+          <div>
+            <strong>24/7</strong>
+            <span>support coverage</span>
+          </div>
+          <div>
+            <strong>5.0</strong>
+            <span>current app ratings</span>
+          </div>
+        </section>
+
+        <section className={homeStyles.capabilitiesSection}>
+          <div className={homeStyles.sectionIntro}>
+            <span className={homeStyles.eyebrow}>What we build</span>
+            <h2>Small, sharp products for high-friction commerce work.</h2>
+            <p>
+              The website now reflects the way the company should show up:
+              professional, technical, and calm enough for merchants to trust.
             </p>
           </div>
 
-          <div className={homeStyles.featuresGrid}>
-            <NeubrutalistCard
-              icon={<Shield />}
-              title="Shopify Certified"
-              description="Our team consists of certified Shopify experts with deep knowledge of the platform's APIs, best practices, and ecosystem."
-            />
-            <NeubrutalistCard
-              icon={<Zap />}
-              title="Lightning Fast Performance"
-              description="Our apps are optimized for speed, ensuring zero impact on your store's loading time and excellent user experience."
-            />
-            <NeubrutalistCard
-              icon={<Palette />}
-              title="Seamless Integration"
-              description="Beautiful, intuitive interfaces that match Shopify's design language and integrate perfectly with your store's theme."
-            />
-            <NeubrutalistCard
-              icon={<TrendingUp />}
-              title="Proven Results"
-              description="Our apps have helped merchants increase conversions by up to 40% and save countless hours on manual tasks."
-            />
-            <NeubrutalistCard
-              icon={<Wrench />}
-              title="Regular Updates"
-              description="We continuously improve our apps with new features, bug fixes, and compatibility updates for the latest Shopify releases."
-            />
-            <NeubrutalistCard
-              icon={<Headphones />}
-              title="World-Class Support"
-              description="Get help when you need it with our responsive 24/7 customer support team that knows Shopify inside and out."
-            />
+          <div className={homeStyles.capabilityGrid}>
+            {capabilities.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <article className={homeStyles.capabilityCard} key={item.title} style={{ "--index": index } as CSSProperties}>
+                  <Icon size={28} strokeWidth={1.7} />
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </article>
+              );
+            })}
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section className={neuStyles.statsSection}>
-          <div className={homeStyles.statsGrid}>
-            <div className={homeStyles.statItem}>
-              <Store className={homeStyles.statIcon} size={32} strokeWidth={1.5} />
-              <div className={homeStyles.statNumber}>10K+</div>
-              <div className={homeStyles.statLabel}>Shopify Stores</div>
+        <section className={homeStyles.processSection}>
+          <div className={homeStyles.processVisual}>
+            <div className={homeStyles.orbitCard}>
+              <PackageCheck size={30} strokeWidth={1.6} />
+              <span>Ship useful apps</span>
             </div>
-            <div className={homeStyles.statItem}>
-              <Globe className={homeStyles.statIcon} size={32} strokeWidth={1.5} />
-              <div className={homeStyles.statNumber}>50+</div>
-              <div className={homeStyles.statLabel}>Countries Worldwide</div>
+            <div className={homeStyles.orbitCard}>
+              <Gauge size={30} strokeWidth={1.6} />
+              <span>Keep storefronts fast</span>
             </div>
-            <div className={homeStyles.statItem}>
-              <Star className={homeStyles.statIcon} size={32} strokeWidth={1.5} />
-              <div className={homeStyles.statNumber}>4.9</div>
-              <div className={homeStyles.statLabel}>Average App Rating</div>
-            </div>
-            <div className={homeStyles.statItem}>
-              <Clock className={homeStyles.statIcon} size={32} strokeWidth={1.5} />
-              <div className={homeStyles.statNumber}>24/7</div>
-              <div className={homeStyles.statLabel}>Expert Support</div>
+            <div className={homeStyles.orbitCard}>
+              <MessageSquareText size={30} strokeWidth={1.6} />
+              <span>Support real merchants</span>
             </div>
           </div>
-        </section>
-
-        {/* Testimonials Section */}
-        <section className={homeStyles.testimonialsSection}>
-          <div className={homeStyles.testimonialsHeader}>
-            <NeubrutalistBadge variant="outline">Testimonials</NeubrutalistBadge>
-            <h2>
-              What Our Clients Say
-            </h2>
-            <p className={neuStyles.mutedText}>
-              Real merchants. Real results — quotes and short case highlights from stores using our Shopify apps.
+          <div className={homeStyles.processCopy}>
+            <span className={homeStyles.eyebrow}>How we work</span>
+            <h2>Product decisions stay close to merchant reality.</h2>
+            <p>
+              We focus on narrow problems with clear business value, then keep
+              the implementation maintainable: stable permissions, clean UI,
+              practical analytics, and support paths that do not leave merchants
+              guessing.
             </p>
-          </div>
-
-          <div className={homeStyles.testimonialsGrid}>
-            <div className={neuStyles.testimonialCard}>
-              <div className={homeStyles.testimonialRating}>
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
-                ))}
-              </div>
-              <p className={homeStyles.testimonialText}>
-                "Miso Apps' Shopify apps have completely transformed our store. Sales are up 35% and we've automated so many tedious tasks. Best investment ever!"
-              </p>
-              <div className={homeStyles.testimonialAuthor}>Sarah Johnson</div>
-              <div className={neuStyles.mutedText}>Owner, Fashion Boutique — +28% AOV in 3 months</div>
-            </div>
-
-            <div className={neuStyles.testimonialCard}>
-              <div className={homeStyles.testimonialRating}>
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
-                ))}
-              </div>
-              <p className={homeStyles.testimonialText}>
-                "We've tried many Shopify apps, but Miso Apps stands out. The apps are reliable, the support is amazing, and they truly understand e-commerce."
-              </p>
-              <div className={homeStyles.testimonialAuthor}>Michael Chen</div>
-              <div className={neuStyles.mutedText}>CEO, ElectroStore — 4.8 avg across apps</div>
-            </div>
-
-            <div className={neuStyles.testimonialCard}>
-              <div className={homeStyles.testimonialRating}>
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
-                ))}
-              </div>
-              <p className={homeStyles.testimonialText}>
-                "These apps paid for themselves in the first month. Customer engagement is through the roof and managing our store has never been easier!"
-              </p>
-              <div className={homeStyles.testimonialAuthor}>Emily Rodriguez</div>
-              <div className={neuStyles.mutedText}>Founder, BeautyHub — +42% repeat purchases</div>
-            </div>
-
-            <div className={neuStyles.testimonialCard}>
-              <div className={homeStyles.testimonialRating}>
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
-                ))}
-              </div>
-              <p className={homeStyles.testimonialText}>
-                "Integration was seamless and the team implemented custom logic for our promotions. Support replied within an hour and the results speak for themselves."
-              </p>
-              <div className={homeStyles.testimonialAuthor}>Raj Patel</div>
-              <div className={neuStyles.mutedText}>Head of Growth, HomeGoodsCo — +18% conversion on campaigns</div>
-            </div>
+            <Link className={homeStyles.secondaryAction} to="/products">
+              Explore product suite <ArrowRight size={18} strokeWidth={2} />
+            </Link>
           </div>
         </section>
 
-        {/* CTA Section */}
+        <section className={homeStyles.quoteSection}>
+          <Sparkles size={28} strokeWidth={1.7} />
+          <blockquote>
+            "Miso Apps helped us automate the repetitive store work without
+            adding weight to the buying experience. The tools feel practical,
+            not decorative."
+          </blockquote>
+          <p>Growth lead, independent home goods brand</p>
+        </section>
+
         <section className={homeStyles.ctaSection}>
-          <h2>
-            Ready to Supercharge Your Shopify Store?
-          </h2>
-          <p>
-            Join 10,000+ Shopify merchants using our apps to increase sales, improve customer experience, and grow their business.
-          </p>
-          <div className={homeStyles.ctaButtons}>
-            <NeubrutalistButton href="/products" variant="secondary" size="large">
-              Browse Our Shopify Apps
-            </NeubrutalistButton>
-            <NeubrutalistButton href="/about" variant="accent" size="large">
-              Learn More About Us
-            </NeubrutalistButton>
+          <div>
+            <span className={homeStyles.eyebrow}>Ready to evaluate</span>
+            <h2>Find the app that fits your store workflow.</h2>
           </div>
+          <Link className={homeStyles.primaryAction} to="/products">
+            Browse apps <ArrowRight size={18} strokeWidth={2} />
+          </Link>
         </section>
       </main>
 

@@ -1,414 +1,285 @@
-.aboutContainer {
-  padding-top: 70px;
+.pageShell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 9rem 1.25rem 0;
 }
 
-/* Hero Section */
 .heroSection {
-  padding: 6rem 2rem;
-  text-align: center;
-  border-bottom: 3px solid #000000;
+  display: grid;
+  grid-template-columns: 1fr 0.62fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: end;
+  padding: 3rem 0 5rem;
 }
 
-.heroContent {
-  max-width: 800px;
-  margin: 0 auto;
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  width: fit-content;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(19, 143, 91, 0.18);
+  background: rgba(19, 143, 91, 0.08);
+  color: var(--color-accent-dark);
+  font-size: 0.8rem;
+  font-weight: 800;
 }
 
-.heroTitle {
-  font-size: 3rem;
-  font-weight: 900;
-  margin: 1.5rem 0;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  line-height: 1.1;
+.heroSection h1,
+.storyCopy h2,
+.impactCopy h2,
+.ctaSection h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
 }
 
-.heroSubtitle {
-  font-size: 1.25rem;
-  color: #525252;
-  line-height: 1.6;
+.heroSection h1 {
+  max-width: 13ch;
+  margin: 1rem 0 0;
+  font-size: clamp(3rem, 7vw, 6.2rem);
+}
+
+.heroPanel {
+  padding: 1.4rem;
+  border: 1px solid rgba(23, 26, 24, 0.1);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: var(--shadow-soft);
+}
+
+.heroPanel svg,
+.valueCard svg,
+.teamCard svg {
+  color: var(--color-accent);
+}
+
+.heroPanel p,
+.storyText p,
+.impactCopy p,
+.valueCard p,
+.teamCard p {
   margin: 0;
+  color: var(--color-muted);
+  line-height: 1.75;
 }
 
-/* Story Section */
+.heroPanel p {
+  margin-top: 1rem;
+}
+
 .storySection {
-  padding: 5rem 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.storyGrid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 3rem;
-  align-items: start;
+  grid-template-columns: 0.85fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding: clamp(4rem, 8vw, 7rem) 0;
+  border-top: 1px solid rgba(23, 26, 24, 0.1);
 }
 
-.storyContent h2 {
-  font-size: 2rem;
-  font-weight: 800;
-  margin: 0 0 1.5rem;
-  text-transform: uppercase;
+.storyCopy h2,
+.impactCopy h2,
+.ctaSection h2 {
+  margin: 0.9rem 0 0;
+  font-size: clamp(2rem, 4.8vw, 4.4rem);
 }
 
-.storyContent p {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: #525252;
-  margin: 0 0 1.25rem;
-}
-
-.storyCard {
-  padding: 2.5rem;
-  background-color: #000000;
-  color: #ffffff;
-  border: 3px solid #000000;
-  box-shadow: 6px 6px 0 #a3a3a3;
-  text-align: center;
-}
-
-.storyCardIcon {
-  color: #ffffff;
-  margin-bottom: 1rem;
-}
-
-.storyCardTitle {
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin: 0 0 0.75rem;
-  text-transform: uppercase;
-}
-
-.storyCardText {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #a3a3a3;
-  margin: 0;
-}
-
-/* Mission Section */
-.missionSection {
-  padding: 5rem 2rem;
-  background-color: #f5f5f5;
-  border-top: 3px solid #000000;
-  border-bottom: 3px solid #000000;
-}
-
-.missionContainer {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.missionGrid {
+.storyText {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 2rem;
+  gap: 1rem;
 }
 
-.missionCard {
-  padding: 2.5rem;
-  background-color: #ffffff;
-  border: 3px solid #000000;
-  box-shadow: 4px 4px 0 #000000;
-}
-
-.missionCardIcon {
-  color: #000000;
-  margin-bottom: 1rem;
-}
-
-.missionCardTitle {
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin: 0 0 1rem;
-  text-transform: uppercase;
-}
-
-.missionCardText {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #525252;
-  margin: 0;
-}
-
-/* Values Section */
 .valuesSection {
-  padding: 5rem 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.valuesHeader {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.valuesHeader h2 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin: 1rem 0;
-  text-transform: uppercase;
-}
-
-.valuesHeader p {
-  font-size: 1.125rem;
-  color: #737373;
-}
-
-.valuesGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
 }
 
-/* Team Section */
-.teamSection {
-  padding: 5rem 2rem;
-  background-color: #000000;
-  color: #ffffff;
-  margin: 0 2rem;
-  border: 3px solid #000000;
-  box-shadow: 8px 8px 0 #525252;
-}
-
-.teamContainer {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.teamHeader {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.teamHeader h2 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin: 0 0 0.75rem;
-  text-transform: uppercase;
-}
-
-.teamHeader p {
-  font-size: 1.125rem;
-  color: #a3a3a3;
-}
-
-.teamGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
+.valueCard,
 .teamCard {
-  padding: 2rem;
-  background-color: #ffffff;
-  color: #000000;
-  border: 3px solid #ffffff;
-  text-align: center;
+  padding: 1.4rem;
+  border: 1px solid rgba(23, 26, 24, 0.1);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 18px 60px rgba(22, 28, 24, 0.07);
+  transition: transform 0.22s ease, border-color 0.22s ease;
 }
 
-.teamCardIcon {
-  color: #000000;
-  margin-bottom: 1rem;
+.valueCard:hover,
+.teamCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(19, 143, 91, 0.28);
 }
 
-.teamCardName {
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin: 0 0 0.5rem;
+.valueCard h3,
+.teamCard h3 {
+  margin: 1.25rem 0 0.7rem;
+  font-family: var(--font-display);
+  font-size: 1.16rem;
+  letter-spacing: -0.02em;
 }
 
-.teamCardRole {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: #737373;
-  margin: 0 0 1rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.impactSection {
+  display: grid;
+  grid-template-columns: 0.9fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+  padding: clamp(5rem, 9vw, 8rem) 0;
 }
 
-.teamCardDescription {
-  font-size: 0.95rem;
-  color: #525252;
-  margin: 0;
-}
-
-/* Stats Section */
-.statsSection {
-  padding: 5rem 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.statsHeader {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.statsHeader h2 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  margin: 0;
+.impactCopy p {
+  margin-top: 1rem;
 }
 
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(23, 26, 24, 0.1);
+  border-radius: 30px;
+  background: rgba(23, 26, 24, 0.1);
 }
 
 .statCard {
-  padding: 2rem;
-  background-color: #f5f5f5;
-  border: 3px solid #000000;
-  box-shadow: 4px 4px 0 #000000;
-  text-align: center;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.74);
 }
 
-.statIcon {
-  color: #525252;
-  margin-bottom: 0.75rem;
+.statCard strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.8rem);
+  letter-spacing: -0.05em;
 }
 
-.statNumber {
-  font-size: 2.5rem;
-  font-weight: 900;
-  margin-bottom: 0.25rem;
-}
-
-.statLabel {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #737373;
-}
-
-/* Final CTA Section */
-.finalCtaSection {
-  padding: 5rem 2rem;
-  margin: 4rem 2rem;
-  background-color: #f5f5f5;
-  border: 3px solid #000000;
-  box-shadow: 6px 6px 0 #000000;
-  text-align: center;
-}
-
-.finalCtaTitle {
-  font-size: 2.25rem;
+.statCard span {
+  color: var(--color-muted);
   font-weight: 800;
-  margin: 0 0 1rem;
-  text-transform: uppercase;
 }
 
-.finalCtaText {
-  font-size: 1.125rem;
-  color: #525252;
-  margin: 0 auto 2rem;
-  max-width: 600px;
-  line-height: 1.6;
-}
-
-.finalCtaButtons {
-  display: flex;
+.teamSection {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+}
+
+.ctaSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  margin-top: clamp(5rem, 9vw, 8rem);
+  padding: clamp(2rem, 5vw, 3.5rem);
+  border-radius: 34px;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(158, 228, 191, 0.24), transparent 18rem),
+    #111612;
+  color: #ffffff;
+}
+
+.ctaSection h2 {
+  max-width: 720px;
+  margin: 0;
+  color: #ffffff;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-shrink: 0;
+  gap: 0.55rem;
+  min-height: 48px;
+  padding: 0.9rem 1.2rem;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111612;
+  text-decoration: none;
+  font-weight: 800;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .storyGrid {
+.primaryAction:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 32px rgba(255, 255, 255, 0.12);
+}
+
+.primaryAction:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+@media (max-width: 920px) {
+  .heroSection,
+  .storySection,
+  .impactSection,
+  .ctaSection {
     grid-template-columns: 1fr;
   }
 
-  .missionGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .heroTitle {
-    font-size: 2rem;
-  }
-
-  .teamSection,
-  .finalCtaSection {
-    margin: 0 1rem;
-  }
-
-  .statsHeader h2,
-  .valuesHeader h2,
-  .teamHeader h2 {
-    font-size: 1.75rem;
-  }
-}
-
-/* Dark mode */
-@media (prefers-color-scheme: dark) {
-  .heroSection {
-    border-bottom-color: #404040;
-  }
-
-  .heroSubtitle,
-  .storyContent p,
-  .missionCardText,
-  .finalCtaText {
-    color: #a3a3a3;
-  }
-
-  .missionSection {
-    background-color: #171717;
-    border-color: #404040;
-  }
-
-  .missionCard {
-    background-color: #0a0a0a;
-    border-color: #404040;
-    box-shadow: 4px 4px 0 #262626;
-  }
-
-  .missionCardIcon {
-    color: #fafafa;
-  }
-
-  .valuesHeader p {
-    color: #737373;
-  }
-
+  .valuesSection,
   .teamSection {
-    background-color: #0a0a0a;
-    box-shadow: 8px 8px 0 #262626;
+    grid-template-columns: 1fr 1fr;
   }
 
-  .teamCard {
-    background-color: #171717;
-    border-color: #404040;
-    color: #fafafa;
+  .ctaSection {
+    display: grid;
+    justify-items: start;
+  }
+}
+
+@media (max-width: 560px) {
+  .pageShell {
+    padding-top: 7rem;
+    padding-inline: 1rem;
   }
 
-  .teamCardIcon {
-    color: #fafafa;
+  .heroSection h1 {
+    font-size: clamp(2.55rem, 13vw, 3.15rem);
   }
 
-  .teamCardRole {
-    color: #a3a3a3;
+  .valuesSection,
+  .teamSection,
+  .statsGrid {
+    grid-template-columns: 1fr;
   }
 
-  .teamCardDescription {
-    color: #a3a3a3;
+  .primaryAction {
+    width: 100%;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .heroSection h1,
+  .storyCopy h2,
+  .impactCopy h2 {
+    color: #f4f7f1;
   }
 
+  .heroPanel,
+  .valueCard,
+  .teamCard,
   .statCard {
-    background-color: #171717;
-    border-color: #404040;
-    box-shadow: 4px 4px 0 #262626;
+    background: rgba(17, 22, 19, 0.72);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
-  .finalCtaSection {
-    background-color: #171717;
-    border-color: #404040;
-    box-shadow: 6px 6px 0 #262626;
+  .storySection {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .heroPanel p,
+  .storyText p,
+  .impactCopy p,
+  .valueCard p,
+  .teamCard p,
+  .statCard span {
+    color: #aeb9b1;
+  }
+
+  .statsGrid {
+    background: rgba(255, 255, 255, 0.1);
   }
 }

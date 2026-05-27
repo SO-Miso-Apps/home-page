@@ -1,7 +1,6 @@
 import type { Route } from "./+types/privacy";
 import { Navigation } from "../components/Navigation";
 import { Footer } from "../components/Footer";
-import { NeubrutalistBadge } from "../components/Neubrutalism";
 import {
   Wrench,
   MessageCircle,
@@ -12,7 +11,7 @@ import {
 } from "lucide-react";
 import privacyStyles from "./privacy.module.css";
 
-export function meta({ }: Route.MetaArgs) {
+export function meta({}: Route.MetaArgs) {
   return [
     { title: "Privacy Policy - Miso Apps" },
     { name: "description", content: "Learn how Miso Apps protects your privacy and handles your data. Our comprehensive privacy policy." },
@@ -44,11 +43,10 @@ export default function Privacy() {
     <>
       <Navigation />
 
-      <main className={privacyStyles.privacyContainer}>
+      <main className={privacyStyles.pageShell}>
         <div className={privacyStyles.privacyContent}>
-          {/* Header */}
           <div className={privacyStyles.privacyHeader}>
-            <NeubrutalistBadge variant="outline" size="large">Legal</NeubrutalistBadge>
+            <span className={privacyStyles.eyebrow}>Legal</span>
             <h1 className={privacyStyles.privacyTitle}>
               Privacy Policy
             </h1>
@@ -57,7 +55,6 @@ export default function Privacy() {
             </p>
           </div>
 
-          {/* Intro */}
           <div className={privacyStyles.introBox}>
             <h2 className={privacyStyles.introTitle}>
               Your Privacy Matters to Us
@@ -67,9 +64,7 @@ export default function Privacy() {
             </p>
           </div>
 
-          {/* Content Sections */}
           <div className={privacyStyles.sectionsContainer}>
-            {/* Section 1 */}
             <section className={privacyStyles.section}>
               <h2 className={privacyStyles.sectionTitle}>
                 1. Information We Collect
@@ -103,7 +98,6 @@ export default function Privacy() {
               </ul>
             </section>
 
-            {/* Section 2 */}
             <section className={privacyStyles.section}>
               <h2 className={privacyStyles.sectionTitle}>
                 2. How We Use Your Information
@@ -127,7 +121,6 @@ export default function Privacy() {
               </div>
             </section>
 
-            {/* Section 3 */}
             <section className={privacyStyles.section}>
               <h2 className={privacyStyles.sectionTitle}>
                 3. Data Sharing and Disclosure
@@ -143,7 +136,6 @@ export default function Privacy() {
               </ul>
             </section>
 
-            {/* Section 4 */}
             <section className={privacyStyles.section}>
               <h2 className={privacyStyles.sectionTitle}>
                 4. Data Security
@@ -163,7 +155,6 @@ export default function Privacy() {
               </div>
             </section>
 
-            {/* Section 5 */}
             <section className={privacyStyles.section}>
               <h2 className={privacyStyles.sectionTitle}>
                 5. Your Rights and Choices
@@ -181,7 +172,6 @@ export default function Privacy() {
               </div>
             </section>
 
-            {/* Section 6 */}
             <section className={privacyStyles.section}>
               <h2 className={privacyStyles.sectionTitle}>
                 6. Cookies and Tracking
@@ -200,7 +190,6 @@ export default function Privacy() {
               </ul>
             </section>
 
-            {/* Section 7 */}
             <section className={privacyStyles.section}>
               <h2 className={privacyStyles.sectionTitle}>
                 7. Data Retention
@@ -210,7 +199,6 @@ export default function Privacy() {
               </p>
             </section>
 
-            {/* Section 8 */}
             <section className={privacyStyles.section}>
               <h2 className={privacyStyles.sectionTitle}>
                 8. International Data Transfers
@@ -220,7 +208,6 @@ export default function Privacy() {
               </p>
             </section>
 
-            {/* Section 9 */}
             <section className={privacyStyles.section}>
               <h2 className={privacyStyles.sectionTitle}>
                 9. Children's Privacy
@@ -230,7 +217,6 @@ export default function Privacy() {
               </p>
             </section>
 
-            {/* Section 10 */}
             <section className={privacyStyles.section}>
               <h2 className={privacyStyles.sectionTitle}>
                 10. Changes to This Policy
@@ -240,7 +226,6 @@ export default function Privacy() {
               </p>
             </section>
 
-            {/* Contact Section */}
             <section className={privacyStyles.contactSection}>
               <h2 className={privacyStyles.contactTitle}>
                 11. Contact Us
@@ -255,7 +240,6 @@ export default function Privacy() {
               </div>
             </section>
 
-            {/* Compliance Badges */}
             <section className={privacyStyles.complianceSection}>
               <h3 className={privacyStyles.complianceTitle}>
                 We comply with:

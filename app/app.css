@@ -1,23 +1,93 @@
 @import "tailwindcss" source(".");
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+  --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+:root {
+  --color-canvas: #f7f8f5;
+  --color-surface: #ffffff;
+  --color-ink: #171a18;
+  --color-muted: #5f6b64;
+  --color-soft: #e6ebe6;
+  --color-line: rgba(23, 26, 24, 0.12);
+  --color-accent: #138f5b;
+  --color-accent-dark: #0f6f49;
+  --shadow-soft: 0 24px 80px rgba(21, 33, 26, 0.1);
+  --font-display: "Poppins", var(--font-sans);
 }
 
 html,
 body {
-  @apply bg-white;
   margin: 0;
   padding: 0;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(19, 143, 91, 0.1), transparent 30rem),
+    radial-gradient(circle at 86% 12%, rgba(23, 26, 24, 0.08), transparent 24rem),
+    var(--color-canvas);
+  color: var(--color-ink);
   font-family: var(--font-sans);
-  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.035;
+  background-image:
+    linear-gradient(rgba(23, 26, 24, 0.8) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 26, 24, 0.8) 1px, transparent 1px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(19, 143, 91, 0.35);
+  outline-offset: 3px;
 }
 
 @media (prefers-color-scheme: dark) {
   html,
   body {
-    background-color: #071226;
-    color-scheme: dark;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(19, 143, 91, 0.16), transparent 30rem),
+      radial-gradient(circle at 86% 12%, rgba(255, 255, 255, 0.08), transparent 24rem),
+      #101411;
+    color: #f4f7f1;
+  }
+
+  body::before {
+    opacity: 0.05;
+    mix-blend-mode: screen;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }

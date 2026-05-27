@@ -1,6 +1,6 @@
 import { Link, NavLink } from "react-router";
 import { useState } from "react";
-import { Rocket } from "lucide-react";
+import { Blocks } from "lucide-react";
 import styles from "./Navigation.module.css";
 
 export const Navigation = () => {
@@ -18,7 +18,9 @@ export const Navigation = () => {
     <nav className={styles.nav}>
       <div className={styles.navContainer}>
         <Link to="/" className={styles.navLogo} onClick={closeMenu}>
-          <Rocket className={styles.logoIcon} size={22} strokeWidth={2.5} />
+          <span className={styles.logoMark}>
+            <Blocks className={styles.logoIcon} size={19} strokeWidth={2} />
+          </span>
           <span className={styles.logoText}>Miso Apps</span>
         </Link>
 
@@ -62,7 +64,7 @@ export const Navigation = () => {
           </ul>
 
           <Link to="/products" className={styles.navCta} onClick={closeMenu}>
-            Get Started
+            View apps
           </Link>
         </div>
 
