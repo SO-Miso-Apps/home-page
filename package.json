@@ -1,0 +1,38 @@
+{
+  "name": "home-page",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "wrangler dev",
+    "deploy": "astro build && wrangler deploy",
+    "check": "astro check",
+    "cf-typegen": "wrangler types"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.22.0",
+      "onFail": "download"
+    }
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^14.3.2",
+    "@astrojs/react": "^6.0.6",
+    "@emdash-cms/cloudflare": "^0.38.0",
+    "astro": "^7.3.3",
+    "emdash": "^0.38.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^26.6.1",
+    "typescript": "^7.0.2",
+    "wrangler": "^4.134.0"
+  },
+  "emdash": {
+    "seed": "seed/seed.json"
+  }
+}

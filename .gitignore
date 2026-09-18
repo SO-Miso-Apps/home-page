@@ -1,15 +1,8 @@
-.DS_Store
+node_modules/
+dist/
+.astro/
+.wrangler/
 .env
-/node_modules/
+.emdash/
+data.db
 *.tsbuildinfo
-
-# React Router
-/.react-router/
-/build/
-
-# Cloudflare
-.mf
-.wrangler
-.dev.vars*
-worker-configuration.d.ts
-
