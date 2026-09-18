@@ -6,3 +6,6 @@ dist/
 .emdash/
 data.db
 *.tsbuildinfo
+.superpowers/
+.DS_Store
+.dev.vars*

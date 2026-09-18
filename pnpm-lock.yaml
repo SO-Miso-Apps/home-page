@@ -232,11 +232,14 @@ importers:
       '@astrojs/check':
         specifier: ^0.9.10
         version: 0.9.10(@emnapi/runtime@1.11.3)(prettier@3.9.7)(typescript@5.9.3)
+      '@cloudflare/workers-types':
+        specifier: 5.20260917.1
+        version: 5.20260917.1
       '@types/node':
         specifier: ^26.6.1
         version: 26.6.1
       typescript:
-        specifier: ^5.9.3
+        specifier: ~5.9.3
         version: 5.9.3
       wrangler:
         specifier: ^4.134.0

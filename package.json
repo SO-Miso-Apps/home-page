@@ -28,8 +28,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@cloudflare/workers-types": "5.20260917.1",
     "@types/node": "^26.6.1",
-    "typescript": "^5.9.3",
+    "typescript": "~5.9.3",
     "wrangler": "^4.134.0"
   },
   "emdash": {
