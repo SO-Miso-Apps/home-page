@@ -1,0 +1,327 @@
+{
+  "$schema": "https://emdashcms.com/seed.schema.json",
+  "version": "1",
+  "defaultLocale": "en",
+  "meta": {
+    "name": "Miso Apps",
+    "description": "Marketing site model for Miso Apps — apps catalog, pages, and blog",
+    "author": "Miso Apps"
+  },
+  "settings": {
+    "title": "Miso Apps",
+    "tagline": "Professional Shopify app studio",
+    "postsPerPage": 10
+  },
+  "collections": [
+    {
+      "slug": "apps",
+      "label": "Apps",
+      "labelSingular": "App",
+      "description": "Commerce app catalog. Publishing an entry creates its landing page and adds it to the home grid.",
+      "supports": ["drafts", "revisions", "scheduling", "search", "seo"],
+      "urlPattern": "/apps/{slug}",
+      "routable": true,
+      "titleField": "name",
+      "admin": { "listColumns": ["name", "badge", "sort_order"] },
+      "fields": [
+        { "slug": "name", "label": "App name", "type": "string", "required": true, "searchable": true, "validation": { "maxLength": 120 } },
+        { "slug": "tagline", "label": "Tagline", "type": "text", "required": true, "options": { "rows": 2 }, "validation": { "maxLength": 300 } },
+        { "slug": "hero", "label": "Hero content", "type": "portableText" },
+        { "slug": "icon", "label": "App icon", "type": "image", "validation": { "allowedMimeTypes": ["image/png", "image/svg+xml", "image/webp"] } },
+        {
+          "slug": "features",
+          "label": "Features",
+          "type": "repeater",
+          "validation": { "subFields": ["title", "description"] }
+        },
+        {
+          "slug": "screenshots",
+          "label": "Screenshots",
+          "type": "repeater",
+          "validation": { "subFields": ["image"] }
+        },
+        { "slug": "app_store_url", "label": "App store URL", "type": "url", "required": true },
+        { "slug": "pricing_url", "label": "Pricing URL", "type": "url" },
+        { "slug": "badge", "label": "Badge", "type": "string", "validation": { "maxLength": 40 } },
+        { "slug": "sort_order", "label": "Sort order", "type": "integer", "indexed": true, "validation": { "min": 0 } },
+        { "slug": "rating_value", "label": "Rating (e.g. 5.0)", "type": "number", "validation": { "min": 0, "max": 5 } },
+        { "slug": "review_count", "label": "Review count", "type": "integer", "validation": { "min": 0 } },
+        { "slug": "seo_title", "label": "SEO title", "type": "string", "validation": { "maxLength": 70 } },
+        { "slug": "seo_description", "label": "SEO description", "type": "text", "options": { "rows": 3 }, "validation": { "maxLength": 160 } },
+        { "slug": "og_image", "label": "OG image", "type": "image" }
+      ]
+    },
+    {
+      "slug": "posts",
+      "label": "Posts",
+      "labelSingular": "Post",
+      "description": "Blog articles",
+      "supports": ["drafts", "revisions", "scheduling", "search", "seo"],
+      "urlPattern": "/blog/{slug}",
+      "routable": true,
+      "titleField": "title",
+      "fields": [
+        { "slug": "title", "label": "Title", "type": "string", "required": true, "searchable": true, "validation": { "maxLength": 200 } },
+        { "slug": "excerpt", "label": "Excerpt", "type": "text", "options": { "rows": 3 }, "validation": { "maxLength": 300 } },
+        { "slug": "content", "label": "Content", "type": "portableText", "required": true },
+        { "slug": "seo_title", "label": "SEO title", "type": "string", "validation": { "maxLength": 70 } },
+        { "slug": "seo_description", "label": "SEO description", "type": "text", "options": { "rows": 3 }, "validation": { "maxLength": 160 } },
+        { "slug": "og_image", "label": "OG image", "type": "image" }
+      ]
+    },
+    {
+      "slug": "pages",
+      "label": "Pages",
+      "labelSingular": "Page",
+      "description": "Static pages such as About and Privacy",
+      "supports": ["drafts", "revisions", "seo"],
+      "urlPattern": "/{slug}",
+      "routable": true,
+      "titleField": "title",
+      "fields": [
+        { "slug": "title", "label": "Title", "type": "string", "required": true, "validation": { "maxLength": 200 } },
+        { "slug": "content", "label": "Content", "type": "portableText", "required": true },
+        { "slug": "template", "label": "Template", "type": "select", "defaultValue": "Default", "validation": { "options": ["Default", "Full Width"] } },
+        { "slug": "seo_title", "label": "SEO title", "type": "string", "validation": { "maxLength": 70 } },
+        { "slug": "seo_description", "label": "SEO description", "type": "text", "options": { "rows": 3 }, "validation": { "maxLength": 160 } },
+        { "slug": "og_image", "label": "OG image", "type": "image" }
+      ]
+    }
+  ],
+  "taxonomies": [
+    {
+      "name": "category",
+      "label": "Categories",
+      "labelSingular": "Category",
+      "hierarchical": true,
+      "collections": ["posts"],
+      "terms": [
+        { "slug": "product-updates", "label": "Product updates" },
+        { "slug": "merchant-playbook", "label": "Merchant playbook" }
+      ]
+    },
+    {
+      "name": "tags",
+      "label": "Tags",
+      "labelSingular": "Tag",
+      "hierarchical": false,
+      "collections": ["posts"]
+    }
+  ],
+  "content": {
+    "apps": [
+      {
+        "id": "app-auto-tags",
+        "slug": "so-auto-tags-all-in-one",
+        "status": "published",
+        "data": {
+          "name": "SO: Auto Tags | All-in-One",
+          "tagline": "Automate store management with rule-based tagging for orders, customers, and products. Built for teams that need cleaner data and less manual admin work.",
+          "badge": "Operations",
+          "sort_order": 1,
+          "rating_value": 5.0,
+          "review_count": 3,
+          "app_store_url": "https://apps.shopify.com/so-operations-suite-with-ai",
+          "seo_title": "SO: Auto Tags | All-in-One — rule-based tagging for Shopify",
+          "seo_description": "Automate Shopify tagging for orders, customers, and products with custom rules, bulk cleanup tools, and workflow automation.",
+          "features": [
+            { "title": "Custom rules for orders, customers, and products", "description": "Target exactly the records that need tags with conditions you control." },
+            { "title": "Bulk replace, merge, and cleanup tools", "description": "Fix years of tag drift in a single pass." },
+            { "title": "Workflow automation for recurring admin tasks", "description": "Put routine store management on autopilot." },
+            { "title": "Realtime tag management and reporting", "description": "See tagging activity as it happens." }
+          ],
+          "hero": [
+            { "_type": "block", "_key": "at-h1", "style": "normal", "children": [{ "_type": "span", "_key": "at-h1s", "text": "Cleaner store data without the manual admin work." }] }
+          ]
+        }
+      },
+      {
+        "id": "app-sticky-atc",
+        "slug": "so-sticky-add-to-cart",
+        "status": "published",
+        "data": {
+          "name": "SO: Sticky Add To Cart",
+          "tagline": "Keep the purchase action visible as shoppers browse. The bar is customizable, responsive, and focused on improving product-page conversion.",
+          "badge": "Conversion",
+          "sort_order": 2,
+          "rating_value": 5.0,
+          "review_count": 1,
+          "app_store_url": "https://apps.shopify.com/so-sticky-add-to-cart",
+          "seo_title": "SO: Sticky Add To Cart — always-visible purchase action",
+          "seo_description": "A customizable, responsive sticky add-to-cart bar focused on improving Shopify product-page conversion.",
+          "features": [
+            { "title": "Always-visible add-to-cart action", "description": "The purchase action follows the shopper through the page." },
+            { "title": "Mobile and desktop responsive layouts", "description": "One bar that fits every theme and screen." },
+            { "title": "Design controls for store theme fit", "description": "Match colors, copy, and placement to your brand." },
+            { "title": "Performance tracking for experiments", "description": "Measure the impact of each variant." }
+          ],
+          "hero": [
+            { "_type": "block", "_key": "sa-h1", "style": "normal", "children": [{ "_type": "span", "_key": "sa-h1s", "text": "Keep the buy button one tap away." }] }
+          ]
+        }
+      },
+      {
+        "id": "app-history-revert",
+        "slug": "so-product-history-revert",
+        "status": "published",
+        "data": {
+          "name": "SO: Product History & Revert",
+          "tagline": "Track product edits in real time and restore previous values when mistakes happen. Built for multi-editor teams that need product version history without spreadsheets.",
+          "badge": "Recovery",
+          "sort_order": 3,
+          "rating_value": 5.0,
+          "review_count": 1,
+          "app_store_url": "https://apps.shopify.com/so-history-revert",
+          "seo_title": "SO: Product History & Revert — version history for Shopify products",
+          "seo_description": "Track every product edit in real time and revert fields or full versions with one click. Built for multi-editor Shopify teams.",
+          "features": [
+            { "title": "Automatic tracking for product field changes", "description": "Every edit is captured the moment it happens." },
+            { "title": "Before-and-after comparisons for each edit", "description": "See exactly what changed and who changed it." },
+            { "title": "One-click revert for fields or full product versions", "description": "Undo mistakes without spreadsheets." },
+            { "title": "History coverage for variants, metafields, categories, and media", "description": "The whole product record, covered." }
+          ],
+          "hero": [
+            { "_type": "block", "_key": "hr-h1", "style": "normal", "children": [{ "_type": "span", "_key": "hr-h1s", "text": "Every product edit, tracked and reversible." }] }
+          ]
+        }
+      },
+      {
+        "id": "app-llms-txt",
+        "slug": "so-llms-txt",
+        "status": "published",
+        "data": {
+          "name": "SO: llms.txt",
+          "tagline": "Generate llms.txt files that help AI assistants understand store content. A practical step toward better AI discoverability for modern commerce.",
+          "badge": "AI readiness",
+          "sort_order": 4,
+          "rating_value": null,
+          "review_count": 0,
+          "app_store_url": "https://apps.shopline.com/detail?appHandle=so_llms_txt",
+          "seo_title": "SO: llms.txt — AI-readable store content for Shopline",
+          "seo_description": "Generate llms.txt files that help AI assistants understand your Shopline store content, with scheduled updates as content changes.",
+          "features": [
+            { "title": "Automatic llms.txt generation", "description": "The file builds and refreshes itself." },
+            { "title": "AI-readable content structure", "description": "Assistants get a clean map of your store." },
+            { "title": "Simple Shopline integration", "description": "Install and go — no theme edits." },
+            { "title": "Scheduled updates as store content changes", "description": "Discoverability stays current." }
+          ],
+          "hero": [
+            { "_type": "block", "_key": "lt-h1", "style": "normal", "children": [{ "_type": "span", "_key": "lt-h1s", "text": "Make your store legible to AI assistants." }] }
+          ]
+        }
+      }
+    ],
+    "posts": [
+      {
+        "id": "post-welcome",
+        "slug": "hello-from-miso-apps",
+        "status": "published",
+        "data": {
+          "title": "Hello from Miso Apps",
+          "excerpt": "Why we build focused commerce apps, and what you will find on this blog.",
+          "content": [
+            { "_type": "block", "_key": "w-p1", "style": "normal", "children": [{ "_type": "span", "_key": "w-p1s", "text": "Miso Apps designs and ships focused Shopify and Shopline apps for automation, conversion, and AI-readable storefront data. This blog is where we share product updates and practical merchant playbooks." }] },
+            { "_type": "block", "_key": "w-p2", "style": "normal", "children": [{ "_type": "span", "_key": "w-p2s", "text": "Expect short, concrete posts: what shipped, what changed, and how to get value from it in your store today." }] }
+          ],
+          "seo_title": "Hello from Miso Apps",
+          "seo_description": "Why we build focused commerce apps, and what you will find on this blog."
+        },
+        "taxonomies": { "category": ["product-updates"] }
+      }
+    ],
+    "pages": [
+      {
+        "id": "page-about",
+        "slug": "about",
+        "status": "published",
+        "data": {
+          "title": "About",
+          "template": "Default",
+          "seo_title": "About — Miso Apps",
+          "seo_description": "Miso Apps is a commerce app studio building professional Shopify and Shopline products for automation, conversion, and merchant operations.",
+          "content": [
+            { "_type": "block", "_key": "ab-h", "style": "h2", "children": [{ "_type": "span", "_key": "ab-hs", "text": "A commerce app studio built around practical merchant work." }] },
+            { "_type": "block", "_key": "ab-p1", "style": "normal", "children": [{ "_type": "span", "_key": "ab-p1s", "text": "We design, build, and maintain focused apps for Shopify and Shopline merchants. The team cares about speed, predictable interfaces, and software that keeps working after the launch." }] },
+            { "_type": "block", "_key": "ab-v1h", "style": "h3", "children": [{ "_type": "span", "_key": "ab-v1hs", "text": "Focused product scope" }] },
+            { "_type": "block", "_key": "ab-v1p", "style": "normal", "children": [{ "_type": "span", "_key": "ab-v1ps", "text": "We prefer apps that solve a specific merchant problem clearly over large feature sets that make daily work harder." }] },
+            { "_type": "block", "_key": "ab-v2h", "style": "h3", "children": [{ "_type": "span", "_key": "ab-v2hs", "text": "Maintainable engineering" }] },
+            { "_type": "block", "_key": "ab-v2p", "style": "normal", "children": [{ "_type": "span", "_key": "ab-v2ps", "text": "Platform APIs, permission surfaces, performance budgets, and support tooling are part of product quality from day one." }] },
+            { "_type": "block", "_key": "ab-v3h", "style": "h3", "children": [{ "_type": "span", "_key": "ab-v3hs", "text": "Merchant-level support" }] },
+            { "_type": "block", "_key": "ab-v3p", "style": "normal", "children": [{ "_type": "span", "_key": "ab-v3ps", "text": "Support is written for the person running the store, with clear steps and practical answers instead of vague tickets." }] },
+            { "_type": "block", "_key": "ab-v4h", "style": "h3", "children": [{ "_type": "span", "_key": "ab-v4hs", "text": "Trust by design" }] },
+            { "_type": "block", "_key": "ab-v4p", "style": "normal", "children": [{ "_type": "span", "_key": "ab-v4ps", "text": "We keep data access intentional, explain what apps need, and avoid patterns that create privacy or theme-risk surprises." }] }
+          ]
+        }
+      },
+      {
+        "id": "page-privacy",
+        "slug": "privacy",
+        "status": "published",
+        "data": {
+          "title": "Privacy Policy",
+          "template": "Default",
+          "seo_title": "Privacy Policy — Miso Apps",
+          "seo_description": "Learn how Miso Apps protects your privacy and handles your data.",
+          "content": [
+            { "_type": "block", "_key": "pr-p0", "style": "normal", "children": [{ "_type": "span", "_key": "pr-p0s", "text": "Last updated: November 10, 2025. This policy explains what information Miso Apps collects, why, and the choices you have." }] },
+            { "_type": "block", "_key": "pr-h1", "style": "h2", "children": [{ "_type": "span", "_key": "pr-h1s", "text": "How we use information" }] },
+            { "_type": "block", "_key": "pr-p1", "style": "normal", "children": [{ "_type": "span", "_key": "pr-p1s", "text": "We use information to provide, maintain, and improve our services; to respond to inquiries and send important updates; to detect and prevent fraud, abuse, and security threats; to analyze usage patterns and improve user experience; to comply with legal obligations and enforce our terms; and, with your consent, to send promotional materials." }] },
+            { "_type": "block", "_key": "pr-h2", "style": "h2", "children": [{ "_type": "span", "_key": "pr-h2s", "text": "Your rights" }] },
+            { "_type": "block", "_key": "pr-p2", "style": "normal", "children": [{ "_type": "span", "_key": "pr-p2s", "text": "You can request a copy of the personal data we hold (access); update or correct inaccurate information (correction); request deletion of your personal data (deletion); receive your data in a portable format (portability); unsubscribe from marketing communications (opt-out); and object to certain data processing activities." }] },
+            { "_type": "block", "_key": "pr-h3", "style": "h2", "children": [{ "_type": "span", "_key": "pr-h3s", "text": "Contact" }] },
+            { "_type": "block", "_key": "pr-p3", "style": "normal", "children": [{ "_type": "span", "_key": "pr-p3s", "text": "For any privacy request, email hi@misoapps.com or write to Miso Apps, Hanoi, Vietnam." }] }
+          ]
+        }
+      }
+    ]
+  },
+  "menus": [
+    {
+      "name": "primary",
+      "label": "Primary navigation",
+      "items": [
+        { "type": "custom", "label": "Apps", "url": "/#apps", "target": "_self" },
+        { "type": "custom", "label": "Blog", "url": "/blog", "target": "_self" },
+        { "type": "page", "label": "About", "ref": "page-about", "collection": "pages" }
+      ]
+    },
+    {
+      "name": "footer",
+      "label": "Footer navigation",
+      "items": [
+        { "type": "custom", "label": "Home", "url": "/", "target": "_self" },
+        { "type": "custom", "label": "Blog", "url": "/blog", "target": "_self" },
+        { "type": "page", "label": "About", "ref": "page-about", "collection": "pages" },
+        { "type": "page", "label": "Privacy Policy", "ref": "page-privacy", "collection": "pages" }
+      ]
+    }
+  ],
+  "widgetAreas": [
+    {
+      "name": "footer-contact",
+      "label": "Footer contact",
+      "widgets": [
+        {
+          "type": "content",
+          "title": "Contact",
+          "content": [
+            { "_type": "block", "_key": "fc-1", "style": "normal", "children": [{ "_type": "span", "_key": "fc-1s", "text": "hi@misoapps.com" }] },
+            { "_type": "block", "_key": "fc-2", "style": "normal", "children": [{ "_type": "span", "_key": "fc-2s", "text": "+84 35-7654-619" }] },
+            { "_type": "block", "_key": "fc-3", "style": "normal", "children": [{ "_type": "span", "_key": "fc-3s", "text": "Hanoi, Vietnam" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blog-sidebar",
+      "label": "Blog sidebar",
+      "widgets": [
+        { "type": "component", "title": "Recent posts", "componentId": "core:recent-posts", "props": { "count": 5 } },
+        { "type": "component", "title": "Categories", "componentId": "core:categories", "props": {} }
+      ]
+    }
+  ],
+  "redirects": [
+    { "source": "/products", "destination": "/", "type": 308, "enabled": true, "groupName": "Old site routes" }
+  ]
+}
