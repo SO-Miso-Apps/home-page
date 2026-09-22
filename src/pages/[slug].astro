@@ -1,0 +1,57 @@
+---
+import { LiveEntryNotFoundError } from "astro/content/runtime";
+import { decodeSlug, getEmDashEntry, getSeoMeta } from "emdash";
+import PageDefault from "../layouts/PageDefault.astro";
+import PageFullWidth from "../layouts/PageFullWidth.astro";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.rewrite("/404");
+const { entry: page, error, cacheHint } = await getEmDashEntry("pages", slug);
+
+if (error) {
+  // Astro live collections surface a missing entry as LiveEntryNotFoundError
+  // rather than a null entry, so a content miss must answer 404, not 500.
+  // rewrite (not redirect) so the URL itself serves the 404 status.
+  if (LiveEntryNotFoundError.is(error)) return Astro.rewrite("/404");
+  console.error("Failed to load page:", error);
+  return new Response("Unable to load page", { status: 500 });
+}
+if (!page) return Astro.rewrite("/404");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const data = page.data;
+
+// An editor-set seo_title must outrank the content title, but getSeoMeta's
+// internal chain (seo.title || defaultTitle || data.title) can never reach
+// data.seo_title — Page.title is required, so with it fed plainly seo.title
+// is never "". Resolve the effective title first and feed it to getSeoMeta
+// as `defaultTitle`, which sits exactly where data.title would.
+const effectiveTitle = data.seo_title || data.title;
+const seo = getSeoMeta(page, {
+  defaultTitle: effectiveTitle,
+  siteUrl: Astro.site?.toString() ?? Astro.url.origin,
+  path: Astro.url.pathname,
+});
+
+// No `siteTitle`: Base.astro appends the site name itself, so passing it
+// would double the suffix. seo.title bottoms out at effectiveTitle, so the
+// `||` chain is belt and suspenders (ruling: `||` chains, never `??`).
+const title = seo.title || effectiveTitle;
+
+// getSeoMeta returns description from the SEO panel or `data.excerpt` only;
+// read the entry's own seo_description explicitly so it ranks above the
+// excerpt fallback.
+const description = data.seo_description || seo.description || undefined;
+
+const ogImageSrc = data.og_image?.src ?? undefined;
+
+// Keys are lowercased so an editor-facing template value ("Full Width",
+// "default", …) maps regardless of case; unknown values fall back to
+// PageDefault.
+const layouts = new Map<string, typeof PageDefault | typeof PageFullWidth>([
+  ["default", PageDefault],
+  ["full width", PageFullWidth],
+]);
+const Layout = layouts.get(String(data.template ?? "default").toLowerCase()) ?? PageDefault;
+---
+<Layout page={page} title={title} description={description} image={seo.ogImage ?? ogImageSrc} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined} />
