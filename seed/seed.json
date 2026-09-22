@@ -32,13 +32,13 @@
           "slug": "features",
           "label": "Features",
           "type": "repeater",
-          "validation": { "subFields": ["title", "description"] }
+          "validation": { "subFields": [ { "slug": "title", "label": "Title", "type": "string", "required": true }, { "slug": "description", "label": "Description", "type": "text" } ] }
         },
         {
           "slug": "screenshots",
           "label": "Screenshots",
           "type": "repeater",
-          "validation": { "subFields": ["image"] }
+          "validation": { "subFields": [ { "slug": "image", "label": "Image", "type": "image" } ] }
         },
         { "slug": "app_store_url", "label": "App store URL", "type": "url", "required": true },
         { "slug": "pricing_url", "label": "Pricing URL", "type": "url" },

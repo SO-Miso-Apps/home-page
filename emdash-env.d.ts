@@ -13,8 +13,8 @@ export interface App {
   tagline: string;
   hero?: PortableTextBlock[];
   icon?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
-  features?: { undefined?: unknown | null }[];
-  screenshots?: { undefined?: unknown | null }[];
+  features?: { "title": string; "description"?: string | null }[];
+  screenshots?: { "image"?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } } | null }[];
   app_store_url: string;
   pricing_url?: string;
   badge?: string;
