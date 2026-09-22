@@ -1,0 +1,106 @@
+---
+import { getMenu } from "emdash";
+import { WidgetArea } from "emdash/ui";
+
+const menu = await getMenu("footer");
+---
+<footer class="site-footer">
+  <div class="container grid">
+    <div class="blurb">
+      <h3>Miso Apps</h3>
+      <p>
+        Building reliable Shopify and commerce apps for merchants who need sharper
+        operations, stronger conversion paths, and dependable support.
+      </p>
+    </div>
+    <nav aria-label="Footer navigation">
+      <h4>Company</h4>
+      <ul>
+        {
+          menu?.items.map((item) => (
+            <li>
+              <a
+                href={item.url}
+                target={item.target}
+                rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div>
+      <h4>Contact</h4>
+      <WidgetArea name="footer-contact" class="contact-area" />
+    </div>
+  </div>
+  <div class="container legal">
+    <p>© {new Date().getFullYear()} Miso Apps. All rights reserved.</p>
+  </div>
+</footer>
+
+<style is:global>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    background: var(--surface);
+    margin-top: 6rem;
+  }
+  .site-footer .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 3rem;
+    padding-block: 3rem;
+  }
+  .site-footer h3,
+  .site-footer h4 {
+    margin: 0 0 0.75rem;
+  }
+  .site-footer h3 {
+    font-size: 1.05rem;
+  }
+  .site-footer h4 {
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    color: var(--accent-dark);
+  }
+  .site-footer p {
+    color: var(--muted);
+    margin: 0;
+    max-width: 34ch;
+  }
+  .site-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .site-footer nav a,
+  .contact-area a {
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 200ms ease;
+  }
+  .site-footer nav a:hover,
+  .contact-area a:hover {
+    color: var(--accent-dark);
+  }
+  .contact-area p {
+    margin: 0 0 0.35rem;
+  }
+  .site-footer .legal {
+    border-top: 1px solid var(--line);
+    padding-block: 1.25rem;
+  }
+  .site-footer .legal p {
+    font-size: 0.85rem;
+  }
+  @media (max-width: 900px) {
+    .site-footer .grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

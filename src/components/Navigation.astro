@@ -1,0 +1,70 @@
+---
+import { getMenu } from "emdash";
+
+const menu = await getMenu("primary");
+---
+<header class="site-header">
+  <div class="container inner">
+    <a class="brand" href="/">Miso Apps</a>
+    <nav aria-label="Primary navigation">
+      <ul>
+        {
+          menu?.items.map((item) => (
+            <li>
+              <a
+                href={item.url}
+                target={item.target}
+                rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+                title={item.titleAttr}
+                aria-current={item.url === Astro.url.pathname ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--surface);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 64px;
+  }
+  .brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+  }
+  ul {
+    display: flex;
+    gap: 1.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a:not(.brand) {
+    text-decoration: none;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 200ms ease;
+  }
+  a:not(.brand):hover,
+  a[aria-current="page"] {
+    color: var(--accent-dark);
+  }
+</style>
