@@ -56,7 +56,7 @@ if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
         </ul>
         {
           nextCursor && (
-            <a class="older" href={`/blog?cursor=${encodeURIComponent(nextCursor)}${category ? `&category=${category}` : ""}`}>
+            <a class="older" href={`/blog?cursor=${encodeURIComponent(nextCursor)}${category ? `&category=${encodeURIComponent(category)}` : ""}`}>
               Older posts
             </a>
           )

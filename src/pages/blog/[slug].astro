@@ -21,18 +21,24 @@ if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
 const data = post.data;
 
+// An editor-set seo_title must outrank the content title, but getSeoMeta's
+// internal chain (seo.title || defaultTitle || data.title) can never reach
+// data.seo_title — Post.title is required, so with it fed plainly seo.title
+// is never "". Resolve the effective title first and feed it to getSeoMeta
+// as `defaultTitle`, which sits exactly where data.title would.
+const effectiveTitle = data.seo_title || data.title;
 const seo = getSeoMeta(post, {
+  defaultTitle: effectiveTitle,
   siteUrl: Astro.site?.toString() ?? Astro.url.origin,
   path: Astro.url.pathname,
 });
 
-// getSeoMeta resolves its title from the SEO panel or `data.title`. No
-// `siteTitle` here: Base.astro appends the site name itself, so passing it
-// would double the suffix ("Post | Miso Apps — Miso Apps"). Without it the
-// rendered <title> matches the site-wide "Page — Miso Apps" format.
-// Entries without an SEO panel yield title "" — prefer it only when
-// non-empty (ruling: `||` chains, never `??`).
-const title = seo.title || data.seo_title || data.title;
+// No `siteTitle` here: Base.astro appends the site name itself, so passing
+// it would double the suffix ("Post | Miso Apps — Miso Apps"). Without it
+// the rendered <title> matches the site-wide "Page — Miso Apps" format.
+// seo.title bottoms out at effectiveTitle, so the `||` chain is belt and
+// suspenders (ruling: `||` chains, never `??`).
+const title = seo.title || effectiveTitle;
 
 // getSeoMeta returns description from the SEO panel or `data.excerpt` only;
 // read the entry's own seo_description explicitly so it ranks above the
@@ -50,6 +56,15 @@ const jsonld: Record<string, unknown> = {
   dateModified: data.updatedAt ?? data.publishedAt ?? data.createdAt,
   mainEntityOfPage: new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString(),
 };
+
+// Bylines are hydrated by getEmDashEntry (ContentBylineCredit.byline.
+// displayName); Article JSON-LD requires an author when available, and the
+// key is omitted entirely when a post is uncredited.
+const authors = (data.bylines ?? []).map((credit) => ({
+  "@type": "Person",
+  name: credit.byline.displayName,
+}));
+if (authors.length > 0) jsonld.author = authors.length === 1 ? authors[0] : authors;
 ---
 <Base title={title} description={description} image={seo.ogImage ?? ogImageSrc} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
   <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
