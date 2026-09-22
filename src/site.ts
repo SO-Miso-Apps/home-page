@@ -4,6 +4,8 @@ export const SITE_TITLE = "Miso Apps";
 export const SITE_DESCRIPTION =
   "Miso Apps designs and ships focused Shopify and Shopline apps for automation, conversion, and AI-readable storefront data.";
 
+export const SITE_FEED_TITLE = `${SITE_TITLE} Blog`;
+
 export function escapeXml(value: string): string {
   return value
     .replaceAll("&", "&amp;")

@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { getEmDashCollection } from "emdash";
-import { escapeXml } from "../site";
+import { SITE_DESCRIPTION, SITE_FEED_TITLE, escapeXml } from "../site";
 
 export const GET: APIRoute = async ({ site }) => {
   const base = site ?? new URL("https://misoapps.com");
@@ -33,9 +33,9 @@ export const GET: APIRoute = async ({ site }) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
-    <title>Miso Apps Blog</title>
+    <title>${SITE_FEED_TITLE}</title>
     <link>${base}</link>
-    <description>Product updates and merchant playbooks from the Miso Apps team.</description>
+    <description>${SITE_DESCRIPTION}</description>
 ${items}
   </channel>
 </rss>`;
