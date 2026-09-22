@@ -237,7 +237,7 @@
         "data": {
           "title": "About",
           "template": "Default",
-          "seo_title": "About — Miso Apps",
+          "seo_title": "About",
           "seo_description": "Miso Apps is a commerce app studio building professional Shopify and Shopline products for automation, conversion, and merchant operations.",
           "content": [
             { "_type": "block", "_key": "ab-h", "style": "h2", "children": [{ "_type": "span", "_key": "ab-hs", "text": "A commerce app studio built around practical merchant work." }] },
@@ -259,8 +259,8 @@
         "status": "published",
         "data": {
           "title": "Privacy Policy",
-          "template": "Default",
-          "seo_title": "Privacy Policy — Miso Apps",
+          "template": "Full Width",
+          "seo_title": "Privacy Policy",
           "seo_description": "Learn how Miso Apps protects your privacy and handles your data.",
           "content": [
             { "_type": "block", "_key": "pr-p0", "style": "normal", "children": [{ "_type": "span", "_key": "pr-p0s", "text": "Last updated: November 10, 2025. This policy explains what information Miso Apps collects, why, and the choices you have." }] },
