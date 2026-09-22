@@ -1,14 +1,6 @@
 import type { APIRoute } from "astro";
 import { getEmDashCollection } from "emdash";
-
-function escapeXml(value: string): string {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&apos;");
-}
+import { escapeXml } from "../site";
 
 export const GET: APIRoute = async ({ site }) => {
   const base = site ?? new URL("https://misoapps.com");
@@ -23,12 +15,16 @@ export const GET: APIRoute = async ({ site }) => {
 
   const items = posts
     .map((post) => {
-      const data = post.data as { title: string; excerpt?: string };
+      const data = post.data as { title: string; excerpt?: string; publishedAt?: Date };
       const link = new URL(`/blog/${post.id}`, base).toString();
+      // Loader maps the published_at column to a Date (publishedAt); fall back
+      // to createdAt so every item carries an RFC 822 pubDate.
+      const pubDate = (data.publishedAt ?? post.data.createdAt ?? new Date()).toUTCString();
       return `    <item>
       <title>${escapeXml(data.title)}</title>
-      <link>${link}</link>
-      <guid>${link}</guid>
+      <link>${escapeXml(link)}</link>
+      <guid>${escapeXml(link)}</guid>
+      <pubDate>${pubDate}</pubDate>
       <description>${escapeXml(data.excerpt ?? "")}</description>
     </item>`;
     })

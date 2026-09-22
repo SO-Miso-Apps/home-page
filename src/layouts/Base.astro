@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../site";
 
 interface Props {
   title?: string;
@@ -13,13 +14,13 @@ interface Props {
 
 const {
   title,
-  description = "Miso Apps designs and ships focused Shopify and Shopline apps for automation, conversion, and AI-readable storefront data.",
+  description = SITE_DESCRIPTION,
   image,
   canonical,
   robots,
 } = Astro.props;
 
-const siteName = "Miso Apps";
+const siteName = SITE_TITLE;
 const fullTitle = title ? `${title} — ${siteName}` : `${siteName} — Professional Shopify app studio`;
 ---
 <!doctype html>
