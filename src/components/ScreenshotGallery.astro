@@ -1,0 +1,47 @@
+---
+import type { App } from "../../emdash-env";
+import { Image } from "emdash/ui";
+
+interface Props {
+  screenshots?: App["screenshots"] | null;
+}
+
+const { screenshots } = Astro.props;
+---
+{
+  screenshots && screenshots.length > 0 && (
+    <section class="gallery" aria-label="Screenshots">
+      <div class="container">
+        <span class="eyebrow">Inside the app</span>
+        <h2>Screenshots</h2>
+        <div class="strip">
+          {screenshots.map((shot) =>
+            shot.image ? (
+              <Image image={shot.image} sizes="(max-width: 900px) 90vw, 520px" alt="" />
+            ) : null
+          )}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .gallery {
+    padding-block: 3rem;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 0.5rem 0 1.75rem;
+  }
+  .strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .strip :global(img) {
+    width: 100%;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--line);
+  }
+</style>

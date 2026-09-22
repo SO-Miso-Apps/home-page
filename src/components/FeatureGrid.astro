@@ -1,0 +1,70 @@
+---
+import type { App } from "../../emdash-env";
+
+interface Props {
+  features?: App["features"] | null;
+}
+
+const { features } = Astro.props;
+---
+{
+  features && features.length > 0 && (
+    <section class="features" aria-label="Features">
+      <div class="container">
+        <span class="eyebrow">What it does</span>
+        <h2>Features</h2>
+        <ol class="rows">
+          {features.map((feature, index) => (
+            <li>
+              <span class="num">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .features {
+    padding-block: 3rem;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin: 0.5rem 0 1.75rem;
+  }
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+  .rows li {
+    display: flex;
+    gap: 1.5rem;
+    align-items: baseline;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    padding: 1.4rem 1.75rem;
+  }
+  .num {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--accent);
+  }
+  h3 {
+    margin: 0 0 0.35rem;
+    font-size: 1.05rem;
+  }
+  p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+</style>

@@ -1,0 +1,209 @@
+---
+import { LiveEntryNotFoundError } from "astro/content/runtime";
+import { decodeSlug, getEmDashEntry, getSeoMeta } from "emdash";
+import { Image, PortableText } from "emdash/ui";
+import Base from "../../layouts/Base.astro";
+import FeatureGrid from "../../components/FeatureGrid.astro";
+import ScreenshotGallery from "../../components/ScreenshotGallery.astro";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.redirect("/404");
+
+const { entry: app, error, isPreview, cacheHint } = await getEmDashEntry("apps", slug);
+if (error) {
+  // Astro live collections surface a missing entry as LiveEntryNotFoundError
+  // rather than a null entry, so a content miss must 404 here, not 500.
+  if (LiveEntryNotFoundError.is(error)) return Astro.redirect("/404");
+  console.error("Failed to load app:", error);
+  return new Response("Unable to load app", { status: 500 });
+}
+if (!app) return Astro.redirect("/404");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const data = app.data;
+
+const seo = getSeoMeta(app, {
+  siteTitle: "Miso Apps",
+  siteUrl: Astro.site?.toString() ?? Astro.url.origin,
+  path: Astro.url.pathname,
+});
+
+// getSeoMeta resolves its title from the SEO panel or `data.title`; apps have
+// neither, so seo.title is "" here — prefer it only when non-empty.
+const title = seo.title || data.seo_title || data.name;
+
+const ogImageSrc = data.og_image?.src ?? data.icon?.src ?? undefined;
+
+const jsonld: Record<string, unknown> = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: data.name,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  description: data.tagline,
+  url: new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString(),
+  offers: {
+    "@type": "Offer",
+    url: data.pricing_url ?? data.app_store_url,
+  },
+};
+if (data.rating_value != null && (data.review_count ?? 0) > 0) {
+  jsonld.aggregateRating = {
+    "@type": "AggregateRating",
+    ratingValue: data.rating_value,
+    reviewCount: data.review_count,
+  };
+}
+---
+<Base title={title} description={seo.description ?? data.tagline} image={seo.ogImage ?? ogImageSrc} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
+  {isPreview && <p class="container preview-note">This is an unpublished preview.</p>}
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        {data.badge && <span class="badge">{data.badge}</span>}
+        <h1>{data.name}</h1>
+        <p class="tagline">{data.tagline}</p>
+        <div class="actions">
+          <a class="primary" href={data.app_store_url} target="_blank" rel="noopener noreferrer">
+            Install on the app store
+          </a>
+          {data.pricing_url && (
+            <a class="text" href={data.pricing_url} target="_blank" rel="noopener noreferrer">
+              View pricing
+            </a>
+          )}
+        </div>
+      </div>
+      <div class="hero-visual">
+        {data.icon ? (
+          <Image image={data.icon} width={160} height={160} alt={`${data.name} icon`} />
+        ) : (
+          <span class="monogram" aria-hidden="true">{data.name.charAt(0)}</span>
+        )}
+      </div>
+    </div>
+  </section>
+
+  {data.hero && (
+    <section class="hero-content">
+      <div class="container prose">
+        <PortableText value={data.hero} />
+      </div>
+    </section>
+  )}
+
+  <FeatureGrid features={data.features} />
+  <ScreenshotGallery screenshots={data.screenshots} />
+
+  <section class="cta">
+    <div class="container cta-panel">
+      <h2>Ready to try {data.name}?</h2>
+      <a class="primary" href={data.app_store_url} target="_blank" rel="noopener noreferrer">
+        Install on the app store
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .preview-note {
+    color: var(--accent-dark);
+  }
+  .hero {
+    padding-block: 4.5rem 3rem;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.6fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .badge {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--accent-dark);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.2rem 0.7rem;
+  }
+  h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin: 0.9rem 0 0.9rem;
+  }
+  .tagline {
+    color: var(--muted);
+    max-width: 56ch;
+  }
+  .actions {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+  .primary {
+    background: var(--ink);
+    color: var(--canvas);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    border-radius: 999px;
+    transition: transform 200ms ease;
+  }
+  .primary:hover {
+    transform: translateY(-1px);
+  }
+  .text {
+    color: var(--accent-dark);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .hero-visual {
+    display: grid;
+    place-items: center;
+  }
+  .monogram {
+    display: grid;
+    place-items: center;
+    width: 160px;
+    height: 160px;
+    background: var(--accent);
+    color: var(--canvas);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 4rem;
+    border-radius: 40px;
+  }
+  .prose :global(h2) {
+    font-size: 1.4rem;
+  }
+  .cta {
+    padding-block: 2rem 3rem;
+  }
+  .cta-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-panel);
+    padding: 2.25rem 2.5rem;
+    box-shadow: 0 12px 32px rgba(23, 26, 24, 0.06);
+  }
+  .cta h2 {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  }
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+</style>
