@@ -7,17 +7,18 @@ import FeatureGrid from "../../components/FeatureGrid.astro";
 import ScreenshotGallery from "../../components/ScreenshotGallery.astro";
 
 const slug = decodeSlug(Astro.params.slug);
-if (!slug) return Astro.redirect("/404");
-
+if (!slug) return Astro.rewrite("/404");
 const { entry: app, error, isPreview, cacheHint } = await getEmDashEntry("apps", slug);
+
 if (error) {
   // Astro live collections surface a missing entry as LiveEntryNotFoundError
-  // rather than a null entry, so a content miss must 404 here, not 500.
-  if (LiveEntryNotFoundError.is(error)) return Astro.redirect("/404");
+  // rather than a null entry, so a content miss must answer 404, not 500.
+  // rewrite (not redirect) so the URL itself serves the 404 status.
+  if (LiveEntryNotFoundError.is(error)) return Astro.rewrite("/404");
   console.error("Failed to load app:", error);
   return new Response("Unable to load app", { status: 500 });
 }
-if (!app) return Astro.redirect("/404");
+if (!app) return Astro.rewrite("/404");
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
 const data = app.data;
@@ -33,6 +34,11 @@ const seo = getSeoMeta(app, {
 const title = seo.title || data.seo_title || data.name;
 
 const ogImageSrc = data.og_image?.src ?? data.icon?.src ?? undefined;
+
+// getSeoMeta returns description null for App entries (no SEO panel, no
+// excerpt), so its `?? tagline` chain never sees the entry's own
+// seo_description. Read it explicitly; tagline is the fallback.
+const description = data.seo_description || data.tagline;
 
 const jsonld: Record<string, unknown> = {
   "@context": "https://schema.org",
@@ -55,7 +61,7 @@ if (data.rating_value != null && (data.review_count ?? 0) > 0) {
   };
 }
 ---
-<Base title={title} description={seo.description ?? data.tagline} image={seo.ogImage ?? ogImageSrc} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
+<Base title={title} description={description} image={seo.ogImage ?? ogImageSrc} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
   <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
   {isPreview && <p class="container preview-note">This is an unpublished preview.</p>}
 

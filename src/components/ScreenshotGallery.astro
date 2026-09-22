@@ -9,7 +9,7 @@ interface Props {
 const { screenshots } = Astro.props;
 ---
 {
-  screenshots && screenshots.length > 0 && (
+  screenshots?.filter((shot) => shot.image).length && (
     <section class="gallery" aria-label="Screenshots">
       <div class="container">
         <span class="eyebrow">Inside the app</span>
@@ -17,7 +17,7 @@ const { screenshots } = Astro.props;
         <div class="strip">
           {screenshots.map((shot) =>
             shot.image ? (
-              <Image image={shot.image} sizes="(max-width: 900px) 90vw, 520px" alt="" />
+              <Image image={shot.image} sizes="(max-width: 900px) 90vw, 520px" />
             ) : null
           )}
         </div>
