@@ -21,7 +21,6 @@ const {
 
 const siteName = "Miso Apps";
 const fullTitle = title ? `${title} — ${siteName}` : `${siteName} — Professional Shopify app studio`;
-const ogImage = image ?? "/favicon.svg";
 ---
 <!doctype html>
 <html lang="en">
@@ -37,8 +36,8 @@ const ogImage = image ?? "/favicon.svg";
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(ogImage, Astro.site ?? Astro.url.origin)} />
-    <meta property="og:url" content={Astro.url.pathname} />
+    {image && <meta property="og:image" content={new URL(image, Astro.site ?? Astro.url.origin)} />}
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -48,10 +47,28 @@ const ogImage = image ?? "/favicon.svg";
     />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <Navigation />
-    <main>
+    <main id="main-content">
       <slot />
     </main>
     <Footer />
   </body>
 </html>
+
+<style is:global>
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    background: var(--ink);
+    color: var(--canvas);
+    padding: 0.75rem 1.25rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .skip-link:focus {
+    left: 0;
+  }
+</style>

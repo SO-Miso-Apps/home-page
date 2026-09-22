@@ -1,8 +1,9 @@
 ---
-import { getMenu } from "emdash";
+import { getMenu, getWidgetArea } from "emdash";
 import { WidgetArea } from "emdash/ui";
 
 const menu = await getMenu("footer");
+const contactArea = await getWidgetArea("footer-contact");
 ---
 <footer class="site-footer">
   <div class="container grid">
@@ -13,28 +14,33 @@ const menu = await getMenu("footer");
         operations, stronger conversion paths, and dependable support.
       </p>
     </div>
-    <nav aria-label="Footer navigation">
-      <h4>Company</h4>
-      <ul>
-        {
-          menu?.items.map((item) => (
-            <li>
-              <a
-                href={item.url}
-                target={item.target}
-                rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-    <div>
-      <h4>Contact</h4>
-      <WidgetArea name="footer-contact" class="contact-area" />
-    </div>
+    {
+      menu?.items.length ? (
+        <nav aria-label="Footer navigation">
+          <h4>Company</h4>
+          <ul>
+            {menu.items.map((item) => (
+              <li>
+                <a
+                  href={item.url}
+                  target={item.target}
+                  rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null
+    }
+    {
+      contactArea && contactArea.widgets.length > 0 && (
+        <div>
+          <WidgetArea name="footer-contact" class="contact-area" />
+        </div>
+      )
+    }
   </div>
   <div class="container legal">
     <p>© {new Date().getFullYear()} Miso Apps. All rights reserved.</p>
