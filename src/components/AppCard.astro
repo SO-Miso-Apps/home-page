@@ -1,0 +1,105 @@
+---
+import type { ContentEntry } from "emdash";
+import type { App } from "../../emdash-env";
+import { Image } from "emdash/ui";
+
+interface Props {
+  app: ContentEntry<App>;
+}
+
+const { app } = Astro.props;
+const data = app.data;
+const href = `/apps/${app.id}`;
+---
+<article class="app-card">
+  <div class="head">
+    {
+      data.icon ? (
+        <Image image={data.icon} width={48} height={48} alt="" class="icon" />
+      ) : (
+        <span class="icon monogram" aria-hidden="true">{data.name.charAt(0)}</span>
+      )
+    }
+    {data.badge && <span class="badge">{data.badge}</span>}
+  </div>
+  <h3><a href={href}>{data.name}</a></h3>
+  <p>{data.tagline}</p>
+  <a class="more" href={href}>
+    Explore app
+    <span aria-hidden="true">→</span>
+  </a>
+</article>
+
+<style>
+  .app-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    padding: 1.75rem;
+    box-shadow: 0 12px 32px rgba(23, 26, 24, 0.06);
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease;
+  }
+  .app-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(23, 26, 24, 0.1);
+  }
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .icon {
+    width: 48px;
+    height: 48px;
+  }
+  .monogram {
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: var(--canvas);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.25rem;
+    border-radius: 14px;
+  }
+  .badge {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--accent-dark);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.2rem 0.7rem;
+  }
+  h3 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+  h3 a {
+    text-decoration: none;
+  }
+  p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .more {
+    margin-top: auto;
+    color: var(--accent-dark);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    transition: color 200ms ease;
+  }
+  .more:hover {
+    color: var(--ink);
+  }
+</style>

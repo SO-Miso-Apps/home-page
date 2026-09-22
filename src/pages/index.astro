@@ -1,6 +1,150 @@
 ---
+import { getEmDashCollection, getSeoMeta } from "emdash";
 import Base from "../layouts/Base.astro";
+import AppCard from "../components/AppCard.astro";
+
+const { entries: apps, error, cacheHint } = await getEmDashCollection("apps", {
+  orderBy: { sort_order: "asc" },
+});
+if (error) {
+  console.error("Failed to load apps:", error);
+  return new Response("Unable to load apps", { status: 500 });
+}
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+// getSeoMeta requires a content-shaped object; the home page has no CMS entry,
+// so pass an empty data shell and resolve meta from site defaults.
+const seo = getSeoMeta({ data: {} }, {
+  siteTitle: "Miso Apps",
+  siteUrl: Astro.site?.toString() ?? Astro.url.origin,
+  path: Astro.url.pathname,
+});
 ---
-<Base>
-  <h1>Miso Apps — rebuild in progress</h1>
+<Base title="Commerce apps for stores that keep moving" description={seo.description ?? undefined} image={seo.ogImage ?? undefined} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Shopify app studio</span>
+        <h1>Commerce apps built for stores that have to keep moving.</h1>
+        <p>
+          Miso Apps designs and ships focused Shopify and Shopline apps for
+          automation, conversion, and AI-readable storefront data. The work is
+          clean, fast, and built around merchant operations.
+        </p>
+        <div class="actions">
+          <a class="primary" href="/#apps">View our apps</a>
+          <a class="text" href="/about">About the studio</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div>
+          <span class="panel-label">Merchant stores reached</span>
+          <strong>10K+</strong>
+        </div>
+        <div>
+          <span class="panel-label">Countries served</span>
+          <strong>50+</strong>
+        </div>
+        <div>
+          <span class="panel-label">Public app rating</span>
+          <strong>5.0</strong>
+        </div>
+        <div>
+          <span class="panel-label">Support coverage</span>
+          <strong>24/7</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="apps" id="apps" aria-label="Our apps">
+    <div class="container">
+      <span class="eyebrow">Our apps</span>
+      <h2>Focused products, measurable results.</h2>
+      <div class="grid">
+        {apps.map((app) => <AppCard app={app} />)}
+      </div>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .hero {
+    padding-block: 5.5rem 4rem;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-weight: 700;
+    margin: 0.75rem 0 1rem;
+  }
+  .hero-copy > p {
+    color: var(--muted);
+    max-width: 52ch;
+  }
+  .actions {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 1.75rem;
+  }
+  .primary {
+    background: var(--ink);
+    color: var(--canvas);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.8rem 1.5rem;
+    border-radius: 999px;
+    transition: transform 200ms ease;
+  }
+  .primary:hover {
+    transform: translateY(-1px);
+  }
+  .text {
+    color: var(--accent-dark);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .hero-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-panel);
+    padding: 1.75rem;
+    box-shadow: 0 12px 32px rgba(23, 26, 24, 0.06);
+  }
+  .panel-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .hero-panel strong {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+  }
+  .apps {
+    padding-block: 2rem 3rem;
+  }
+  .apps h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    margin: 0.5rem 0 2rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  @media (max-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+</style>
