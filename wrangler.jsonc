@@ -11,7 +11,7 @@
     { "binding": "MEDIA", "bucket_name": "home-page-media" }
   ],
   "kv_namespaces": [
-    { "binding": "CACHE", "id": "REPLACE_AFTER_KV_CREATE" }
+    { "binding": "CACHE", "id": "bddb5a1dec234ce399635bd152b4aa6b" }
   ],
   "images": { "binding": "IMAGES" },
   "triggers": { "crons": ["* * * * *"] }
