@@ -14,5 +14,7 @@
     { "binding": "CACHE", "id": "bddb5a1dec234ce399635bd152b4aa6b" }
   ],
   "images": { "binding": "IMAGES" },
-  "triggers": { "crons": ["* * * * *"] }
+  "triggers": { "crons": ["* * * * *"] },
+  "routes": [{ "pattern": "misoapps.com", "custom_domain": true }],
+  "workers_dev": true
 }
