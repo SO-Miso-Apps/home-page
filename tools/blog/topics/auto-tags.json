@@ -184,7 +184,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Disabled rule, reprocess one resource, read the activity log."
+    "notes": "Outline: (1) save the rule disabled [AT-13]; (2) run Data Reprocess against one resource id [AT-15]; (3) read the result in the activity log [AT-22]; (4) enable it and what happens to future events [AT-02]. Four steps, imperative."
   },
   {
     "id": "at-data-reprocess-existing-orders",
@@ -205,7 +205,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Reprocess by id, date range or all; rules are otherwise event-triggered."
+    "notes": "Outline: (1) why historical orders were never seen by the rule [AT-02, AT-35]; (2) the three reprocess scopes, id, date range and all [AT-15]; (3) how operations are counted for a reprocess [AT-26]; (4) checking the outcome in the log [AT-22]. Warn about quota before scope all."
   },
   {
     "id": "at-rule-library-recipes",
@@ -225,7 +225,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Mention the seeded rule count and that recipes are editable after import."
+    "notes": "Outline: (1) what the library contains [AT-16]; (2) importing a recipe then editing it [AT-16]; (3) two concrete recipe families from the sheet [AT-16]; (4) why a copy is safer than a rewrite [AT-13]. No invented rule names beyond the sheet."
   },
   {
     "id": "at-import-export-rules",
@@ -245,7 +245,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "JSON export and import, plus the disabled-copy behaviour when duplicating."
+    "notes": "Outline: (1) exporting the ruleset as JSON [AT-14]; (2) importing it, including onto another store [AT-14]; (3) the disabled-copy behaviour when duplicating a rule [AT-13]; (4) checking priority after an import [AT-12]. Note that tags themselves are not in the file."
   },
   {
     "id": "at-duplicate-and-disabled-copy",
@@ -265,7 +265,7 @@
       "/blog"
     ],
     "figure": "og-card",
-    "notes": "Duplicate as a disabled copy, and pause instead of deleting."
+    "notes": "Outline: (1) pausing instead of deleting [AT-13]; (2) the duplicate rule and its (Copy) name [AT-13]; (3) what priority to give the copy [AT-12]; (4) when to delete instead. Short, 700-800 words."
   },
   {
     "id": "at-clean-duplicate-tags",
@@ -287,7 +287,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Deep scan via the Bulk API, then merge into one canonical tag."
+    "notes": "Outline: (1) how duplicates appear, case variants like Sale and sale [AT-18]; (2) the deep scan and the Bulk API it uses [AT-18]; (3) merge mode with the target tag [AT-19]; (4) how cleaner operations count against quota [AT-26]. Steps in order."
   },
   {
     "id": "at-bulk-find-and-replace-tags",
@@ -308,7 +308,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Always preview first; explain how the operation count is calculated."
+    "notes": "Outline: (1) the three bulk operations [AT-20]; (2) the preview and confirm step [AT-20]; (3) how the operation count is calculated [AT-26]; (4) reverting the operation on Pro [AT-21]. Say plainly that nothing is written before confirmation."
   },
   {
     "id": "at-bulk-operation-preview",
@@ -328,7 +328,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "What the preview shows and why the count matters against quota."
+    "notes": "Outline: (1) what the preview shows [AT-20]; (2) why the affected count matters against the quota [AT-26]; (3) what to check before confirming [AT-20]; (4) the Pro-only revert if you get it wrong [AT-21]. Table of what to check, then two paragraphs."
   },
   {
     "id": "at-revert-bulk-operation",

@@ -190,7 +190,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Point-in-time restore covers SEO; note what it deliberately leaves alone."
+    "notes": "Outline: (1) which fields point-in-time restore covers, including SEO [HR-13]; (2) the fields it deliberately leaves alone and why that is the safe default [HR-14]; (3) how to revert one field instead of the whole set [HR-11]; (4) what happens to the entries around the one you restore [HR-04]. One worked example: an edited SEO title."
   },
   {
     "id": "hr-vs-native-activity",
@@ -213,7 +213,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Compare reading a log with restoring a state. No competitor names."
+    "notes": "Outline: (1) what the product page in Shopify admin shows you [HR-38]; (2) what the app keeps beyond it, patch records and checkpoints [HR-03, HR-04]; (3) reading a trail versus restoring a state [HR-12]; (4) when the native view is enough. No competitor names."
   },
   {
     "id": "hr-point-in-time-vs-field-revert",
@@ -235,7 +235,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Decision rule: one field versus a whole snapshot."
+    "notes": "Outline: (1) what each action writes [HR-11, HR-13]; (2) the fields point-in-time leaves alone [HR-14]; (3) a decision rule: one wrong field versus a moment you want back [HR-12]; (4) the retention limit both share [HR-05]. Table-friendly, short sections."
   },
   {
     "id": "hr-revert-echo-ledger",
@@ -256,7 +256,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Explain the Redis ledger and why the merchant's real edit is kept."
+    "notes": "Outline: (1) why a revert produces a webhook the app could misread as your edit [HR-35]; (2) the short-lived Redis ledger that accounts for it [HR-35]; (3) the combined case: revert plus a real edit in the same breath [HR-35]; (4) how the app's own writes are attributed anyway [HR-09]. Technical but plain."
   },
   {
     "id": "hr-bulk-restore-plans",
@@ -277,7 +277,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "State the plan gate plainly: Scale and Enterprise, per-product restore stays open."
+    "notes": "Outline: (1) what bulk point-in-time restore does [HR-16]; (2) the plan gate, Scale and Enterprise, and that per-product restore stays open [HR-16, HR-29]; (3) how to preview before a bulk restore [HR-15]; (4) why idempotency matters at bulk scale [HR-17]. State the gate in the first 60 words."
   },
   {
     "id": "hr-restore-warnings-explained",
@@ -298,7 +298,7 @@
       "/blog"
     ],
     "figure": "og-card",
-    "notes": "Three warning kinds, and why a warning does not fail the restore."
+    "notes": "Outline: (1) why a restore reports warnings instead of failing [HR-25]; (2) image bytes that are no longer held [HR-26]; (3) a collection or location deleted since [HR-25]; (4) a state captured from a webhook rather than a full read [HR-25]. One example per warning kind."
   },
   {
     "id": "hr-image-bytes-storage",
@@ -319,7 +319,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Use the measured numbers: about 3.6 MB per product, 7 GB at 2,000, 53 GB at 15,000."
+    "notes": "Outline: (1) why Shopify cannot serve the bytes of a deleted product [HR-26]; (2) where the app keeps its copy and the single-upload claim [HR-27]; (3) the measured cost per product and at each tier [HR-28]; (4) what that means for a store near its cap [HR-32]. Use the exact numbers from the sheet."
   },
   {
     "id": "hr-edit-in-app-audit",
@@ -340,7 +340,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Cover the refusal on stale fields and the absence of an approval step."
+    "notes": "Outline: (1) what the in-app editor covers [HR-18]; (2) the stale-field refusal [HR-19]; (3) who the save is attributed to [HR-10]; (4) why that keeps the edit revertible [HR-11]. No approval-step language; there is none."
   },
   {
     "id": "hr-retention-window",
