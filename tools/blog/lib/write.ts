@@ -39,7 +39,7 @@ export function buildWriterPrompt(input: WriteInput): string {
 A draft that breaks any of these is thrown back without being published.
 
 - Write ${MIN_WORDS} to ${MAX_WORDS} words of body text; aim for about 900, and count before you answer.
-- Title at most ${TITLE_MAX_CHARS} characters, and it must contain the primary keyword.
+- Title at most ${TITLE_MAX_CHARS} characters, and it must carry every content word of the primary keyword (plurals fine, small words ignored).
 - seo_description between ${SEO_DESCRIPTION_MIN} and ${SEO_DESCRIPTION_MAX} characters.
 - At least three h2 sections, at least one bulleted list, at least two internal links.
 - Only fact-sheet claims, used correctly. An unverified number is a rejection.

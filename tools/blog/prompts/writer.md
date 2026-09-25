@@ -54,7 +54,9 @@ process and never the reader's workflow habits.
   (a `markDef` of `_type: "link"` carrying that `href`), and each link must point
   somewhere different from the others.
 
-- `title`: at most 60 characters, contains the primary keyword naturally.
+- `title`: at most 60 characters, and it must carry **every content word** of the
+  primary keyword (order may change, plurals are fine, small words like "the" and
+  "for" are ignored). A title missing one of those words is rejected.
 - `seo_title`: may be the title or a tighter variant, at most 60 characters.
 - `seo_description`: 120 to 160 characters, one sentence, no clickbait. Count the characters — 161 is a rejection.
 - `excerpt`: one sentence, at most 160 characters.
