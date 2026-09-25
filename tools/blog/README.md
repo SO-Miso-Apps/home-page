@@ -58,6 +58,9 @@ pnpm blog:run                           # both apps against production, leaves d
 Flags: `--app auto-tags|history-revert|both`, `--dry-run`, `--slug <topicId>`,
 `--max-attempts N`.
 
+`pnpm blog:status` prints, per app, how many facts and topics exist, which topic
+ran last with the critic's scores, and which topic is next.
+
 `--dry-run` creates the draft, publishes it, checks the rendered page for the
 figure and `og:image`, then deletes the post and the media. The report stays in
 `out/`.

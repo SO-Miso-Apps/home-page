@@ -14,7 +14,8 @@
     "blog:test": "node --test tools/blog/lib/*.test.ts",
     "blog:start": "pm2 start ecosystem.blog.config.json --only miso-blog",
     "blog:stop": "pm2 stop miso-blog",
-    "blog:check": "tsc -p tools/blog/tsconfig.json"
+    "blog:check": "tsc -p tools/blog/tsconfig.json",
+    "blog:status": "node tools/blog/status.ts"
   },
   "devEngines": {
     "packageManager": {
