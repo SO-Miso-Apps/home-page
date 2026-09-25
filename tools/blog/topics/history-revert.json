@@ -531,7 +531,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Scope difference, and when the narrower restore is the safer one."
+    "notes": "Outline: (1) what a full product revert writes [HR-12]; (2) what point-in-time restore writes and what it leaves alone [HR-13, HR-14]; (3) the preview both show first [HR-15]; (4) a decision rule: when the narrower restore is the safer one. Table of the two scopes."
   },
   {
     "id": "hr-what-cannot-be-restored",
@@ -552,7 +552,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "List the honest gaps: original ID and creation date, orders, analytics, translations."
+    "notes": "Outline: (1) what a restore rebuilds, in one sentence [HR-23]; (2) what Shopify never exposed, original id and creation date, orders and discounts, analytics, subscriptions, combined listings, translations [HR-24]; (3) never-tracked products [HR-24, HR-32]; (4) the warnings a restore returns instead of failing [HR-25]. Honest list, no hedging."
   },
   {
     "id": "hr-batch-revert-safely",
@@ -573,7 +573,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Idempotency is the point: a repeated click cannot revert twice."
+    "notes": "Outline: (1) what the batch action covers [HR-16]; (2) the preview before it runs [HR-15]; (3) idempotency, so a repeated click cannot revert twice [HR-17]; (4) the plan gate for bulk point-in-time restore [HR-16]. Steps in order, with what to check between them."
   },
   {
     "id": "hr-image-alt-and-order",
@@ -594,7 +594,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Alt text and order are editable in the app and part of a restored payload."
+    "notes": "Outline: (1) alt text and gallery order are editable in the app [HR-18]; (2) they are part of the recorded image changes [HR-01]; (3) what a restored product carries for images [HR-23]; (4) what happens when the bytes are gone [HR-26]. One worked example: a re-ordered gallery."
   },
   {
     "id": "hr-admin-product-menu",
@@ -615,7 +615,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "The admin link extension target and what the page shows."
+    "notes": "Outline: (1) the admin link extension and where it appears [HR-38]; (2) what the history page shows for one product [HR-37]; (3) moving from the store-wide dashboard into a product [HR-36]; (4) the revert actions available from there [HR-11, HR-12]. Short, task-shaped."
   },
   {
     "id": "hr-vs-auto-tags-which-app",
@@ -637,6 +637,6 @@
       "/apps/so-auto-tags-all-in-one"
     ],
     "figure": "compare-table",
-    "notes": "Cross-app post: one records and restores, one automates tagging. Uses facts from both sheets."
+    "notes": "Outline: (1) the job each app does, recording and restoring versus tagging by rule [HR-01, AT-01]; (2) when a change needs a record [HR-12]; (3) when a change needs a tag [AT-02]; (4) how they meet: a bulk tag operation is itself a change worth reviewing [AT-21, HR-14]. Two-column comparison, no winner."
   }
 ]

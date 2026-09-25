@@ -538,7 +538,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Honest limits: event-triggered only, standard fields only, and the two workarounds."
+    "notes": "Outline: (1) rules are event-triggered only [AT-35]; (2) conditions cover standard Shopify fields, not metafields [AT-36]; (3) what to use instead for historical or scheduled work [AT-15, AT-29]; (4) what to check before writing a rule [AT-04]. State each limit plainly."
   },
   {
     "id": "at-uninstall-what-happens",
@@ -558,7 +558,7 @@
       "/blog"
     ],
     "figure": "og-card",
-    "notes": "Rules kept 30 days; tags stay on resources because they are Shopify data."
+    "notes": "Outline: (1) rules and settings survive 30 days [AT-34]; (2) tags stay on the resources because they are Shopify data [AT-34]; (3) what the app stops doing immediately [AT-02]; (4) the scopes it held while installed [AT-33]. Answer the two questions a merchant actually asks, in the first 60 words."
   },
   {
     "id": "at-permissions-explained",
@@ -579,7 +579,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Map each scope to the condition it powers."
+    "notes": "Outline: (1) the five scopes requested [AT-33]; (2) which condition each one powers, products and inventory [AT-08]; (3) which one powers customer rules [AT-07]; (4) which one powers order rules [AT-06]. One table: scope, why it is needed, what it cannot read."
   },
   {
     "id": "at-vs-manual-tagging",
@@ -601,7 +601,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Frame around the operator's time and quota, not invented metrics."
+    "notes": "Outline: (1) what manual tagging costs an operator as order volume grows [AT-26]; (2) what a rule does instead, and when it fires [AT-02]; (3) what the same work costs against the quota [AT-24]; (4) when manual is still the right call. No invented numbers."
   },
   {
     "id": "at-vs-history-revert-which-app",
@@ -623,6 +623,6 @@
       "/apps/so-product-history-revert"
     ],
     "figure": "compare-table",
-    "notes": "Cross-app post: tagging forward versus restoring backwards. Uses facts from both sheets."
+    "notes": "Outline: (1) tagging forward versus recording backwards [AT-01, HR-01]; (2) the undo each app offers, bulk revert on Pro [AT-21] and field or point-in-time restore [HR-11, HR-13]; (3) what each one's log is for [AT-22, HR-36]; (4) a two-column summary. No winner, just fit."
   }
 ]
