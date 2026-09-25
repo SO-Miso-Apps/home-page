@@ -14,7 +14,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadFacts, type Fact } from "./lib/facts.ts";
 import { loadTopics, type Topic } from "./lib/topics.ts";
-import { pickTopic } from "./lib/pick.ts";
+import { pickTopic, usedTopicIds } from "./lib/pick.ts";
 import { runGates } from "./lib/gates.ts";
 import { writeDraft, loadStyleGuide } from "./lib/write.ts";
 import { critique, critiquePasses, critiqueReviewable, critiqueSummary, totalScore } from "./lib/critique.ts";
@@ -27,6 +27,8 @@ import type { AppId, Critique, Draft, GateFailure } from "./lib/types.ts";
 
 const HERE = fileURLToPath(new URL(".", import.meta.url));
 const APPS: AppId[] = ["history-revert", "auto-tags"];
+/** Warn once the calendar is within a week of running dry. */
+const TOPIC_LOW_WATER = 7;
 
 /** Compare topics cite facts from the other app too, so both sheets are loaded. */
 const siblingApp = (app: AppId): AppId => (app === "history-revert" ? "auto-tags" : "history-revert");
@@ -199,10 +201,18 @@ async function runApp(app: AppId, args: Args, config: Config): Promise<"drafted"
   const existingSlugs = await listPublishedSlugs(config.site, config.token);
   const siteApps = await listPublishedSlugs(config.site, config.token, "apps");
 
-  const topic = args.slug ? topics.find((entry) => entry.id === args.slug) : pickTopic(topics, readLedger(ledgerPath), existingSlugs);
+  const ledger = readLedger(ledgerPath);
+  const topic = args.slug ? topics.find((entry) => entry.id === args.slug) : pickTopic(topics, ledger, existingSlugs);
   if (!topic) {
     console.log(`[${app}] every topic is used; add new entries to tools/blog/topics/${app}.json`);
+    notify("Blog calendar empty", `${app} has no unused topics left — add entries to tools/blog/topics/${app}.json`);
     return "skipped";
+  }
+
+  const remaining = topics.length - usedTopicIds(ledger).size;
+  if (remaining <= TOPIC_LOW_WATER) {
+    console.log(`[${app}] only ${remaining} topics left in the calendar`);
+    notify("Blog calendar running low", `${app}: ${remaining} topics left — add more to tools/blog/topics/${app}.json`);
   }
 
   // `factsFor` proves the topic's required facts exist; the writer and the gates
