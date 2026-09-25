@@ -57,6 +57,8 @@ really does, never a metric you invented.
 - Only claims that appear in the fact sheet. If something is not there, leave it
   out. Never guess a number, a limit, a plan name, an API name or a UI label.
 - No invented customers, testimonials, benchmarks or results.
+- Do not add a qualifier the fact does not carry: no "automatically", "instantly",
+  "every time", "always", "periodically" or "in real time" unless the fact says it.
 - No emoji. No em dash chains. No "in summary" filler paragraphs.
 - Banned phrases (never use any of them, in any inflection): in today's
   fast-paced, delve, unlock the power, unleash, game-changer, game changer,

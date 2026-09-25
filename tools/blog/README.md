@@ -18,15 +18,19 @@ pick topic → codex writes → deterministic gates → opencode scores →
 - **Writer** — `codex exec` (ChatGPT-authenticated; no API key needed).
 - **Critic** — `opencode run -m $BLOG_CRITIC_MODEL`, scores factuality,
   specificity, originality, SEO and usefulness out of 5.
-- **Gates** — `lib/gates.ts`: title length and keyword, SEO description length,
-  slug shape and uniqueness, 700–1200 words, 3+ `h2`, a list, two internal
-  links, no banned phrase, no emoji, and **every number in the body must exist
-  in the fact sheet**.
+- **Gates** — `lib/gates.ts`, all deterministic: schema, title length and
+  keyword, SEO description length (120–160), slug shape and uniqueness,
+  700–1200 words, 3+ `h2` with no level jumps, a list, two *distinct* internal
+  links that are actually anchored in the body, no banned phrase, no emoji, no
+  sentence that restates an earlier one, every fact the topic requires listed in
+  `used_facts`, and **every number in the body must exist in the fact sheet**.
 - **Figure** — `render/*.html` (tokens copied from `DESIGN.md`) captured by
   Chrome headless at 1200×630.
 
-A post that fails three times is not published and nothing is created; the
-report names the blocking gate.
+A post that fails three times is not published. If the critic merely dislikes
+the best attempt — filler it can quote, a weak heading — that draft is still
+created and flagged at the top of its report, because the owner is the last
+gate. A draft with a fabricated claim or a banned phrase is never handed over.
 
 ## Setup
 

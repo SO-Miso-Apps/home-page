@@ -56,6 +56,8 @@ A draft that breaks any of these is thrown back without being published.
   restates the one above it is filler.
 - Where a fact names an exact set or scope, write the set out instead of an
   umbrella term like "supported actors".
+- Never add a qualifier a fact does not carry ("automatically", "instantly",
+  "every time", "periodically", "in real time").
 - Figure rows must come from a fact sheet entry: label and value, nothing invented.
 - Never use any of these phrases: ${BANNED_PHRASES.join(", ")}.`,
     `## App\n${app}`,

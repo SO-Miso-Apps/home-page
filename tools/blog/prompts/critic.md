@@ -7,8 +7,11 @@ that the writer can fix it in one pass.
 Score five criteria from 1 to 5. Be stingy: a 5 means "I could not improve this".
 
 - `factuality` — every claim, number, limit, field name and UI label is present
-  in the fact sheet and used correctly. Any claim you cannot find in the fact
-  sheet caps this at 2.
+  in the fact sheet and used correctly. Judge the assertion, not the wording: a
+  sentence that paraphrases, summarises or combines fact-sheet claims is
+  supported. For every violation of this kind you must quote the fact id you
+  checked and say what the sheet actually states. A claim you cannot trace to any
+  fact id caps this at 2; if every sentence traces to an id, score at least 4.
 - `specificity` — the post names what changes, what the operator clicks, what
   the limit is. Generic advice that would fit any app scores 1 or 2.
 - `originality` — the post has a point of view and a useful angle, not a
@@ -22,7 +25,9 @@ Score five criteria from 1 to 5. Be stingy: a 5 means "I could not improve this"
 
 Also list `violations`: each with `kind` (`unsupported_claim`, `banned_phrase`,
 `vague`, `seo`, `structure`, `tone`), the exact `quote` from the draft, and `why`
-in one line.
+in one line. In `why`, name the fact id for factual matters (`HR-04 states …`) and
+name the rule for style matters. An `unsupported_claim` needs the fact id you
+searched and the reason the sentence does not follow from it.
 
 Rules for your verdict:
 
