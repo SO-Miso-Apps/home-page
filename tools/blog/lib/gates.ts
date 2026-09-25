@@ -190,6 +190,10 @@ export function runGates({ draft, facts, topic, existingSlugs, apps = KNOWN_APPS
 
   for (const token of untraceableClaims(text, facts)) add("fact_trace", `"${token}" is not in the fact sheet`);
 
+  const used = new Set(draft.used_facts);
+  const unusedRequired = topic.factsRequired.filter((id) => !used.has(id));
+  if (unusedRequired.length > 0) add("facts_used", `used_facts omits the topic's required facts: ${unusedRequired.join(", ")}`);
+
   const titleSlug = slugify(draft.title);
   const clash = existingSlugs.find(
     (slug) => slug === draft.slug || slug === titleSlug || similarity(slug, draft.slug) >= 0.9 || similarity(slug, titleSlug) >= 0.9,

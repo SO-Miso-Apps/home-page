@@ -82,6 +82,12 @@ carries its `og_image`, SEO title and description, and a category
 `tools/blog/out/<date>-<app>-<slug>/report.md` has the critic's scores, the gate
 result, the facts used and the figure.
 
+When every attempt is rejected, nothing is created and the same directory holds
+`attempt-1.json`, `attempt-2.json`, … — each with the draft, the gate failures
+and the critic's verdict. Those files are how you judge whether the writer is
+improving: a topic that is rejected three times usually needs a sharper `notes`
+field or more facts in the sheet.
+
 ## Adding content
 
 - **A fact**: append a block to `tools/blog/facts/<app>.md` with an ID

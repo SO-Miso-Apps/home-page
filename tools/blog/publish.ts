@@ -9,7 +9,7 @@
  *   node tools/blog/publish.ts --app history-revert --slug hr-compare-two-versions
  */
 
-import { existsSync, mkdirSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadFacts, type Fact } from "./lib/facts.ts";
@@ -82,6 +82,15 @@ function resolveConfig(args: Args): Config {
 
 type Attempt = { draft: Draft; attack: Critique; attempts: number; failures: GateFailure[] };
 
+/**
+ * Every attempt is kept on disk. A rejected draft is the most useful artifact
+ * this pipeline produces: it is what the owner reads to judge the writer.
+ */
+function saveAttempt(outDir: string, index: number, draft: Draft, gateFailures: GateFailure[], scored: Critique | null): void {
+  mkdirSync(outDir, { recursive: true });
+  writeFileSync(join(outDir, `attempt-${index}.json`), `${JSON.stringify({ draft, gateFailures, critique: scored }, null, 2)}\n`);
+}
+
 function factsFor(topic: Topic, facts: Fact[]): Fact[] {
   const byId = new Map(facts.map((fact) => [fact.id, fact]));
   return topic.factsRequired.map((id) => {
@@ -117,9 +126,10 @@ async function produce(input: {
   facts: Fact[];
   existingSlugs: string[];
   siteApps: string[];
+  outDir: string;
   config: Config;
 }): Promise<Attempt> {
-  const { app, topic, facts, existingSlugs, siteApps, config } = input;
+  const { app, topic, facts, existingSlugs, siteApps, outDir, config } = input;
   let feedback: string | undefined;
   let previous: Draft | undefined;
   let failures: GateFailure[] = [];
@@ -134,6 +144,7 @@ async function produce(input: {
       const gates = runGates({ draft, facts, topic, existingSlugs, apps: siteApps });
       failures = gates.failures;
       if (!gates.ok) {
+        saveAttempt(outDir, attempt, draft, failures, null);
         console.log(`[${app}] gates failed: ${failures.map((failure) => failure.code).join(", ")}`);
         feedback = `Deterministic gates rejected the draft:\n${failures.map((failure) => `- ${failure.code}: ${failure.detail}`).join("\n")}`;
         continue;
@@ -141,6 +152,7 @@ async function produce(input: {
 
       const scored = await critique(draft, facts, topic, config.criticModel);
       lastCritique = scored;
+      saveAttempt(outDir, attempt, draft, [], scored);
       console.log(`[${app}] critic: ${critiqueSummary(scored)} verdict=${scored.verdict}`);
       if (critiquePasses(scored)) return { draft, attack: scored, attempts: attempt, failures: [] };
 
@@ -167,7 +179,7 @@ async function produce(input: {
   const detail = lastCritique
     ? `critic: ${critiqueSummary(lastCritique)}; ${lastCritique.rewrite_notes}`
     : `gates: ${failures.map((failure) => `${failure.code}: ${failure.detail}`).join("; ")}`;
-  throw new Error(`[${app}] no publishable draft after ${config.maxAttempts} attempts — ${detail}`);
+  throw new Error(`[${app}] no publishable draft after ${config.maxAttempts} attempts — ${detail} (attempts kept in ${outDir})`);
 }
 
 async function runApp(app: AppId, args: Args, config: Config): Promise<"drafted" | "skipped" | "failed"> {
@@ -183,11 +195,14 @@ async function runApp(app: AppId, args: Args, config: Config): Promise<"drafted"
     return "skipped";
   }
 
-  const facts = factsFor(topic, allFacts);
-  const attempt = await produce({ app, topic, facts, existingSlugs, siteApps, config });
-
+  // `factsFor` proves the topic's required facts exist; the writer and the gates
+  // both see the whole sheet, so a post can draw on the rest of it without
+  // inventing anything.
+  factsFor(topic, allFacts);
   const stamp = new Date().toISOString().slice(0, 10);
-  const outDir = join(HERE, "out", `${stamp}-${app}-${attempt.draft.slug}`);
+  const outDir = join(HERE, "out", `${stamp}-${app}-${topic.id}`);
+  const attempt = await produce({ app, topic, facts: allFacts, existingSlugs, siteApps, outDir, config });
+
   mkdirSync(outDir, { recursive: true });
   const figureFile = join(outDir, "figure.png");
   await renderFigure({ ...attempt.draft.figure, note: attempt.draft.figure.note ?? "misoapps.com" }, figureFile);

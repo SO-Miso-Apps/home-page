@@ -47,6 +47,12 @@ test("writer prompt carries the facts, the topic and the JSON contract", () => {
   assert.match(prompt, /delve/); // the banned list is shown to the writer
 });
 
+test("writer prompt marks the mandatory facts and forbids restating", () => {
+  const prompt = buildWriterPrompt({ facts, topic, app: "history-revert", styleGuide: "" });
+  assert.match(prompt, /HR-01 — REQUIRED in this post/);
+  assert.match(prompt, /Each h2 must add at least one fact/);
+});
+
 test("writer prompt insists on the figure rows tracing to facts", () => {
   const prompt = buildWriterPrompt({ facts, topic, app: "history-revert", styleGuide: "" });
   assert.match(prompt, /figure/);

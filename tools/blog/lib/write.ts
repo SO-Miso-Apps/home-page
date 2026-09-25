@@ -25,8 +25,10 @@ export function loadStyleGuide(): string {
   return readFileSync(new URL("../prompts/writer.md", import.meta.url), "utf8");
 }
 
-function factsBlock(facts: Fact[]): string {
-  return facts.map((fact) => `### ${fact.id} — ${fact.claim}\nSource: ${fact.source}`).join("\n\n");
+function factsBlock(facts: Fact[], required: string[]): string {
+  return facts
+    .map((fact) => `### ${fact.id}${required.includes(fact.id) ? " — REQUIRED in this post" : ""} — ${fact.claim}\nSource: ${fact.source}`)
+    .join("\n\n");
 }
 
 export function buildWriterPrompt(input: WriteInput): string {
@@ -41,6 +43,13 @@ A draft that breaks any of these is thrown back without being published.
 - seo_description between ${SEO_DESCRIPTION_MIN} and ${SEO_DESCRIPTION_MAX} characters.
 - At least three h2 sections, at least one bulleted list, at least two internal links.
 - Only fact-sheet claims, used correctly. An unverified number is a rejection.
+- Use every fact marked REQUIRED, and draw the rest of the post from the other facts in the sheet.
+- Each h2 must add at least one fact the post has not used yet. A sentence that only
+  restates an earlier sentence is a defect, and padding with adjectives instead of
+  facts is the fastest way to be rejected.
+- Headings are questions or concrete operations a merchant would recognise, not labels.
+- End on the last concrete point; no summary paragraph that repeats the post.
+- Do not link to /blog or to pages that are not in internal_links.
 - Figure rows must come from a fact sheet entry: label and value, nothing invented.
 - Never use any of these phrases: ${BANNED_PHRASES.join(", ")}.`,
     `## App\n${app}`,
@@ -59,7 +68,7 @@ A draft that breaks any of these is thrown back without being published.
       null,
       2,
     )}`,
-    `## Fact sheet (the only things you may assert)\n${factsBlock(facts)}`,
+    `## Fact sheet — the only things you may assert\nFacts marked REQUIRED must appear in used_facts.\n\n${factsBlock(facts, topic.factsRequired)}`,
   ];
   if (previous && feedback) {
     sections.push(

@@ -216,6 +216,10 @@ test("a figure row that invents data fails figure", () => {
   assert.ok(codes(d).includes("figure"));
 });
 
+test("a post that skips a required fact fails facts_used", () => {
+  assert.ok(codes(draft({ used_facts: ["HR-01"] })).includes("facts_used"));
+});
+
 test("the banned list ships in the module", () => {
   assert.ok(BANNED_PHRASES.includes("delve"));
 });
