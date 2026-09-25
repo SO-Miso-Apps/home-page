@@ -9,3 +9,6 @@ data.db
 .superpowers/
 .DS_Store
 .dev.vars*
+tools/blog/.env
+tools/blog/state/
+tools/blog/out/

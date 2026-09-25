@@ -1,0 +1,37 @@
+<!-- figure: timeline -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="figure.css">
+<style>
+  .rail { position: relative; padding-left: 28px; }
+  .rail::before { content: ""; position: absolute; left: 8px; top: 10px; bottom: 10px; width: 1px; background: var(--line-strong); }
+  .node { position: relative; padding: 12px 0; }
+  .node::before { content: ""; position: absolute; left: -26px; top: 18px; width: 15px; height: 15px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line-strong); }
+  .node.now::before { background: var(--brand); border-color: var(--brand); }
+  .node .t { font-weight: 600; font-size: 16px; }
+  .node .d { font-size: 14px; color: var(--muted); margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="frame">
+  <div>
+    <div class="eyebrow">{{eyebrow}}</div>
+    <h1 class="headline">{{headline}}</h1>
+    <div class="rule"></div>
+    <div class="note">{{note}}</div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Change trail</div>
+    <div class="rail">
+      {{#rows}}<div class="node"><div class="t">{{label}}</div><div class="d">{{value}}</div></div>{{/rows}}
+    </div>
+  </div>
+</div>
+</body>
+</html>

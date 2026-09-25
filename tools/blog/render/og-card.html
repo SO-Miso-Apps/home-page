@@ -1,0 +1,45 @@
+<!-- figure: og-card -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="figure.css">
+<style>
+  .motif { position: relative; width: 468px; height: 300px; }
+  .motif .ring { position: absolute; border: 1px solid var(--line-strong); border-radius: 50%; }
+  .motif .ring:nth-child(1) { inset: 0; }
+  .motif .ring:nth-child(2) { inset: 42px; }
+  .motif .ring:nth-child(3) { inset: 84px; }
+  .motif .axis { position: absolute; background: var(--line-strong); }
+  .motif .axis.h { left: 0; right: 0; top: 50%; height: 1px; }
+  .motif .axis.v { top: 0; bottom: 0; left: 50%; width: 1px; }
+  .motif .node {
+    position: absolute; left: 50%; top: 50%; width: 18px; height: 18px; margin: -9px 0 0 -9px;
+    border-radius: 50%; background: var(--brand);
+  }
+  .motif .tick { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 1px solid var(--line-strong); }
+  .motif .tick.a { left: 12%; top: 30%; }
+  .motif .tick.b { right: 16%; top: 62%; }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="frame">
+  <div>
+    <div class="eyebrow">{{eyebrow}}</div>
+    <h1 class="headline">{{headline}}</h1>
+    <div class="rule"></div>
+    <div class="note">{{note}}</div>
+  </div>
+  <div class="motif">
+    <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+    <div class="axis h"></div><div class="axis v"></div>
+    <span class="tick a"></span><span class="tick b"></span>
+    <span class="node"></span>
+  </div>
+</div>
+</body>
+</html>

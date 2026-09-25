@@ -1,0 +1,137 @@
+/*
+ * Shared tokens for every blog figure. Values are copied from DESIGN.md so a
+ * figure reads as part of misoapps.com: emerald accent, warm-neutral canvas,
+ * hairline structure, no second accent, no fake UI.
+ */
+:root {
+  --canvas: #f6f7f4;
+  --canvas-deep: #eceee8;
+  --surface: #ffffff;
+  --ink: #141815;
+  --muted: #5c6862;
+  --subtle: #686f6b;
+  --brand: #138f5b;
+  --brand-ink: #107a4e;
+  --line: rgba(20, 24, 21, 0.1);
+  --line-strong: rgba(20, 24, 21, 0.18);
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 1200px;
+  height: 630px;
+  overflow: hidden;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-body);
+  position: relative;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(20, 24, 21, 0.05) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.5;
+}
+
+.frame {
+  position: absolute;
+  inset: 46px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 468px;
+  gap: 52px;
+  align-items: center;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 58px;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-top: 18px;
+  text-wrap: balance;
+}
+
+.rule {
+  height: 1px;
+  background: var(--line-strong);
+  margin-top: 28px;
+}
+
+.note {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--subtle);
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 26px;
+  box-shadow: 0 18px 40px -28px rgba(20, 24, 21, 0.45);
+}
+
+.panel-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--subtle);
+  font-weight: 500;
+}
+
+.rows {
+  margin-top: 20px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: baseline;
+  padding: 13px 0;
+  border-top: 1px solid var(--line);
+  font-size: 16px;
+}
+
+.row:first-child {
+  border-top: none;
+}
+
+.row .label {
+  color: var(--muted);
+}
+
+.row .value {
+  font-weight: 600;
+  text-align: right;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}

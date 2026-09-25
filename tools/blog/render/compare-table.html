@@ -1,0 +1,45 @@
+<!-- figure: compare-table -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="figure.css">
+<style>
+  .grid { margin-top: 18px; }
+  .grid .head, .grid .cell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 128px;
+    gap: 16px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+  }
+  .grid .head { border-top: none; padding-top: 0; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle); }
+  .grid .cell .k { color: var(--muted); }
+  .grid .cell .v { font-weight: 600; text-align: right; }
+  .mark { color: var(--brand-ink); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="frame">
+  <div>
+    <div class="eyebrow">{{eyebrow}}</div>
+    <h1 class="headline">{{headline}}</h1>
+    <div class="rule"></div>
+    <div class="note">{{note}}</div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Side by side</div>
+    <div class="grid">
+      <div class="head"><span>What changes</span><span>Recorded</span></div>
+      {{#rows}}<div class="cell"><span class="k">{{label}}</span><span class="v mark">{{value}}</span></div>{{/rows}}
+    </div>
+  </div>
+</div>
+</body>
+</html>

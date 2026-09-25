@@ -8,7 +8,12 @@
     "preview": "wrangler dev",
     "deploy": "astro build && wrangler deploy",
     "check": "astro check",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "blog:run": "node tools/blog/publish.ts --app both",
+    "blog:dry": "node tools/blog/publish.ts --app both --dry-run",
+    "blog:test": "node --test tools/blog/lib/*.test.ts",
+    "blog:start": "pm2 start ecosystem.blog.cjs --only miso-blog",
+    "blog:stop": "pm2 stop miso-blog"
   },
   "devEngines": {
     "packageManager": {
