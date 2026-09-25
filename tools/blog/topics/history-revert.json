@@ -4,106 +4,191 @@
     "intent": "intro",
     "title_hint": "Shopify product history: what changed, when, and by whom",
     "primary_keyword": "shopify product history",
-    "secondary_keywords": ["product change log shopify", "who changed my product shopify"],
+    "secondary_keywords": [
+      "product change log shopify",
+      "who changed my product shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-01", "HR-02", "HR-03", "HR-36"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-01",
+      "HR-02",
+      "HR-03",
+      "HR-36"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "timeline",
-    "notes": "Opening post for the app. Define the change trail, do not sell."
+    "notes": "Outline: (1) what the app records, product create/update/delete plus variants, images, metafields and collections [HR-01, HR-02]; (2) how each change is stored, the JSON Patch and the periodic checkpoint [HR-03, HR-04]; (3) who the author column can name and the caveat the app prints [HR-06, HR-07, HR-08]; (4) what the dashboard and filters let an operator do with the trail [HR-36, HR-37]. No definition of 'log', no closing summary."
   },
   {
     "id": "hr-undo-a-price-change",
     "intent": "guide",
     "title_hint": "How to undo a Shopify price change without a backup",
     "primary_keyword": "undo price change shopify",
-    "secondary_keywords": ["revert product price shopify", "shopify price history"],
+    "secondary_keywords": [
+      "revert product price shopify",
+      "shopify price history"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-11", "HR-13", "HR-15"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-11",
+      "HR-13",
+      "HR-15"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "flow",
-    "notes": "Step by step: find the entry, preview the diff, revert the price only."
+    "notes": "Outline: (1) open the product's history and find the price entry [HR-37]; (2) read the before/after preview before confirming [HR-15]; (3) revert the price field only, and what that leaves untouched [HR-11, HR-14]; (4) why a second click cannot double-apply [HR-17]. Steps in imperative voice, one line each."
   },
   {
     "id": "hr-compare-two-versions",
     "intent": "guide",
     "title_hint": "Compare two versions of a product before you revert",
     "primary_keyword": "shopify product compare versions",
-    "secondary_keywords": ["before after diff shopify product"],
+    "secondary_keywords": [
+      "before after diff shopify product"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-15", "HR-13", "HR-37"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-15",
+      "HR-13",
+      "HR-37"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
-    "notes": "Show the before/after compare and why preview matters."
+    "notes": "Outline: (1) why a field list is not enough and the old/new values matter [HR-15]; (2) what point-in-time restore writes back and what it deliberately leaves [HR-13, HR-14]; (3) how to filter to the entry you want to compare [HR-37]. One worked example with a price edit and an image reorder; no hypothetical store names."
   },
   {
     "id": "hr-what-attribution-cannot-see",
     "intent": "tips",
     "title_hint": "Who changed this product? What Shopify can and cannot tell you",
     "primary_keyword": "who changed my shopify product",
-    "secondary_keywords": ["shopify staff attribution", "shopify product audit trail"],
+    "secondary_keywords": [
+      "shopify staff attribution",
+      "shopify product audit trail"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-06", "HR-07", "HR-08"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-06",
+      "HR-07",
+      "HR-08"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
-    "notes": "Honest post about the limit: only create, delete, publishing and status changes are attributable."
+    "notes": "Outline: (1) where the author comes from, Shopify's store timeline events, not the webhook [HR-06]; (2) the exact attributed actions: create, delete, publishing/unpublishing, status change [HR-07]; (3) the actions that stay Unknown: title, description, price, tags, variants, metafields, images [HR-07]; (4) where the app states this in the UI [HR-08]. Write the two sets out in full."
   },
   {
     "id": "hr-why-unknown-author",
     "intent": "troubleshoot",
     "title_hint": "Why a change shows \"Unknown\" as the author",
     "primary_keyword": "shopify change unknown author",
-    "secondary_keywords": ["shopify product history unknown"],
+    "secondary_keywords": [
+      "shopify product history unknown"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-06", "HR-07", "HR-08"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-06",
+      "HR-07",
+      "HR-08"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "og-card",
-    "notes": "Reassure: it is Shopify's event coverage, not a broken app."
+    "notes": "Outline: (1) 'Unknown' is what Shopify's event coverage allows, not a failure [HR-06, HR-07]; (2) which changes can never be attributed [HR-07]; (3) how to read an entry whose author is Unknown [HR-08]; (4) what the app does attribute, so the reader knows the boundary [HR-09]. Keep it under 800 words; no support-ticket tone."
   },
   {
     "id": "hr-restore-deleted-product",
     "intent": "guide",
     "title_hint": "Restore a deleted Shopify product from its history",
     "primary_keyword": "restore deleted shopify product",
-    "secondary_keywords": ["recover deleted product shopify", "shopify deleted product backup"],
+    "secondary_keywords": [
+      "recover deleted product shopify",
+      "shopify deleted product backup"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-20", "HR-21", "HR-23"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-20",
+      "HR-21",
+      "HR-23"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "flow",
-    "notes": "Emphasise draft-first and the once-only restore rule."
+    "notes": "Outline: (1) where a deletion shows up and its Restore action [HR-20]; (2) what the restore rebuilds, listing the fields [HR-23]; (3) the draft-first rule and the opt-in publish [HR-21]; (4) the once-only guard [HR-22]. Mention warnings only in one sentence, pointing to the warning article."
   },
   {
     "id": "hr-restore-once-rule",
     "intent": "tips",
     "title_hint": "Why a deleted product can only be restored once",
     "primary_keyword": "restore deleted product shopify",
-    "secondary_keywords": ["shopify product restore duplicate"],
+    "secondary_keywords": [
+      "shopify product restore duplicate"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-22", "HR-20"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-22",
+      "HR-20"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "og-card",
-    "notes": "Explain the duplicate-prevention mark and how to make it restorable again."
+    "notes": "Outline: (1) the duplicate problem the guard solves [HR-22]; (2) how the archived record is marked [HR-22, HR-20]; (3) how to make a product restorable again [HR-22]; (4) what the restore produces, a draft [HR-21]. Short post, 700-800 words."
   },
   {
     "id": "hr-plan-choosing-tracked-products",
     "intent": "tips",
     "title_hint": "Choosing a history plan by tracked products, not by price",
     "primary_keyword": "shopify product history app pricing",
-    "secondary_keywords": ["tracked products plan"],
+    "secondary_keywords": [
+      "tracked products plan"
+    ],
     "category": "product-updates",
-    "facts_required": ["HR-29", "HR-30", "HR-32"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-29",
+      "HR-30",
+      "HR-32"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
-    "notes": "Explain the cap and the warning, and why reverts are unlimited everywhere."
+    "notes": "Outline: (1) what a plan actually limits, tracked products and retention, not reverts [HR-30, HR-29]; (2) the four tiers with their product counts and windows [HR-29]; (3) what happens at the cap and the warning the app shows [HR-32]; (4) how to estimate your need without inventing numbers. Use the exact prices and counts."
   },
   {
     "id": "hr-seo-fields-revert",
     "intent": "guide",
     "title_hint": "Reverting SEO fields without touching the rest of the product",
     "primary_keyword": "revert seo fields shopify",
-    "secondary_keywords": ["shopify product seo title history"],
+    "secondary_keywords": [
+      "shopify product seo title history"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-13", "HR-14", "HR-11"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-13",
+      "HR-14",
+      "HR-11"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Point-in-time restore covers SEO; note what it deliberately leaves alone."
   },
@@ -112,10 +197,21 @@
     "intent": "compare",
     "title_hint": "Shopify's product activity log vs a version history app",
     "primary_keyword": "shopify product activity log",
-    "secondary_keywords": ["shopify built in product history", "product change history app"],
+    "secondary_keywords": [
+      "shopify built in product history",
+      "product change history app"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-01", "HR-03", "HR-04", "HR-12"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-01",
+      "HR-03",
+      "HR-04",
+      "HR-12"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Compare reading a log with restoring a state. No competitor names."
   },
@@ -124,10 +220,20 @@
     "intent": "guide",
     "title_hint": "Point-in-time restore or a single-field revert: which to use",
     "primary_keyword": "shopify product restore options",
-    "secondary_keywords": ["revert single field shopify"],
+    "secondary_keywords": [
+      "revert single field shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-11", "HR-12", "HR-13", "HR-14"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-11",
+      "HR-12",
+      "HR-13",
+      "HR-14"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Decision rule: one field versus a whole snapshot."
   },
@@ -136,10 +242,19 @@
     "intent": "tips",
     "title_hint": "Why your own reverts do not clutter the change log",
     "primary_keyword": "shopify product change log",
-    "secondary_keywords": ["audit trail clean shopify"],
+    "secondary_keywords": [
+      "audit trail clean shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-35", "HR-09", "HR-03"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-35",
+      "HR-09",
+      "HR-03"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Explain the Redis ledger and why the merchant's real edit is kept."
   },
@@ -148,10 +263,19 @@
     "intent": "guide",
     "title_hint": "Bulk point-in-time restore for large catalogs",
     "primary_keyword": "bulk restore shopify products",
-    "secondary_keywords": ["bulk product revert shopify"],
+    "secondary_keywords": [
+      "bulk product revert shopify"
+    ],
     "category": "product-updates",
-    "facts_required": ["HR-16", "HR-29", "HR-12"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-16",
+      "HR-29",
+      "HR-12"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "State the plan gate plainly: Scale and Enterprise, per-product restore stays open."
   },
@@ -160,10 +284,19 @@
     "intent": "troubleshoot",
     "title_hint": "Restore warnings explained: bytes, collections and locations",
     "primary_keyword": "shopify product restore warning",
-    "secondary_keywords": ["restore missing product image"],
+    "secondary_keywords": [
+      "restore missing product image"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-25", "HR-26", "HR-24"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-25",
+      "HR-26",
+      "HR-24"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "og-card",
     "notes": "Three warning kinds, and why a warning does not fail the restore."
   },
@@ -172,10 +305,19 @@
     "intent": "tips",
     "title_hint": "Where a product's image bytes have to live to be restorable",
     "primary_keyword": "product image backup shopify",
-    "secondary_keywords": ["restore deleted product images"],
+    "secondary_keywords": [
+      "restore deleted product images"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-26", "HR-27", "HR-28"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-26",
+      "HR-27",
+      "HR-28"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Use the measured numbers: about 3.6 MB per product, 7 GB at 2,000, 53 GB at 15,000."
   },
@@ -184,10 +326,19 @@
     "intent": "guide",
     "title_hint": "Editing a product in the app keeps the audit trail",
     "primary_keyword": "edit shopify product history",
-    "secondary_keywords": ["product editor shopify app"],
+    "secondary_keywords": [
+      "product editor shopify app"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-10", "HR-18", "HR-19"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-10",
+      "HR-18",
+      "HR-19"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Cover the refusal on stale fields and the absence of an approval step."
   },
@@ -196,10 +347,19 @@
     "intent": "guide",
     "title_hint": "What the retention window means when you restore",
     "primary_keyword": "shopify product history retention",
-    "secondary_keywords": ["how far back product history"],
+    "secondary_keywords": [
+      "how far back product history"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-05", "HR-29", "HR-04"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-05",
+      "HR-29",
+      "HR-04"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "timeline",
     "notes": "A refusal names the date history starts from instead of guessing."
   },
@@ -208,10 +368,19 @@
     "intent": "compare",
     "title_hint": "Nightly exports vs an append-only change log",
     "primary_keyword": "shopify product backup",
-    "secondary_keywords": ["shopify nightly backup product"],
+    "secondary_keywords": [
+      "shopify nightly backup product"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-03", "HR-04", "HR-28"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-03",
+      "HR-04",
+      "HR-28"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Explain checkpoints plus patches, and why a checkpoint never erases a moment."
   },
@@ -220,10 +389,19 @@
     "intent": "tips",
     "title_hint": "Finding one edit in a busy change log",
     "primary_keyword": "shopify product change log filter",
-    "secondary_keywords": ["search product history shopify"],
+    "secondary_keywords": [
+      "search product history shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-37", "HR-36", "HR-38"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-37",
+      "HR-36",
+      "HR-38"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "og-card",
     "notes": "Filters by field, change type, date range, free text; dashboard for the overview."
   },
@@ -232,10 +410,19 @@
     "intent": "guide",
     "title_hint": "Getting an email when something gets deleted or reverted",
     "primary_keyword": "shopify product delete alert",
-    "secondary_keywords": ["shopify change digest email"],
+    "secondary_keywords": [
+      "shopify change digest email"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-33", "HR-34", "HR-21"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-33",
+      "HR-34",
+      "HR-21"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Three alert kinds, the 30-minute digest throttle, and the plan gate."
   },
@@ -244,10 +431,20 @@
     "intent": "guide",
     "title_hint": "A bad bulk price edit: what to check before reverting",
     "primary_keyword": "bulk price edit shopify fix",
-    "secondary_keywords": ["revert bulk product changes"],
+    "secondary_keywords": [
+      "revert bulk product changes"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-15", "HR-16", "HR-17", "HR-13"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-15",
+      "HR-16",
+      "HR-17",
+      "HR-13"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Preview, revertable fields, idempotency, and the bulk plan gate."
   },
@@ -256,10 +453,19 @@
     "intent": "tips",
     "title_hint": "Restoring stock per location after a bad inventory sync",
     "primary_keyword": "shopify inventory restore location",
-    "secondary_keywords": ["variant stock restore shopify"],
+    "secondary_keywords": [
+      "variant stock restore shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-23", "HR-40", "HR-21"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-23",
+      "HR-40",
+      "HR-21"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Stock lives per location; the app confirms a location still exists before writing."
   },
@@ -268,10 +474,19 @@
     "intent": "troubleshoot",
     "title_hint": "No history for a product? Check the tracked-product cap",
     "primary_keyword": "shopify product history missing",
-    "secondary_keywords": ["app not tracking new products"],
+    "secondary_keywords": [
+      "app not tracking new products"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-32", "HR-29", "HR-24"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-32",
+      "HR-29",
+      "HR-24"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "og-card",
     "notes": "Explain the cap warning on home and in Billing."
   },
@@ -280,10 +495,19 @@
     "intent": "guide",
     "title_hint": "Tracking which collections a product joined or left",
     "primary_keyword": "shopify collection membership history",
-    "secondary_keywords": ["product collection changes log"],
+    "secondary_keywords": [
+      "product collection changes log"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-01", "HR-14", "HR-23"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-01",
+      "HR-14",
+      "HR-23"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "timeline",
     "notes": "Collections are recorded and restorable individually, not by point-in-time restore."
   },
@@ -292,10 +516,20 @@
     "intent": "compare",
     "title_hint": "Full product revert vs point-in-time restore",
     "primary_keyword": "revert entire shopify product",
-    "secondary_keywords": ["product snapshot restore"],
+    "secondary_keywords": [
+      "product snapshot restore"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-12", "HR-13", "HR-14", "HR-15"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-12",
+      "HR-13",
+      "HR-14",
+      "HR-15"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Scope difference, and when the narrower restore is the safer one."
   },
@@ -304,10 +538,19 @@
     "intent": "tips",
     "title_hint": "What a restored product cannot get back",
     "primary_keyword": "restore deleted product shopify",
-    "secondary_keywords": ["shopify product id after restore"],
+    "secondary_keywords": [
+      "shopify product id after restore"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-24", "HR-23", "HR-25"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-24",
+      "HR-23",
+      "HR-25"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "List the honest gaps: original ID and creation date, orders, analytics, translations."
   },
@@ -316,10 +559,19 @@
     "intent": "guide",
     "title_hint": "Reverting several changes at once without double-applying",
     "primary_keyword": "batch revert shopify products",
-    "secondary_keywords": ["revert multiple product changes"],
+    "secondary_keywords": [
+      "revert multiple product changes"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-16", "HR-17", "HR-15"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-16",
+      "HR-17",
+      "HR-15"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Idempotency is the point: a repeated click cannot revert twice."
   },
@@ -328,10 +580,19 @@
     "intent": "tips",
     "title_hint": "Keeping image alt text and gallery order recoverable",
     "primary_keyword": "shopify image alt text history",
-    "secondary_keywords": ["restore product image order"],
+    "secondary_keywords": [
+      "restore product image order"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-18", "HR-23", "HR-26"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-18",
+      "HR-23",
+      "HR-26"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Alt text and order are editable in the app and part of a restored payload."
   },
@@ -340,10 +601,19 @@
     "intent": "guide",
     "title_hint": "Opening product history from the Shopify admin product menu",
     "primary_keyword": "shopify product history app",
-    "secondary_keywords": ["product admin link extension"],
+    "secondary_keywords": [
+      "product admin link extension"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-38", "HR-36", "HR-37"],
-    "internal_links": ["/apps/so-product-history-revert", "/blog"],
+    "facts_required": [
+      "HR-38",
+      "HR-36",
+      "HR-37"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "The admin link extension target and what the page shows."
   },
@@ -352,10 +622,20 @@
     "intent": "compare",
     "title_hint": "History and Revert or Auto Tags: which job are you fixing?",
     "primary_keyword": "shopify ops apps comparison",
-    "secondary_keywords": ["shopify product history vs tagging"],
+    "secondary_keywords": [
+      "shopify product history vs tagging"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["HR-01", "HR-12", "AT-01", "AT-02"],
-    "internal_links": ["/apps/so-product-history-revert", "/apps/so-auto-tags-all-in-one"],
+    "facts_required": [
+      "HR-01",
+      "HR-12",
+      "AT-01",
+      "AT-02"
+    ],
+    "internal_links": [
+      "/apps/so-product-history-revert",
+      "/apps/so-auto-tags-all-in-one"
+    ],
     "figure": "compare-table",
     "notes": "Cross-app post: one records and restores, one automates tagging. Uses facts from both sheets."
   }

@@ -23,12 +23,35 @@ const topic: Topic = {
   figure: "compare-table",
 };
 
-const SENTENCE =
-  "The activity log records what changed, when it changed, and which staff account changed it, so a merchant can answer a support question without guessing. ";
+/*
+ * Filler for the length gates. It is built from disjoint slices of a synthetic
+ * vocabulary so no two sentences share content words: the repetition gate would
+ * correctly reject a fixture that reuses one sentence.
+ */
+const PREFIX = "log entry price title handle vendor status template image variant stock location revert diff checkpoint patch filter dashboard alert digest plan cap quota tag rule condition action priority trail record window actor".split(" ");
+const base26 = (value: number): string => {
+  let out = "";
+  let rest = value;
+  do {
+    out = String.fromCharCode(97 + (rest % 26)) + out;
+    rest = Math.floor(rest / 26) - 1;
+  } while (rest >= 0);
+  return out;
+};
+let cursor = 0;
+
+/** Every token is unique, so no two fixture sentences can share content words. */
+function sentence(): string {
+  const words = Array.from({ length: 16 }, () => {
+    const n = cursor++;
+    return `${PREFIX[n % PREFIX.length]}${base26(Math.floor(n / PREFIX.length))}`;
+  });
+  return `${words.join(" ")}.`;
+}
 
 /** Body with 3 h2s, nine paragraphs and a bullet list — comfortably 700+ words. */
 function body(extra = ""): Draft["content"] {
-  const paragraph = SENTENCE.repeat(4);
+  const paragraph = (): string => [sentence(), sentence(), sentence(), sentence(), sentence()].join(" ");
   const blocks: Draft["content"] = [];
   for (let i = 0; i < 3; i++) {
     blocks.push({
@@ -44,10 +67,23 @@ function body(extra = ""): Draft["content"] {
         _key: `p${i}${j}`,
         style: "normal",
         markDefs: [],
-        children: [{ _type: "span", _key: `ps${i}${j}`, text: paragraph }],
+        children: [{ _type: "span", _key: `ps${i}${j}`, text: paragraph() }],
       });
     }
   }
+  blocks.push({
+    _type: "block",
+    _key: "links1",
+    style: "normal",
+    markDefs: [
+      { _key: "lnk-app", _type: "link", href: "/apps/so-product-history-revert" },
+      { _key: "lnk-blog", _type: "link", href: "/blog" },
+    ],
+    children: [
+      { _type: "span", _key: "ln1", text: "the app page", marks: ["lnk-app"] },
+      { _type: "span", _key: "ln2", text: "the blog", marks: ["lnk-blog"] },
+    ],
+  });
   blocks.push({
     _type: "block",
     _key: "l1",
@@ -110,6 +146,14 @@ test("short seo description fails seo_desc", () => {
   assert.ok(codes(draft({ seo_description: "too short" })).includes("seo_desc"));
 });
 
+test("an overlong seo description fails seo_desc", () => {
+  assert.ok(codes(draft({ seo_description: "x".repeat(161) })).includes("seo_desc"));
+});
+
+test("a description at the bound passes seo_desc", () => {
+  assert.ok(!codes(draft({ seo_description: "x".repeat(160) })).includes("seo_desc"));
+});
+
 test("a slug with spaces or uppercase fails slug", () => {
   assert.ok(codes(draft({ slug: "Not A Slug" })).includes("slug"));
 });
@@ -134,7 +178,20 @@ test("a body under 700 words fails body_len", () => {
 });
 
 test("a body over 1200 words fails body_len", () => {
-  assert.ok(codes(draft({ content: body(SENTENCE.repeat(20)) })).includes("body_len"));
+  const long = Array.from({ length: 40 }, sentence).join(" ");
+  assert.ok(codes(draft({ content: body(long) })).includes("body_len"));
+});
+
+test("two sentences that restate each other fail repetition", () => {
+  const repeated =
+    "Every product change is recorded in the activity log so you can review what happened to the product. Every product change is recorded in the activity log so you can investigate what happened to the product.";
+  assert.ok(codes(draft({ content: body(repeated) })).includes("repetition"));
+});
+
+test("distinct sentences pass repetition", () => {
+  const distinct =
+    "The log answers which staff account touched a product. Reverting one field writes the previous value back through the Shopify API.";
+  assert.ok(!codes(draft({ content: body(distinct) })).includes("repetition"));
 });
 
 test("hard-sell filler words fail banned", () => {
@@ -163,6 +220,16 @@ test("fewer than two internal links fails links", () => {
 
 test("an internal link the site does not serve fails links", () => {
   assert.ok(codes(draft({ internal_links: ["/apps/so-product-history-revert", "/apps/nope"] })).includes("links"));
+});
+
+test("a listed link that never appears in the body fails links", () => {
+  const links = ["/apps/so-product-history-revert", "/blog"];
+  const stripped = body().map((block) => (block._type === "block" && block._key === "links1" ? { ...block, markDefs: [] } : block));
+  assert.ok(codes(draft({ content: stripped, internal_links: links })).includes("links"));
+});
+
+test("a repeated internal link fails links", () => {
+  assert.ok(codes(draft({ internal_links: ["/apps/so-product-history-revert", "/apps/so-product-history-revert"] })).includes("links"));
 });
 
 test("a post link that is not published yet fails links", () => {

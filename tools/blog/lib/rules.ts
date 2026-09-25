@@ -7,8 +7,10 @@ export const MIN_WORDS = 700;
 export const MAX_WORDS = 1200;
 
 export const TITLE_MAX_CHARS = 60;
-export const SEO_DESCRIPTION_MIN = 140;
-export const SEO_DESCRIPTION_MAX = 158;
+// Search engines truncate a description around 155-160 characters; below 120
+// there is not enough room to say anything worth reading.
+export const SEO_DESCRIPTION_MIN = 120;
+export const SEO_DESCRIPTION_MAX = 160;
 
 export const BANNED_PHRASES = [
   "in today's fast-paced",

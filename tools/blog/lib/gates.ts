@@ -132,9 +132,18 @@ function structureFailures(content: PortableBlock[]): string[] {
   return problems;
 }
 
-function linkFailures(links: string[], existingSlugs: string[], apps: string[]): string[] {
+function linkFailures(links: string[], existingSlugs: string[], apps: string[], content: PortableBlock[]): string[] {
   const problems: string[] = [];
   if (links.length < 2) problems.push(`only ${links.length} internal links; at least 2 required`);
+  if (new Set(links).size !== links.length) problems.push("internal_links repeats the same path");
+  const hrefs = new Set(
+    content.flatMap((block) => (block._type === "block" ? block.markDefs.map((def) => def.href ?? "") : [])).filter(Boolean),
+  );
+  for (const link of links) {
+    // A path listed but never anchored in the body buys nothing: the reader
+    // cannot follow it and the crawler never sees it.
+    if (!hrefs.has(link)) problems.push(`"${link}" is listed but never linked in the body`);
+  }
   let appLinks = 0;
   for (const link of links) {
     if (!link.startsWith("/")) {
@@ -159,6 +168,52 @@ function linkFailures(links: string[], existingSlugs: string[], apps: string[]):
   return problems;
 }
 
+/** Sentences that restate each other are the cheapest form of filler. */
+const STOPWORDS = new Set(
+  "a an the and or of to in for is are was were be been being it its this that these those you your we our they their with on at as if then than so not no do does did can could should would may might will from into over under again more most some any all each every by about after before while when where which who whom what how".split(
+    " ",
+  ),
+);
+
+function contentWords(sentence: string): Set<string> {
+  return new Set(
+    sentence
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter((word) => word.length > 1 && !STOPWORDS.has(word)),
+  );
+}
+
+function jaccard(left: Set<string>, right: Set<string>): number {
+  if (left.size === 0 || right.size === 0) return 0;
+  let shared = 0;
+  for (const word of left) if (right.has(word)) shared++;
+  return shared / (left.size + right.size - shared);
+}
+
+export function repetitionFailures(text: string): string[] {
+  const sentences = text
+    // Blocks are newline-joined, so a heading must not be glued onto the
+    // paragraph that follows it.
+    .split(/(?<=[.!?])\s+|\n+/)
+    .map((sentence) => sentence.replace(/\s+/g, " ").trim())
+    .filter((sentence) => sentence.split(" ").length >= 8)
+    .map((sentence) => ({ sentence, words: contentWords(sentence) }))
+    .filter((entry) => entry.words.size >= 5);
+
+  for (let i = 0; i < sentences.length; i++) {
+    for (let j = i + 1; j < sentences.length; j++) {
+      if (jaccard(sentences[i].words, sentences[j].words) >= 0.6) {
+        return [
+          `"${sentences[j].sentence.slice(0, 100)}" restates "${sentences[i].sentence.slice(0, 100)}"`,
+        ];
+      }
+    }
+  }
+  return [];
+}
+
 export function runGates({ draft, facts, topic, existingSlugs, apps = KNOWN_APPS }: GateInput): GateResult {
   const failures: GateFailure[] = [];
   const add = (code: string, detail: string) => failures.push({ code, detail });
@@ -179,8 +234,9 @@ export function runGates({ draft, facts, topic, existingSlugs, apps = KNOWN_APPS
   if (!KEBAB.test(draft.slug) || draft.slug.length > 60) add("slug", `"${draft.slug}" is not a kebab-case slug of at most 60 chars`);
 
   if (words < MIN_WORDS || words > MAX_WORDS) add("body_len", `body is ${words} words; expected ${MIN_WORDS}-${MAX_WORDS}`);
+  for (const problem of repetitionFailures(text)) add("repetition", problem);
   for (const problem of structureFailures(draft.content)) add("structure", problem);
-  for (const problem of linkFailures(draft.internal_links, existingSlugs, apps)) add("links", problem);
+  for (const problem of linkFailures(draft.internal_links, existingSlugs, apps, draft.content)) add("links", problem);
 
   const lower = text.toLowerCase();
   for (const phrase of BANNED_PHRASES) {

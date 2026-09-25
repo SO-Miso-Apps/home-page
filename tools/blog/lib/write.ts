@@ -49,7 +49,13 @@ A draft that breaks any of these is thrown back without being published.
   facts is the fastest way to be rejected.
 - Headings are questions or concrete operations a merchant would recognise, not labels.
 - End on the last concrete point; no summary paragraph that repeats the post.
-- Do not link to /blog or to pages that are not in internal_links.
+- Every path in internal_links must be anchored in the body as a markDef with
+  _type "link" and that href, and no two links may point at the same page.
+- Do not link to any page outside internal_links.
+- Delete any sentence that adds no field, limit, step or trade-off; a section that
+  restates the one above it is filler.
+- Where a fact names an exact set or scope, write the set out instead of an
+  umbrella term like "supported actors".
 - Figure rows must come from a fact sheet entry: label and value, nothing invented.
 - Never use any of these phrases: ${BANNED_PHRASES.join(", ")}.`,
     `## App\n${app}`,

@@ -4,106 +4,185 @@
     "intent": "intro",
     "title_hint": "Shopify auto tagging: rules that tag orders, customers and products",
     "primary_keyword": "shopify auto tagging",
-    "secondary_keywords": ["automatic tags shopify", "tag orders shopify"],
+    "secondary_keywords": [
+      "automatic tags shopify",
+      "tag orders shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-01", "AT-02", "AT-04"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-01",
+      "AT-02",
+      "AT-04"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "rule-tree",
-    "notes": "Opening post: what a tagging rule is and where it runs."
+    "notes": "Outline: (1) what a tagging rule is: resource, conditions, AND/OR, tags to apply [AT-04]; (2) when rules run, the webhook topics the app subscribes to [AT-02, AT-03]; (3) what it can tag: orders, customers, products [AT-01]; (4) where the results land, the activity log [AT-22]."
   },
   {
     "id": "at-first-vip-rule",
     "intent": "guide",
     "title_hint": "Build your first VIP customer rule in Shopify",
     "primary_keyword": "shopify vip customer tag",
-    "secondary_keywords": ["tag high value customers shopify"],
+    "secondary_keywords": [
+      "tag high value customers shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-04", "AT-05", "AT-07"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-04",
+      "AT-05",
+      "AT-07"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "rule-tree",
-    "notes": "Walk the rule form: resource, conditions, AND/OR, tags to apply."
+    "notes": "Outline: (1) pick the resource and the conditions for a spending threshold [AT-07]; (2) AND vs OR and how they change the segment [AT-05]; (3) the tags to apply and priority [AT-04, AT-12]; (4) test it on one customer before enabling [AT-17]. Walk the rule form in order."
   },
   {
     "id": "at-and-or-logic",
     "intent": "guide",
     "title_hint": "AND or OR: writing conditions that tag the right orders",
     "primary_keyword": "shopify tag rules conditions",
-    "secondary_keywords": ["tag orders by condition shopify"],
+    "secondary_keywords": [
+      "tag orders by condition shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-05", "AT-06", "AT-12"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-05",
+      "AT-06",
+      "AT-12"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "rule-tree",
-    "notes": "Two or three worked examples, including priority interaction."
+    "notes": "Outline: (1) AND semantics with a two-condition example [AT-05]; (2) OR semantics with a location example [AT-05]; (3) order condition vocabulary available for each [AT-06]; (4) what priority does when two rules match [AT-12]. Two worked examples, no invented data."
   },
   {
     "id": "at-order-conditions-list",
     "intent": "tips",
     "title_hint": "Every order condition you can tag on",
     "primary_keyword": "shopify tag orders automatically",
-    "secondary_keywords": ["order tags by value shopify"],
+    "secondary_keywords": [
+      "order tags by value shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-06", "AT-09", "AT-11"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-06",
+      "AT-09",
+      "AT-11"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "compare-table",
-    "notes": "Reference-style post listing conditions plus line-item matching."
+    "notes": "Outline: (1) value and size conditions [AT-06]; (2) status and fulfilment conditions [AT-06]; (3) customer-on-the-order conditions [AT-06]; (4) line-item matching and how a tag applied twice is counted [AT-09, AT-11]. Reference list format, short intros per group."
   },
   {
     "id": "at-customer-conditions-list",
     "intent": "tips",
     "title_hint": "Customer conditions worth tagging on",
     "primary_keyword": "shopify customer tags automatically",
-    "secondary_keywords": ["segment customers shopify tags"],
+    "secondary_keywords": [
+      "segment customers shopify tags"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-07", "AT-05"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-07",
+      "AT-05"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "compare-table",
-    "notes": "Loyalty tiers, wholesale, marketing consent, geography."
+    "notes": "Outline: (1) spend and order-count conditions for tiers [AT-07]; (2) consent and verification conditions [AT-07]; (3) location and language conditions [AT-07]; (4) combining them into a segment, with AND/OR [AT-05]. Two example segments only."
   },
   {
     "id": "at-product-conditions-list",
     "intent": "tips",
     "title_hint": "Product conditions for clean catalog tagging",
     "primary_keyword": "shopify product tags automatically",
-    "secondary_keywords": ["auto tag products shopify"],
+    "secondary_keywords": [
+      "auto tag products shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-08", "AT-05"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-08",
+      "AT-05"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "compare-table",
-    "notes": "Vendor, type, price, inventory, status, published state."
+    "notes": "Outline: (1) catalog identity conditions, vendor and type [AT-08]; (2) price conditions including compare-at [AT-08]; (3) inventory and status conditions [AT-08]; (4) combining with AND/OR for a cleanup rule [AT-05]. Keep each section to one paragraph plus bullets."
   },
   {
     "id": "at-reset-on-mismatch",
     "intent": "guide",
     "title_hint": "Reset on Mismatch: tags that follow the customer",
     "primary_keyword": "shopify dynamic customer segments tags",
-    "secondary_keywords": ["remove tag when condition fails"],
+    "secondary_keywords": [
+      "remove tag when condition fails"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-10", "AT-07", "AT-11"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-10",
+      "AT-07",
+      "AT-11"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
-    "notes": "Explain add and remove semantics, and that quotas still count per trigger."
+    "notes": "Outline: (1) what the setting does when a resource stops matching [AT-10]; (2) the customer example, a VIP tag that should follow spending [AT-07]; (3) that quota still counts per trigger and the tag appears once [AT-11]; (4) when not to turn it on. State clearly that tags are removed by the app."
   },
   {
     "id": "at-rule-priority",
     "intent": "tips",
     "title_hint": "Rule priority: which rule wins when two match",
     "primary_keyword": "shopify tagging rules priority",
-    "secondary_keywords": ["rule order shopify tags"],
+    "secondary_keywords": [
+      "rule order shopify tags"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-12", "AT-11"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-12",
+      "AT-11"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
-    "notes": "Lower number first, default 10, and what happens with overlapping tags."
+    "notes": "Outline: (1) evaluation order and the default priority [AT-12]; (2) the overlapping-rules case and the tag dedupe rule [AT-11]; (3) how to reorder priorities on existing rules [AT-12]; (4) a two-rule worked example. No invented rule names."
   },
   {
     "id": "at-test-rule-before-enabling",
     "intent": "guide",
     "title_hint": "Test a tagging rule on one order before it goes live",
     "primary_keyword": "test shopify tagging rule",
-    "secondary_keywords": ["shopify rule dry run"],
+    "secondary_keywords": [
+      "shopify rule dry run"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-17", "AT-15", "AT-13"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-17",
+      "AT-15",
+      "AT-13"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Disabled rule, reprocess one resource, read the activity log."
   },
@@ -112,10 +191,19 @@
     "intent": "guide",
     "title_hint": "Tagging orders that already happened",
     "primary_keyword": "tag existing orders shopify",
-    "secondary_keywords": ["apply tags to past orders"],
+    "secondary_keywords": [
+      "apply tags to past orders"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-15", "AT-02", "AT-35"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-15",
+      "AT-02",
+      "AT-35"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Reprocess by id, date range or all; rules are otherwise event-triggered."
   },
@@ -124,10 +212,18 @@
     "intent": "tips",
     "title_hint": "Start from a recipe instead of an empty rule",
     "primary_keyword": "shopify tagging rule templates",
-    "secondary_keywords": ["prebuilt tagging rules shopify"],
+    "secondary_keywords": [
+      "prebuilt tagging rules shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-16", "AT-04"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-16",
+      "AT-04"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Mention the seeded rule count and that recipes are editable after import."
   },
@@ -136,10 +232,18 @@
     "intent": "tips",
     "title_hint": "Moving a rule set between stores",
     "primary_keyword": "export shopify tagging rules",
-    "secondary_keywords": ["import tagging rules shopify"],
+    "secondary_keywords": [
+      "import tagging rules shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-14", "AT-13"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-14",
+      "AT-13"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "JSON export and import, plus the disabled-copy behaviour when duplicating."
   },
@@ -148,10 +252,18 @@
     "intent": "tips",
     "title_hint": "Two habits that keep a rule set maintainable",
     "primary_keyword": "shopify tagging rules manage",
-    "secondary_keywords": ["enable disable shopify rule"],
+    "secondary_keywords": [
+      "enable disable shopify rule"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-13", "AT-12"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-13",
+      "AT-12"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "og-card",
     "notes": "Duplicate as a disabled copy, and pause instead of deleting."
   },
@@ -160,10 +272,20 @@
     "intent": "guide",
     "title_hint": "Cleaning up duplicate tags like Sale and sale",
     "primary_keyword": "shopify duplicate tags cleanup",
-    "secondary_keywords": ["merge tags shopify", "clean product tags"],
+    "secondary_keywords": [
+      "merge tags shopify",
+      "clean product tags"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-18", "AT-19", "AT-30"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-18",
+      "AT-19",
+      "AT-30"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Deep scan via the Bulk API, then merge into one canonical tag."
   },
@@ -172,10 +294,19 @@
     "intent": "guide",
     "title_hint": "Find and replace a tag across the whole store",
     "primary_keyword": "shopify bulk edit tags",
-    "secondary_keywords": ["replace product tags shopify"],
+    "secondary_keywords": [
+      "replace product tags shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-20", "AT-26", "AT-30"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-20",
+      "AT-26",
+      "AT-30"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Always preview first; explain how the operation count is calculated."
   },
@@ -184,10 +315,18 @@
     "intent": "tips",
     "title_hint": "Read the bulk preview before you confirm",
     "primary_keyword": "shopify bulk tag preview",
-    "secondary_keywords": ["bulk operation confirm shopify"],
+    "secondary_keywords": [
+      "bulk operation confirm shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-20", "AT-26"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-20",
+      "AT-26"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "What the preview shows and why the count matters against quota."
   },
@@ -196,10 +335,19 @@
     "intent": "guide",
     "title_hint": "Reverting a bulk tag operation",
     "primary_keyword": "undo bulk tag change shopify",
-    "secondary_keywords": ["revert tag operation shopify"],
+    "secondary_keywords": [
+      "revert tag operation shopify"
+    ],
     "category": "product-updates",
-    "facts_required": ["AT-21", "AT-22", "AT-25"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-21",
+      "AT-22",
+      "AT-25"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Backup per bulk operation, revert from the activity log, Pro plan."
   },
@@ -208,10 +356,19 @@
     "intent": "guide",
     "title_hint": "Using the activity log as a tagging audit trail",
     "primary_keyword": "shopify tag automation log",
-    "secondary_keywords": ["audit tags shopify"],
+    "secondary_keywords": [
+      "audit tags shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-22", "AT-23", "AT-11"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-22",
+      "AT-23",
+      "AT-11"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "timeline",
     "notes": "Timestamp, status, filters, and the retention window."
   },
@@ -220,10 +377,19 @@
     "intent": "tips",
     "title_hint": "What counts against your monthly tagging quota",
     "primary_keyword": "shopify tagging app quota",
-    "secondary_keywords": ["tag operations limit"],
+    "secondary_keywords": [
+      "tag operations limit"
+    ],
     "category": "product-updates",
-    "facts_required": ["AT-26", "AT-11", "AT-24"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-26",
+      "AT-11",
+      "AT-24"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Tagger, cleaner and bulk each count differently; same tag twice still counts twice."
   },
@@ -232,10 +398,19 @@
     "intent": "troubleshoot",
     "title_hint": "Quota exceeded: why new events stopped being tagged",
     "primary_keyword": "shopify tagging app limit reached",
-    "secondary_keywords": ["tag rules stopped working"],
+    "secondary_keywords": [
+      "tag rules stopped working"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-27", "AT-28", "AT-24"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-27",
+      "AT-28",
+      "AT-24"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "og-card",
     "notes": "The warning banner, the three options, and where usage is shown."
   },
@@ -244,10 +419,19 @@
     "intent": "tips",
     "title_hint": "Free, Basic or Pro: picking by operations per month",
     "primary_keyword": "shopify auto tagging app pricing",
-    "secondary_keywords": ["tagging app plans shopify"],
+    "secondary_keywords": [
+      "tagging app plans shopify"
+    ],
     "category": "product-updates",
-    "facts_required": ["AT-24", "AT-25", "AT-26"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-24",
+      "AT-25",
+      "AT-26"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Exact numbers from plans.ts. Pro removes every limit."
   },
@@ -256,10 +440,19 @@
     "intent": "guide",
     "title_hint": "How a tagging rule fires in the seconds after an order",
     "primary_keyword": "shopify webhook tag automation",
-    "secondary_keywords": ["real time tagging shopify"],
+    "secondary_keywords": [
+      "real time tagging shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-02", "AT-03", "AT-30"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-02",
+      "AT-03",
+      "AT-30"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Webhook topics, queue, and why the work stays off the storefront."
   },
@@ -268,10 +461,19 @@
     "intent": "tips",
     "title_hint": "Tagging without slowing the storefront",
     "primary_keyword": "shopify app store performance",
-    "secondary_keywords": ["bulk api shopify app"],
+    "secondary_keywords": [
+      "bulk api shopify app"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-30", "AT-18", "AT-31"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-30",
+      "AT-18",
+      "AT-31"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "og-card",
     "notes": "Queue plus Shopify Bulk Operations API; storage split between ops data and tags."
   },
@@ -280,10 +482,18 @@
     "intent": "guide",
     "title_hint": "Chaining Shopify Flow after a tag lands",
     "primary_keyword": "shopify flow tag trigger",
-    "secondary_keywords": ["flow automation tags shopify"],
+    "secondary_keywords": [
+      "flow automation tags shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-29", "AT-02"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-29",
+      "AT-02"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
     "notes": "Six triggers, applied and removed, for customers, orders and products."
   },
@@ -292,22 +502,41 @@
     "intent": "troubleshoot",
     "title_hint": "A rule that never fires: the five things to check",
     "primary_keyword": "shopify tag rule not working",
-    "secondary_keywords": ["tagging rule troubleshooting"],
+    "secondary_keywords": [
+      "tagging rule troubleshooting"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-17", "AT-13", "AT-27", "AT-05"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-17",
+      "AT-13",
+      "AT-27",
+      "AT-05"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "flow",
-    "notes": "Enabled, conditions, quota, resource type, log — in that order."
+    "notes": "Enabled, conditions, quota, resource type, log \u2014 in that order."
   },
   {
     "id": "at-what-not-to-automate",
     "intent": "tips",
     "title_hint": "What tagging rules cannot do yet",
     "primary_keyword": "shopify tag automation limits",
-    "secondary_keywords": ["metafield condition shopify tags"],
+    "secondary_keywords": [
+      "metafield condition shopify tags"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-35", "AT-36", "AT-15"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-35",
+      "AT-36",
+      "AT-15"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Honest limits: event-triggered only, standard fields only, and the two workarounds."
   },
@@ -316,10 +545,18 @@
     "intent": "troubleshoot",
     "title_hint": "What happens to your rules and tags if you uninstall",
     "primary_keyword": "shopify app uninstall tags",
-    "secondary_keywords": ["tags remain after uninstall"],
+    "secondary_keywords": [
+      "tags remain after uninstall"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-34", "AT-33"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-34",
+      "AT-33"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "og-card",
     "notes": "Rules kept 30 days; tags stay on resources because they are Shopify data."
   },
@@ -328,10 +565,19 @@
     "intent": "guide",
     "title_hint": "Why a tagging app asks for inventory access",
     "primary_keyword": "shopify app permissions tagging",
-    "secondary_keywords": ["shopify app scopes explained"],
+    "secondary_keywords": [
+      "shopify app scopes explained"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-33", "AT-08", "AT-06"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-33",
+      "AT-08",
+      "AT-06"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Map each scope to the condition it powers."
   },
@@ -340,10 +586,20 @@
     "intent": "compare",
     "title_hint": "Manual tags vs rule-based tagging at 500 orders a month",
     "primary_keyword": "shopify manual tagging vs automation",
-    "secondary_keywords": ["tag orders automatically shopify"],
+    "secondary_keywords": [
+      "tag orders automatically shopify"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-01", "AT-02", "AT-26", "AT-27"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/blog"],
+    "facts_required": [
+      "AT-01",
+      "AT-02",
+      "AT-26",
+      "AT-27"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/blog"
+    ],
     "figure": "compare-table",
     "notes": "Frame around the operator's time and quota, not invented metrics."
   },
@@ -352,10 +608,20 @@
     "intent": "compare",
     "title_hint": "Auto Tags or History and Revert: two different safety nets",
     "primary_keyword": "shopify ops apps comparison",
-    "secondary_keywords": ["shopify automation vs history"],
+    "secondary_keywords": [
+      "shopify automation vs history"
+    ],
     "category": "merchant-playbook",
-    "facts_required": ["AT-01", "AT-21", "HR-12", "HR-14"],
-    "internal_links": ["/apps/so-auto-tags-all-in-one", "/apps/so-product-history-revert"],
+    "facts_required": [
+      "AT-01",
+      "AT-21",
+      "HR-12",
+      "HR-14"
+    ],
+    "internal_links": [
+      "/apps/so-auto-tags-all-in-one",
+      "/apps/so-product-history-revert"
+    ],
     "figure": "compare-table",
     "notes": "Cross-app post: tagging forward versus restoring backwards. Uses facts from both sheets."
   }

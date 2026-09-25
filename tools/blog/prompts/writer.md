@@ -17,9 +17,23 @@ busy: they want the answer, not a mood.
 
 ## Structure
 
+- Every section names a concrete surface: the page, the action menu entry, the
+  field, the log line, the plan limit. "Powerful tracking" is not a section.
+- Prefer an example over an adjective: "a price edit writes both values into the
+  entry" beats "comprehensive change tracking".
+- Never open a paragraph by defining an everyday word ("a log is a record of…").
+- Delete any sentence that adds no field, limit, step or trade-off. A section that
+  can be summarised by the section above it is filler: cut it or replace it with a
+  fact the post has not used yet.
+- Where a fact names an exact set or scope, write that set out. Never write an
+  umbrella term ("supported actors", "various fields") over a fact that lists them.
+- Every path in `internal_links` must appear as an inline link inside `content`
+  (a `markDef` of `_type: "link"` carrying that `href`), and each link must point
+  somewhere different from the others.
+
 - `title`: at most 60 characters, contains the primary keyword naturally.
 - `seo_title`: may be the title or a tighter variant, at most 60 characters.
-- `seo_description`: 140 to 158 characters, one sentence, no clickbait.
+- `seo_description`: 120 to 160 characters, one sentence, no clickbait. Count the characters — 161 is a rejection.
 - `excerpt`: one sentence, at most 160 characters.
 - `slug`: lower-case words joined by hyphens.
 - `content`: Portable Text blocks — an opening paragraph that answers the
