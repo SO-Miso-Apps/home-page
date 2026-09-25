@@ -25,6 +25,11 @@ busy: they want the answer, not a mood.
 - Delete any sentence that adds no field, limit, step or trade-off. A section that
   can be summarised by the section above it is filler: cut it or replace it with a
   fact the post has not used yet.
+- Never restate a sentence in different words, and never reuse a sentence pattern
+  across sections. The gate compares sentences by their content words: two
+  sentences about the same subject with the same verb and object are a rejection.
+- If the draft is short, add a fact from the sheet that no section has used yet.
+  Padding with adjectives, restating, and "in summary" paragraphs are all rejected.
 - Where a fact names an exact set or scope, write that set out. Never write an
   umbrella term ("supported actors", "various fields") over a fact that lists them.
 - Every path in `internal_links` must appear as an inline link inside `content`
@@ -39,7 +44,8 @@ busy: they want the answer, not a mood.
 - `content`: Portable Text blocks — an opening paragraph that answers the
   question directly inside the first 60 words, then at least three `h2`
   sections, at least one bulleted list, and a short closing paragraph.
-  Between 700 and 1200 words of body text — aim for about 900 and count before you answer. No `h1`: the page renders the title.
+  Between 700 and 1200 words of body text. Count the words before you answer, and
+aim for 900: drafts that come in under 700 are rejected on the spot. No `h1`: the page renders the title.
 - `content` carries at most one `{"_type":"image"}` block, placed after the
   second `h2`; the pipeline fills its asset, so only set `alt`.
 - `internal_links`: the paths given in the topic, at least one of them.

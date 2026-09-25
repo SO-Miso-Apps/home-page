@@ -54,6 +54,9 @@ A draft that breaks any of these is thrown back without being published.
 - Do not link to any page outside internal_links.
 - Delete any sentence that adds no field, limit, step or trade-off; a section that
   restates the one above it is filler.
+- Never restate a sentence in different words, and never reuse a sentence pattern
+  across sections: the gate compares sentences by content words.
+- Short on words? Add an unused fact from the sheet, never padding or a summary.
 - Where a fact names an exact set or scope, write the set out instead of an
   umbrella term like "supported actors".
 - Never add a qualifier a fact does not carry ("automatically", "instantly",
@@ -104,6 +107,6 @@ export async function writeDraft(input: WriteInput): Promise<Draft> {
   const prompt = buildWriterPrompt(input);
   // A grounded 900-word draft at medium reasoning takes 2-4 minutes; the
   // default CLI timeout would kill good work mid-flight.
-  const raw = await askAgent("codex", prompt, { model: input.model, timeoutMs: 300_000 });
+  const raw = await askAgent("codex", prompt, { model: input.model, timeoutMs: 480_000 });
   return parseDraft(extractJson<unknown>(raw));
 }

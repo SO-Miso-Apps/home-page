@@ -55,11 +55,11 @@ export function runCodex(prompt: string, options: AgentOptions = {}): string {
     "read-only",
     "--skip-git-repo-check",
     "--json",
-    // Prose quality needs more than the CLI's default low effort, and the
-    // machine-global developer instructions (an orchestration harness) are
-    // noise for a writer: drop them.
+    // Prose quality needs more than the CLI's default low effort: a 900-word
+    // grounded draft has to be planned, not improvised. The machine-global
+    // developer instructions (an orchestration harness) are noise for a writer.
     "-c",
-    'model_reasoning_effort="medium"',
+    'model_reasoning_effort="high"',
     "-c",
     'developer_instructions=""',
   ];
