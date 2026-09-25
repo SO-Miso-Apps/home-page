@@ -49,7 +49,20 @@ function collectText(stdout: string, pick: (line: JsonLine) => string | undefine
 }
 
 export function runCodex(prompt: string, options: AgentOptions = {}): string {
-  const args = ["exec", "--sandbox", "read-only", "--skip-git-repo-check", "--json"];
+  const args = [
+    "exec",
+    "--sandbox",
+    "read-only",
+    "--skip-git-repo-check",
+    "--json",
+    // Prose quality needs more than the CLI's default low effort, and the
+    // machine-global developer instructions (an orchestration harness) are
+    // noise for a writer: drop them.
+    "-c",
+    'model_reasoning_effort="medium"',
+    "-c",
+    'developer_instructions=""',
+  ];
   if (options.model) args.push("-m", options.model);
   args.push("-");
   const stdout = invoke("codex", args, prompt, options);
