@@ -75,6 +75,11 @@ pnpm blog:stop
 Each run exits when it is done, so a failure can never loop. Output lands in
 `tools/blog/out/pm2.log`.
 
+`pm2 save` keeps the schedule in `~/.pm2/dump.pm2`, so `pm2 resurrect` brings it
+back after a reboot (a pm2 daemon started without `pm2 startup` does not survive
+one on its own). Re-running `pnpm blog:start` is safe: it replaces the entry and
+starts one immediate pass.
+
 The pm2 entry pins `interpreter` to the Node 22 binary in
 `ecosystem.blog.config.json`, because the pipeline runs TypeScript directly and the pm2
 daemon may hold an older Node from another nvm version. After a Node upgrade,
