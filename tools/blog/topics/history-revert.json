@@ -361,7 +361,7 @@
       "/blog"
     ],
     "figure": "timeline",
-    "notes": "A refusal names the date history starts from instead of guessing."
+    "notes": "Outline: (1) what the retention window is per plan [HR-29]; (2) what a restore does when the moment is older than the window, naming the date history starts from instead of guessing [HR-05]; (3) how checkpoints and patches extend what you can reach inside the window [HR-04]; (4) how to plan a plan choice around the window [HR-29]. State the refusal behaviour exactly."
   },
   {
     "id": "hr-vs-nightly-export",
@@ -382,7 +382,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Explain checkpoints plus patches, and why a checkpoint never erases a moment."
+    "notes": "Outline: (1) what a nightly export can and cannot tell you [HR-03]; (2) the append-only change log and its checkpoints [HR-03, HR-04]; (3) what a new checkpoint does not erase [HR-04]; (4) where image bytes have to live for a restore [HR-26, HR-28]. Contrast only these mechanisms; no product names."
   },
   {
     "id": "hr-find-one-edit",
@@ -403,7 +403,7 @@
       "/blog"
     ],
     "figure": "og-card",
-    "notes": "Filters by field, change type, date range, free text; dashboard for the overview."
+    "notes": "Outline: (1) the four filters, changed field, change type, date range and free text [HR-37]; (2) the dashboard counts that tell you where to start [HR-36]; (3) the per-product entry point and the admin action menu link [HR-38]; (4) a worked search: a price edit last Tuesday. Keep each section to one paragraph."
   },
   {
     "id": "hr-email-alerts-setup",
@@ -424,7 +424,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Three alert kinds, the 30-minute digest throttle, and the plan gate."
+    "notes": "Outline: (1) the three alert kinds, revert, delete and the change digest [HR-33]; (2) the digest throttle, at most one per 30 minutes and only for three or more changes [HR-33]; (3) where the toggle lives and how to change the recipient [HR-34]; (4) which plans include alerts [HR-34]. Mention the delete alert's value for recovery [HR-21] in one sentence."
   },
   {
     "id": "hr-bulk-price-edit-recovery",
@@ -446,7 +446,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Preview, revertable fields, idempotency, and the bulk plan gate."
+    "notes": "Outline: (1) what a bulk edit leaves behind in the history [HR-03]; (2) the preview before any revert [HR-15]; (3) the fields a revert can write back [HR-13]; (4) the plan gate for bulk restore and the idempotency guard [HR-16, HR-17]. Steps in the order an operator would take them."
   },
   {
     "id": "hr-variant-stock-restore",
@@ -467,7 +467,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Stock lives per location; the app confirms a location still exists before writing."
+    "notes": "Outline: (1) where stock lives, per location [HR-23]; (2) the permissions behind reading and writing it [HR-40]; (3) what a restored product carries for stock [HR-23]; (4) what the restore refuses when a location is gone [HR-25]. One worked example: a sync pushed zeros."
   },
   {
     "id": "hr-nothing-to-restore-from",
@@ -488,7 +488,7 @@
       "/blog"
     ],
     "figure": "og-card",
-    "notes": "Explain the cap warning on home and in Billing."
+    "notes": "Outline: (1) the tracked-product cap and what it means for new products [HR-32]; (2) the warnings the app shows on home and in Billing [HR-32]; (3) why an untracked deletion has nothing to restore [HR-24]; (4) what to check before the next catalog import [HR-29]. Direct, no blame."
   },
   {
     "id": "hr-collection-membership-history",
@@ -509,7 +509,7 @@
       "/blog"
     ],
     "figure": "timeline",
-    "notes": "Collections are recorded and restorable individually, not by point-in-time restore."
+    "notes": "Outline: (1) collection membership is recorded as changes [HR-01]; (2) point-in-time restore deliberately leaves collections alone [HR-14]; (3) how a collection change is reverted on its own [HR-11]; (4) a restored product's collections when the collection still exists [HR-23]. Say plainly which action to use."
   },
   {
     "id": "hr-full-vs-point-restore",

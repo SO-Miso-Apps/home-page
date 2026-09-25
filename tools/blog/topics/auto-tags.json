@@ -370,7 +370,7 @@
       "/blog"
     ],
     "figure": "timeline",
-    "notes": "Timestamp, status, filters, and the retention window."
+    "notes": "Outline: (1) what is logged per action, timestamp, status and details [AT-22]; (2) the three statuses [AT-22]; (3) the filters available [AT-22]; (4) the retention window and how it is configured [AT-23]. One sentence on quota counting per trigger [AT-11]."
   },
   {
     "id": "at-operation-quota",
@@ -391,7 +391,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Tagger, cleaner and bulk each count differently; same tag twice still counts twice."
+    "notes": "Outline: (1) what counts as an operation for tagger, cleaner and bulk [AT-26]; (2) the same tag applied twice still counts twice [AT-11]; (3) the plan allowances in exact numbers [AT-24, AT-25]; (4) where usage is displayed [AT-28]. Use a table for the allowances."
   },
   {
     "id": "at-quota-exceeded",
@@ -412,7 +412,7 @@
       "/blog"
     ],
     "figure": "og-card",
-    "notes": "The warning banner, the three options, and where usage is shown."
+    "notes": "Outline: (1) what happens at the limit, rules stop processing new events [AT-27]; (2) the warning banner [AT-27]; (3) the three options, wait, upgrade, or Pro [AT-27, AT-25]; (4) where to confirm the numbers [AT-28]. Put the resolution in the first 60 words."
   },
   {
     "id": "at-plan-choosing",
@@ -433,7 +433,7 @@
       "/blog"
     ],
     "figure": "compare-table",
-    "notes": "Exact numbers from plans.ts. Pro removes every limit."
+    "notes": "Outline: (1) what differs between the plans, operation allowances [AT-24]; (2) Free and Basic numbers [AT-24]; (3) what Pro removes and adds [AT-25]; (4) how to estimate need from current usage [AT-28]. Exact prices and counts from the sheet only."
   },
   {
     "id": "at-how-rules-run-in-real-time",
@@ -454,7 +454,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Webhook topics, queue, and why the work stays off the storefront."
+    "notes": "Outline: (1) the webhook topics the app subscribes to [AT-03]; (2) evaluation on arrival [AT-02]; (3) the queue that keeps the work off the storefront [AT-30]; (4) what the merchant sees afterwards, the log entry [AT-22]. No latency promises beyond the sheet."
   },
   {
     "id": "at-store-performance",
@@ -475,7 +475,7 @@
       "/blog"
     ],
     "figure": "og-card",
-    "notes": "Queue plus Shopify Bulk Operations API; storage split between ops data and tags."
+    "notes": "Outline: (1) why bulk work runs in background jobs [AT-30]; (2) the Bulk Operations API used for scans [AT-18]; (3) where the app's data lives and what stays on Shopify [AT-31]; (4) what that means after an uninstall [AT-34]. No benchmark claims."
   },
   {
     "id": "at-flow-triggers",
@@ -495,7 +495,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Six triggers, applied and removed, for customers, orders and products."
+    "notes": "Outline: (1) the six triggers [AT-29]; (2) what each one carries, the resource and rule name [AT-29]; (3) a chain example, tag applied then Flow sends a message [AT-29]; (4) how tags are applied in the first place [AT-02]. Note that this is Shopify Flow, not the app's own scheduler [AT-35]."
   },
   {
     "id": "at-why-rule-not-triggering",
@@ -517,7 +517,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Enabled, conditions, quota, resource type, log \u2014 in that order."
+    "notes": "Outline: (1) is the rule enabled [AT-13]; (2) do the conditions match the resource type [AT-05]; (3) is the monthly quota exhausted [AT-27]; (4) what the log says, and how to test with Data Reprocess [AT-22, AT-15]. Numbered checks."
   },
   {
     "id": "at-what-not-to-automate",
