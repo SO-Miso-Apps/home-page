@@ -247,20 +247,27 @@ figure does not use numbers.
 
 `ecosystem.blog.config.json` in `home-page`, started with pm2:
 
-```js
-module.exports = { apps: [{
-  name: "miso-blog",
-  script: "tools/blog/publish.ts",
-  interpreter: "node",
-  interpreter_args: "--import tsx",
-  args: "--app both",
-  cron_restart: "0 8 * * *",
-  autorestart: false,
-  cwd: "/Users/devhugon/Desktop/Workspaces/miso-apps/home-page",
-  out_file: "tools/blog/out/pm2.log",
-  error_file: "tools/blog/out/pm2.err.log",
-}]};
+```json
+{
+  "apps": [{
+    "name": "miso-blog",
+    "script": "tools/blog/publish.ts",
+    "interpreter": "<path to a Node 22 binary>",
+    "args": "--app both",
+    "cwd": "<repo root>",
+    "cron_restart": "0 8 * * *",
+    "autorestart": false,
+    "out_file": "tools/blog/out/pm2.log",
+    "error_file": "tools/blog/out/pm2.err.log",
+    "merge_logs": true
+  }]
+}
 ```
+
+The interpreter is pinned because the pipeline runs TypeScript directly (Node 22
+type stripping) while the pm2 daemon may hold an older Node from another nvm
+version. `pm2 save` persists the schedule; `pm2 resurrect` restores it after a
+reboot.
 
 `cron_restart` runs it at 08:00 daily and the process exits, so a failed run
 never loops. A manual run is `pnpm blog:run --app both`.
