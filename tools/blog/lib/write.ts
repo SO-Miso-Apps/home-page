@@ -51,7 +51,9 @@ A draft that breaks any of these is thrown back without being published.
 - End on the last concrete point; no summary paragraph that repeats the post.
 - Every path in internal_links must be anchored in the body as a markDef with
   _type "link" and that href, and no two links may point at the same page.
-- Do not link to any page outside internal_links.
+- Do not link to any page outside internal_links. /blog is the blog index: link it
+  once, in a closing sentence, as "the blog"; never invent a series or playbooks
+  framing for it, and never bend a sentence to fit a link.
 - Delete any sentence that adds no field, limit, step or trade-off; a section that
   restates the one above it is filler.
 - Never restate a sentence in different words, and never reuse a sentence pattern

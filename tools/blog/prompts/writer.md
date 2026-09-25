@@ -53,6 +53,10 @@ process and never the reader's workflow habits.
 - Every path in `internal_links` must appear as an inline link inside `content`
   (a `markDef` of `_type: "link"` carrying that `href`), and each link must point
   somewhere different from the others.
+- `/blog` is the blog index: link it once, in a closing sentence, as "the blog".
+  Never invent a "playbooks", "series" or "further reading" framing for it, and
+  never bend a sentence to fit a link — if the link would read as forced, say
+  plainly that more posts on the app are on the blog.
 
 - `title`: at most 60 characters, and it must carry **every content word** of the
   primary keyword (order may change, plurals are fine, small words like "the" and
