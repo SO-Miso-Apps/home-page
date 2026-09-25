@@ -113,7 +113,13 @@ export async function uploadMedia(site: string, token: string, file: string, fil
     { method: "POST", body: { filename, contentType, size: bytes.byteLength } },
   );
   const { uploadUrl, mediaId, headers } = ticket.data;
-  const put = await fetch(new URL(uploadUrl, site), { method: "PUT", headers, body: bytes });
+  // The local provider's upload endpoint sits behind the same auth as the API;
+  // an S3-backed signed URL ignores the extra header.
+  const put = await fetch(new URL(uploadUrl, site), {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${token}`, ...headers },
+    body: bytes,
+  });
   if (!put.ok) throw new Error(`emdash media PUT → ${put.status}: ${(await put.text()).slice(0, 300)}`);
 
   const confirmed = await api<{ data: { item: MediaItem } }>(site, token, `/_emdash/api/media/${mediaId}/confirm`, {
@@ -121,7 +127,9 @@ export async function uploadMedia(site: string, token: string, file: string, fil
     body: {},
   });
   const item = confirmed.data.item;
-  if (item.status && item.status !== "active") throw new Error(`emdash media ${mediaId} is ${item.status}, not active`);
+  // EmDash marks a confirmed upload `ready`; `pending` or `failed` means the
+  // bytes never landed.
+  if (item.status !== "ready") throw new Error(`emdash media ${mediaId} is ${item.status}, not ready`);
   return mediaId;
 }
 
