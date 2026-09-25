@@ -102,6 +102,8 @@ Reply with one JSON object, no prose and no code fence, with exactly these keys:
 
 export async function writeDraft(input: WriteInput): Promise<Draft> {
   const prompt = buildWriterPrompt(input);
-  const raw = await askAgent("codex", prompt, { model: input.model });
+  // A grounded 900-word draft at medium reasoning takes 2-4 minutes; the
+  // default CLI timeout would kill good work mid-flight.
+  const raw = await askAgent("codex", prompt, { model: input.model, timeoutMs: 300_000 });
   return parseDraft(extractJson<unknown>(raw));
 }

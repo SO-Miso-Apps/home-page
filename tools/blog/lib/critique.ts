@@ -23,7 +23,7 @@ export function buildCriticPrompt(draft: Draft, facts: Fact[], topic: Topic): st
 }
 
 export async function critique(draft: Draft, facts: Fact[], topic: Topic, model?: string): Promise<Critique> {
-  const raw = await askAgent("opencode", buildCriticPrompt(draft, facts, topic), { model });
+  const raw = await askAgent("opencode", buildCriticPrompt(draft, facts, topic), { model, timeoutMs: 240_000 });
   return parseCritique(extractJson<unknown>(raw));
 }
 
