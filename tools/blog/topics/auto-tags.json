@@ -2,7 +2,7 @@
   {
     "id": "at-what-auto-tagging-does",
     "intent": "intro",
-    "title_hint": "Shopify auto tagging: rules that tag orders, customers and products",
+    "title_hint": "Shopify auto tagging: rules for orders and customers",
     "primary_keyword": "shopify auto tagging",
     "secondary_keywords": [
       "automatic tags shopify",
@@ -45,7 +45,7 @@
   {
     "id": "at-and-or-logic",
     "intent": "guide",
-    "title_hint": "AND or OR: writing conditions that tag the right orders",
+    "title_hint": "Shopify tag rules: writing AND and OR conditions",
     "primary_keyword": "shopify tag rules conditions",
     "secondary_keywords": [
       "tag orders by condition shopify"
@@ -66,7 +66,7 @@
   {
     "id": "at-order-conditions-list",
     "intent": "tips",
-    "title_hint": "Every order condition you can tag on",
+    "title_hint": "Shopify tag orders automatically: every condition",
     "primary_keyword": "shopify tag orders automatically",
     "secondary_keywords": [
       "order tags by value shopify"
@@ -87,7 +87,7 @@
   {
     "id": "at-customer-conditions-list",
     "intent": "tips",
-    "title_hint": "Customer conditions worth tagging on",
+    "title_hint": "Shopify customer tags automatically: the conditions",
     "primary_keyword": "shopify customer tags automatically",
     "secondary_keywords": [
       "segment customers shopify tags"
@@ -107,7 +107,7 @@
   {
     "id": "at-product-conditions-list",
     "intent": "tips",
-    "title_hint": "Product conditions for clean catalog tagging",
+    "title_hint": "Shopify product tags automatically: the conditions",
     "primary_keyword": "shopify product tags automatically",
     "secondary_keywords": [
       "auto tag products shopify"
@@ -127,7 +127,7 @@
   {
     "id": "at-reset-on-mismatch",
     "intent": "guide",
-    "title_hint": "Reset on Mismatch: tags that follow the customer",
+    "title_hint": "Shopify dynamic segments: Reset on Mismatch tags",
     "primary_keyword": "shopify dynamic customer segments tags",
     "secondary_keywords": [
       "remove tag when condition fails"
@@ -148,7 +148,7 @@
   {
     "id": "at-rule-priority",
     "intent": "tips",
-    "title_hint": "Rule priority: which rule wins when two match",
+    "title_hint": "Shopify tagging rules priority: which rule wins",
     "primary_keyword": "shopify tagging rules priority",
     "secondary_keywords": [
       "rule order shopify tags"
@@ -563,7 +563,7 @@
   {
     "id": "at-permissions-explained",
     "intent": "guide",
-    "title_hint": "Shopify app permissions: why a tagging app asks for inventory",
+    "title_hint": "Shopify app permissions: why a tagging app needs them",
     "primary_keyword": "shopify app permissions tagging",
     "secondary_keywords": [
       "shopify app scopes explained"

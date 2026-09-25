@@ -153,7 +153,7 @@
   {
     "id": "hr-plan-choosing-tracked-products",
     "intent": "tips",
-    "title_hint": "Choosing a history plan by tracked products, not by price",
+    "title_hint": "Shopify product history app pricing: how to choose",
     "primary_keyword": "shopify product history app pricing",
     "secondary_keywords": [
       "tracked products plan"
@@ -174,7 +174,7 @@
   {
     "id": "hr-seo-fields-revert",
     "intent": "guide",
-    "title_hint": "Reverting SEO fields without touching the rest of the product",
+    "title_hint": "Revert Shopify SEO fields without touching the rest",
     "primary_keyword": "revert seo fields shopify",
     "secondary_keywords": [
       "shopify product seo title history"
@@ -218,7 +218,7 @@
   {
     "id": "hr-point-in-time-vs-field-revert",
     "intent": "guide",
-    "title_hint": "Point-in-time restore or a single-field revert: which to use",
+    "title_hint": "Shopify product restore options: one field or a point",
     "primary_keyword": "shopify product restore options",
     "secondary_keywords": [
       "revert single field shopify"
@@ -240,7 +240,7 @@
   {
     "id": "hr-revert-echo-ledger",
     "intent": "tips",
-    "title_hint": "Why your own reverts do not clutter the change log",
+    "title_hint": "Shopify product change log: why your reverts stay out",
     "primary_keyword": "shopify product change log",
     "secondary_keywords": [
       "audit trail clean shopify"
@@ -261,7 +261,7 @@
   {
     "id": "hr-bulk-restore-plans",
     "intent": "guide",
-    "title_hint": "Bulk point-in-time restore for large catalogs",
+    "title_hint": "Bulk restore Shopify products: which plans qualify",
     "primary_keyword": "bulk restore shopify products",
     "secondary_keywords": [
       "bulk product revert shopify"
@@ -282,7 +282,7 @@
   {
     "id": "hr-restore-warnings-explained",
     "intent": "troubleshoot",
-    "title_hint": "Restore warnings explained: bytes, collections and locations",
+    "title_hint": "Shopify product restore warning: bytes and locations",
     "primary_keyword": "shopify product restore warning",
     "secondary_keywords": [
       "restore missing product image"
@@ -303,7 +303,7 @@
   {
     "id": "hr-image-bytes-storage",
     "intent": "tips",
-    "title_hint": "Where a product's image bytes have to live to be restorable",
+    "title_hint": "Shopify product image backup: where the bytes live",
     "primary_keyword": "product image backup shopify",
     "secondary_keywords": [
       "restore deleted product images"
@@ -324,7 +324,7 @@
   {
     "id": "hr-edit-in-app-audit",
     "intent": "guide",
-    "title_hint": "Editing a product in the app keeps the audit trail",
+    "title_hint": "Edit a Shopify product in the app: keep its history",
     "primary_keyword": "edit shopify product history",
     "secondary_keywords": [
       "product editor shopify app"
@@ -345,7 +345,7 @@
   {
     "id": "hr-retention-window",
     "intent": "guide",
-    "title_hint": "What the retention window means when you restore",
+    "title_hint": "Shopify product history retention: what the window means",
     "primary_keyword": "shopify product history retention",
     "secondary_keywords": [
       "how far back product history"

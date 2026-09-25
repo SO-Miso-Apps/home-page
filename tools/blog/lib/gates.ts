@@ -41,13 +41,21 @@ function keywordWords(value: string): string[] {
     .filter((word) => word.length > 2 && !KEYWORD_STOPWORDS.has(word));
 }
 
-const singular = (word: string): string => (word.endsWith("s") ? word.slice(0, -1) : word);
+/** Enough stemming to match tag/tags/tagging and restore/restored/restores. */
+export function keywordStem(word: string): string {
+  let stem = word;
+  if (stem.endsWith("ies") && stem.length > 4) return `${stem.slice(0, -3)}y`;
+  stem = stem.replace(/(ing|ed|es|s)$/, "");
+  if (stem.length > 3 && /([a-z])\1$/.test(stem)) stem = stem.slice(0, -1);
+  if (stem.length > 4 && stem.endsWith("e")) stem = stem.slice(0, -1);
+  return stem;
+}
 
 export function keywordCoverage(title: string, keyword: string): { ratio: number; missing: string[] } {
   const wanted = keywordWords(keyword);
   if (wanted.length === 0) return { ratio: 1, missing: [] };
-  const present = new Set(keywordWords(title).map(singular));
-  const missing = wanted.filter((word) => !present.has(singular(word)));
+  const present = new Set(keywordWords(title).map(keywordStem));
+  const missing = wanted.filter((word) => !present.has(keywordStem(word)));
   return { ratio: (wanted.length - missing.length) / wanted.length, missing };
 }
 
