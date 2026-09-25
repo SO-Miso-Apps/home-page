@@ -71,6 +71,7 @@ function body(extra = ""): Draft["content"] {
       });
     }
   }
+  blocks.splice(4, 0, { _type: "image", _key: "body-figure", alt: "Change trail" });
   blocks.push({
     _type: "block",
     _key: "links1",
@@ -274,6 +275,17 @@ test("an image block with only alt text passes schema", () => {
 test("an image block with an empty asset fails schema", () => {
   const withImage: Draft["content"] = [...body(), { _type: "image", _key: "img1", alt: "x", asset: { url: "" } }];
   assert.ok(codes(draft({ content: withImage })).includes("schema"));
+});
+
+test("a body without an illustration fails figure_in_body", () => {
+  const stripped = body().filter((block) => block._type !== "image");
+  assert.ok(codes(draft({ content: stripped })).includes("figure_in_body"));
+});
+
+test("two illustrations fail figure_in_body", () => {
+  const second: Draft["content"][number] = { _type: "image", _key: "second", alt: "Another" };
+  const extra: Draft["content"] = [...body(), second];
+  assert.ok(codes(draft({ content: extra })).includes("figure_in_body"));
 });
 
 test("a figure row that invents data fails figure", () => {

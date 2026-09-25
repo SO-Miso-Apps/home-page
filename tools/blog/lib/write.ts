@@ -57,6 +57,7 @@ A draft that breaks any of these is thrown back without being published.
 - Never restate a sentence in different words, and never reuse a sentence pattern
   across sections: the gate compares sentences by content words.
 - Short on words? Add an unused fact from the sheet, never padding or a summary.
+- content carries exactly one image block, after the second h2, with alt text.
 - Where a fact names an exact set or scope, write the set out instead of an
   umbrella term like "supported actors".
 - Never add a qualifier a fact does not carry ("automatically", "instantly",

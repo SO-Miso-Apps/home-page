@@ -46,8 +46,9 @@ busy: they want the answer, not a mood.
   sections, at least one bulleted list, and a short closing paragraph.
   Between 700 and 1200 words of body text. Count the words before you answer, and
 aim for 900: drafts that come in under 700 are rejected on the spot. No `h1`: the page renders the title.
-- `content` carries at most one `{"_type":"image"}` block, placed after the
-  second `h2`; the pipeline fills its asset, so only set `alt`.
+- `content` carries exactly one `{"_type":"image"}` block, placed after the
+  second `h2`; the pipeline fills its asset, so only set `alt`. A post without it
+  is rejected, and so is a post with two.
 - `internal_links`: the paths given in the topic, at least one of them.
 - `used_facts`: every fact id you relied on.
 

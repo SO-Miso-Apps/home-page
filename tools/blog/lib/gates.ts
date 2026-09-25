@@ -236,6 +236,10 @@ export function runGates({ draft, facts, topic, existingSlugs, apps = KNOWN_APPS
   if (words < MIN_WORDS || words > MAX_WORDS) add("body_len", `body is ${words} words; expected ${MIN_WORDS}-${MAX_WORDS}`);
   for (const problem of repetitionFailures(text)) add("repetition", problem);
   for (const problem of structureFailures(draft.content)) add("structure", problem);
+  // Every post ships one illustration; without a block in the body it would
+  // only ever appear as the social card.
+  const imageBlocks = draft.content.filter((block) => block._type === "image").length;
+  if (imageBlocks !== 1) add("figure_in_body", `content carries ${imageBlocks} image blocks; exactly 1 is required`);
   for (const problem of linkFailures(draft.internal_links, existingSlugs, apps, draft.content)) add("links", problem);
 
   const lower = text.toLowerCase();
