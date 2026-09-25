@@ -1,0 +1,70 @@
+---
+interface Props {
+  items: string[];
+  /** Seconds for one full pass. */
+  duration?: number;
+  class?: string;
+}
+
+const { items, duration = 38, class: className } = Astro.props;
+---
+
+<div class:list={["marquee", className]} style={`--marquee-duration:${duration}s`}>
+  <ul class="marquee__list">
+    {items.map((item) => <li class="marquee__item">{item}</li>)}
+  </ul>
+  {/* Second pass is what makes the loop seamless — hidden from assistive tech. */}
+  <ul class="marquee__list" aria-hidden="true">
+    {items.map((item) => <li class="marquee__item">{item}</li>)}
+  </ul>
+</div>
+
+<style>
+  .marquee {
+    display: flex;
+    overflow: hidden;
+    gap: 0.75rem;
+    padding-block: 0.25rem;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
+  .marquee__list {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: none;
+    padding: 0;
+    list-style: none;
+    animation: marquee-slide var(--marquee-duration) linear infinite;
+  }
+  .marquee:hover .marquee__list {
+    animation-play-state: paused;
+  }
+  .marquee__item {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--ink-muted);
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+  .marquee__item::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--brand);
+    opacity: 0.65;
+    flex: none;
+  }
+  @keyframes marquee-slide {
+    to {
+      transform: translateX(calc(-100% - 0.75rem));
+    }
+  }
+</style>

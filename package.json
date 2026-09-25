@@ -23,6 +23,7 @@
     "@emdash-cms/cloudflare": "^0.38.0",
     "astro": "^7.3.3",
     "emdash": "^0.38.0",
+    "gsap": "^3.15.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },

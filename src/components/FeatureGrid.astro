@@ -6,18 +6,26 @@ interface Props {
 }
 
 const { features } = Astro.props;
+const rows = features ?? [];
 ---
+
 {
-  features && features.length > 0 && (
-    <section class="features" aria-label="Features">
+  rows.length > 0 && (
+    <section class="section" aria-labelledby="features-title">
       <div class="container">
-        <span class="eyebrow">What it does</span>
-        <h2>Features</h2>
-        <ol class="rows">
-          {features.map((feature, index) => (
-            <li>
-              <span class="num">{String(index + 1).padStart(2, "0")}</span>
-              <div>
+        <div class="head" data-reveal>
+          <span class="eyebrow">
+            <span class="eyebrow__dot" />
+            What it does
+          </span>
+          <h2 id="features-title">Features</h2>
+        </div>
+
+        <ol class="features">
+          {rows.map((feature, index) => (
+            <li class="features__row" data-reveal>
+              <span class="features__num num">{String(index + 1).padStart(2, "0")}</span>
+              <div class="features__body">
                 <h3>{feature.title}</h3>
                 <p>{feature.description}</p>
               </div>
@@ -30,41 +38,50 @@ const { features } = Astro.props;
 }
 
 <style>
+  .head {
+    display: grid;
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+  }
+  .head h2 {
+    font-size: var(--step-3);
+  }
+  /* Hairline-separated cells, not boxes: the grid reads as one surface. Two
+     columns at most — a fixed three-across feature row is the generic pattern
+     this design deliberately avoids. */
   .features {
-    padding-block: 3rem;
-  }
-  h2 {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    margin: 0.5rem 0 1.75rem;
-  }
-  .rows {
     list-style: none;
-    margin: 0;
     padding: 0;
     display: grid;
-    gap: 1rem;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: clamp(1.5rem, 4vw, 3.5rem);
   }
-  .rows li {
+  .features__row {
     display: flex;
-    gap: 1.5rem;
+    gap: 1.25rem;
     align-items: baseline;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-card);
-    padding: 1.4rem 1.75rem;
+    padding-block: 1.6rem;
+    border-top: 1px solid var(--line);
   }
-  .num {
-    font-family: var(--font-display);
-    font-weight: 700;
-    color: var(--accent);
+  .features__num {
+    color: var(--brand-ink);
+    font-size: 0.8125rem;
+    flex: none;
+    padding-top: 0.2rem;
   }
-  h3 {
-    margin: 0 0 0.35rem;
-    font-size: 1.05rem;
+  .features__body h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.4rem;
   }
-  p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 0.95rem;
+  .features__body p {
+    color: var(--ink-muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  @media (min-width: 760px) {
+    .features {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 </style>

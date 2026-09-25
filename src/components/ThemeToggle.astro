@@ -1,0 +1,85 @@
+---
+interface Props {
+  /** Group label — a second instance on the same page needs a distinct one. */
+  label?: string;
+  class?: string;
+}
+
+const { label = "Color theme", class: className } = Astro.props;
+---
+
+<div class:list={["toggle", className]} role="group" aria-label={label}>
+  <button class="seg" type="button" data-theme-set="system" aria-pressed="false" title="Match system">
+    <span class="sr-only">System theme</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <rect x="2.75" y="4.25" width="18.5" height="12.5" rx="2.25" />
+      <path d="M8.5 20.25h7" />
+      <path d="M12 16.75v3.5" />
+    </svg>
+  </button>
+  <button class="seg" type="button" data-theme-set="light" aria-pressed="false" title="Light">
+    <span class="sr-only">Light theme</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="4.25" />
+      <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4L17 7M7 17l-1.6 1.6" />
+    </svg>
+  </button>
+  <button class="seg" type="button" data-theme-set="dark" aria-pressed="false" title="Dark">
+    <span class="sr-only">Dark theme</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M20 14.4A8.6 8.6 0 0 1 9.6 4a8.6 8.6 0 1 0 10.4 10.4Z" />
+    </svg>
+  </button>
+</div>
+
+<style>
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--surface-2);
+  }
+  .seg {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--r-pill);
+    background: transparent;
+    color: var(--ink-subtle);
+    cursor: pointer;
+    transition:
+      color var(--dur-2) var(--ease-quart),
+      background-color var(--dur-2) var(--ease-quart);
+  }
+  .seg svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .seg:hover {
+    color: var(--ink);
+  }
+  /* Active segment is driven by the attribute the head script writes, so the
+     control is already correct on first paint — before hydration. */
+  :global(html[data-theme-choice="system"]) .seg[data-theme-set="system"],
+  :global(html[data-theme-choice="light"]) .seg[data-theme-set="light"],
+  :global(html[data-theme-choice="dark"]) .seg[data-theme-set="dark"] {
+    background: var(--surface);
+    color: var(--brand-ink);
+    box-shadow: var(--shadow-1), var(--edge);
+  }
+</style>
+
+<script>
+  import "../scripts/theme";
+</script>

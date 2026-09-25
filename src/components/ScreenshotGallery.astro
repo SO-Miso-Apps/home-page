@@ -4,22 +4,37 @@ import { Image } from "emdash/ui";
 
 interface Props {
   screenshots?: App["screenshots"] | null;
+  /** Used to write real alternative text — the repeater carries no caption. */
+  appName: string;
 }
 
-const { screenshots } = Astro.props;
+const { screenshots, appName } = Astro.props;
+// Editors may save a row before attaching media; drop those rather than
+// rendering an empty frame.
+const shots = (screenshots ?? []).filter((shot) => shot.image);
 ---
+
 {
-  screenshots?.some((shot) => shot.image) && (
-    <section class="gallery" aria-label="Screenshots">
+  shots.length > 0 && (
+    <section class="section" aria-labelledby="shots-title">
       <div class="container">
-        <span class="eyebrow">Inside the app</span>
-        <h2>Screenshots</h2>
-        <div class="strip">
-          {screenshots.map((shot) =>
-            shot.image ? (
-              <Image image={shot.image} sizes="(max-width: 900px) 90vw, 520px" />
-            ) : null
-          )}
+        <div class="head" data-reveal>
+          <span class="eyebrow">
+            <span class="eyebrow__dot" />
+            Inside the app
+          </span>
+          <h2 id="shots-title">Screenshots</h2>
+        </div>
+        <div class:list={["rail", shots.length > 2 && "rail--scroll"]}>
+          {shots.map((shot, index) => (
+            <figure class="shot" data-reveal>
+              <Image
+                image={shot.image}
+                sizes="(max-width: 760px) 88vw, 520px"
+                alt={`${appName} interface, view ${index + 1} of ${shots.length}`}
+              />
+            </figure>
+          ))}
         </div>
       </div>
     </section>
@@ -27,21 +42,42 @@ const { screenshots } = Astro.props;
 }
 
 <style>
-  .gallery {
-    padding-block: 3rem;
-  }
-  h2 {
-    font-size: clamp(1.5rem, 3vw, 2rem);
-    margin: 0.5rem 0 1.75rem;
-  }
-  .strip {
+  .head {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 0.6rem;
+    margin-bottom: 2.5rem;
+  }
+  .head h2 {
+    font-size: var(--step-3);
+  }
+  .rail {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     gap: 1.25rem;
   }
-  .strip :global(img) {
+  /* Past two frames a panning rail beats shrinking thumbnails. */
+  @media (min-width: 900px) {
+    .rail--scroll {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 0.75rem;
+      scrollbar-width: thin;
+    }
+    .rail--scroll .shot {
+      flex: 0 0 min(520px, 60%);
+      scroll-snap-align: start;
+    }
+  }
+  .shot {
+    margin: 0;
+  }
+  .shot :global(img) {
+    display: block;
     width: 100%;
-    border-radius: var(--radius-card);
+    border-radius: var(--r-lg);
     border: 1px solid var(--line);
+    background: var(--surface-2);
+    box-shadow: var(--shadow-2);
   }
 </style>

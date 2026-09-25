@@ -2,104 +2,208 @@
 import type { ContentEntry } from "emdash";
 import type { App } from "../../emdash-env";
 import { Image } from "emdash/ui";
+import AppMark from "./AppMark.astro";
+import CoverArt from "./CoverArt.astro";
 
 interface Props {
   app: ContentEntry<App>;
+  /**
+   * `wide` lays the card out horizontally for the bento's long cells;
+   * `narrow` stacks it. Both come from the parent grid, not from the entry.
+   */
+  variant?: "wide" | "narrow";
+  class?: string;
 }
 
-const { app } = Astro.props;
+const { app, variant = "narrow", class: className } = Astro.props;
 const data = app.data;
 const href = `/apps/${app.id}`;
 ---
-<article class="app-card">
-  <div class="head">
-    {
-      data.icon ? (
-        <Image image={data.icon} width={48} height={48} alt="" class="icon" />
-      ) : (
-        <span class="icon monogram" aria-hidden="true">{data.name.charAt(0)}</span>
-      )
-    }
-    {data.badge && <span class="badge">{data.badge}</span>}
+
+<article
+  class:list={["app-card", `app-card--${variant}`, className]}
+  data-reveal
+  data-spotlight
+>
+  <div class="app-card__art" aria-hidden="true">
+    <CoverArt seed={app.id} />
+    <div class="app-card__mark">
+      {
+        data.icon ? (
+          <Image image={data.icon} width={variant === "wide" ? 64 : 56} height={variant === "wide" ? 64 : 56} alt="" />
+        ) : (
+          <AppMark seed={app.id} size={variant === "wide" ? 64 : 56} />
+        )
+      }
+    </div>
   </div>
-  <h3><a href={href}>{data.name}</a></h3>
-  <p>{data.tagline}</p>
-  <a class="more" href={href}>
-    Explore app
-    <span aria-hidden="true">→</span>
-  </a>
+
+  <div class="app-card__body">
+    {data.badge && <span class="badge">{data.badge}</span>}
+    <h3 class="app-card__name"><a href={href}>{data.name}</a></h3>
+    <p class="app-card__tagline">{data.tagline}</p>
+    <span class="app-card__more">
+      Explore app
+      <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+        <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </span>
+  </div>
 </article>
 
 <style>
   .app-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    position: relative;
+    display: grid;
+    height: 100%;
+    overflow: hidden;
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: var(--radius-card);
-    padding: 1.75rem;
-    box-shadow: 0 12px 32px rgba(23, 26, 24, 0.06);
+    border-radius: var(--r-xl);
+    box-shadow: var(--shadow-2);
     transition:
-      transform 200ms ease,
-      box-shadow 200ms ease;
+      transform var(--dur-2) var(--ease-quart),
+      box-shadow var(--dur-2) var(--ease-quart),
+      border-color var(--dur-2) var(--ease-quart);
+    will-change: transform;
   }
+
   .app-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(23, 26, 24, 0.1);
+    transform: translateY(-3px);
+    border-color: var(--brand-line);
+    box-shadow: var(--shadow-3);
   }
-  .head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+
+  /* Pointer-tracked tint; --mx/--my come from scripts/motion.ts. */
+  .app-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      300px circle at var(--mx, 50%) var(--my, 0%),
+      var(--brand-soft),
+      transparent 72%
+    );
+    transition: opacity var(--dur-2) var(--ease-quart);
   }
-  .icon {
-    width: 48px;
-    height: 48px;
+
+  .app-card:hover::after {
+    opacity: 1;
   }
-  .monogram {
+
+  .app-card__art {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .app-card__mark {
+    position: absolute;
+    left: 1.5rem;
+    bottom: -1.35rem;
+    z-index: 1;
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-2);
+  }
+
+  .app-card__mark :global(span) {
+    display: block;
+  }
+
+  .app-card__body {
     display: grid;
-    place-items: center;
-    background: var(--accent);
-    color: var(--canvas);
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.25rem;
-    border-radius: 14px;
+    gap: 0.6rem;
+    align-content: start;
+    padding: 2.25rem 1.5rem 1.6rem;
   }
-  .badge {
-    font-family: var(--font-display);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--accent-dark);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 0.2rem 0.7rem;
+
+  .app-card__body .badge {
+    justify-self: start;
+    margin-bottom: 0.15rem;
   }
-  h3 {
-    margin: 0;
-    font-size: 1.15rem;
+
+  .app-card__name {
+    font-size: var(--step-2);
+    letter-spacing: -0.02em;
   }
-  h3 a {
+
+  .app-card__name a {
     text-decoration: none;
   }
-  p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 0.95rem;
+
+  /* One click target for the whole card without duplicating the link. */
+  .app-card__name a::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: 2;
   }
-  .more {
-    margin-top: auto;
-    color: var(--accent-dark);
-    font-weight: 600;
-    text-decoration: none;
+
+  .app-card__tagline {
+    color: var(--ink-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .app-card__more {
     display: inline-flex;
-    gap: 0.4rem;
     align-items: center;
-    transition: color 200ms ease;
+    gap: 0.4rem;
+    margin-top: 0.35rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--brand-ink);
   }
-  .more:hover {
-    color: var(--ink);
+
+  .app-card__more svg {
+    transition: transform var(--dur-2) var(--ease-quart);
+  }
+
+  .app-card:hover .app-card__more svg {
+    transform: translateX(3px);
+  }
+
+  .app-card--narrow .app-card__art {
+    aspect-ratio: 16 / 8;
+  }
+
+  @media (min-width: 760px) {
+    .app-card--wide {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    }
+
+    .app-card--wide .app-card__art {
+      border-bottom: 0;
+      border-right: 1px solid var(--line);
+    }
+
+    .app-card--wide .app-card__mark {
+      left: 1.75rem;
+      bottom: 1.75rem;
+    }
+
+    .app-card--wide .app-card__body {
+      padding: 2.25rem 1.85rem;
+      align-content: center;
+    }
+
+    .app-card--wide .app-card__tagline {
+      -webkit-line-clamp: 5;
+    }
+  }
+
+  @media (max-width: 759px) {
+    .app-card--wide .app-card__art {
+      aspect-ratio: 16 / 7;
+    }
   }
 </style>

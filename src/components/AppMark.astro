@@ -1,0 +1,91 @@
+---
+/**
+ * Stand-in app icon for entries whose CMS `icon` field is empty (all seeded
+ * apps today). Deterministic: the same slug always yields the same gradient
+ * angle and motif, so a card never changes identity between requests.
+ *
+ * Deliberately abstract — it is decoration, not a depiction of the product's
+ * real icon. When an editor uploads a real icon, callers render that instead.
+ */
+import { hashString } from "../lib/hash";
+
+interface Props {
+  /** Stable seed — pass the entry slug. */
+  seed: string;
+  size?: number;
+  class?: string;
+}
+
+const { seed, size = 56, class: className } = Astro.props;
+
+const MOTIFS = ["bars", "arc", "rings", "wave"] as const;
+const hash = hashString(seed);
+const motif = MOTIFS[hash % MOTIFS.length];
+const angle = 110 + (hash % 7) * 18;
+const radius = Math.round(size * 0.28);
+---
+
+<span
+  class:list={["mark", className]}
+  style={`--mark-size:${size}px;--mark-angle:${angle}deg;--mark-radius:${radius}px`}
+  aria-hidden="true"
+>
+  <svg viewBox="0 0 48 48" class="mark__glyph" focusable="false">
+    {
+      motif === "bars" && (
+        <>
+          <rect x="11" y="26" width="5" height="12" rx="2.5" />
+          <rect x="21.5" y="18" width="5" height="20" rx="2.5" />
+          <rect x="32" y="12" width="5" height="26" rx="2.5" />
+        </>
+      )
+    }
+    {
+      motif === "arc" && (
+        <>
+          <path d="M13 34a11 11 0 0 1 22 0" fill="none" stroke-width="4.5" stroke-linecap="round" />
+          <circle cx="35" cy="14" r="4" />
+        </>
+      )
+    }
+    {
+      motif === "rings" && (
+        <>
+          <circle cx="24" cy="24" r="12" fill="none" stroke-width="4" />
+          <circle cx="24" cy="24" r="4" />
+        </>
+      )
+    }
+    {
+      motif === "wave" && (
+        <path
+          d="M10 30c4.5-7 8-7 12.5 0s8 7 12.5 0"
+          fill="none"
+          stroke-width="4.5"
+          stroke-linecap="round"
+        />
+      )
+    }
+  </svg>
+</span>
+
+<style>
+  .mark {
+    display: grid;
+    place-items: center;
+    width: var(--mark-size);
+    height: var(--mark-size);
+    flex: none;
+    border-radius: var(--mark-radius);
+    background: linear-gradient(var(--mark-angle), var(--brand), var(--brand-hover));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      0 6px 16px -8px var(--brand-line);
+  }
+  .mark__glyph {
+    width: 62%;
+    height: 62%;
+    fill: var(--brand-fg);
+    stroke: var(--brand-fg);
+  }
+</style>

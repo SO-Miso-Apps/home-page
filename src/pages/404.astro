@@ -1,40 +1,98 @@
 ---
 import Base from "../layouts/Base.astro";
+
+const links = [
+  { label: "Home", href: "/" },
+  { label: "Our apps", href: "/#apps" },
+  { label: "Blog", href: "/blog" },
+  { label: "About", href: "/about" },
+];
 ---
+
 <Base title="Page not found" robots="noindex">
   <section class="notfound">
-    <div class="container">
-      <span class="eyebrow">404</span>
+    <div class="container notfound__inner">
+      <span class="notfound__code num" aria-hidden="true">404</span>
       <h1>This page took a wrong turn.</h1>
-      <p>The page you are looking for does not exist or has moved.</p>
-      <a class="primary" href="/">Back to home</a>
+      <p class="lede">
+        The address you followed does not exist on this site. It may have been renamed, or the
+        link that brought you here may be out of date.
+      </p>
+      <ul class="notfound__links">
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href}>
+                {link.label}
+                <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+                  <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 </Base>
 
 <style>
   .notfound {
-    padding-block: 7rem;
+    position: relative;
+    padding-block: clamp(3.5rem, 10vw, 7rem);
+  }
+  .notfound__inner {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+    max-width: 60ch;
+  }
+  .notfound__code {
+    font-size: clamp(3.5rem, 12vw, 7rem);
+    line-height: 0.9;
+    font-weight: 500;
+    color: transparent;
+    background: linear-gradient(to bottom, var(--brand), color-mix(in oklab, var(--brand) 25%, transparent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    letter-spacing: -0.04em;
   }
   h1 {
-    font-size: clamp(2rem, 4vw, 3rem);
-    margin: 0.5rem 0 0.75rem;
+    font-size: var(--step-4);
+    letter-spacing: -0.03em;
   }
-  p {
-    color: var(--muted);
+  .notfound__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem;
   }
-  .primary {
-    display: inline-block;
-    margin-top: 1.5rem;
-    background: var(--ink);
-    color: var(--canvas);
-    text-decoration: none;
+  .notfound__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 44px;
+    padding: 0 1.1rem;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-pill);
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 0.9375rem;
     font-weight: 600;
-    padding: 0.8rem 1.5rem;
-    border-radius: 999px;
-    transition: transform 200ms ease;
+    text-decoration: none;
+    transition:
+      border-color var(--dur-2) var(--ease-quart),
+      color var(--dur-2) var(--ease-quart),
+      transform var(--dur-1) var(--ease-quart);
   }
-  .primary:hover {
+  .notfound__links a:hover {
+    border-color: var(--brand-line);
+    color: var(--brand-ink);
     transform: translateY(-1px);
+  }
+  .notfound__links a:active {
+    transform: scale(0.98);
   }
 </style>

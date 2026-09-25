@@ -1,19 +1,141 @@
+/* ==========================================================================
+   Miso Apps — design system
+   --------------------------------------------------------------------------
+   Two token tiers. Primitives hold raw values; semantic tokens name roles and
+   are the only thing components may reference.
+
+   Theming: light is the default. Dark is opt-in via [data-theme="dark"] on
+   <html>, written before first paint by the inline script in Base.astro. That
+   keeps a single source of truth for the dark palette — no duplicated
+   prefers-color-scheme block, and no flash of the wrong theme.
+   ========================================================================== */
+
 :root {
-  --canvas: #f7f8f5;
-  --surface: rgba(255, 255, 255, 0.75);
-  --ink: #171a18;
-  --muted: #5f6b64;
-  --accent: #138f5b;
-  --accent-dark: #0f6f49;
-  --line: rgba(23, 26, 24, 0.12);
-  --content-width: 1180px;
-  --radius-panel: 32px;
-  --radius-card: 28px;
-  --font-display: "Poppins", system-ui, sans-serif;
-  --font-body: "Open Sans", system-ui, sans-serif;
+  color-scheme: light;
+
+  /* --- Radii: tightened inside, softer outside ------------------------- */
+  --r-xs: 8px;
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 28px;
+  --r-2xl: 36px;
+  --r-pill: 999px;
+
+  /* --- Type ------------------------------------------------------------ */
+  --font-display: "Outfit", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --step--1: 0.8125rem;
+  --step-0: 1rem;
+  --step-1: 1.0625rem;
+  --step-2: clamp(1.25rem, 1.12rem + 0.5vw, 1.5rem);
+  --step-3: clamp(1.5rem, 1.26rem + 1vw, 2rem);
+  --step-4: clamp(1.85rem, 1.4rem + 1.9vw, 2.6rem);
+  --step-5: clamp(2.25rem, 1.55rem + 3vw, 3.6rem);
+
+  /* --- Space ----------------------------------------------------------- */
+  --gutter: clamp(1.125rem, 4vw, 2rem);
+  --container: 1240px;
+  --measure: 66ch;
+  --section-y: clamp(4rem, 9vw, 7.5rem);
+
+  /* --- Motion ---------------------------------------------------------- */
+  --ease-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --ease-spring: cubic-bezier(0.34, 1.32, 0.64, 1);
+  --dur-1: 160ms;
+  --dur-2: 280ms;
+  --dur-3: 480ms;
+
+  /* --- Layers ---------------------------------------------------------- */
+  --z-sticky: 20;
+  --z-overlay: 40;
+  --z-modal: 60;
+
+  --grain-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-* {
+/* --- Semantic: light --------------------------------------------------- */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --canvas: #f6f7f4;
+  --canvas-deep: #eceee8;
+  --surface: #ffffff;
+  --surface-2: #f1f3ee;
+  --surface-glass: rgba(255, 255, 255, 0.72);
+
+  --ink: #141815;
+  --ink-muted: #5c6862;
+  --ink-subtle: #686f6b;
+
+  --brand: #138f5b;
+  --brand-hover: #0f6f49;
+  --brand-fg: #ffffff;
+  /* Text/icon-safe brand. `--brand` clears only the 3:1 non-text threshold on
+     the light canvas (3.82:1), so small text uses this darker mix (4.99:1). */
+  --brand-ink: #107a4e;
+  --brand-soft: rgba(19, 143, 91, 0.1);
+  --brand-line: rgba(19, 143, 91, 0.3);
+  --brand-on-dark: #2fb273;
+
+  --line: rgba(20, 24, 21, 0.1);
+  --line-strong: rgba(20, 24, 21, 0.18);
+  --ring: rgba(19, 143, 91, 0.45);
+
+  --shadow-1: 0 1px 2px rgba(14, 26, 19, 0.05), 0 1px 1px rgba(14, 26, 19, 0.03);
+  --shadow-2: 0 2px 4px rgba(14, 26, 19, 0.04), 0 14px 28px -14px rgba(14, 26, 19, 0.12);
+  --shadow-3: 0 4px 10px rgba(14, 26, 19, 0.05), 0 34px 60px -28px rgba(14, 26, 19, 0.2);
+  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  --grain-opacity: 0.024;
+  --art-blend: normal;
+}
+
+/* --- Semantic: dark ---------------------------------------------------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --canvas: #0b0e0c;
+  --canvas-deep: #070907;
+  --surface: #131714;
+  --surface-2: #1a1f1b;
+  --surface-glass: rgba(19, 23, 20, 0.72);
+
+  --ink: #e9eee9;
+  --ink-muted: #9aa69f;
+  --ink-subtle: #7d8981;
+
+  --brand: #2fb273;
+  --brand-hover: #43c885;
+  --brand-fg: #06120c;
+  --brand-ink: #2fb273;
+  --brand-soft: rgba(47, 178, 115, 0.14);
+  --brand-line: rgba(47, 178, 115, 0.34);
+  --brand-on-dark: #2fb273;
+
+  --line: rgba(233, 238, 233, 0.1);
+  --line-strong: rgba(233, 238, 233, 0.2);
+  --ring: rgba(47, 178, 115, 0.5);
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 2px 4px rgba(0, 0, 0, 0.3), 0 16px 32px -16px rgba(0, 0, 0, 0.55);
+  --shadow-3: 0 4px 10px rgba(0, 0, 0, 0.35), 0 36px 64px -30px rgba(0, 0, 0, 0.7);
+  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  --grain-opacity: 0.05;
+  --art-blend: screen;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -21,45 +143,582 @@ html {
   background: var(--canvas);
   color: var(--ink);
   font-family: var(--font-body);
-  line-height: 1.7;
-  scroll-padding-top: 64px;
+  font-size: 100%;
+  line-height: 1.65;
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   font-family: var(--font-display);
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
 }
 
 a {
   color: inherit;
 }
 
-.container {
-  max-width: var(--content-width);
-  margin-inline: auto;
-  padding-inline: 1.5rem;
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
 }
+
+ul,
+ol {
+  margin: 0;
+}
+
+::selection {
+  background: var(--brand-soft);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: var(--r-xs);
+}
+
+/* ==========================================================================
+   Layout primitives
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.container--narrow {
+  max-width: 780px;
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.section--tight {
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+.hairline {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background: linear-gradient(to right, transparent, var(--line-strong) 18%, var(--line-strong) 82%, transparent);
+}
+
+/* ==========================================================================
+   Typography helpers
+   ========================================================================== */
 
 .eyebrow {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-  color: var(--accent-dark);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
 }
 
+.eyebrow__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand);
+  flex: none;
+}
+
+.lede {
+  color: var(--ink-muted);
+  font-size: var(--step-1);
+  line-height: 1.7;
+  max-width: var(--measure);
+}
+
+.dim {
+  color: var(--ink-subtle);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0.85rem 1.35rem;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    transform var(--dur-1) var(--ease-quart),
+    background-color var(--dur-2) var(--ease-quart),
+    border-color var(--dur-2) var(--ease-quart),
+    color var(--dur-2) var(--ease-quart),
+    box-shadow var(--dur-2) var(--ease-quart);
+}
+
+.btn:active {
+  transform: scale(0.975);
+}
+
+.btn svg {
+  flex: none;
+}
+
+.btn--primary {
+  background: var(--ink);
+  color: var(--canvas);
+  box-shadow: var(--shadow-2);
+}
+
+.btn--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-3);
+}
+
+.btn--brand {
+  /* Starts at --brand-ink, not --brand: white on #138f5b is 4.11:1, under AA. */
+  background: linear-gradient(to bottom, var(--brand-ink), var(--brand-hover));
+  color: var(--brand-fg);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 1px 2px rgba(14, 26, 19, 0.18),
+    0 10px 22px -12px var(--brand-line);
+}
+
+.btn--brand:hover {
+  transform: translateY(-1px);
+}
+
+.btn--ghost {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-1);
+}
+
+.btn--ghost:hover {
+  border-color: var(--brand-line);
+  color: var(--brand-ink);
+}
+
+.btn--quiet {
+  background: transparent;
+  color: var(--ink-muted);
+  padding-inline: 0.35rem;
+}
+
+.btn--quiet:hover {
+  color: var(--brand-ink);
+}
+
+.btn--sm {
+  font-size: 0.875rem;
+  padding: 0.6rem 1rem;
+}
+
+.btn--lg {
+  font-size: 1rem;
+  padding: 1rem 1.6rem;
+}
+
+.btn__arrow {
+  transition: transform var(--dur-2) var(--ease-quart);
+}
+
+.btn:hover .btn__arrow {
+  transform: translateX(3px);
+}
+
+/* ==========================================================================
+   Surfaces
+   ========================================================================== */
+
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-2);
+}
+
+.glass {
+  background: var(--surface-glass);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid var(--line);
+  box-shadow: var(--edge), var(--shadow-2);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand-ink);
+  background: var(--brand-soft);
+  border: 1px solid var(--brand-line);
+  border-radius: var(--r-pill);
+  padding: 0.3rem 0.65rem;
+}
+
+/* Decorative art: gradient wash + pattern, never content. */
+.art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.art__wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 15% 0%, color-mix(in oklab, var(--brand) 40%, transparent), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 100% 100%, color-mix(in oklab, var(--art-2, var(--brand)) 55%, transparent), transparent 65%),
+    linear-gradient(160deg, var(--surface-2), var(--surface));
+}
+
+.art__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 30%, #000 20%, transparent 72%);
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 30%, #000 20%, transparent 72%);
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   Long-form content from the CMS
+   ========================================================================== */
+
+.prose {
+  color: var(--ink-muted);
+  font-size: var(--step-1);
+  line-height: 1.75;
+}
+
+.prose > * + * {
+  margin-top: 1.15em;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  color: var(--ink);
+  margin-top: 2.1em;
+  margin-bottom: 0.5em;
+}
+
+.prose h2 {
+  font-size: var(--step-3);
+}
+
+.prose h3 {
+  font-size: var(--step-2);
+}
+
+.prose h4 {
+  font-size: var(--step-1);
+}
+
+.prose a {
+  color: var(--brand-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.22em;
+  transition: color var(--dur-2) var(--ease-quart);
+}
+
+.prose a:hover {
+  color: var(--brand-hover);
+}
+
+.prose strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.15em;
+  display: grid;
+  gap: 0.4em;
+}
+
+.prose li::marker {
+  color: var(--brand-ink);
+}
+
+.prose blockquote {
+  border-left: 2px solid var(--brand-line);
+  padding-left: 1.25rem;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xs);
+  padding: 0.12em 0.4em;
+}
+
+.prose pre {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 1.15rem 1.25rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+.prose hr {
+  border: 0;
+  height: 1px;
+  background: var(--line);
+  margin-block: 2.5em;
+}
+
+.prose img {
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+
+.prose th,
+.prose td {
+  text-align: left;
+  padding: 0.6em 0.75em;
+  border-bottom: 1px solid var(--line);
+}
+
+.prose th {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   CMS widget areas
+   EmDash renders `.widget-area` / `.widget` markup from the editor's widgets,
+   used by both the blog sidebar and the footer contact column. Styled globally
+   so the two placements cannot drift apart.
+   ========================================================================== */
+
+.widget-area {
+  display: grid;
+  gap: 1.5rem;
+  align-content: start;
+}
+
+.widget {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.widget__title {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-subtle);
+}
+
+.widget__content {
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+.widget ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.widget p {
+  margin: 0 0 0.45rem;
+}
+
+.widget p:last-child {
+  margin-bottom: 0;
+}
+
+.widget a {
+  color: var(--ink-muted);
+  text-decoration: none;
+  transition: color var(--dur-2) var(--ease-quart);
+}
+
+.widget a:hover {
+  color: var(--brand-ink);
+}
+
+.widget-categories__count,
+.widget-recent-posts__date,
+.widget__meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-subtle);
+  margin-left: 0.3rem;
+}
+
+.widget :is(input, select, textarea) {
+  font: inherit;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  padding: 0.55rem 0.75rem;
+  width: 100%;
+}
+
+.widget button {
+  font: inherit;
+  font-weight: 600;
+  color: var(--brand-fg);
+  background: var(--brand-ink);
+  border: 0;
+  border-radius: var(--r-pill);
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   Chrome
+   ========================================================================== */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: var(--z-modal);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  background: var(--ink);
+  color: var(--canvas);
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0 0 var(--r-sm) 0;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+/* Visually hidden, still announced. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  background-image: var(--grain-url);
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--art-blend);
+}
+
+/* ==========================================================================
+   Motion
+   Async entrance animation is owned by GSAP (src/scripts/motion.ts) so it can
+   bail out for reduced motion and drives transforms only. These hooks cover
+   the cases that stay in CSS.
+   ========================================================================== */
+
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

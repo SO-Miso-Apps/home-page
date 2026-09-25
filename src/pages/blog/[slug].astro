@@ -65,45 +65,124 @@ const authors = (data.bylines ?? []).map((credit) => ({
   name: credit.byline.displayName,
 }));
 if (authors.length > 0) jsonld.author = authors.length === 1 ? authors[0] : authors;
+
+// Fixed locale and zone so a cached render never disagrees with a fresh one.
+const dateFormat = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
+const publishedSource = data.publishedAt ?? data.createdAt;
+const publishedAt = publishedSource ? new Date(publishedSource) : null;
+const published =
+  publishedAt && !Number.isNaN(publishedAt.getTime())
+    ? { iso: publishedAt.toISOString(), label: dateFormat.format(publishedAt) }
+    : null;
+// Read time from the actual span text — counting serialized JSON would include
+// block keys and inflate the estimate.
+const wordCount = (data.content ?? [])
+  .flatMap((block) => {
+    const children = (block as { children?: unknown }).children;
+    return Array.isArray(children) ? children : [];
+  })
+  .map((child) => {
+    const text = (child as { text?: unknown }).text;
+    return typeof text === "string" ? text : "";
+  })
+  .join(" ")
+  .split(/\s+/)
+  .filter(Boolean).length;
+const readMinutes = Math.max(1, Math.round(wordCount / 220));
 ---
+
 <Base title={title} description={description} image={seo.ogImage ?? ogImageSrc} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
   <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
   {isPreview && <p class="container preview-note">This is an unpublished preview.</p>}
 
   <article class="post">
-    <div class="container narrow">
-      <span class="eyebrow">Blog</span>
+    <header class="container container--narrow post__head">
+      <a class="post__back" href="/blog">
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+          <path d="M13.5 8h-11M7 3.5 2.5 8 7 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        All posts
+      </a>
       <h1>{data.title}</h1>
-      <div class="prose">
-        <PortableText value={data.content} />
+      <div class="post__meta">
+        {published && <time class="num" datetime={published.iso}>{published.label}</time>}
+        {"category" in data && data.category && <span class="post__cat">{data.category}</span>}
+        <span class="num post__read">{readMinutes} min read</span>
       </div>
-      <p class="back">
-        <a href="/blog">← All posts</a>
-      </p>
+      {authors.length > 0 && <p class="post__byline">By {authors.map((author) => author.name).join(", ")}</p>}
+    </header>
+
+    <div class="container container--narrow prose" data-reveal>
+      <PortableText value={data.content} />
+    </div>
+
+    <div class="container container--narrow post__foot">
+      <a class="btn btn--ghost" href="/blog">Read more posts</a>
     </div>
   </article>
 </Base>
 
 <style>
   .preview-note {
-    color: var(--accent-dark);
+    color: var(--brand-ink);
+    padding-top: 1.5rem;
+    font-size: 0.875rem;
   }
   .post {
-    padding-block: 4rem 2rem;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem) 2rem;
   }
-  .narrow {
-    max-width: 720px;
+  .post__head {
+    display: grid;
+    gap: 0.9rem;
+    padding-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .post__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: fit-content;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color var(--dur-2) var(--ease-quart);
+  }
+  .post__back:hover {
+    color: var(--brand-ink);
   }
   h1 {
-    font-size: clamp(2rem, 4vw, 2.8rem);
-    margin: 0.5rem 0 1.5rem;
+    font-size: var(--step-4);
+    letter-spacing: -0.03em;
+    max-width: 30ch;
   }
-  .back {
-    margin-top: 3rem;
+  .post__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.85rem;
+    font-size: 0.75rem;
+    color: var(--ink-subtle);
+    padding-top: 0.35rem;
+    border-top: 1px solid var(--line);
   }
-  .back a {
-    color: var(--accent-dark);
-    font-weight: 600;
-    text-decoration: none;
+  .post__cat {
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--brand-ink);
+  }
+  .post__byline {
+    color: var(--ink-muted);
+    font-size: 0.9375rem;
+  }
+  .post__foot {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
   }
 </style>

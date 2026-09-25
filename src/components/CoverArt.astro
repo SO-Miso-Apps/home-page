@@ -1,0 +1,86 @@
+---
+/**
+ * Decorative cover band for cards and hero panels. Abstract on purpose — it
+ * carries no product claims, so it is hidden from assistive tech. The variant
+ * is derived from the seed so every card in a grid reads differently.
+ */
+import { hashString } from "../lib/hash";
+
+interface Props {
+  seed: string;
+  /** Tone of the wash: `brand` is louder, `muted` sits back. */
+  tone?: "brand" | "muted";
+  class?: string;
+}
+
+const { seed, tone = "brand", class: className } = Astro.props;
+
+const VARIANTS = ["grid", "rings", "diagonals"] as const;
+const hash = hashString(seed);
+const variant = VARIANTS[hash % VARIANTS.length];
+const ringCount = 3 + (hash % 2);
+---
+
+<div class:list={["cover", `cover--${tone}`, className]} aria-hidden="true">
+  <div class="art__wash"></div>
+  {
+    variant === "grid" && <div class="art__grid"></div>
+  }
+  {
+    variant === "rings" && (
+      <svg class="cover__svg" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" focusable="false">
+        {Array.from({ length: ringCount }, (_, index) => (
+          <circle
+            cx="330"
+            cy="200"
+            r={52 + index * 46}
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1"
+          />
+        ))}
+        <circle cx="96" cy="70" r="26" fill="none" stroke="currentColor" stroke-width="1" />
+      </svg>
+    )
+  }
+  {
+    variant === "diagonals" && (
+      <svg class="cover__svg" viewBox="0 0 400 240" preserveAspectRatio="xMidYMid slice" focusable="false">
+        {Array.from({ length: 14 }, (_, index) => (
+          <line
+            x1={-40 + index * 34}
+            y1="250"
+            x2={70 + index * 34}
+            y2="-10"
+            stroke="currentColor"
+            stroke-width="1"
+          />
+        ))}
+      </svg>
+    )
+  }
+</div>
+
+<style>
+  .cover {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .cover--muted .art__wash {
+    opacity: 0.45;
+  }
+  .cover__svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--brand-ink);
+    opacity: 0.35;
+  }
+  .cover--muted .cover__svg {
+    opacity: 0.18;
+  }
+</style>

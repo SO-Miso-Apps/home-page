@@ -1,112 +1,201 @@
 ---
 import { getMenu, getWidgetArea } from "emdash";
 import { WidgetArea } from "emdash/ui";
+import BrandMark from "./BrandMark.astro";
 
 const menu = await getMenu("footer");
 const contactArea = await getWidgetArea("footer-contact");
+const year = new Date().getFullYear();
 ---
+
 <footer class="site-footer">
-  <div class="container grid">
-    <div class="blurb">
-      <h3>Miso Apps</h3>
-      <p>
-        Building reliable Shopify and commerce apps for merchants who need sharper
-        operations, stronger conversion paths, and dependable support.
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <a class="footer__brand-link" href="/" aria-label="Miso Apps home">
+          <BrandMark size={30} />
+        </a>
+        <p>
+          Building reliable Shopify and commerce apps for merchants who need sharper
+          operations, stronger conversion paths, and dependable support.
+        </p>
+      </div>
+
+      {
+        menu?.items.length ? (
+          <nav class="footer__col" aria-label="Footer navigation">
+            <h2 class="footer__title">Company</h2>
+            <ul class="footer__list">
+              {menu.items.map((item) => (
+                <li>
+                  <a
+                    href={item.url}
+                    target={item.target}
+                    rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ) : null
+      }
+
+      {
+        contactArea && contactArea.widgets.length > 0 && (
+          <div class="footer__col">
+            {/* No static heading: the editor's widget carries its own title. */}
+            <WidgetArea name="footer-contact" class="contact-area" />
+          </div>
+        )
+      }
+
+      <div class="footer__col">
+        <h2 class="footer__title">Feeds</h2>
+        <ul class="footer__list">
+          <li><a href="/rss.xml">RSS</a></li>
+          <li><a href="/sitemap.xml">Sitemap</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__legal">
+      <p>© {year} Miso Apps. All rights reserved.</p>
+      <p class="footer__origin">
+        <span class="footer__pulse" aria-hidden="true"></span>
+        Built and supported from Hanoi, Vietnam
       </p>
     </div>
-    {
-      menu?.items.length ? (
-        <nav aria-label="Footer navigation">
-          <h4>Company</h4>
-          <ul>
-            {menu.items.map((item) => (
-              <li>
-                <a
-                  href={item.url}
-                  target={item.target}
-                  rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      ) : null
-    }
-    {
-      contactArea && contactArea.widgets.length > 0 && (
-        <div>
-          <WidgetArea name="footer-contact" class="contact-area" />
-        </div>
-      )
-    }
-  </div>
-  <div class="container legal">
-    <p>© {new Date().getFullYear()} Miso Apps. All rights reserved.</p>
   </div>
 </footer>
 
-<style is:global>
+<style>
   .site-footer {
+    margin-top: clamp(4rem, 9vw, 7rem);
     border-top: 1px solid var(--line);
     background: var(--surface);
-    margin-top: 6rem;
   }
-  .site-footer .grid {
+
+  .footer__grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 3rem;
-    padding-block: 3rem;
+    grid-template-columns: minmax(0, 2.2fr) repeat(3, minmax(0, 1fr));
+    gap: 2.5rem 2rem;
+    padding-block: clamp(2.5rem, 5vw, 3.75rem);
   }
-  .site-footer h3,
-  .site-footer h4 {
-    margin: 0 0 0.75rem;
+
+  .footer__brand {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
   }
-  .site-footer h3 {
-    font-size: 1.05rem;
+
+  .footer__brand-link {
+    justify-self: start;
+    text-decoration: none;
   }
-  .site-footer h4 {
-    font-size: 0.85rem;
-    letter-spacing: 0.06em;
-    color: var(--accent-dark);
+
+  .footer__brand p {
+    color: var(--ink-muted);
+    font-size: 0.9375rem;
+    max-width: 38ch;
   }
-  .site-footer p {
-    color: var(--muted);
-    margin: 0;
-    max-width: 34ch;
+
+  .footer__col {
+    display: grid;
+    gap: 0.85rem;
+    align-content: start;
   }
-  .site-footer ul {
+
+  .footer__title {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+  }
+
+  .footer__list {
     list-style: none;
-    margin: 0;
     padding: 0;
     display: grid;
+    gap: 0.55rem;
+  }
+
+  .footer__list a {
+    color: var(--ink-muted);
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: color var(--dur-2) var(--ease-quart);
+  }
+
+  .footer__list a:hover {
+    color: var(--brand-ink);
+  }
+
+  .footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-subtle);
+    font-size: 0.875rem;
+  }
+
+  .footer__origin {
+    display: inline-flex;
+    align-items: center;
     gap: 0.5rem;
   }
-  .site-footer nav a,
-  .contact-area a {
-    text-decoration: none;
-    color: var(--muted);
-    transition: color 200ms ease;
+
+  .footer__pulse {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--brand);
+    flex: none;
   }
-  .site-footer nav a:hover,
-  .contact-area a:hover {
-    color: var(--accent-dark);
+
+  .footer__pulse::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid var(--brand);
+    opacity: 0;
+    animation: footer-pulse 3.2s var(--ease-quart) infinite;
   }
-  .contact-area p {
-    margin: 0 0 0.35rem;
+
+  @keyframes footer-pulse {
+    0% {
+      transform: scale(0.5);
+      opacity: 0.8;
+    }
+    70%,
+    100% {
+      transform: scale(1.25);
+      opacity: 0;
+    }
   }
-  .site-footer .legal {
-    border-top: 1px solid var(--line);
-    padding-block: 1.25rem;
+
+  @media (max-width: 959px) {
+    .footer__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
   }
-  .site-footer .legal p {
-    font-size: 0.85rem;
-  }
-  @media (max-width: 900px) {
-    .site-footer .grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
+
+  @media (max-width: 559px) {
+    .footer__grid {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 </style>

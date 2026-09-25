@@ -22,7 +22,11 @@ const {
 
 const siteName = SITE_TITLE;
 const fullTitle = title ? `${title} — ${siteName}` : `${siteName} — Professional Shopify app studio`;
+
+const origin = Astro.site ?? Astro.url.origin;
+const canonicalHref = new URL(canonical ?? Astro.url.pathname, origin).toString();
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -31,22 +35,48 @@ const fullTitle = title ? `${title} — ${siteName}` : `${siteName} — Professi
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {robots && <meta name="robots" content={robots} />}
+    <meta name="color-scheme" content="light dark" />
+    {/*
+      Resolve the theme before first paint. Storing the attribute here keeps CSS
+      free of a duplicated prefers-color-scheme block, and prevents the flash of
+      light theme a post-paint script would cause.
+    */}
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        let stored = null;
+        try {
+          stored = localStorage.getItem("miso-theme");
+        } catch {
+          /* private mode / storage disabled — fall back to the system setting */
+        }
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = stored === "light" || stored === "dark" ? stored : prefersDark ? "dark" : "light";
+        root.dataset.theme = theme;
+        root.dataset.themeChoice = stored ?? "system";
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonical ?? Astro.url.pathname} />
+    <link rel="canonical" href={canonicalHref} />
     <link rel="alternate" type="application/rss+xml" title="Miso Apps Blog" href="/rss.xml" />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    {image && <meta property="og:image" content={new URL(image, Astro.site ?? Astro.url.origin)} />}
-    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)} />
+    {image && <meta property="og:image" content={new URL(image, origin)} />}
+    <meta property="og:url" content={canonicalHref} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#f6f7f4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0e0c" media="(prefers-color-scheme: dark)" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Open+Sans:wght@400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <script>
+      import "../scripts/motion";
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -55,22 +85,6 @@ const fullTitle = title ? `${title} — ${siteName}` : `${siteName} — Professi
       <slot />
     </main>
     <Footer />
+    <div class="grain" aria-hidden="true"></div>
   </body>
 </html>
-
-<style is:global>
-  .skip-link {
-    position: absolute;
-    left: -9999px;
-    top: 0;
-    z-index: 100;
-    background: var(--ink);
-    color: var(--canvas);
-    padding: 0.75rem 1.25rem;
-    font-weight: 600;
-    text-decoration: none;
-  }
-  .skip-link:focus {
-    left: 0;
-  }
-</style>

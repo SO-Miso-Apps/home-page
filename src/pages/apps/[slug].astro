@@ -1,8 +1,11 @@
 ---
 import { LiveEntryNotFoundError } from "astro/content/runtime";
-import { decodeSlug, getEmDashEntry, getSeoMeta } from "emdash";
+import { decodeSlug, getEmDashCollection, getEmDashEntry, getSeoMeta } from "emdash";
 import { Image, PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
+import AppMark from "../../components/AppMark.astro";
+import CoverArt from "../../components/CoverArt.astro";
+import CtaPanel from "../../components/CtaPanel.astro";
 import FeatureGrid from "../../components/FeatureGrid.astro";
 import ScreenshotGallery from "../../components/ScreenshotGallery.astro";
 
@@ -22,6 +25,15 @@ if (!app) return Astro.rewrite("/404");
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
 const data = app.data;
+
+// Cross-links to the rest of the catalog. Its cache hint is registered too —
+// Astro accumulates tags across set() calls, so publishing an entry also
+// purges the pages that list it.
+const { entries: siblings, error: siblingsError, cacheHint: siblingsHint } =
+  await getEmDashCollection("apps", { orderBy: { sort_order: "asc" } });
+const otherApps = siblingsError ? [] : siblings.filter((entry) => entry.id !== app.id);
+if (Astro.cache?.enabled) Astro.cache.set(siblingsHint);
+if (siblingsError) console.error("Failed to load sibling apps:", siblingsError);
 
 const seo = getSeoMeta(app, {
   siteTitle: "Miso Apps",
@@ -60,156 +72,318 @@ if (data.rating_value != null && (data.review_count ?? 0) > 0) {
     reviewCount: data.review_count,
   };
 }
+
+const rating = data.rating_value ?? null;
+const reviewCount = data.review_count ?? 0;
+const stars = rating == null ? 0 : Math.round(rating);
+
+const ctaHref = data.pricing_url ?? data.app_store_url;
 ---
+
 <Base title={title} description={description} image={seo.ogImage ?? ogImageSrc} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
   <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
   {isPreview && <p class="container preview-note">This is an unpublished preview.</p>}
 
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        {data.badge && <span class="badge">{data.badge}</span>}
-        <h1>{data.name}</h1>
-        <p class="tagline">{data.tagline}</p>
-        <div class="actions">
-          <a class="primary" href={data.app_store_url} target="_blank" rel="noopener noreferrer">
-            Install on the app store
+  <section class="hero" data-hero>
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        {
+          data.badge && (
+            <span class="badge" data-hero-item>
+              {data.badge}
+            </span>
+          )
+        }
+        <h1 data-hero-item>{data.name}</h1>
+        <p class="lede" data-hero-item>{data.tagline}</p>
+
+        <div class="hero__actions" data-hero-item>
+          <a class="btn btn--brand btn--lg" href={data.app_store_url} target="_blank" rel="noopener noreferrer">
+            Install on the App Store
+            <svg class="btn__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
+              <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </a>
-          {data.pricing_url && (
-            <a class="text" href={data.pricing_url} target="_blank" rel="noopener noreferrer">
-              View pricing
-            </a>
-          )}
+          {
+            data.pricing_url && (
+              <a class="btn btn--ghost btn--lg" href={data.pricing_url} target="_blank" rel="noopener noreferrer">
+                View pricing
+              </a>
+            )
+          }
+        </div>
+
+        {
+          rating != null && reviewCount > 0 && (
+            <p class="rating" data-hero-item>
+              <span class="rating__stars" aria-hidden="true">
+                {Array.from({ length: 5 }, (_, index) => (
+                  <svg viewBox="0 0 16 16" width="13" height="13" class:list={[index < stars ? "on" : "off"]} focusable="false">
+                    <path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6L8 1.6Z" />
+                  </svg>
+                ))}
+              </span>
+              <span class="num">{rating.toFixed(1)}</span>
+              <span class="rating__meta">
+                from {reviewCount} {reviewCount === 1 ? "review" : "reviews"} on the Shopify App Store
+              </span>
+            </p>
+          )
+        }
+      </div>
+
+      <div class="hero__art" data-hero-art>
+        <div class="hero__tile glass" data-float>
+          <div class="hero__tile-art" aria-hidden="true">
+            <CoverArt seed={app.id} />
+          </div>
+          <div class="hero__mark">
+            {
+              data.icon ? (
+                <Image image={data.icon} width={116} height={116} alt={`${data.name} icon`} />
+              ) : (
+                <AppMark seed={app.id} size={116} />
+              )
+            }
+          </div>
         </div>
       </div>
-      <div class="hero-visual">
-        {data.icon ? (
-          <Image image={data.icon} width={160} height={160} alt={`${data.name} icon`} />
-        ) : (
-          <span class="monogram" aria-hidden="true">{data.name.charAt(0)}</span>
-        )}
-      </div>
     </div>
   </section>
 
-  {data.hero && (
-    <section class="hero-content">
-      <div class="container prose">
-        <PortableText value={data.hero} />
-      </div>
-    </section>
-  )}
+  {
+    data.hero && (
+      <section class="section section--tight">
+        <div class="container container--narrow prose" data-reveal>
+          <PortableText value={data.hero} />
+        </div>
+      </section>
+    )
+  }
 
   <FeatureGrid features={data.features} />
-  <ScreenshotGallery screenshots={data.screenshots} />
+  <ScreenshotGallery screenshots={data.screenshots} appName={data.name} />
 
-  <section class="cta">
-    <div class="container cta-panel">
-      <h2>Ready to try {data.name}?</h2>
-      <a class="primary" href={data.app_store_url} target="_blank" rel="noopener noreferrer">
-        Install on the app store
-      </a>
-    </div>
-  </section>
+  {
+    otherApps.length > 0 && (
+      <section class="section" aria-labelledby="more-title">
+        <div class="container">
+          <h2 id="more-title" class="more__title" data-reveal>
+            More from Miso Apps
+          </h2>
+          <ul class="more">
+            {otherApps.map((entry) => (
+              <li data-reveal>
+                <a class="more__row" href={`/apps/${entry.id}`}>
+                  <AppMark seed={entry.id} size={40} />
+                  <span class="more__text">
+                    <span class="more__name">{entry.data.name}</span>
+                    <span class="more__tagline">{entry.data.tagline}</span>
+                  </span>
+                  {entry.data.badge && <span class="more__badge">{entry.data.badge}</span>}
+                  <svg class="more__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
+                    <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <CtaPanel
+    seed={`cta-${app.id}`}
+    eyebrow="Get started"
+    title={`Ready to try ${data.name}?`}
+    body="Install from the Shopify App Store and configure it on your store in one sitting."
+    primary={{ label: "Install on the App Store", href: data.app_store_url, external: true }}
+    secondary={{ label: "See pricing", href: ctaHref, external: true }}
+  />
 </Base>
 
 <style>
   .preview-note {
-    color: var(--accent-dark);
+    color: var(--brand-ink);
+    padding-top: 1.5rem;
+    font-size: 0.875rem;
   }
+
   .hero {
-    padding-block: 4.5rem 3rem;
+    position: relative;
+    padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 3vw, 2rem);
   }
-  .hero-grid {
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: -20% 0 auto 0;
+    height: 70%;
+    background: radial-gradient(
+      ellipse 62% 60% at 82% 0%,
+      color-mix(in oklab, var(--brand) 13%, transparent),
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .hero__grid {
     display: grid;
-    grid-template-columns: 1.4fr 0.6fr;
-    gap: 4rem;
+    gap: clamp(2.5rem, 5vw, 4rem);
     align-items: center;
   }
-  .badge {
-    display: inline-block;
-    font-family: var(--font-display);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--accent-dark);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 0.2rem 0.7rem;
+
+  .hero__copy {
+    display: grid;
+    justify-items: start;
+    gap: 1.15rem;
   }
+
   h1 {
-    font-size: clamp(2rem, 4vw, 3rem);
-    margin: 0.9rem 0 0.9rem;
+    font-size: var(--step-5);
+    letter-spacing: -0.035em;
   }
-  .tagline {
-    color: var(--muted);
-    max-width: 56ch;
-  }
-  .actions {
+
+  .hero__actions {
     display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    margin-top: 1.5rem;
-  }
-  .primary {
-    background: var(--ink);
-    color: var(--canvas);
-    text-decoration: none;
-    font-weight: 600;
-    padding: 0.8rem 1.5rem;
-    border-radius: 999px;
-    transition: transform 200ms ease;
-  }
-  .primary:hover {
-    transform: translateY(-1px);
-  }
-  .text {
-    color: var(--accent-dark);
-    font-weight: 600;
-    text-decoration: none;
-  }
-  .hero-visual {
-    display: grid;
-    place-items: center;
-  }
-  .monogram {
-    display: grid;
-    place-items: center;
-    width: 160px;
-    height: 160px;
-    background: var(--accent);
-    color: var(--canvas);
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 4rem;
-    border-radius: 40px;
-  }
-  .prose :global(h2) {
-    font-size: 1.4rem;
-  }
-  .cta {
-    padding-block: 2rem 3rem;
-  }
-  .cta-panel {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
     flex-wrap: wrap;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-panel);
-    padding: 2.25rem 2.5rem;
-    box-shadow: 0 12px 32px rgba(23, 26, 24, 0.06);
+    gap: 0.75rem;
+    margin-top: 0.35rem;
   }
-  .cta h2 {
-    margin: 0;
-    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+
+  .rating {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    color: var(--ink-muted);
+    margin-top: 0.35rem;
   }
-  @media (max-width: 900px) {
-    .hero-grid {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
+
+  .rating__stars {
+    display: inline-flex;
+    gap: 2px;
+  }
+
+  .rating__stars svg {
+    fill: var(--ink-subtle);
+  }
+
+  .rating__stars svg.on {
+    fill: var(--brand);
+  }
+
+  .rating__meta {
+    color: var(--ink-subtle);
+  }
+
+  .hero__art {
+    display: grid;
+  }
+
+  .hero__tile {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 5 / 4;
+    overflow: hidden;
+    border-radius: var(--r-2xl);
+  }
+
+  .hero__tile-art {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero__mark {
+    position: relative;
+    border-radius: var(--r-xl);
+    box-shadow: var(--shadow-3);
+  }
+
+  .more__title {
+    font-size: var(--step-3);
+    margin-bottom: 1.5rem;
+  }
+
+  .more {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .more li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .more__row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 0.25rem;
+    text-decoration: none;
+    transition: padding-left var(--dur-2) var(--ease-quart);
+  }
+
+  .more__row:hover {
+    padding-left: 0.75rem;
+  }
+
+  .more__text {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+
+  .more__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.0625rem;
+    color: var(--ink);
+  }
+
+  .more__tagline {
+    color: var(--ink-muted);
+    font-size: 0.875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 62ch;
+  }
+
+  .more__badge {
+    margin-left: auto;
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+  }
+
+  .more__arrow {
+    flex: none;
+    color: var(--brand-ink);
+    transition: transform var(--dur-2) var(--ease-quart);
+  }
+
+  .more__row:hover .more__arrow {
+    transform: translateX(3px);
+  }
+
+  @media (min-width: 960px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    }
+  }
+
+  @media (max-width: 599px) {
+    .more__tagline,
+    .more__badge {
+      display: none;
     }
   }
 </style>

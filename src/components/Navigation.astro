@@ -1,22 +1,40 @@
 ---
 import { getMenu } from "emdash";
+import BrandMark from "./BrandMark.astro";
+import ThemeToggle from "./ThemeToggle.astro";
 
 const menu = await getMenu("primary");
+const items = menu?.items ?? [];
+
+// Hash links point at sections on the home page, so they never mark a page
+// current; path links do, and a parent path stays current on its children.
+const pathname = Astro.url.pathname;
+const isCurrent = (url: string): boolean => {
+  if (url.includes("#")) return false;
+  const path = url.replace(/\/+$/, "") || "/";
+  if (path === "/") return pathname === "/";
+  return pathname === path || pathname.startsWith(`${path}/`);
+};
 ---
-<header class="site-header">
-  <div class="container inner">
-    <a class="brand" href="/">Miso Apps</a>
-    <nav aria-label="Primary navigation">
-      <ul>
+
+<header class="site-header" data-nav data-nav-open="false">
+  <div class="container header__inner">
+    <a class="header__brand" href="/" aria-label="Miso Apps home">
+      <BrandMark />
+    </a>
+
+    <nav class="nav" id="site-menu" data-nav-panel aria-label="Primary">
+      <ul class="nav__list">
         {
-          menu?.items.map((item) => (
+          items.map((item) => (
             <li>
               <a
+                class="nav__link"
                 href={item.url}
                 target={item.target}
                 rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
                 title={item.titleAttr}
-                aria-current={item.url === Astro.url.pathname ? "page" : undefined}
+                aria-current={isCurrent(item.url) ? "page" : undefined}
               >
                 {item.label}
               </a>
@@ -24,7 +42,24 @@ const menu = await getMenu("primary");
           ))
         }
       </ul>
+      <div class="nav__foot">
+        <span class="nav__foot-label">Appearance</span>
+        <ThemeToggle label="Color theme (menu)" />
+      </div>
     </nav>
+
+    <div class="header__actions">
+      <div class="header__theme">
+        <ThemeToggle label="Color theme" />
+      </div>
+      <button class="burger" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-menu">
+        <span class="sr-only">Open menu</span>
+        <span class="burger__box" aria-hidden="true">
+          <span class="burger__bar"></span>
+          <span class="burger__bar"></span>
+        </span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -32,40 +67,190 @@ const menu = await getMenu("primary");
   .site-header {
     position: sticky;
     top: 0;
-    z-index: 10;
-    background: var(--surface);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
+    z-index: var(--z-sticky);
+    background: color-mix(in oklab, var(--canvas) 82%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(1.6);
+    backdrop-filter: blur(16px) saturate(1.6);
+    border-bottom: 1px solid transparent;
+    transition:
+      border-color var(--dur-2) var(--ease-quart),
+      background-color var(--dur-2) var(--ease-quart);
   }
-  .inner {
+
+  /* Toggled by ScrollTrigger once the page has moved — see scripts/motion.ts. */
+  .site-header.is-scrolled {
+    background: color-mix(in oklab, var(--canvas) 92%, transparent);
+    border-bottom-color: var(--line);
+  }
+
+  .header__inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    min-height: 64px;
+    gap: 1rem;
+    min-height: 68px;
   }
-  .brand {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.1rem;
+
+  .header__brand {
+    display: inline-flex;
+    align-items: center;
     text-decoration: none;
+    margin-right: auto;
   }
-  ul {
+
+  .header__actions {
     display: flex;
-    gap: 1.75rem;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav__list {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
     list-style: none;
-    margin: 0;
     padding: 0;
   }
-  a:not(.brand) {
+
+  .nav__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 0.85rem;
+    border-radius: var(--r-pill);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--ink-muted);
     text-decoration: none;
-    color: var(--muted);
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 200ms ease;
+    transition:
+      color var(--dur-2) var(--ease-quart),
+      background-color var(--dur-2) var(--ease-quart);
   }
-  a:not(.brand):hover,
-  a[aria-current="page"] {
-    color: var(--accent-dark);
+
+  .nav__link:hover {
+    color: var(--ink);
+    background: var(--surface-2);
+  }
+
+  .nav__link[aria-current="page"] {
+    color: var(--ink);
+    background: var(--brand-soft);
+  }
+
+  .nav__foot {
+    display: none;
+  }
+
+  .burger {
+    display: none;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .burger__box {
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 10px;
+  }
+
+  .burger__bar {
+    position: absolute;
+    left: 0;
+    width: 16px;
+    height: 1.6px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform var(--dur-2) var(--ease-spring);
+  }
+
+  .burger__bar:first-child {
+    top: 0;
+  }
+
+  .burger__bar:last-child {
+    bottom: 0;
+  }
+
+  .site-header[data-nav-open="true"] .burger__bar:first-child {
+    transform: translateY(4.2px) rotate(45deg);
+  }
+
+  .site-header[data-nav-open="true"] .burger__bar:last-child {
+    transform: translateY(-4.2px) rotate(-45deg);
+  }
+
+  @media (max-width: 959px) {
+    .burger {
+      display: grid;
+    }
+    .header__theme {
+      display: none;
+    }
+
+    .nav {
+      position: absolute;
+      left: var(--gutter);
+      right: var(--gutter);
+      top: calc(100% - 6px);
+      display: grid;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow-3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition:
+        opacity var(--dur-2) var(--ease-quart),
+        transform var(--dur-2) var(--ease-quart),
+        visibility var(--dur-2);
+    }
+
+    .site-header[data-nav-open="true"] .nav {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .nav__list {
+      display: grid;
+      gap: 0.15rem;
+    }
+
+    .nav__link {
+      min-height: 48px;
+      font-size: 1rem;
+      border-radius: var(--r-sm);
+    }
+
+    .nav__foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.75rem 0.25rem 0.25rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .nav__foot-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-subtle);
+    }
   }
 </style>
+
+<script>
+  import "../scripts/nav";
+</script>
