@@ -349,7 +349,7 @@
       "/blog"
     ],
     "figure": "flow",
-    "notes": "Backup per bulk operation, revert from the activity log, Pro plan."
+    "notes": "Outline: (1) what a bulk operation leaves behind, a backup per operation [AT-21]; (2) where the operation appears in the log [AT-22]; (3) how the revert is triggered and what it restores [AT-21]; (4) which plan includes it [AT-25]. Say explicitly that this is Pro-only."
   },
   {
     "id": "at-activity-log-audit",
