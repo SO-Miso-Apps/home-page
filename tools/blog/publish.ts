@@ -151,6 +151,10 @@ async function produce(input: {
       ]
         .filter(Boolean)
         .join("\n");
+      for (const violation of scored.violations) {
+        console.log(`[${app}]   ${violation.kind}: ${violation.quote.slice(0, 120)} — ${violation.why}`);
+      }
+      if (scored.rewrite_notes) console.log(`[${app}]   rewrite: ${scored.rewrite_notes}`);
     } catch (error) {
       // A writer or critic reply the pipeline cannot use is a failed attempt,
       // not a failed run: tell the writer what was wrong and try again.
@@ -255,9 +259,10 @@ async function main(): Promise<void> {
   }
 
   if (drafted.length > 0) {
+    const admin = new URL("/_emdash/admin", config.site).toString();
     notify(
       "Blog drafts ready",
-      `${drafted.length} draft(s) awaiting approval: ${drafted.join(", ")}`,
+      `${drafted.length} draft(s) awaiting approval: ${drafted.join(", ")} — approve at ${admin}`,
     );
   }
   if (failures > 0) {
