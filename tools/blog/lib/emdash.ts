@@ -44,7 +44,7 @@ export function buildDraftBody(input: {
   };
 }
 
-type ApiOptions = { method?: string; body?: unknown; raw?: BodyInit; headers?: Record<string, string> };
+type ApiOptions = { method?: string; body?: unknown; raw?: string | Uint8Array; headers?: Record<string, string> };
 
 /** EmDash answers failures with `{ success: false, error: { code, message } }`. */
 function errorMessage(payload: unknown, fallback: string): string {

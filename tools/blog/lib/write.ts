@@ -36,7 +36,7 @@ export function buildWriterPrompt(input: WriteInput): string {
     `## Rules the gates enforce
 A draft that breaks any of these is thrown back without being published.
 
-- Write ${MIN_WORDS} to ${MAX_WORDS} words of body text.
+- Write ${MIN_WORDS} to ${MAX_WORDS} words of body text; aim for about 900, and count before you answer.
 - Title at most ${TITLE_MAX_CHARS} characters, and it must contain the primary keyword.
 - seo_description between ${SEO_DESCRIPTION_MIN} and ${SEO_DESCRIPTION_MAX} characters.
 - At least three h2 sections, at least one bulleted list, at least two internal links.

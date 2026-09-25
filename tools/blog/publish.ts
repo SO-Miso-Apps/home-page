@@ -91,14 +91,14 @@ function factsFor(topic: Topic, facts: Fact[]): Fact[] {
   });
 }
 
-function writeAttempt(input: {
+async function writeAttempt(input: {
   app: AppId;
   topic: Topic;
   facts: Fact[];
   model?: string;
   feedback?: string;
   previous?: Draft;
-}): Draft {
+}): Promise<Draft> {
   return writeDraft({
     facts: input.facts,
     topic: input.topic,
@@ -111,14 +111,14 @@ function writeAttempt(input: {
 }
 
 /** Write and score until both the gates and the critic accept, or give up. */
-function produce(input: {
+async function produce(input: {
   app: AppId;
   topic: Topic;
   facts: Fact[];
   existingSlugs: string[];
   siteApps: string[];
   config: Config;
-}): Attempt {
+}): Promise<Attempt> {
   const { app, topic, facts, existingSlugs, siteApps, config } = input;
   let feedback: string | undefined;
   let previous: Draft | undefined;
@@ -128,7 +128,7 @@ function produce(input: {
   for (let attempt = 1; attempt <= config.maxAttempts; attempt++) {
     console.log(`[${app}] attempt ${attempt}/${config.maxAttempts}: ${topic.id}`);
     try {
-      const draft = writeAttempt({ app, topic, facts, model: config.writerModel, feedback, previous });
+      const draft = await writeAttempt({ app, topic, facts, model: config.writerModel, feedback, previous });
       previous = draft;
 
       const gates = runGates({ draft, facts, topic, existingSlugs, apps: siteApps });
@@ -139,7 +139,7 @@ function produce(input: {
         continue;
       }
 
-      const scored = critique(draft, facts, topic, config.criticModel);
+      const scored = await critique(draft, facts, topic, config.criticModel);
       lastCritique = scored;
       console.log(`[${app}] critic: ${critiqueSummary(scored)} verdict=${scored.verdict}`);
       if (critiquePasses(scored)) return { draft, attack: scored, attempts: attempt, failures: [] };
@@ -155,7 +155,7 @@ function produce(input: {
       // A writer or critic reply the pipeline cannot use is a failed attempt,
       // not a failed run: tell the writer what was wrong and try again.
       const message = error instanceof Error ? error.message : String(error);
-      console.error(`[${app}] attempt ${attempt} unusable: ${message}`);
+      console.error(`[${app}] attempt ${attempt} unusable: ${error instanceof Error ? error.stack : message}`);
       feedback = `The previous reply could not be used: ${message}. Reply with the JSON object exactly as specified, and nothing else.`;
     }
   }
@@ -180,7 +180,7 @@ async function runApp(app: AppId, args: Args, config: Config): Promise<"drafted"
   }
 
   const facts = factsFor(topic, allFacts);
-  const attempt = produce({ app, topic, facts, existingSlugs, siteApps, config });
+  const attempt = await produce({ app, topic, facts, existingSlugs, siteApps, config });
 
   const stamp = new Date().toISOString().slice(0, 10);
   const outDir = join(HERE, "out", `${stamp}-${app}-${attempt.draft.slug}`);

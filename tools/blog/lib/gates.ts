@@ -79,12 +79,14 @@ function untraceableClaims(text: string, facts: Fact[]): string[] {
   return [...new Set(missing)];
 }
 
+const KNOWN_BLOCK_TYPES = ["block", "image", "code"];
+
 function schemaFailures(content: PortableBlock[]): string[] {
   const problems: string[] = [];
   if (content.length === 0) problems.push("content is empty");
   const keys = new Set<string>();
   content.forEach((block, index) => {
-    if (block._type !== "block" && block._type !== "image" && block._type !== "code") {
+    if (!KNOWN_BLOCK_TYPES.includes(String(block._type))) {
       problems.push(`block ${index} has unsupported type "${String(block._type)}"`);
       return;
     }
@@ -100,7 +102,9 @@ function schemaFailures(content: PortableBlock[]): string[] {
         }
       }
     }
-    if (block._type === "image" && !block.asset?.id && !block.asset?.url) problems.push(`image block ${index} has no asset`);
+    if (block._type === "image" && block.asset?.url === "" && !block.asset?.id) {
+      problems.push(`image block ${index} has an empty asset`);
+    }
   });
   return problems;
 }

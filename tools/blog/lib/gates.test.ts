@@ -192,11 +192,21 @@ test("duplicate block keys fail schema", () => {
 });
 
 test("a heading jump fails structure", () => {
-  const jumped = [
-    ...body(),
-    { _type: "block", _key: "h4", style: "h4", markDefs: [], children: [{ _type: "span", _key: "hs4", text: "Deep" }] } as const,
-  ];
+  const deep: Draft["content"][number] = { _type: "block", _key: "h4", style: "h4", markDefs: [], children: [{ _type: "span", _key: "hs4", text: "Deep" }] };
+  const jumped: Draft["content"] = [...body(), deep];
   assert.ok(codes(draft({ content: jumped })).includes("structure"));
+});
+
+test("an image block with only alt text passes schema", () => {
+  // The pipeline wires the media id in after the gates run, so the writer is
+  // only asked for alt text.
+  const withImage: Draft["content"] = [...body(), { _type: "image", _key: "img1", alt: "Change trail" }];
+  assert.ok(!codes(draft({ content: withImage })).includes("schema"));
+});
+
+test("an image block with an empty asset fails schema", () => {
+  const withImage: Draft["content"] = [...body(), { _type: "image", _key: "img1", alt: "x", asset: { url: "" } }];
+  assert.ok(codes(draft({ content: withImage })).includes("schema"));
 });
 
 test("a figure row that invents data fails figure", () => {
