@@ -68,6 +68,11 @@ pnpm blog:stop
 Each run exits when it is done, so a failure can never loop. Output lands in
 `tools/blog/out/pm2.log`.
 
+The pm2 entry pins `interpreter` to the Node 22 binary in
+`ecosystem.blog.config.json`, because the pipeline runs TypeScript directly and the pm2
+daemon may hold an older Node from another nvm version. After a Node upgrade,
+point that path at the new binary.
+
 ## Approving
 
 Open `https://misoapps.com/_emdash/admin` → Posts → the new drafts. Each draft

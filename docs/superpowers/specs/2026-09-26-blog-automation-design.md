@@ -245,7 +245,7 @@ figure does not use numbers.
 
 ## 7. Scheduling
 
-`ecosystem.blog.cjs` in `home-page`, started with pm2:
+`ecosystem.blog.config.json` in `home-page`, started with pm2:
 
 ```js
 module.exports = { apps: [{

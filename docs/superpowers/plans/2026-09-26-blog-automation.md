@@ -422,20 +422,20 @@ git commit -m "content(blog): verified fact sheets and 60-topic content calendar
 ### Task 10: pm2 schedule and handoff docs
 
 **Files:**
-- Create: `ecosystem.blog.cjs`, `tools/blog/README.md`
+- Create: `ecosystem.blog.config.json`, `tools/blog/README.md`
 - Modify: `package.json` (`blog:start`, `blog:stop`)
 
 **Interfaces:**
 - Produces: pm2 app `miso-blog` with `cron_restart: "0 8 * * *"`, `autorestart: false`.
 
-- [ ] **Step 1: Write `ecosystem.blog.cjs`** exactly as spec §7 with `cwd` = this repo.
+- [ ] **Step 1: Write `ecosystem.blog.config.json`** exactly as spec §7 with `cwd` = this repo.
 - [ ] **Step 2: Write `tools/blog/README.md`** — how to create the PAT, run `--dry-run`, read a report, add a topic, add a fact, rotate the token.
-- [ ] **Step 3: Add scripts** `"blog:start": "pm2 start ecosystem.blog.cjs --only miso-blog"`, `"blog:stop": "pm2 stop miso-blog"`.
-- [ ] **Step 4: Verify registration without publishing** — `pm2 start ecosystem.blog.cjs --only miso-blog --no-autorestart` then `pm2 describe miso-blog` shows the cron and the script; then `pm2 delete miso-blog` until the production PAT exists.
+- [ ] **Step 3: Add scripts** `"blog:start": "pm2 start ecosystem.blog.config.json --only miso-blog"`, `"blog:stop": "pm2 stop miso-blog"`.
+- [ ] **Step 4: Verify registration without publishing** — `pm2 start ecosystem.blog.config.json --only miso-blog --no-autorestart` then `pm2 describe miso-blog` shows the cron and the script; then `pm2 delete miso-blog` until the production PAT exists.
 - [ ] **Step 5: Commit**
 
 ```bash
-git add ecosystem.blog.cjs tools/blog/README.md package.json
+git add ecosystem.blog.config.json tools/blog/README.md package.json
 git commit -m "chore(blog): pm2 daily schedule and operator README"
 ```
 
