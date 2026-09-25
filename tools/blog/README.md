@@ -104,6 +104,9 @@ field or more facts in the sheet.
   may cite the other app's facts for a comparison post. Run `pnpm blog:test` —
   it checks that every reference resolves and every link is a path the site
   serves.
+- **A sharper topic**: put a section outline in `notes`, naming the fact ids each
+  section should use (`(1) … [HR-03, HR-04]; (2) …`). The writer follows it, and
+  a topic without an outline is where the vague drafts come from.
 - **A figure template**: add `render/<name>.html` (with the
   `<!-- figure: <name> -->` marker) and register the name in `lib/types.ts`
   (`FigureTemplate`), `lib/gates.ts` and `lib/figure.ts`.
