@@ -15,6 +15,24 @@ busy: they want the answer, not a mood.
   variants, collections, metafields.
 - Numbers and field names are allowed only when they appear in the fact sheet.
 
+## Voice, by example
+
+The post describes the product and the operator's decision, never the writing
+process and never the reader's workflow habits.
+
+- Weak: "Keep that exact set attached to any answer about who changed a product."
+  Better: "Only create, delete, publishing and status changes carry a name; a
+  price edit shows Unknown."
+- Weak: "That distinction matters during an investigation."
+  Better: "Restoring a price edit reads one checkpoint and the two patches after
+  it, not the whole catalog."
+- Weak: "For a repeatable review, keep this sequence with your other playbooks."
+  Better: delete it. The instruction above already said what to do.
+- Weak: "The app also stores periodic checkpoints." (a third sentence in a row
+  starting with "The app")
+  Better: "Checkpoints supply the starting state every so often; the patches
+  describe what happened after one."
+
 ## Structure
 
 - Every section names a concrete surface: the page, the action menu entry, the
