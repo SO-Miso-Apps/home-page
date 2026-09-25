@@ -18,6 +18,7 @@ export type ReportInput = {
   mediaId?: string;
   entryId?: string;
   dryRun: boolean;
+  flagged?: string;
 };
 
 export function writeReport(input: ReportInput): string {
@@ -36,6 +37,7 @@ export function writeReport(input: ReportInput): string {
     input.mediaId ? `- media: ${input.mediaId}` : "",
     input.figureFile ? `- figure: ${input.figureFile}` : "",
     "",
+    input.flagged ? `> **Needs a closer look:** ${input.flagged}` : "",
     "## Critic",
     "",
     `- ${critiqueSummary(critique)}`,

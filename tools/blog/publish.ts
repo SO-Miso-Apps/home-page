@@ -17,7 +17,7 @@ import { loadTopics, type Topic } from "./lib/topics.ts";
 import { pickTopic } from "./lib/pick.ts";
 import { runGates } from "./lib/gates.ts";
 import { writeDraft, loadStyleGuide } from "./lib/write.ts";
-import { critique, critiquePasses, critiqueSummary } from "./lib/critique.ts";
+import { critique, critiquePasses, critiqueReviewable, critiqueSummary, totalScore } from "./lib/critique.ts";
 import { renderFigure } from "./lib/figure.ts";
 import { buildDraftBody, createDraft, deleteMedia, deletePost, healthCheck, listPublishedSlugs, uploadMedia, api } from "./lib/emdash.ts";
 import { readLedger, recordRun } from "./lib/ledger.ts";
@@ -80,7 +80,7 @@ function resolveConfig(args: Args): Config {
   };
 }
 
-type Attempt = { draft: Draft; attack: Critique; attempts: number; failures: GateFailure[] };
+type Attempt = { draft: Draft; attack: Critique; attempts: number; failures: GateFailure[]; flagged?: string };
 
 /**
  * Every attempt is kept on disk. A rejected draft is the most useful artifact
@@ -134,6 +134,7 @@ async function produce(input: {
   let previous: Draft | undefined;
   let failures: GateFailure[] = [];
   let lastCritique: Critique | null = null;
+  let best: Attempt | null = null;
 
   for (let attempt = 1; attempt <= config.maxAttempts; attempt++) {
     console.log(`[${app}] attempt ${attempt}/${config.maxAttempts}: ${topic.id}`);
@@ -155,6 +156,9 @@ async function produce(input: {
       saveAttempt(outDir, attempt, draft, [], scored);
       console.log(`[${app}] critic: ${critiqueSummary(scored)} verdict=${scored.verdict}`);
       if (critiquePasses(scored)) return { draft, attack: scored, attempts: attempt, failures: [] };
+      if (critiqueReviewable(scored) && (best === null || totalScore(scored) > totalScore(best.attack))) {
+        best = { draft, attack: scored, attempts: attempt, failures: [] };
+      }
 
       feedback = [
         `The critic rejected the draft: ${critiqueSummary(scored)}.`,
@@ -174,6 +178,12 @@ async function produce(input: {
       console.error(`[${app}] attempt ${attempt} unusable: ${error instanceof Error ? error.stack : message}`);
       feedback = `The previous reply could not be used: ${message}. Reply with the JSON object exactly as specified, and nothing else.`;
     }
+  }
+
+  if (best) {
+    const flagged = `the critic never passed it; this is the best of ${config.maxAttempts} attempts — ${critiqueSummary(best.attack)}`;
+    console.log(`[${app}] handing over attempt ${best.attempts} for review: ${flagged}`);
+    return { ...best, flagged };
   }
 
   const detail = lastCritique
@@ -249,6 +259,7 @@ async function runApp(app: AppId, args: Args, config: Config): Promise<"drafted"
     mediaId,
     entryId: created.id,
     dryRun: args.dryRun,
+    flagged: attempt.flagged,
   });
   console.log(`[${app}] report: ${report}`);
   return "drafted";
@@ -266,7 +277,7 @@ async function main(): Promise<void> {
   for (const app of targets) {
     try {
       const result = await runApp(app, args, config);
-      if (result === "drafted") drafted.push(app);
+      if (result !== "failed") drafted.push(app);
     } catch (error) {
       failures++;
       console.error(String(error instanceof Error ? error.message : error));

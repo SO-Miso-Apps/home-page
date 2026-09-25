@@ -27,10 +27,28 @@ export async function critique(draft: Draft, facts: Fact[], topic: Topic, model?
   return parseCritique(extractJson<unknown>(raw));
 }
 
+export function totalScore(result: Critique): number {
+  const { factuality, specificity, originality, seo, usefulness } = result.scores;
+  return factuality + specificity + originality + seo + usefulness;
+}
+
 export function critiquePasses(result: Critique): boolean {
-  const total =
-    result.scores.factuality + result.scores.specificity + result.scores.originality + result.scores.seo + result.scores.usefulness;
-  return result.verdict === "pass" && result.scores.factuality >= 4 && total >= 20 && result.violations.length === 0;
+  return result.verdict === "pass" && result.scores.factuality >= 4 && totalScore(result) >= 20 && result.violations.length === 0;
+}
+
+/**
+ * The owner is the last gate, so a draft the critic merely dislikes (filler it
+ * can quote, a weak heading) is still worth reviewing — but a draft with a
+ * fabricated claim or a banned phrase is never handed over.
+ */
+const BLOCKING_VIOLATIONS = ["unsupported_claim", "banned_phrase"];
+
+export function critiqueReviewable(result: Critique): boolean {
+  return (
+    result.scores.factuality >= 4 &&
+    totalScore(result) >= 19 &&
+    !result.violations.some((violation) => BLOCKING_VIOLATIONS.includes(violation.kind))
+  );
 }
 
 export function critiqueSummary(result: Critique): string {

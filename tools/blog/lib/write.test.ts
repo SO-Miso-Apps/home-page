@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildWriterPrompt } from "./write.ts";
-import { buildCriticPrompt, critiquePasses } from "./critique.ts";
+import { buildCriticPrompt, critiquePasses, critiqueReviewable, totalScore } from "./critique.ts";
 import type { Draft } from "./types.ts";
 import type { Fact } from "./facts.ts";
 import type { Topic } from "./topics.ts";
@@ -76,6 +76,16 @@ test("critic prompt lists the five criteria and the draft", () => {
   }
   assert.match(prompt, /Shopify product history: compare two versions/);
   assert.match(prompt, /"violations"/);
+});
+
+test("critiqueReviewable lets a merely flawed draft through to the owner", () => {
+  const nearMiss = { scores: { factuality: 4, specificity: 4, originality: 3, seo: 4, usefulness: 4 }, violations: [{ kind: "vague", quote: "q", why: "w" }], verdict: "fail" as const, rewrite_notes: "" };
+  assert.equal(totalScore(nearMiss), 19);
+  assert.equal(critiqueReviewable(nearMiss), true);
+  assert.equal(critiquePasses(nearMiss), false);
+  assert.equal(critiqueReviewable({ ...nearMiss, violations: [{ kind: "unsupported_claim", quote: "q", why: "w" }] }), false);
+  assert.equal(critiqueReviewable({ ...nearMiss, scores: { ...nearMiss.scores, factuality: 3 } }), false);
+  assert.equal(critiqueReviewable({ ...nearMiss, scores: { ...nearMiss.scores, originality: 1 } }), false);
 });
 
 test("critiquePasses enforces the thresholds", () => {
