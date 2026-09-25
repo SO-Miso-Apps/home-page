@@ -189,7 +189,7 @@
   {
     "id": "at-data-reprocess-existing-orders",
     "intent": "guide",
-    "title_hint": "Tagging orders that already happened",
+    "title_hint": "Tag existing orders in Shopify: how Data Reprocess works",
     "primary_keyword": "tag existing orders shopify",
     "secondary_keywords": [
       "apply tags to past orders"
@@ -210,7 +210,7 @@
   {
     "id": "at-rule-library-recipes",
     "intent": "tips",
-    "title_hint": "Start from a recipe instead of an empty rule",
+    "title_hint": "Shopify tagging rule templates: start from a recipe",
     "primary_keyword": "shopify tagging rule templates",
     "secondary_keywords": [
       "prebuilt tagging rules shopify"
@@ -230,7 +230,7 @@
   {
     "id": "at-import-export-rules",
     "intent": "tips",
-    "title_hint": "Moving a rule set between stores",
+    "title_hint": "Export Shopify tagging rules and import them elsewhere",
     "primary_keyword": "export shopify tagging rules",
     "secondary_keywords": [
       "import tagging rules shopify"
@@ -250,7 +250,7 @@
   {
     "id": "at-duplicate-and-disabled-copy",
     "intent": "tips",
-    "title_hint": "Two habits that keep a rule set maintainable",
+    "title_hint": "How to manage Shopify tagging rules without breaking them",
     "primary_keyword": "shopify tagging rules manage",
     "secondary_keywords": [
       "enable disable shopify rule"
@@ -270,7 +270,7 @@
   {
     "id": "at-clean-duplicate-tags",
     "intent": "guide",
-    "title_hint": "Cleaning up duplicate tags like Sale and sale",
+    "title_hint": "Shopify duplicate tags cleanup: merge Sale and sale",
     "primary_keyword": "shopify duplicate tags cleanup",
     "secondary_keywords": [
       "merge tags shopify",
@@ -292,7 +292,7 @@
   {
     "id": "at-bulk-find-and-replace-tags",
     "intent": "guide",
-    "title_hint": "Find and replace a tag across the whole store",
+    "title_hint": "Shopify bulk edit tags: find and replace in one pass",
     "primary_keyword": "shopify bulk edit tags",
     "secondary_keywords": [
       "replace product tags shopify"
@@ -313,7 +313,7 @@
   {
     "id": "at-bulk-operation-preview",
     "intent": "tips",
-    "title_hint": "Read the bulk preview before you confirm",
+    "title_hint": "Read the Shopify bulk tag preview before you confirm",
     "primary_keyword": "shopify bulk tag preview",
     "secondary_keywords": [
       "bulk operation confirm shopify"
@@ -333,7 +333,7 @@
   {
     "id": "at-revert-bulk-operation",
     "intent": "guide",
-    "title_hint": "Reverting a bulk tag operation",
+    "title_hint": "Undo a bulk tag change in Shopify",
     "primary_keyword": "undo bulk tag change shopify",
     "secondary_keywords": [
       "revert tag operation shopify"
@@ -354,7 +354,7 @@
   {
     "id": "at-activity-log-audit",
     "intent": "guide",
-    "title_hint": "Using the activity log as a tagging audit trail",
+    "title_hint": "The Shopify tag automation log, read as an audit trail",
     "primary_keyword": "shopify tag automation log",
     "secondary_keywords": [
       "audit tags shopify"
@@ -375,7 +375,7 @@
   {
     "id": "at-operation-quota",
     "intent": "tips",
-    "title_hint": "What counts against your monthly tagging quota",
+    "title_hint": "What counts against your Shopify tagging app quota",
     "primary_keyword": "shopify tagging app quota",
     "secondary_keywords": [
       "tag operations limit"
@@ -396,7 +396,7 @@
   {
     "id": "at-quota-exceeded",
     "intent": "troubleshoot",
-    "title_hint": "Quota exceeded: why new events stopped being tagged",
+    "title_hint": "Shopify tagging app limit reached: why tagging stopped",
     "primary_keyword": "shopify tagging app limit reached",
     "secondary_keywords": [
       "tag rules stopped working"
@@ -417,7 +417,7 @@
   {
     "id": "at-plan-choosing",
     "intent": "tips",
-    "title_hint": "Free, Basic or Pro: picking by operations per month",
+    "title_hint": "Shopify auto tagging app pricing: Free, Basic or Pro",
     "primary_keyword": "shopify auto tagging app pricing",
     "secondary_keywords": [
       "tagging app plans shopify"
@@ -438,7 +438,7 @@
   {
     "id": "at-how-rules-run-in-real-time",
     "intent": "guide",
-    "title_hint": "How a tagging rule fires in the seconds after an order",
+    "title_hint": "Shopify webhook tag automation, step by step",
     "primary_keyword": "shopify webhook tag automation",
     "secondary_keywords": [
       "real time tagging shopify"
@@ -459,7 +459,7 @@
   {
     "id": "at-store-performance",
     "intent": "tips",
-    "title_hint": "Tagging without slowing the storefront",
+    "title_hint": "Shopify app store performance: why tagging does not slow it",
     "primary_keyword": "shopify app store performance",
     "secondary_keywords": [
       "bulk api shopify app"
@@ -500,7 +500,7 @@
   {
     "id": "at-why-rule-not-triggering",
     "intent": "troubleshoot",
-    "title_hint": "A rule that never fires: the five things to check",
+    "title_hint": "Shopify tag rule not working: five checks",
     "primary_keyword": "shopify tag rule not working",
     "secondary_keywords": [
       "tagging rule troubleshooting"
@@ -522,7 +522,7 @@
   {
     "id": "at-what-not-to-automate",
     "intent": "tips",
-    "title_hint": "What tagging rules cannot do yet",
+    "title_hint": "Shopify tag automation limits: what rules cannot do",
     "primary_keyword": "shopify tag automation limits",
     "secondary_keywords": [
       "metafield condition shopify tags"
@@ -543,7 +543,7 @@
   {
     "id": "at-uninstall-what-happens",
     "intent": "troubleshoot",
-    "title_hint": "What happens to your rules and tags if you uninstall",
+    "title_hint": "Shopify app uninstall: what happens to your tags",
     "primary_keyword": "shopify app uninstall tags",
     "secondary_keywords": [
       "tags remain after uninstall"
@@ -563,7 +563,7 @@
   {
     "id": "at-permissions-explained",
     "intent": "guide",
-    "title_hint": "Why a tagging app asks for inventory access",
+    "title_hint": "Shopify app permissions: why a tagging app asks for inventory",
     "primary_keyword": "shopify app permissions tagging",
     "secondary_keywords": [
       "shopify app scopes explained"
@@ -584,7 +584,7 @@
   {
     "id": "at-vs-manual-tagging",
     "intent": "compare",
-    "title_hint": "Manual tags vs rule-based tagging at 500 orders a month",
+    "title_hint": "Shopify manual tagging vs automation at order volume",
     "primary_keyword": "shopify manual tagging vs automation",
     "secondary_keywords": [
       "tag orders automatically shopify"
@@ -606,7 +606,7 @@
   {
     "id": "at-vs-history-revert-which-app",
     "intent": "compare",
-    "title_hint": "Auto Tags or History and Revert: two different safety nets",
+    "title_hint": "Shopify ops apps comparison: Auto Tags or History and Revert",
     "primary_keyword": "shopify ops apps comparison",
     "secondary_keywords": [
       "shopify automation vs history"

@@ -26,6 +26,31 @@ const STATIC_PATHS = ["/", "/blog", "/services"];
 const FIGURES: FigureTemplate[] = ["og-card", "flow", "timeline", "compare-table", "rule-tree"];
 const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
+/**
+ * Search engines match terms, not literal strings, so a title only has to carry
+ * the keyword's meaningful words — that keeps "VIP customer rule in Shopify"
+ * acceptable for the keyword "shopify vip customer tag".
+ */
+const KEYWORD_STOPWORDS = new Set(["the", "and", "or", "for", "with", "to", "in", "of", "a", "your", "vs"]);
+
+function keywordWords(value: string): string[] {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((word) => word.length > 2 && !KEYWORD_STOPWORDS.has(word));
+}
+
+const singular = (word: string): string => (word.endsWith("s") ? word.slice(0, -1) : word);
+
+export function keywordCoverage(title: string, keyword: string): { ratio: number; missing: string[] } {
+  const wanted = keywordWords(keyword);
+  if (wanted.length === 0) return { ratio: 1, missing: [] };
+  const present = new Set(keywordWords(title).map(singular));
+  const missing = wanted.filter((word) => !present.has(singular(word)));
+  return { ratio: (wanted.length - missing.length) / wanted.length, missing };
+}
+
 export type GateInput = {
   draft: Draft;
   facts: Fact[];
@@ -224,9 +249,12 @@ export function runGates({ draft, facts, topic, existingSlugs, apps = KNOWN_APPS
   const words = text.split(/\s+/).filter(Boolean).length;
 
   if (draft.title.length > TITLE_MAX_CHARS) add("title_len", `title is ${draft.title.length} chars`);
-  const normalize = (value: string) => slugify(value).replace(/-/g, " ");
-  if (!normalize(draft.title).includes(normalize(topic.primaryKeyword))) {
-    add("title_keyword", `title does not contain "${topic.primaryKeyword}"`);
+  const coverage = keywordCoverage(draft.title, topic.primaryKeyword);
+  if (coverage.ratio < 0.75) {
+    add(
+      "title_keyword",
+      `title is missing ${coverage.missing.join(", ")} from the keyword "${topic.primaryKeyword}" (covered ${Math.round(coverage.ratio * 100)}%)`,
+    );
   }
   if (draft.seo_description.length < SEO_DESCRIPTION_MIN || draft.seo_description.length > SEO_DESCRIPTION_MAX) {
     add("seo_desc", `seo_description is ${draft.seo_description.length} chars; expected ${SEO_DESCRIPTION_MIN}-${SEO_DESCRIPTION_MAX}`);

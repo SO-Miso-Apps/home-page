@@ -7,6 +7,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { loadFacts } from "./facts.ts";
 import { loadTopics } from "./topics.ts";
+import { keywordCoverage } from "./gates.ts";
 import type { AppId } from "./types.ts";
 
 const APPS: AppId[] = ["history-revert", "auto-tags"];
@@ -54,6 +55,19 @@ test("every internal link points at a path the site serves", () => {
           `topic ${topic.id} links to ${link}, which the site does not serve`,
         );
       }
+    }
+  }
+});
+
+test("every title hint carries its keyword and fits a title", () => {
+  for (const app of APPS) {
+    for (const topic of loadTopics(app)) {
+      const coverage = keywordCoverage(topic.titleHint, topic.primaryKeyword);
+      assert.ok(
+        coverage.ratio >= 0.75,
+        `${topic.id}: title hint is missing ${coverage.missing.join(", ")} from "${topic.primaryKeyword}"`,
+      );
+      assert.ok(topic.titleHint.length <= 60, `${topic.id}: title hint is ${topic.titleHint.length} chars`);
     }
   }
 });

@@ -11,7 +11,7 @@ const facts: Fact[] = [
   { id: "HR-03", claim: "A revert restores up to 30 days of history.", source: "README.md:40", tags: [] },
 ];
 
-const topic: Topic = {
+const defaultTopic: Topic = {
   id: "hr-compare-two-versions",
   intent: "guide",
   titleHint: "Compare two versions",
@@ -127,10 +127,10 @@ function draft(over: Partial<Draft> = {}): Draft {
 }
 
 const codes = (d: Draft, existingSlugs: string[] = []) =>
-  runGates({ draft: d, facts, topic, existingSlugs }).failures.map((f) => f.code);
+  runGates({ draft: d, facts, topic: defaultTopic, existingSlugs }).failures.map((f) => f.code);
 
 test("a good draft clears every gate", () => {
-  const result = runGates({ draft: draft(), facts, topic, existingSlugs: [] });
+  const result = runGates({ draft: draft(), facts, topic: defaultTopic, existingSlugs: [] });
   assert.deepEqual(result.failures, []);
   assert.equal(result.ok, true);
 });
@@ -141,6 +141,20 @@ test("title over 60 chars fails title_len", () => {
 
 test("title missing the primary keyword fails title_keyword", () => {
   assert.ok(codes(draft({ title: "How to undo a price edit" })).includes("title_keyword"));
+});
+
+test("a title carrying three of four keyword words passes title_keyword", () => {
+  const topic = { ...defaultTopic, primaryKeyword: "shopify vip customer tag" };
+  const d = draft({ title: "Build your first VIP customer rule in Shopify" });
+  const failures = runGates({ draft: d, facts, topic, existingSlugs: [] }).failures.map((f) => f.code);
+  assert.ok(!failures.includes("title_keyword"));
+});
+
+test("a title carrying half the keyword fails title_keyword", () => {
+  const topic = { ...defaultTopic, primaryKeyword: "shopify duplicate tags cleanup" };
+  const d = draft({ title: "Clean up duplicate tags" });
+  const failures = runGates({ draft: d, facts, topic, existingSlugs: [] }).failures.map((f) => f.code);
+  assert.ok(failures.includes("title_keyword"));
 });
 
 test("short seo description fails seo_desc", () => {

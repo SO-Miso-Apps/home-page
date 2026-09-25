@@ -68,7 +68,7 @@
   {
     "id": "hr-what-attribution-cannot-see",
     "intent": "tips",
-    "title_hint": "Who changed this product? What Shopify can and cannot tell you",
+    "title_hint": "Who changed this product? What Shopify can and cannot say",
     "primary_keyword": "who changed my shopify product",
     "secondary_keywords": [
       "shopify staff attribution",
@@ -366,7 +366,7 @@
   {
     "id": "hr-vs-nightly-export",
     "intent": "compare",
-    "title_hint": "Nightly exports vs an append-only change log",
+    "title_hint": "Shopify product backup: nightly exports vs a change log",
     "primary_keyword": "shopify product backup",
     "secondary_keywords": [
       "shopify nightly backup product"
@@ -387,7 +387,7 @@
   {
     "id": "hr-find-one-edit",
     "intent": "tips",
-    "title_hint": "Finding one edit in a busy change log",
+    "title_hint": "Shopify product change log: filters that find one edit",
     "primary_keyword": "shopify product change log filter",
     "secondary_keywords": [
       "search product history shopify"
@@ -408,7 +408,7 @@
   {
     "id": "hr-email-alerts-setup",
     "intent": "guide",
-    "title_hint": "Getting an email when something gets deleted or reverted",
+    "title_hint": "Shopify product delete alert: get an email before it hurts",
     "primary_keyword": "shopify product delete alert",
     "secondary_keywords": [
       "shopify change digest email"
@@ -429,7 +429,7 @@
   {
     "id": "hr-bulk-price-edit-recovery",
     "intent": "guide",
-    "title_hint": "A bad bulk price edit: what to check before reverting",
+    "title_hint": "Bulk price edit in Shopify: how to fix a bad run",
     "primary_keyword": "bulk price edit shopify fix",
     "secondary_keywords": [
       "revert bulk product changes"
@@ -451,7 +451,7 @@
   {
     "id": "hr-variant-stock-restore",
     "intent": "tips",
-    "title_hint": "Restoring stock per location after a bad inventory sync",
+    "title_hint": "Shopify inventory restore per location after a bad sync",
     "primary_keyword": "shopify inventory restore location",
     "secondary_keywords": [
       "variant stock restore shopify"
@@ -472,7 +472,7 @@
   {
     "id": "hr-nothing-to-restore-from",
     "intent": "troubleshoot",
-    "title_hint": "No history for a product? Check the tracked-product cap",
+    "title_hint": "Shopify product history missing? Check the tracked cap",
     "primary_keyword": "shopify product history missing",
     "secondary_keywords": [
       "app not tracking new products"
@@ -493,7 +493,7 @@
   {
     "id": "hr-collection-membership-history",
     "intent": "guide",
-    "title_hint": "Tracking which collections a product joined or left",
+    "title_hint": "Shopify collection membership history for every product",
     "primary_keyword": "shopify collection membership history",
     "secondary_keywords": [
       "product collection changes log"
@@ -514,7 +514,7 @@
   {
     "id": "hr-full-vs-point-restore",
     "intent": "compare",
-    "title_hint": "Full product revert vs point-in-time restore",
+    "title_hint": "Revert an entire Shopify product, or one point in time",
     "primary_keyword": "revert entire shopify product",
     "secondary_keywords": [
       "product snapshot restore"
@@ -536,7 +536,7 @@
   {
     "id": "hr-what-cannot-be-restored",
     "intent": "tips",
-    "title_hint": "What a restored product cannot get back",
+    "title_hint": "Restore a deleted product in Shopify: what stays lost",
     "primary_keyword": "restore deleted product shopify",
     "secondary_keywords": [
       "shopify product id after restore"
@@ -557,7 +557,7 @@
   {
     "id": "hr-batch-revert-safely",
     "intent": "guide",
-    "title_hint": "Reverting several changes at once without double-applying",
+    "title_hint": "Batch revert Shopify products without double-applying",
     "primary_keyword": "batch revert shopify products",
     "secondary_keywords": [
       "revert multiple product changes"
@@ -578,7 +578,7 @@
   {
     "id": "hr-image-alt-and-order",
     "intent": "tips",
-    "title_hint": "Keeping image alt text and gallery order recoverable",
+    "title_hint": "Shopify image alt text history and gallery order",
     "primary_keyword": "shopify image alt text history",
     "secondary_keywords": [
       "restore product image order"
@@ -620,7 +620,7 @@
   {
     "id": "hr-vs-auto-tags-which-app",
     "intent": "compare",
-    "title_hint": "History and Revert or Auto Tags: which job are you fixing?",
+    "title_hint": "Shopify ops apps compared: History and Revert or Auto Tags",
     "primary_keyword": "shopify ops apps comparison",
     "secondary_keywords": [
       "shopify product history vs tagging"
