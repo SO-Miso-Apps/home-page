@@ -1,0 +1,214 @@
+---
+import Base from "../layouts/Base.astro";
+import ContactForm from "../components/ContactForm.astro";
+import ProcessSteps from "../components/ProcessSteps.astro";
+import SectionHeader from "../components/SectionHeader.astro";
+import ServiceTracks from "../components/ServiceTracks.astro";
+import { SERVICES } from "../services";
+
+const title = "Custom app and theme development";
+const description =
+  "Custom Shopify and Shopline app development, plus storefront themes built to your brand — scoped against your store, quoted before the build starts, and reviewed on a development store before launch.";
+
+// A static route, so the copy ships with the deploy instead of the CMS. The
+// page is deliberately not a `pages` entry: an editor-created page with the
+// slug `services` would be shadowed by this file, and prose blocks cannot
+// express two tracks with their own deliverables.
+const steps = [
+  {
+    title: "Send the workflow",
+    body: "Describe the job in a few lines: what your team does by hand today, which app or theme it lives in, and what should happen instead.",
+  },
+  {
+    title: "Scope and quote",
+    body: "We look at your store, confirm what is in and what is out, and come back with the scope, the timeline and a price for the work.",
+  },
+  {
+    title: "Build and review",
+    body: "You test every flow on a development store as it lands — private app install or theme preview — so copy, edge cases and permissions settle before launch.",
+  },
+  {
+    title: "Launch and hand over",
+    body: "The app is installed or listed, the theme is published, and you keep the code, the written notes and a direct line to the people who built it.",
+  },
+];
+
+const needs = [
+  {
+    label: "Store access",
+    body: "Your store URL and a collaborator or staff account on a Shopify or Shopline store we can work in.",
+  },
+  {
+    label: "Brand assets",
+    body: "Logo files, fonts, colour values and product photography — or tell us what still has to be produced.",
+  },
+  {
+    label: "References",
+    body: "Two or three stores, themes or apps that feel right, and what you like about each one.",
+  },
+  {
+    label: "Constraints",
+    body: "Your launch window, the budget range you are working to, and anything about the store that cannot change.",
+  },
+];
+
+const seo = { title, description };
+---
+
+<Base title={seo.title} description={seo.description}>
+  <section class="section head-section" aria-labelledby="services-title">
+    <div class="container">
+      <div class="page-head">
+        <span class="eyebrow">
+          <span class="eyebrow__dot" />
+          Services
+        </span>
+        <h1 id="services-title">
+          Custom apps and themes, built to your store's spec.
+        </h1>
+        <p class="lede">
+          Two ways to work with us beyond the catalog: an app for the workflow your team runs by
+          hand, and a storefront theme built to your brand. Both start from your store, are scoped
+          and quoted before the build begins, and are reviewed on a development store before a
+          customer ever sees them.
+        </p>
+        <div class="page-head__actions">
+          <a class="btn btn--brand btn--lg" href="#request">
+            Tell us what you need built
+            <svg class="btn__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
+              <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a class="btn btn--ghost btn--lg" href="/#apps">Browse the app catalog</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="tracks-title">
+    <div class="container">
+      <SectionHeader
+        id="tracks-title"
+        eyebrow="What we build"
+        title="Two tracks, one way of working."
+        lead="Pick the one that matches the job. Both are built on the same platform APIs, reviewed on a development store, and handed over with the code and the notes."
+      />
+      <div class="tracks-wrap">
+        <ServiceTracks tracks={SERVICES} variant="full" />
+      </div>
+    </div>
+  </section>
+
+  <ProcessSteps
+    eyebrow="How it runs"
+    title="From request to launch, in four steps."
+    lead="No discovery decks and no handoffs to a team you never met. You hear the scope, the price and the risks before any code is written."
+    steps={steps}
+  />
+
+  <section class="section" aria-labelledby="needs-title">
+    <div class="container">
+      <SectionHeader
+        id="needs-title"
+        eyebrow="Before we start"
+        title="What we need from you."
+        lead="Four things, and the request can move. If any of them are still open, say so in the first message — it is usually the difference between a quick quote and a round of guessing."
+      />
+      <dl class="needs">
+        {
+          needs.map((need) => (
+            <div class="needs__row">
+              <dt class="needs__label">{need.label}</dt>
+              <dd class="needs__body">{need.body}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section request" id="request" aria-labelledby="request-title">
+    <div class="container">
+      <SectionHeader
+        id="request-title"
+        eyebrow="Start a request"
+        title="Tell us what needs building."
+        lead="Describe the job in a few lines. We answer with the scope, the timeline and the price — and say so when an app from the catalog already does it."
+      />
+      <div class="request__body">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .head-section {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .page-head {
+    display: grid;
+    justify-items: start;
+    gap: 1rem;
+    max-width: 62ch;
+  }
+  h1 {
+    font-size: var(--step-5);
+    letter-spacing: -0.035em;
+  }
+  .page-head__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  /* Wrapper, not a class passed into ServiceTracks: a parent's scoped style
+     cannot reach a child component's root element. */
+  .tracks-wrap {
+    margin-top: 2.5rem;
+  }
+  .needs {
+    margin: 2.5rem 0 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .needs__row {
+    display: grid;
+    gap: 0.55rem;
+    align-content: start;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .needs__label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-ink);
+  }
+  .needs__body {
+    margin: 0;
+    max-width: 46ch;
+    color: var(--ink-muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  /* The form is the one place on the page that wants a single column at every
+     width: a 1240px-wide input row reads like a spreadsheet. */
+  .request {
+    scroll-margin-top: 5rem;
+    border-top: 1px solid var(--line);
+  }
+  .request__body {
+    margin-top: 2.5rem;
+    max-width: 760px;
+  }
+
+  @media (min-width: 760px) {
+    .needs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

@@ -281,6 +281,7 @@
       "label": "Primary navigation",
       "items": [
         { "type": "custom", "label": "Apps", "url": "/#apps", "target": "_self" },
+        { "type": "custom", "label": "Services", "url": "/services", "target": "_self" },
         { "type": "custom", "label": "Blog", "url": "/blog", "target": "_self" },
         { "type": "page", "label": "About", "ref": "page-about", "collection": "pages" }
       ]
@@ -290,6 +291,7 @@
       "label": "Footer navigation",
       "items": [
         { "type": "custom", "label": "Home", "url": "/", "target": "_self" },
+        { "type": "custom", "label": "Services", "url": "/services", "target": "_self" },
         { "type": "custom", "label": "Blog", "url": "/blog", "target": "_self" },
         { "type": "page", "label": "About", "ref": "page-about", "collection": "pages" },
         { "type": "page", "label": "Privacy Policy", "ref": "page-privacy", "collection": "pages" }

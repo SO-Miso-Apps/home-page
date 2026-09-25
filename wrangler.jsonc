@@ -13,6 +13,17 @@
   "kv_namespaces": [
     { "binding": "CACHE", "id": "bddb5a1dec234ce399635bd152b4aa6b" }
   ],
+  // Contact form delivery. The binding is locked to one sender and one
+  // recipient, so a compromised endpoint cannot be turned into a relay.
+  // Sender lives on the `send.` subdomain because the apex MX belongs to Zoho
+  // Mail — onboarding apex Email Routing/Sending there would break that inbox.
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "allowed_sender_addresses": ["forms@send.misoapps.com"],
+      "destination_address": "hi@misoapps.com"
+    }
+  ],
   "images": { "binding": "IMAGES" },
   "triggers": { "crons": ["* * * * *"] },
   "routes": [{ "pattern": "misoapps.com", "custom_domain": true }],

@@ -12,6 +12,7 @@ export default defineConfig({
   cache: { provider: cacheCloudflare() },
   routeRules: {
     "/": { maxAge: 300, swr: 86400 },
+    "/services": { maxAge: 300, swr: 86400 },
     "/apps/*": { maxAge: 300, swr: 86400 },
     "/blog": { maxAge: 300, swr: 86400 },
     "/blog/*": { maxAge: 300, swr: 86400 },

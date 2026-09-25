@@ -16,7 +16,7 @@ export const GET: APIRoute = async ({ site }) => {
     }
   }
 
-  const urls: string[] = ["/", "/blog"];
+  const urls: string[] = ["/", "/blog", "/services"];
   urls.push(...apps.entries.map((e) => `/apps/${e.id}`));
   urls.push(...posts.entries.map((e) => `/blog/${e.id}`));
   urls.push(...pages.entries.map((e) => `/${e.id}`));

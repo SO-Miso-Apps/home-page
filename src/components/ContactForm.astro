@@ -1,0 +1,295 @@
+---
+import { BUDGET_OPTIONS, HONEYPOT_FIELD, SERVICE_OPTIONS } from "../lib/contact";
+import { CONTACT_EMAIL } from "../site";
+
+/**
+ * Contact form. Posts to /api/contact.
+ *
+ * Progressive enhancement, not a JavaScript requirement: with `method`/`action`
+ * set, a submit without JS does a real form post and the route answers with a
+ * 303 back to `#request`, where the `?contact=` state renders the banner below.
+ * The client module upgrades that to an in-place submit with per-field errors.
+ */
+
+// Only the four states the route redirects with; anything else is ignored.
+const state = Astro.url.searchParams.get("contact");
+const banners: Record<string, { tone: "ok" | "error"; message: string }> = {
+  ok: { tone: "ok", message: "Thanks — your message is in. We reply from the address below." },
+  invalid: {
+    tone: "error",
+    message: "Something in the form needs another look. Please check the fields and send it again.",
+  },
+  limited: {
+    tone: "error",
+    message: `Too many messages from this connection. Try again in an hour, or email ${CONTACT_EMAIL}.`,
+  },
+  failed: {
+    tone: "error",
+    message: `Sending failed on our side. Email ${CONTACT_EMAIL} and it will reach us.`,
+  },
+};
+const banner = state ? banners[state] : undefined;
+
+const fields: {
+  name: string;
+  label: string;
+  type: "text" | "email";
+  required: boolean;
+  autocomplete?: string;
+  placeholder?: string;
+}[] = [
+  { name: "name", label: "Your name", type: "text", required: true, autocomplete: "name" },
+  { name: "email", label: "Email", type: "email", required: true, autocomplete: "email" },
+  {
+    name: "store_url",
+    label: "Store URL",
+    type: "text",
+    required: false,
+    placeholder: "yourstore.myshopify.com",
+  },
+  {
+    name: "deadline",
+    label: "Deadline",
+    type: "text",
+    required: false,
+    placeholder: "e.g. before Black Friday",
+  },
+];
+---
+
+<form class="contact" method="post" action="/api/contact" data-contact-form>
+  {/* Set by the client module; the route only enforces the delay when present. */}
+  <input type="hidden" name="started_at" value="" data-contact-started />
+
+  {/* Bots fill it, people never see it. */}
+  <div class="contact__trap" aria-hidden="true">
+    <label for="contact-company">Company website</label>
+    <input id="contact-company" type="text" name={HONEYPOT_FIELD} tabindex="-1" autocomplete="off" />
+  </div>
+
+  {
+    banner && (
+      <p
+        class:list={["contact__banner", `contact__banner--${banner.tone}`]}
+        role={banner.tone === "error" ? "alert" : "status"}
+      >
+        {banner.message}
+      </p>
+    )
+  }
+
+  <div class="contact__grid">
+    {
+      fields.map((field) => (
+        <p class="field">
+          <label for={`contact-${field.name}`}>{field.label}</label>
+          <input
+            id={`contact-${field.name}`}
+            name={field.name}
+            type={field.type}
+            required={field.required}
+            placeholder={field.placeholder}
+            autocomplete={field.autocomplete}
+            aria-describedby={`contact-${field.name}-error`}
+          />
+          <span class="field__error" id={`contact-${field.name}-error`} data-contact-error={field.name} />
+        </p>
+      ))
+    }
+
+    <p class="field">
+      <label for="contact-service">What needs building?</label>
+      <select
+        id="contact-service"
+        name="service"
+        required
+        aria-describedby="contact-service-error"
+      >
+        <option value="">Choose the work</option>
+        {SERVICE_OPTIONS.map((option) => <option value={option.value}>{option.label}</option>)}
+      </select>
+      <span class="field__error" id="contact-service-error" data-contact-error="service" />
+    </p>
+
+    <p class="field">
+      <label for="contact-budget">Budget range</label>
+      <select id="contact-budget" name="budget" aria-describedby="contact-budget-error">
+        {BUDGET_OPTIONS.map((option) => <option value={option.value}>{option.label}</option>)}
+      </select>
+      <span class="field__error" id="contact-budget-error" data-contact-error="budget" />
+    </p>
+  </div>
+
+  <p class="field">
+    <label for="contact-message">What needs building, in your words</label>
+    <textarea
+      id="contact-message"
+      name="message"
+      required
+      minlength="10"
+      maxlength="4000"
+      rows="6"
+      placeholder="The job your team does by hand today, and what should happen instead."
+      aria-describedby="contact-message-error"></textarea>
+    <span class="field__error" id="contact-message-error" data-contact-error="message" />
+  </p>
+
+  <div class="contact__foot">
+    <button class="btn btn--brand btn--lg" type="submit" data-contact-submit>
+      Send the request
+      <svg class="btn__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
+        <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+    <p class="contact__note">
+      Or email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> — the form lands in the same inbox.
+    </p>
+  </div>
+
+  {/* Filled in by the client module once the route accepts the request. */}
+  <p class="contact__note" data-contact-status role="status" aria-live="polite"></p>
+</form>
+
+<div class="contact__done" data-contact-done hidden>
+  <p class="contact__done-title">Request received.</p>
+  <p class="contact__done-body">
+    We read every enquiry and reply from <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>, usually
+    within one working day. If it is urgent, call +84 35-7654-619.
+  </p>
+</div>
+
+<style>
+  .contact {
+    display: grid;
+    gap: 1.5rem;
+  }
+  /* `display: grid` above outranks the user agent's `[hidden]` rule. */
+  .contact[hidden] {
+    display: none;
+  }
+  /* Off-canvas rather than hidden: `display: none` and `visibility: hidden` are
+     both skipped by the bots that fill this field. */
+  .contact__trap {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+  .contact__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem clamp(1.5rem, 4vw, 3.5rem);
+  }
+  .field {
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+  }
+  .field label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+  }
+  /* Hairline inputs, matching the page's rule-over-box structure. */
+  .field :is(input, select, textarea) {
+    width: 100%;
+    padding: 0.6rem 0;
+    font: inherit;
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line-strong);
+    border-radius: 0;
+    transition: border-color var(--dur-2) var(--ease-quart);
+  }
+  .field select {
+    cursor: pointer;
+  }
+  .field textarea {
+    min-height: 9rem;
+    resize: vertical;
+    line-height: 1.65;
+  }
+  .field :is(input, select, textarea)::placeholder {
+    color: var(--ink-subtle);
+  }
+  .field :is(input, select, textarea):focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
+    border-bottom-color: var(--brand);
+  }
+  .field :is(input, select, textarea)[aria-invalid="true"] {
+    border-bottom-color: var(--danger);
+  }
+  .field__error:empty {
+    display: none;
+  }
+  .field__error {
+    font-size: 0.8125rem;
+    color: var(--danger);
+  }
+  .contact__banner {
+    padding: 0.9rem 1.1rem;
+    border: 1px solid var(--line-strong);
+    border-left: 2px solid var(--brand);
+    border-radius: var(--r-xs);
+    background: var(--surface-2);
+    font-size: 0.9375rem;
+    color: var(--ink);
+  }
+  .contact__banner--error {
+    border-left-color: var(--danger);
+  }
+  .contact__foot {
+    display: grid;
+    gap: 0.85rem;
+    align-items: center;
+    justify-items: start;
+  }
+  .contact__note {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--ink-subtle);
+  }
+  .contact__done {
+    display: grid;
+    gap: 0.6rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+  }
+  .contact__done[hidden] {
+    display: none;
+  }
+  .contact__done-title {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .contact__done-body {
+    margin: 0;
+    max-width: 52ch;
+    color: var(--ink-muted);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+  }
+
+  @media (min-width: 700px) {
+    .contact__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .contact__foot {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+  }
+</style>
+
+<script>
+  import "../scripts/contact";
+</script>

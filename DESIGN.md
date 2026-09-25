@@ -60,6 +60,7 @@ and cool grays in the same page).
 | Brand ink (text, icons) | `#107a4e` | `#2fb273` |
 | Brand hover | `#0f6f49` | `#43c885` |
 | Line / line strong | `rgba(20,24,21,.10 / .18)` | `rgba(233,238,233,.10 / .20)` |
+| Danger (form errors only) | `#b4232a` | `#f78f8a` |
 
 Dark is a tinted charcoal, never `#000`. Two brand tokens exist on purpose: `--brand` is the
 display colour for fills, borders and gradients (3.82:1 on the light canvas — above the 3:1
@@ -67,6 +68,28 @@ non-text threshold), while `--brand-ink` is the text-safe variant so small brand
 gradient buttons clear AA. Measured ratios on the light canvas: ink 16.7:1, muted 5.4:1,
 subtle 4.8:1, brand-ink 5.0:1, brand-ink on `--brand-soft` 4.6:1. On the dark canvas: ink
 16.5:1, muted 7.7:1, subtle 5.3:1, brand 7.2:1.
+
+`--danger` is the one hue outside the brand: form validation only — the message under a
+failed field and that field's underline. Measured 6.08:1 on the light canvas and 6.53:1 on a
+light surface, 8.55:1 on the dark canvas and 7.97:1 on a dark surface. Marketing copy,
+including the running text on `/services`, never uses it.
+
+## Forms
+
+- Structure comes from the same hairline rule as the rest of the page: inputs are
+  `border-bottom` on a transparent background, never boxes. Labels are mono uppercase, the
+  same treatment as eyebrows and field labels elsewhere.
+- Errors live under their field (`.field__error`), tied to the control through
+  `aria-describedby`, and the control also carries `aria-invalid="true"`. The summary line is
+  an `aria-live="polite"` region so a screen reader hears the outcome once.
+- The honeypot field is pushed off-canvas with `position: absolute; left: -9999px` rather
+  than `display: none` — hidden-by-CSS fields are the ones bots skip filling.
+- `ContactForm` is progressively enhanced: without JavaScript the browser posts the form and
+  the route answers 303 back to `/services?contact=<state>#request`, where the banner reports
+  the same result the client module would have shown in place. No outcome depends on script.
+- `.contact[hidden] { display: none }` exists because `display: grid` outranks the user
+  agent's `[hidden]` rule — the same trap applies to any grid/flex element toggled by
+  `hidden`.
 
 ## Typography
 
@@ -88,6 +111,12 @@ type ramp works at 390px and 1440px without per-breakpoint overrides. Headings u
   horizontally, narrow cells stack. Dense auto-flow closes gaps when the catalog is odd-sized.
 - Feature lists and the process rail use hairline cells (`border-top`) with at most two
   columns — a fixed three-across feature row is the pattern this design refuses.
+- Service tracks (`ServiceTracks`) follow the same rule: numbered two-column hairline cells,
+  rendered `compact` on the home page and `full` on `/services` from one shared list
+  (`src/services.ts`), so a track's summary and its detail page cannot drift apart. The page
+  head on `/services` is editorial — no second hero panel, the orb stays on the home hero.
+- Every anchor a home-page link can land on carries `scroll-margin-top`, so the sticky header
+  never covers the heading it scrolled to.
 - Radii scale with nesting: 8/12/16px inside, 22/28px for panels, 36px for hero surfaces,
   pills only for chips and buttons.
 - Full-height surfaces use `dvh`, never `vh`.
@@ -152,7 +181,8 @@ The catalog ships without icons or screenshots, so art must be generated — und
 
 - No pure black backgrounds, no neon glows. The only soft brand bloom permitted is the hero's
   ambient wash behind the copy; nothing gets a drop-shadow halo.
-- No second accent colour, no purple/blue "AI" gradient, no gradient-filled body copy.
+- No second accent colour (the `--danger` hue is a validation signal, not an accent), no
+  purple/blue "AI" gradient, no gradient-filled body copy.
 - No emoji as UI, no icon font, no stock photography, no Unsplash.
 - No equal three-across card rows, no centered-SaaS hero, no card-everything layouts.
 - No invented metrics, testimonials, or fake product UI. Numbers come from the CMS or not at

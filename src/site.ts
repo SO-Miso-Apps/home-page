@@ -6,6 +6,11 @@ export const SITE_DESCRIPTION =
 
 export const SITE_FEED_TITLE = `${SITE_TITLE} Blog`;
 
+// Mirrors the address in the `footer-contact` widget area, which is the
+// editor-facing copy of record. Code-side links (service quotes, for example)
+// need a literal, so it lives here rather than repeated per component.
+export const CONTACT_EMAIL = "hi@misoapps.com";
+
 export function escapeXml(value: string): string {
   return value
     .replaceAll("&", "&amp;")
