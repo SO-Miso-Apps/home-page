@@ -1,0 +1,314 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import { getLang, localizeHref } from "../i18n";
+import { PRICING_PLANS, defaultMarket, formatDuration, formatPrice, planMessage, type Market } from "../pricing";
+
+interface Props {
+  id?: string;
+}
+
+// The theme packages side by side, each with a VND and a USD price. The market
+// switch is two radios and a :has() rule, so it works without JavaScript; a
+// browser without :has() simply shows both prices. Every "Ask for a quote"
+// link carries the plan to the /services form, which opens with the service
+// selected and the plan named in the message.
+const { id = "pricing" } = Astro.props;
+const lang = getLang(Astro.locals);
+const start = defaultMarket(lang);
+const markets: Market[] = ["vn", "intl"];
+const TONES = ["tofu", "peach", "seaweed"] as const;
+
+const copy = {
+  en: {
+    eyebrow: "Pricing",
+    title: "Theme packages",
+    lead: "Three packages for theme work. Need an app built? Send a request and we will quote it separately.",
+    legend: "Where is your store?",
+    market: { vn: "Vietnam · VND", intl: "International · USD" },
+    quoted: "Quoted per project",
+    takes: "Takes about",
+    quote: "Ask for a quote",
+    note: "Indicative prices. You get an exact quote, before any work starts, once we have looked at the job on your store.",
+  },
+  vi: {
+    eyebrow: "Bảng giá",
+    title: "Chọn gói hợp với cửa hàng của bạn",
+    lead: "Ba gói cho việc làm theme. Cần làm app? Bạn cứ gửi yêu cầu, chúng tôi báo giá riêng.",
+    legend: "Cửa hàng của bạn ở đâu?",
+    market: { vn: "Việt Nam · VND", intl: "Quốc tế · USD" },
+    quoted: "Báo giá theo dự án",
+    takes: "Thời gian làm khoảng",
+    quote: "Nhận báo giá",
+    note: "Giá tham khảo. Báo giá chính xác được gửi trước khi bắt đầu, sau khi chúng tôi xem yêu cầu trên chính cửa hàng của bạn.",
+  },
+}[lang];
+
+const plans = PRICING_PLANS.map((plan, index) => ({
+  id: plan.id,
+  tone: TONES[index % TONES.length],
+  name: plan.name[lang],
+  summary: plan.summary[lang],
+  includes: plan.includes[lang],
+  prices: markets.map((market) => ({ market, label: formatPrice(plan.price[market], market, lang) ?? copy.quoted })),
+  duration: formatDuration(plan.duration, lang),
+  href: `${localizeHref("/services", lang)}?service=custom-themes&plan=${plan.id}#request`,
+  message: planMessage(plan, lang),
+}));
+---
+
+<section class="section pricing" id={id} aria-labelledby={`${id}-title`}>
+  <div class="container">
+    <div class="pricing__head">
+      <SectionHeader id={`${id}-title`} eyebrow={copy.eyebrow} title={copy.title} lead={copy.lead} />
+      <fieldset class="market" data-reveal>
+        <legend class="sr-only">{copy.legend}</legend>
+        {
+          markets.map((market) => (
+            <label class="market__option">
+              <input class="sr-only" type="radio" name={`${id}-market`} value={market} checked={market === start} />
+              {copy.market[market]}
+            </label>
+          ))
+        }
+      </fieldset>
+    </div>
+
+    <ol class="plans">
+      {
+        plans.map((plan) => (
+          <li class:list={["plan", `tone-${plan.tone}`]} data-reveal>
+            <h3 class="plan__name">{plan.name}</h3>
+            <p class="plan__summary">{plan.summary}</p>
+            <p class="plan__price">
+              {plan.prices.map((price) => (
+                <span class="plan__amount" data-market={price.market}>
+                  <span class="sr-only">{copy.market[price.market]}: </span>
+                  {price.label}
+                </span>
+              ))}
+            </p>
+            {plan.duration && (
+              <p class="plan__duration">
+                {copy.takes} <strong>{plan.duration}</strong>
+              </p>
+            )}
+            <ul class="plan__list">
+              {plan.includes.map((item) => (
+                <li class="plan__item">
+                  <svg class="plan__tick" viewBox="0 0 14 14" width="13" height="13" aria-hidden="true" focusable="false">
+                    <path d="M2.5 7.5 5.5 10.5 11.5 3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              class:list={["btn", plan.tone === "peach" ? "btn--brand" : plan.tone === "seaweed" ? "plan__link--light" : "btn--primary", "plan__link"]}
+              href={plan.href}
+              data-contact-service="custom-themes"
+              data-contact-message={plan.message}
+            >
+              {copy.quote}
+              <span class="sr-only">: {plan.name}</span>
+              <svg class="btn__arrow" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+                <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="pricing__note" data-reveal>{copy.note}</p>
+  </div>
+</section>
+
+<style>
+  .pricing {
+    /* Clears the sticky header when a link lands on the anchor. */
+    scroll-margin-top: 4rem;
+  }
+
+  .pricing__head {
+    display: grid;
+    gap: 1.5rem;
+    align-items: end;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (min-width: 860px) {
+    .pricing__head {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+  }
+
+  /* --- Market switch --------------------------------------------------- */
+  .market {
+    display: inline-flex;
+    justify-self: start;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0.3rem;
+    border: 1px solid var(--tofu-line);
+    border-radius: var(--r-pill);
+    background: var(--tofu);
+  }
+
+  .market__option {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 1.1rem;
+    border-radius: var(--r-pill);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ink-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition:
+      background-color var(--dur-2) var(--ease-quart),
+      color var(--dur-2) var(--ease-quart);
+  }
+
+  .market__option:hover {
+    color: var(--ink);
+  }
+
+  .market__option:has(input:checked) {
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: var(--shadow-1);
+  }
+
+  .market__option:has(input:focus-visible) {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+
+  /* Only the selected market's price shows. */
+  .pricing:has(input[value="vn"]:checked) [data-market="intl"],
+  .pricing:has(input[value="intl"]:checked) [data-market="vn"] {
+    display: none;
+  }
+
+  /* --- Plans ------------------------------------------------------------ */
+  .plans {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 960px) {
+    .plans {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .plan {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    border-radius: var(--r-xl);
+  }
+
+  .plan__name {
+    font-size: var(--step-2);
+    letter-spacing: -0.02em;
+  }
+
+  .plan__summary {
+    margin-top: 0.5rem;
+    color: var(--tone-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .plan__price {
+    margin-top: 1.5rem;
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .plan__amount {
+    display: block;
+  }
+
+  .tone-peach .plan__price {
+    color: var(--peach-ink);
+  }
+
+  .tone-seaweed .plan__price {
+    color: var(--seaweed-accent);
+  }
+
+  .plan__duration {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--tone-muted);
+  }
+
+  .plan__duration strong {
+    font-weight: 600;
+    color: inherit;
+  }
+
+  .plan__list {
+    list-style: none;
+    padding: 1.25rem 0 0;
+    margin-top: 1.25rem;
+    border-top: 1px solid color-mix(in oklab, currentColor 16%, transparent);
+    display: grid;
+    gap: 0.65rem;
+    width: 100%;
+  }
+
+  .plan__item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.6rem;
+    color: var(--tone-muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+
+  .plan__tick {
+    margin-top: 0.3rem;
+    color: var(--brand-ink);
+  }
+
+  .tone-seaweed .plan__tick {
+    color: var(--seaweed-accent);
+  }
+
+  /* Pinned to the card's foot so the three buttons line up. */
+  .plan__link {
+    margin-top: auto;
+  }
+
+  .plan__list {
+    margin-bottom: 1.75rem;
+  }
+
+  /* Seaweed card: a tofu-light pill, so orange stays on the middle plan. */
+  .plan__link--light {
+    background: var(--seaweed-ink);
+    color: var(--seaweed);
+  }
+
+  .plan__link--light:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-2);
+  }
+
+  .pricing__note {
+    margin-top: 1.25rem;
+    max-width: var(--measure);
+    font-size: 0.875rem;
+    color: var(--ink-subtle);
+  }
+</style>
