@@ -1,7 +1,38 @@
 ---
-import { getEmDashCollection } from "emdash";
+import { getWidgetArea } from "emdash";
 import { WidgetArea } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
+import { getLang, localizeHref } from "../../i18n";
+import { getLocalizedCollection } from "../../lib/content";
+
+const lang = getLang(Astro.locals);
+const copy = {
+  en: {
+    title: "Blog",
+    description: "Product updates and merchant playbooks from the Miso Apps team.",
+    h1: "Updates and playbooks.",
+    lede: "Notes on Shopify operations, App Store review changes, and the decisions behind each app we ship.",
+    filtered: "Filtered by",
+    showAll: "Show all posts",
+    read: "Read post",
+    empty: (category?: string) => `No posts published yet${category ? ` in ${category}` : ""}. The first one is on its way.`,
+    older: "Older posts",
+    sidebar: "Blog sidebar",
+  },
+  vi: {
+    title: "Blog",
+    description: "Cập nhật sản phẩm và kinh nghiệm vận hành cửa hàng từ đội ngũ Miso Apps.",
+    h1: "Cập nhật và kinh nghiệm.",
+    lede: "Ghi chép về vận hành Shopify, thay đổi trong quy trình review của App Store, và lý do đằng sau mỗi app chúng tôi phát hành.",
+    filtered: "Đang lọc theo",
+    showAll: "Xem tất cả bài viết",
+    read: "Đọc bài",
+    empty: (category?: string) => `Chưa có bài viết nào${category ? ` trong mục ${category}` : ""}. Bài đầu tiên sắp ra mắt.`,
+    older: "Bài cũ hơn",
+    sidebar: "Thanh bên của blog",
+  },
+}[lang];
+const blogHref = localizeHref("/blog", lang);
 
 const category = Astro.url.searchParams.get("category") ?? undefined;
 // A malformed/garbled cursor makes the loader throw "Invalid pagination
@@ -15,13 +46,13 @@ const baseFilter = {
   where: category ? { category } : undefined,
 } as const;
 
-let { entries: posts, error, nextCursor, cacheHint } = await getEmDashCollection("posts", {
+let { entries: posts, error, nextCursor, cacheHint } = await getLocalizedCollection("posts", {
   ...baseFilter,
   cursor: rawCursor,
-});
+}, lang);
 if (error && rawCursor) {
   console.error("Failed to load posts with cursor, retrying from page 1:", error);
-  ({ entries: posts, error, nextCursor, cacheHint } = await getEmDashCollection("posts", baseFilter));
+  ({ entries: posts, error, nextCursor, cacheHint } = await getLocalizedCollection("posts", baseFilter, lang));
 }
 if (error) {
   console.error("Failed to load posts:", error);
@@ -30,7 +61,7 @@ if (error) {
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
 // Fixed locale and zone so a cached render never disagrees with a fresh one.
-const dateFormat = new Intl.DateTimeFormat("en-GB", {
+const dateFormat = new Intl.DateTimeFormat(lang === "vi" ? "vi-VN" : "en-GB", {
   day: "numeric",
   month: "short",
   year: "numeric",
@@ -42,24 +73,26 @@ const formatDate = (value: Date | string | null | undefined): { iso: string; lab
   if (Number.isNaN(date.getTime())) return null;
   return { iso: date.toISOString(), label: dateFormat.format(date) };
 };
+
+// Widget areas carry no locale: the Vietnamese sidebar is its own area, with
+// the English one standing in until an editor fills it.
+const viSidebar = lang === "vi" ? await getWidgetArea("blog-sidebar-vi") : null;
+const sidebarName = viSidebar?.widgets.length ? "blog-sidebar-vi" : "blog-sidebar";
 ---
 
-<Base title="Blog" description="Product updates and merchant playbooks from the Miso Apps team.">
+<Base title={copy.title} description={copy.description}>
   <section class="blog">
     <div class="container blog__head">
       <span class="eyebrow">
         <span class="eyebrow__dot" />
         Blog
       </span>
-      <h1>Updates and playbooks.</h1>
-      <p class="lede">
-        Notes on Shopify operations, App Store review changes, and the decisions behind each
-        app we ship.
-      </p>
+      <h1>{copy.h1}</h1>
+      <p class="lede">{copy.lede}</p>
       {
         category && (
           <p class="blog__filter">
-            Filtered by <span class="num">{category}</span> · <a href="/blog">Show all posts</a>
+            {copy.filtered} <span class="num">{category}</span> · <a href={blogHref}>{copy.showAll}</a>
           </p>
         )
       }
@@ -79,11 +112,11 @@ const formatDate = (value: Date | string | null | undefined): { iso: string; lab
                       {"category" in post.data && post.data.category && <span class="post__cat">{post.data.category}</span>}
                     </div>
                     <h2>
-                      <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                      <a href={localizeHref(`/blog/${post.id}`, lang)}>{post.data.title}</a>
                     </h2>
                     {"excerpt" in post.data && post.data.excerpt && <p>{post.data.excerpt}</p>}
                     <span class="post__more">
-                      Read post
+                      {copy.read}
                       <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
                         <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
                       </svg>
@@ -94,7 +127,7 @@ const formatDate = (value: Date | string | null | undefined): { iso: string; lab
             </ul>
           ) : (
             <p class="empty">
-              No posts published yet{category ? ` in ${category}` : ""}. The first one is on its way.
+              {copy.empty(category)}
             </p>
           )
         }
@@ -103,16 +136,16 @@ const formatDate = (value: Date | string | null | undefined): { iso: string; lab
           nextCursor && (
             <a
               class="btn btn--ghost older"
-              href={`/blog?cursor=${encodeURIComponent(nextCursor)}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
+              href={`${blogHref}?cursor=${encodeURIComponent(nextCursor)}${category ? `&category=${encodeURIComponent(category)}` : ""}`}
             >
-              Older posts
+              {copy.older}
             </a>
           )
         }
       </div>
 
-      <aside class="blog__aside" aria-label="Blog sidebar">
-        <WidgetArea name="blog-sidebar" class="sidebar-widgets" />
+      <aside class="blog__aside" aria-label={copy.sidebar}>
+        <WidgetArea name={sidebarName} class="sidebar-widgets" />
       </aside>
     </div>
   </section>

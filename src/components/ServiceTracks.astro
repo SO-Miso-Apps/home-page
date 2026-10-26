@@ -1,5 +1,6 @@
 ---
 import type { ServiceTrack } from "../services";
+import { getLang, localizeHref } from "../i18n";
 
 interface Props {
   tracks: ServiceTrack[];
@@ -13,6 +14,11 @@ interface Props {
 }
 
 const { tracks, variant = "compact", class: className } = Astro.props;
+const lang = getLang(Astro.locals);
+const copy = {
+  en: { fits: "Fits:", quote: "Request a quote" },
+  vi: { fits: "Phù hợp:", quote: "Yêu cầu báo giá" },
+}[lang];
 ---
 
 <ol class:list={["tracks", `tracks--${variant}`, className]} data-reveal>
@@ -22,7 +28,7 @@ const { tracks, variant = "compact", class: className } = Astro.props;
         <span class="track__num num">{String(index + 1).padStart(2, "0")}</span>
         <div class="track__body">
           <h3 class="track__title">
-            {variant === "compact" ? <a href={`/services#${track.id}`}>{track.title}</a> : track.title}
+            {variant === "compact" ? <a href={localizeHref(`/services#${track.id}`, lang)}>{track.title}</a> : track.title}
           </h3>
           <p class="track__summary">{track.summary}</p>
 
@@ -40,10 +46,10 @@ const { tracks, variant = "compact", class: className } = Astro.props;
                 ))}
               </ul>
               <p class="track__best">
-                <strong>Fits:</strong> {track.bestFor}
+                <strong>{copy.fits}</strong> {track.bestFor}
               </p>
               <a class="track__link" href="#request" data-contact-service={track.id}>
-                Request a quote
+                {copy.quote}
                 <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
                   <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>

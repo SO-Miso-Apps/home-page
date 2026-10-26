@@ -1,6 +1,7 @@
 ---
 import type { App } from "../../emdash-env";
 import { Image } from "emdash/ui";
+import { getLang } from "../i18n";
 
 interface Props {
   screenshots?: App["screenshots"] | null;
@@ -12,6 +13,11 @@ const { screenshots, appName } = Astro.props;
 // Editors may save a row before attaching media; drop those rather than
 // rendering an empty frame.
 const shots = (screenshots ?? []).filter((shot) => shot.image);
+const lang = getLang(Astro.locals);
+const copy = {
+  en: { eyebrow: "Inside the app", title: "Screenshots", alt: (n: number) => `${appName} interface, view ${n} of ${shots.length}` },
+  vi: { eyebrow: "Bên trong app", title: "Ảnh chụp màn hình", alt: (n: number) => `Giao diện ${appName}, ảnh ${n}/${shots.length}` },
+}[lang];
 ---
 
 {
@@ -21,9 +27,9 @@ const shots = (screenshots ?? []).filter((shot) => shot.image);
         <div class="head" data-reveal>
           <span class="eyebrow">
             <span class="eyebrow__dot" />
-            Inside the app
+            {copy.eyebrow}
           </span>
-          <h2 id="shots-title">Screenshots</h2>
+          <h2 id="shots-title">{copy.title}</h2>
         </div>
         <div class:list={["rail", shots.length > 2 && "rail--scroll"]}>
           {shots.map((shot, index) => (
@@ -31,7 +37,7 @@ const shots = (screenshots ?? []).filter((shot) => shot.image);
               <Image
                 image={shot.image}
                 sizes="(max-width: 760px) 88vw, 520px"
-                alt={`${appName} interface, view ${index + 1} of ${shots.length}`}
+                alt={copy.alt(index + 1)}
               />
             </figure>
           ))}

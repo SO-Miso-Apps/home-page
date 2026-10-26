@@ -4,6 +4,7 @@ import type { App } from "../../emdash-env";
 import { Image } from "emdash/ui";
 import AppMark from "./AppMark.astro";
 import CoverArt from "./CoverArt.astro";
+import { getLang, localizeHref } from "../i18n";
 
 interface Props {
   app: ContentEntry<App>;
@@ -17,7 +18,8 @@ interface Props {
 
 const { app, variant = "narrow", class: className } = Astro.props;
 const data = app.data;
-const href = `/apps/${app.id}`;
+const lang = getLang(Astro.locals);
+const href = localizeHref(`/apps/${app.id}`, lang);
 ---
 
 <article
@@ -43,7 +45,7 @@ const href = `/apps/${app.id}`;
     <h3 class="app-card__name"><a href={href}>{data.name}</a></h3>
     <p class="app-card__tagline">{data.tagline}</p>
     <span class="app-card__more">
-      Explore app
+      {lang === "vi" ? "Xem app" : "Explore app"}
       <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
         <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
       </svg>

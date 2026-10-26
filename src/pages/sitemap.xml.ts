@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getEmDashCollection } from "emdash";
 import { escapeXml } from "../site";
+import { DEFAULT_LANG, LANGS, localizeHref } from "../i18n";
 
 export const GET: APIRoute = async ({ site }) => {
   const base = site ?? new URL("https://misoapps.com");
@@ -21,9 +22,21 @@ export const GET: APIRoute = async ({ site }) => {
   urls.push(...posts.entries.map((e) => `/blog/${e.id}`));
   urls.push(...pages.entries.map((e) => `/${e.id}`));
 
+  // Every page exists in each language (untranslated entries fall back to
+  // English), so each URL lists all of its alternates, itself included.
+  const abs = (u: string) => escapeXml(new URL(u, base).toString());
+  const alternates = (u: string) =>
+    [
+      ...LANGS.map((lang) => `<xhtml:link rel="alternate" hreflang="${lang}" href="${abs(localizeHref(u, lang))}"/>`),
+      `<xhtml:link rel="alternate" hreflang="x-default" href="${abs(localizeHref(u, DEFAULT_LANG))}"/>`,
+    ].join("");
+  const entries = urls.flatMap((u) =>
+    LANGS.map((lang) => `  <url><loc>${abs(localizeHref(u, lang))}</loc>${alternates(u)}</url>`),
+  );
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map((u) => `  <url><loc>${escapeXml(new URL(u, base).toString())}</loc></url>`).join("\n")}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${entries.join("\n")}
 </urlset>`;
 
   return new Response(xml, {

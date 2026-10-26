@@ -1,23 +1,34 @@
 ---
 import Base from "../layouts/Base.astro";
+import { getLang, localizeHref } from "../i18n";
 
-const links = [
-  { label: "Home", href: "/" },
-  { label: "Our apps", href: "/#apps" },
-  { label: "Blog", href: "/blog" },
-  { label: "About", href: "/about" },
-];
+const lang = getLang(Astro.locals);
+const copy = {
+  en: {
+    title: "Page not found",
+    h1: "This page took a wrong turn.",
+    lede: "The address you followed does not exist on this site. It may have been renamed, or the link that brought you here may be out of date.",
+    links: ["Home", "Our apps", "Blog", "About"],
+  },
+  vi: {
+    title: "Không tìm thấy trang",
+    h1: "Trang này đã đi lạc đường.",
+    lede: "Địa chỉ bạn vừa mở không tồn tại trên trang web này. Có thể trang đã được đổi tên, hoặc đường dẫn đưa bạn tới đây đã cũ.",
+    links: ["Trang chủ", "Các app", "Blog", "Giới thiệu"],
+  },
+}[lang];
+const links = ["/", "/#apps", "/blog", "/about"].map((href, index) => ({
+  label: copy.links[index],
+  href: localizeHref(href, lang),
+}));
 ---
 
-<Base title="Page not found" robots="noindex">
+<Base title={copy.title} robots="noindex">
   <section class="notfound">
     <div class="container notfound__inner">
       <span class="notfound__code num" aria-hidden="true">404</span>
-      <h1>This page took a wrong turn.</h1>
-      <p class="lede">
-        The address you followed does not exist on this site. It may have been renamed, or the
-        link that brought you here may be out of date.
-      </p>
+      <h1>{copy.h1}</h1>
+      <p class="lede">{copy.lede}</p>
       <ul class="notfound__links">
         {
           links.map((link) => (

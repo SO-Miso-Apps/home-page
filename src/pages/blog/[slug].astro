@@ -3,20 +3,24 @@ import { LiveEntryNotFoundError } from "astro/content/runtime";
 import { decodeSlug, getEmDashEntry, getSeoMeta } from "emdash";
 import { PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
+import { getLang, localizeHref, splitLang } from "../../i18n";
 
+const lang = getLang(Astro.locals);
+const notFound = localizeHref("/404", lang);
 const slug = decodeSlug(Astro.params.slug);
-if (!slug) return Astro.rewrite("/404");
-const { entry: post, error, isPreview, cacheHint } = await getEmDashEntry("posts", slug);
+if (!slug) return Astro.rewrite(notFound);
+// Falls back to the English post until a translation is published.
+const { entry: post, error, isPreview, cacheHint } = await getEmDashEntry("posts", slug, { locale: lang });
 
 if (error) {
   // Astro live collections surface a missing entry as LiveEntryNotFoundError
   // rather than a null entry, so a content miss must answer 404, not 500.
   // rewrite (not redirect) so the URL itself serves the 404 status.
-  if (LiveEntryNotFoundError.is(error)) return Astro.rewrite("/404");
+  if (LiveEntryNotFoundError.is(error)) return Astro.rewrite(notFound);
   console.error("Failed to load post:", error);
   return new Response("Unable to load post", { status: 500 });
 }
-if (!post) return Astro.rewrite("/404");
+if (!post) return Astro.rewrite(notFound);
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
 const data = post.data;
@@ -54,7 +58,9 @@ const jsonld: Record<string, unknown> = {
   description: data.excerpt,
   datePublished: data.publishedAt ?? data.createdAt,
   dateModified: data.updatedAt ?? data.publishedAt ?? data.createdAt,
-  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString(),
+  mainEntityOfPage: new URL(localizeHref(splitLang(Astro.url.pathname).path, lang), Astro.site ?? Astro.url.origin).toString(),
+  // The entry's own language: a /vi URL can serve the English fallback.
+  inLanguage: "locale" in data && typeof data.locale === "string" ? data.locale : lang,
 };
 
 // Bylines are hydrated by getEmDashEntry (ContentBylineCredit.byline.
@@ -67,7 +73,7 @@ const authors = (data.bylines ?? []).map((credit) => ({
 if (authors.length > 0) jsonld.author = authors.length === 1 ? authors[0] : authors;
 
 // Fixed locale and zone so a cached render never disagrees with a fresh one.
-const dateFormat = new Intl.DateTimeFormat("en-GB", {
+const dateFormat = new Intl.DateTimeFormat(lang === "vi" ? "vi-VN" : "en-GB", {
   day: "numeric",
   month: "long",
   year: "numeric",
@@ -94,27 +100,33 @@ const wordCount = (data.content ?? [])
   .split(/\s+/)
   .filter(Boolean).length;
 const readMinutes = Math.max(1, Math.round(wordCount / 220));
+
+const blogHref = localizeHref("/blog", lang);
+const copy = {
+  en: { preview: "This is an unpublished preview.", all: "All posts", read: `${readMinutes} min read`, by: "By", more: "Read more posts" },
+  vi: { preview: "Đây là bản xem trước chưa xuất bản.", all: "Tất cả bài viết", read: `${readMinutes} phút đọc`, by: "Tác giả:", more: "Đọc thêm bài viết" },
+}[lang];
 ---
 
 <Base title={title} description={description} image={seo.ogImage ?? ogImageSrc} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
   <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
-  {isPreview && <p class="container preview-note">This is an unpublished preview.</p>}
+  {isPreview && <p class="container preview-note">{copy.preview}</p>}
 
   <article class="post">
     <header class="container container--narrow post__head">
-      <a class="post__back" href="/blog">
+      <a class="post__back" href={blogHref}>
         <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
           <path d="M13.5 8h-11M7 3.5 2.5 8 7 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        All posts
+        {copy.all}
       </a>
       <h1>{data.title}</h1>
       <div class="post__meta">
         {published && <time class="num" datetime={published.iso}>{published.label}</time>}
         {"category" in data && data.category && <span class="post__cat">{data.category}</span>}
-        <span class="num post__read">{readMinutes} min read</span>
+        <span class="num post__read">{copy.read}</span>
       </div>
-      {authors.length > 0 && <p class="post__byline">By {authors.map((author) => author.name).join(", ")}</p>}
+      {authors.length > 0 && <p class="post__byline">{copy.by} {authors.map((author) => author.name).join(", ")}</p>}
     </header>
 
     <div class="container container--narrow prose" data-reveal>
@@ -122,7 +134,7 @@ const readMinutes = Math.max(1, Math.round(wordCount / 220));
     </div>
 
     <div class="container container--narrow post__foot">
-      <a class="btn btn--ghost" href="/blog">Read more posts</a>
+      <a class="btn btn--ghost" href={blogHref}>{copy.more}</a>
     </div>
   </article>
 </Base>

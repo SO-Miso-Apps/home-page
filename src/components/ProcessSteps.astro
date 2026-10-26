@@ -1,4 +1,6 @@
 ---
+import { getLang } from "../i18n";
+
 interface Step {
   title: string;
   body: string;
@@ -11,7 +13,8 @@ interface Props {
   steps: Step[];
 }
 
-const { eyebrow = "How we work", title, lead, steps } = Astro.props;
+const lang = getLang(Astro.locals);
+const { eyebrow = lang === "vi" ? "Cách chúng tôi làm việc" : "How we work", title, lead, steps } = Astro.props;
 ---
 
 <section class="section" aria-labelledby="process-title">

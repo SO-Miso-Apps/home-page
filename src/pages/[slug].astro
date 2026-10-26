@@ -3,20 +3,24 @@ import { LiveEntryNotFoundError } from "astro/content/runtime";
 import { decodeSlug, getEmDashEntry, getSeoMeta } from "emdash";
 import PageDefault from "../layouts/PageDefault.astro";
 import PageFullWidth from "../layouts/PageFullWidth.astro";
+import { getLang, localizeHref } from "../i18n";
 
+const lang = getLang(Astro.locals);
+const notFound = localizeHref("/404", lang);
 const slug = decodeSlug(Astro.params.slug);
-if (!slug) return Astro.rewrite("/404");
-const { entry: page, error, cacheHint } = await getEmDashEntry("pages", slug);
+if (!slug) return Astro.rewrite(notFound);
+// Falls back to the English page until an editor adds the translation.
+const { entry: page, error, cacheHint } = await getEmDashEntry("pages", slug, { locale: lang });
 
 if (error) {
   // Astro live collections surface a missing entry as LiveEntryNotFoundError
   // rather than a null entry, so a content miss must answer 404, not 500.
   // rewrite (not redirect) so the URL itself serves the 404 status.
-  if (LiveEntryNotFoundError.is(error)) return Astro.rewrite("/404");
+  if (LiveEntryNotFoundError.is(error)) return Astro.rewrite(notFound);
   console.error("Failed to load page:", error);
   return new Response("Unable to load page", { status: 500 });
 }
-if (!page) return Astro.rewrite("/404");
+if (!page) return Astro.rewrite(notFound);
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
 const data = page.data;

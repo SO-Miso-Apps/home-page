@@ -2,7 +2,9 @@
 import "../styles/global.css";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../site";
+import TopBar from "../components/TopBar.astro";
+import { LANG_NAMES, LANG_SCRIPT, LANGS, getLang, localizeHref, splitLang } from "../i18n";
+import { SITE_DESCRIPTION, SITE_DESCRIPTION_VI, SITE_TITLE } from "../site";
 
 interface Props {
   title?: string;
@@ -12,23 +14,40 @@ interface Props {
   robots?: string;
 }
 
+const lang = getLang(Astro.locals);
+const copy = {
+  en: { description: SITE_DESCRIPTION, studio: "Professional Shopify app studio", skip: "Skip to content" },
+  vi: { description: SITE_DESCRIPTION_VI, studio: "Studio app Shopify chuyên nghiệp", skip: "Bỏ qua đến nội dung" },
+}[lang];
+
 const {
   title,
-  description = SITE_DESCRIPTION,
+  description = copy.description,
   image,
   canonical,
   robots,
 } = Astro.props;
 
 const siteName = SITE_TITLE;
-const fullTitle = title ? `${title} — ${siteName}` : `${siteName} — Professional Shopify app studio`;
+const fullTitle = title ? `${title} — ${siteName}` : `${siteName} — ${copy.studio}`;
 
 const origin = Astro.site ?? Astro.url.origin;
-const canonicalHref = new URL(canonical ?? Astro.url.pathname, origin).toString();
+// Pages hand over a canonical built from Astro.url, which middleware has
+// already stripped of /vi; re-point it at this page's language. An editor's
+// canonical to another host is left alone.
+const canonicalUrl = new URL(canonical ?? Astro.url.pathname, origin);
+const path = splitLang(canonicalUrl.pathname).path;
+const canonicalHref =
+  canonicalUrl.origin === new URL(origin).origin
+    ? new URL(localizeHref(path, lang), origin).toString()
+    : canonicalUrl.toString();
+// One alternate per language for the same page — the language switcher and
+// the head script both read these, so they are the only map of the site.
+const alternates = LANGS.map((code) => ({ code, href: new URL(localizeHref(path, code), origin).toString() }));
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={LANG_NAMES[lang].htmlLang} data-lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -56,11 +75,16 @@ const canonicalHref = new URL(canonical ?? Astro.url.pathname, origin).toString(
         root.dataset.themeChoice = stored ?? "system";
       })();
     </script>
+    {alternates.map((alt) => <link rel="alternate" hreflang={alt.code} href={alt.href} />)}
+    <link rel="alternate" hreflang="x-default" href={alternates[0].href} />
+    {/* After the alternates: the script looks its target up among them. */}
+    {robots?.includes("noindex") ? null : <script is:inline set:html={LANG_SCRIPT} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalHref} />
     <link rel="alternate" type="application/rss+xml" title="Miso Apps Blog" href="/rss.xml" />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content={LANG_NAMES[lang].ogLocale} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     {image && <meta property="og:image" content={new URL(image, origin)} />}
@@ -79,7 +103,8 @@ const canonicalHref = new URL(canonical ?? Astro.url.pathname, origin).toString(
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
+    <a class="skip-link" href="#main-content">{copy.skip}</a>
+    <TopBar />
     <Navigation />
     <main id="main-content">
       <slot />
