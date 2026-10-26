@@ -10,6 +10,11 @@ export const SITE_FEED_TITLE = `${SITE_TITLE} Blog`;
 // editor-facing copy of record. Code-side links (service quotes, for example)
 // need a literal, so it lives here rather than repeated per component.
 export const CONTACT_EMAIL = "hi@misoapps.com";
+export const CONTACT_PHONE = "+84 35-7654-619";
+export const CONTACT_PHONE_HREF = "tel:+84357654619";
+
+export const SITE_DESCRIPTION_VI =
+  "Miso Apps thiết kế và phát hành các app Shopify và Shopline chuyên biệt cho tự động hóa, tăng chuyển đổi và dữ liệu cửa hàng mà AI đọc được.";
 
 export function escapeXml(value: string): string {
   return value

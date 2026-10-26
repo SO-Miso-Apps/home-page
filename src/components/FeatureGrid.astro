@@ -1,5 +1,6 @@
 ---
 import type { App } from "../../emdash-env";
+import { getLang } from "../i18n";
 
 interface Props {
   features?: App["features"] | null;
@@ -7,6 +8,10 @@ interface Props {
 
 const { features } = Astro.props;
 const rows = features ?? [];
+const copy = {
+  en: { eyebrow: "What it does", title: "Features" },
+  vi: { eyebrow: "App làm được gì", title: "Tính năng" },
+}[getLang(Astro.locals)];
 ---
 
 {
@@ -16,9 +21,9 @@ const rows = features ?? [];
         <div class="head" data-reveal>
           <span class="eyebrow">
             <span class="eyebrow__dot" />
-            What it does
+            {copy.eyebrow}
           </span>
-          <h2 id="features-title">Features</h2>
+          <h2 id="features-title">{copy.title}</h2>
         </div>
 
         <ol class="features">

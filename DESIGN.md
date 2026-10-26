@@ -165,6 +165,21 @@ The catalog ships without icons or screenshots, so art must be generated — und
 - The moment an editor uploads `icon`, `screenshots` or `og_image`, real media renders in that
   slot and the generated art steps aside. `ScreenshotGallery` renders nothing when empty.
 
+## Languages
+
+- English is unprefixed and canonical; Vietnamese lives under `/vi`. `src/middleware.ts` strips
+  the prefix and sets `locals.lang`, so one page file serves both. Build every internal href
+  with `localizeHref(href, lang)` from `src/i18n.ts`; never hardcode `/vi`.
+- Interface copy sits next to the component as an `{ en, vi }` table; CMS content is
+  translated in EmDash (`locale: "vi"`, `translationOf`) and lists overlay translations via
+  `getLocalizedCollection`, falling back to English. Widget areas have no locale, so the
+  Vietnamese pages read `<area>-vi` and fall back to `<area>`.
+- First visit: `LANG_SCRIPT` sends a browser that prefers Vietnamese to `/vi`. A choice made in
+  the switcher is stored (`miso-lang`) and always wins. Servers never redirect by language, so
+  crawlers see each URL as itself, linked by `hreflang` alternates.
+- Vietnamese runs longer than English and stacks diacritics: leave headings room to wrap, and
+  keep any display type that sets words at line-height 1.1 or more (bare numerals may go tighter).
+
 ## Accessibility Baseline
 
 - Skip link, single `<h1>` per page, `aria-current="page"` on the active nav item,

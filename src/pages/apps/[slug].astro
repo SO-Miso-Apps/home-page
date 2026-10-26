@@ -1,6 +1,7 @@
 ---
 import { LiveEntryNotFoundError } from "astro/content/runtime";
-import { decodeSlug, getEmDashCollection, getEmDashEntry, getSeoMeta } from "emdash";
+import { decodeSlug, getEmDashEntry, getSeoMeta } from "emdash";
+import type { App } from "../../../emdash-env";
 import { Image, PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
 import AppMark from "../../components/AppMark.astro";
@@ -8,30 +9,39 @@ import CoverArt from "../../components/CoverArt.astro";
 import CtaPanel from "../../components/CtaPanel.astro";
 import FeatureGrid from "../../components/FeatureGrid.astro";
 import ScreenshotGallery from "../../components/ScreenshotGallery.astro";
+import { getLang, localizeHref, splitLang } from "../../i18n";
+import { getLocalizedCollection } from "../../lib/content";
 
+const lang = getLang(Astro.locals);
 const slug = decodeSlug(Astro.params.slug);
-if (!slug) return Astro.rewrite("/404");
-const { entry: app, error, isPreview, cacheHint } = await getEmDashEntry("apps", slug);
+if (!slug) return Astro.rewrite(localizeHref("/404", lang));
+// Translations share the English slug; an app nobody has translated yet falls
+// back to its English entry rather than a 404.
+const { entry: app, error, isPreview, cacheHint } = await getEmDashEntry("apps", slug, { locale: lang });
 
 if (error) {
   // Astro live collections surface a missing entry as LiveEntryNotFoundError
   // rather than a null entry, so a content miss must answer 404, not 500.
   // rewrite (not redirect) so the URL itself serves the 404 status.
-  if (LiveEntryNotFoundError.is(error)) return Astro.rewrite("/404");
+  if (LiveEntryNotFoundError.is(error)) return Astro.rewrite(localizeHref("/404", lang));
   console.error("Failed to load app:", error);
   return new Response("Unable to load app", { status: 500 });
 }
-if (!app) return Astro.rewrite("/404");
+if (!app) return Astro.rewrite(localizeHref("/404", lang));
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
 const data = app.data;
+// A translation's id is "vi/<slug>"; the slug is the id in every language, so
+// the art seeds and the sibling filter key on it.
+const appId = slug;
 
 // Cross-links to the rest of the catalog. Its cache hint is registered too —
 // Astro accumulates tags across set() calls, so publishing an entry also
 // purges the pages that list it.
 const { entries: siblings, error: siblingsError, cacheHint: siblingsHint } =
-  await getEmDashCollection("apps", { orderBy: { sort_order: "asc" } });
-const otherApps = siblingsError ? [] : siblings.filter((entry) => entry.id !== app.id);
+  await getLocalizedCollection<"apps", App>("apps", { orderBy: { sort_order: "asc" } }, lang);
+const otherApps = siblingsError ? [] : siblings.filter((entry) => entry.id !== appId);
+const pagePath = localizeHref(splitLang(Astro.url.pathname).path, lang);
 if (Astro.cache?.enabled) Astro.cache.set(siblingsHint);
 if (siblingsError) console.error("Failed to load sibling apps:", siblingsError);
 
@@ -59,7 +69,8 @@ const jsonld: Record<string, unknown> = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   description: data.tagline,
-  url: new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString(),
+  url: new URL(pagePath, Astro.site ?? Astro.url.origin).toString(),
+  inLanguage: lang,
   offers: {
     "@type": "Offer",
     url: data.pricing_url ?? data.app_store_url,
@@ -78,11 +89,38 @@ const reviewCount = data.review_count ?? 0;
 const stars = rating == null ? 0 : Math.round(rating);
 
 const ctaHref = data.pricing_url ?? data.app_store_url;
+
+const copy = {
+  en: {
+    preview: "This is an unpublished preview.",
+    install: "Install on the App Store",
+    pricing: "View pricing",
+    reviews: (n: number) => `from ${n} ${n === 1 ? "review" : "reviews"} on the Shopify App Store`,
+    icon: `${data.name} icon`,
+    more: "More from Miso Apps",
+    ctaEyebrow: "Get started",
+    ctaTitle: `Ready to try ${data.name}?`,
+    ctaBody: "Install from the Shopify App Store and configure it on your store in one sitting.",
+    seePricing: "See pricing",
+  },
+  vi: {
+    preview: "Đây là bản xem trước chưa xuất bản.",
+    install: "Cài đặt trên App Store",
+    pricing: "Xem bảng giá",
+    reviews: (n: number) => `từ ${n} đánh giá trên Shopify App Store`,
+    icon: `Biểu tượng ${data.name}`,
+    more: "Các app khác của Miso Apps",
+    ctaEyebrow: "Bắt đầu",
+    ctaTitle: `Sẵn sàng dùng thử ${data.name}?`,
+    ctaBody: "Cài đặt từ Shopify App Store và thiết lập trên cửa hàng của bạn chỉ trong một lần.",
+    seePricing: "Xem bảng giá",
+  },
+}[lang];
 ---
 
 <Base title={title} description={description} image={seo.ogImage ?? ogImageSrc} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
   <script type="application/ld+json" set:html={JSON.stringify(jsonld)} />
-  {isPreview && <p class="container preview-note">This is an unpublished preview.</p>}
+  {isPreview && <p class="container preview-note">{copy.preview}</p>}
 
   <section class="hero" data-hero>
     <div class="container hero__grid">
@@ -99,7 +137,7 @@ const ctaHref = data.pricing_url ?? data.app_store_url;
 
         <div class="hero__actions" data-hero-item>
           <a class="btn btn--brand btn--lg" href={data.app_store_url} target="_blank" rel="noopener noreferrer">
-            Install on the App Store
+            {copy.install}
             <svg class="btn__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
               <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
@@ -107,7 +145,7 @@ const ctaHref = data.pricing_url ?? data.app_store_url;
           {
             data.pricing_url && (
               <a class="btn btn--ghost btn--lg" href={data.pricing_url} target="_blank" rel="noopener noreferrer">
-                View pricing
+                {copy.pricing}
               </a>
             )
           }
@@ -125,7 +163,7 @@ const ctaHref = data.pricing_url ?? data.app_store_url;
               </span>
               <span class="num">{rating.toFixed(1)}</span>
               <span class="rating__meta">
-                from {reviewCount} {reviewCount === 1 ? "review" : "reviews"} on the Shopify App Store
+                {copy.reviews(reviewCount)}
               </span>
             </p>
           )
@@ -135,14 +173,14 @@ const ctaHref = data.pricing_url ?? data.app_store_url;
       <div class="hero__art" data-hero-art>
         <div class="hero__tile glass" data-float>
           <div class="hero__tile-art" aria-hidden="true">
-            <CoverArt seed={app.id} />
+            <CoverArt seed={appId} />
           </div>
           <div class="hero__mark">
             {
               data.icon ? (
-                <Image image={data.icon} width={116} height={116} alt={`${data.name} icon`} />
+                <Image image={data.icon} width={116} height={116} alt={copy.icon} />
               ) : (
-                <AppMark seed={app.id} size={116} />
+                <AppMark seed={appId} size={116} />
               )
             }
           </div>
@@ -169,12 +207,12 @@ const ctaHref = data.pricing_url ?? data.app_store_url;
       <section class="section" aria-labelledby="more-title">
         <div class="container">
           <h2 id="more-title" class="more__title" data-reveal>
-            More from Miso Apps
+            {copy.more}
           </h2>
           <ul class="more">
             {otherApps.map((entry) => (
               <li data-reveal>
-                <a class="more__row" href={`/apps/${entry.id}`}>
+                <a class="more__row" href={localizeHref(`/apps/${entry.id}`, lang)}>
                   <AppMark seed={entry.id} size={40} />
                   <span class="more__text">
                     <span class="more__name">{entry.data.name}</span>
@@ -194,12 +232,12 @@ const ctaHref = data.pricing_url ?? data.app_store_url;
   }
 
   <CtaPanel
-    seed={`cta-${app.id}`}
-    eyebrow="Get started"
-    title={`Ready to try ${data.name}?`}
-    body="Install from the Shopify App Store and configure it on your store in one sitting."
-    primary={{ label: "Install on the App Store", href: data.app_store_url, external: true }}
-    secondary={{ label: "See pricing", href: ctaHref, external: true }}
+    seed={`cta-${appId}`}
+    eyebrow={copy.ctaEyebrow}
+    title={copy.ctaTitle}
+    body={copy.ctaBody}
+    primary={{ label: copy.install, href: data.app_store_url, external: true }}
+    secondary={{ label: copy.seePricing, href: ctaHref, external: true }}
   />
 </Base>
 

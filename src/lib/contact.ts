@@ -3,9 +3,10 @@
  * API route hands to the `EMAIL` binding. Kept free of request/response types so
  * both the server route and the Astro component render from one source of truth.
  */
-import { SERVICES } from "../services";
+import { SERVICES, SERVICES_BY_LANG } from "../services";
 import type { ServiceTrack } from "../services";
-import { CONTACT_EMAIL } from "../site";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "../site";
+import { DEFAULT_LANG, type Lang } from "../i18n";
 
 /** Sender on the `send.` subdomain — the apex MX belongs to Zoho Mail. */
 export const CONTACT_FORM_FROM = "forms@send.misoapps.com";
@@ -21,6 +22,8 @@ export const RATE_LIMIT_PER_HOUR = 5;
 /** Hidden field bots fill in and people never see. */
 export const HONEYPOT_FIELD = "company_website";
 
+// The English lists below are what the email to the team is written from;
+// optionsFor() gives the form the same values with labels in the page language.
 export const SERVICE_OPTIONS: { value: string; label: string }[] = [
   ...SERVICES.map((track: ServiceTrack) => ({ value: track.id, label: track.title })),
   { value: "both", label: "Both — app and theme" },
@@ -35,6 +38,98 @@ export const BUDGET_OPTIONS: { value: string; label: string }[] = [
   { value: "3k-8k", label: "$3,000 – $8,000" },
   { value: "8k-plus", label: "$8,000+" },
 ];
+
+const SERVICE_OPTIONS_VI: { value: string; label: string }[] = [
+  ...SERVICES_BY_LANG.vi.map((track) => ({ value: track.id, label: track.title })),
+  { value: "both", label: "Cả hai — app và theme" },
+];
+
+const BUDGET_OPTIONS_VI: { value: string; label: string }[] = [
+  { value: "", label: "Muốn trao đổi thêm" },
+  { value: "under-1k", label: "Dưới $1.000" },
+  { value: "1k-3k", label: "$1.000 – $3.000" },
+  { value: "3k-8k", label: "$3.000 – $8.000" },
+  { value: "8k-plus", label: "Trên $8.000" },
+];
+
+export function optionsFor(lang: Lang): {
+  service: { value: string; label: string }[];
+  budget: { value: string; label: string }[];
+} {
+  return lang === "vi"
+    ? { service: SERVICE_OPTIONS_VI, budget: BUDGET_OPTIONS_VI }
+    : { service: SERVICE_OPTIONS, budget: BUDGET_OPTIONS };
+}
+
+/**
+ * Every visitor-facing sentence of the contact flow, per language: the form,
+ * the no-JS banners, the route's JSON messages and the client module's status
+ * line all read from here.
+ */
+export const CONTACT_COPY = {
+  en: {
+    errors: {
+      name: "Tell us who you are (at least 2 characters).",
+      email: "A working email address, so we can reply.",
+      service: "Pick the work this is about.",
+      budget: "Pick one of the listed ranges.",
+      message: "A sentence or two about the job, so the reply is useful.",
+    },
+    ok: "Thanks — your message is in. We reply from the address below.",
+    invalid: "Something in the form needs another look. Please check the fields and send it again.",
+    limited: `Too many messages from this connection. Try again in an hour, or email ${CONTACT_EMAIL}.`,
+    failed: `Sending failed on our side. Email ${CONTACT_EMAIL} and it will reach us.`,
+    unwired: `The form is not wired up yet. Email ${CONTACT_EMAIL} instead.`,
+    sending: "Sending…",
+    checkFields: "Please check the highlighted fields.",
+    retry: "Something went wrong. Please try again.",
+    offline: `Could not reach the server. Please try again, or email ${CONTACT_EMAIL}.`,
+    fields: { name: "Your name", email: "Email", store: "Store URL", deadline: "Deadline", deadlineHint: "e.g. before Black Friday" },
+    service: "What needs building?",
+    chooseService: "Choose the work",
+    budget: "Budget range",
+    message: "What needs building, in your words",
+    messageHint: "The job your team does by hand today, and what should happen instead.",
+    submit: "Send the request",
+    orEmail: "Or email",
+    sameInbox: "— the form lands in the same inbox.",
+    doneTitle: "Request received.",
+    doneBefore: "We read every enquiry and reply from",
+    doneAfter: `, usually within one working day. If it is urgent, call ${CONTACT_PHONE}.`,
+    trap: "Company website",
+  },
+  vi: {
+    errors: {
+      name: "Cho chúng tôi biết tên của bạn (ít nhất 2 ký tự).",
+      email: "Một địa chỉ email đang dùng, để chúng tôi trả lời.",
+      service: "Chọn loại công việc.",
+      budget: "Chọn một trong các mức đã liệt kê.",
+      message: "Vài câu về công việc, để câu trả lời thật sự hữu ích.",
+    },
+    ok: "Cảm ơn bạn — chúng tôi đã nhận được tin nhắn và sẽ trả lời từ địa chỉ bên dưới.",
+    invalid: "Có trường trong form cần xem lại. Vui lòng kiểm tra và gửi lại.",
+    limited: `Kết nối này đã gửi quá nhiều tin nhắn. Hãy thử lại sau một giờ, hoặc email ${CONTACT_EMAIL}.`,
+    failed: `Gửi không thành công do lỗi phía chúng tôi. Hãy email ${CONTACT_EMAIL}, thư sẽ đến được.`,
+    unwired: `Form chưa được kết nối. Vui lòng email ${CONTACT_EMAIL}.`,
+    sending: "Đang gửi…",
+    checkFields: "Vui lòng kiểm tra các trường được đánh dấu.",
+    retry: "Đã có lỗi xảy ra. Vui lòng thử lại.",
+    offline: `Không kết nối được tới máy chủ. Vui lòng thử lại, hoặc email ${CONTACT_EMAIL}.`,
+    fields: { name: "Họ và tên", email: "Email", store: "Địa chỉ cửa hàng", deadline: "Thời hạn", deadlineHint: "vd. trước Black Friday" },
+    service: "Bạn cần làm gì?",
+    chooseService: "Chọn loại công việc",
+    budget: "Mức ngân sách",
+    message: "Mô tả công việc bằng lời của bạn",
+    messageHint: "Việc đội của bạn đang làm tay hiện nay, và lẽ ra nó nên diễn ra thế nào.",
+    submit: "Gửi yêu cầu",
+    orEmail: "Hoặc email",
+    sameInbox: "— form và email về cùng một hộp thư.",
+    doneTitle: "Đã nhận yêu cầu.",
+    doneBefore: "Chúng tôi đọc mọi yêu cầu và trả lời từ",
+    doneAfter: `, thường trong vòng một ngày làm việc. Nếu gấp, hãy gọi ${CONTACT_PHONE}.`,
+    trap: "Website công ty",
+  },
+} as const satisfies Record<Lang, unknown>;
 
 export interface ContactInput {
   name: string;
@@ -70,7 +165,7 @@ function clean(value: unknown, limit: number): string {
     .slice(0, limit);
 }
 
-export function validateContact(raw: Record<string, unknown>): {
+export function validateContact(raw: Record<string, unknown>, lang: Lang = DEFAULT_LANG): {
   values: ContactInput;
   errors: ContactErrors;
 } {
@@ -85,17 +180,18 @@ export function validateContact(raw: Record<string, unknown>): {
   };
 
   const errors: ContactErrors = {};
+  const say = CONTACT_COPY[lang].errors;
 
-  if (values.name.length < 2) errors.name = "Tell us who you are (at least 2 characters).";
-  if (!EMAIL_PATTERN.test(values.email)) errors.email = "A working email address, so we can reply.";
+  if (values.name.length < 2) errors.name = say.name;
+  if (!EMAIL_PATTERN.test(values.email)) errors.email = say.email;
   if (!SERVICE_OPTIONS.some((option) => option.value === values.service)) {
-    errors.service = "Pick the work this is about.";
+    errors.service = say.service;
   }
   if (values.budget && !BUDGET_OPTIONS.some((option) => option.value === values.budget)) {
-    errors.budget = "Pick one of the listed ranges.";
+    errors.budget = say.budget;
   }
   if (values.message.length < 10) {
-    errors.message = "A sentence or two about the job, so the reply is useful.";
+    errors.message = say.message;
   }
 
   return { values, errors };
@@ -117,7 +213,8 @@ export interface ComposedEmail {
   html: string;
 }
 
-export function composeContactEmail(values: ContactInput): ComposedEmail {
+/** The team's inbox is English; `lang` only records which page the visitor wrote from. */
+export function composeContactEmail(values: ContactInput, lang: Lang = DEFAULT_LANG): ComposedEmail {
   const serviceLabel =
     SERVICE_OPTIONS.find((option) => option.value === values.service)?.label ?? values.service;
   const budgetLabel = values.budget
@@ -131,6 +228,7 @@ export function composeContactEmail(values: ContactInput): ComposedEmail {
     ["Store", values.store_url || "Not given"],
     ["Budget", budgetLabel],
     ["Deadline", values.deadline || "Not given"],
+    ["Language", lang === "vi" ? "Vietnamese (sent from /vi)" : "English"],
   ];
 
   const text = [
@@ -163,7 +261,7 @@ export function composeContactEmail(values: ContactInput): ComposedEmail {
  * The complete `EMAIL.send()` argument. Extracted so the envelope — sender,
  * recipient and where a reply goes — is testable without a Worker runtime.
  */
-export function buildContactMessage(values: ContactInput): {
+export function buildContactMessage(values: ContactInput, lang: Lang = DEFAULT_LANG): {
   to: string;
   from: { email: string; name: string };
   replyTo: { email: string; name: string };
@@ -175,6 +273,6 @@ export function buildContactMessage(values: ContactInput): {
     to: CONTACT_FORM_TO,
     from: { email: CONTACT_FORM_FROM, name: CONTACT_FORM_FROM_NAME },
     replyTo: { email: values.email, name: values.name },
-    ...composeContactEmail(values),
+    ...composeContactEmail(values, lang),
   };
 }

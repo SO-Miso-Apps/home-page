@@ -9,6 +9,13 @@ export default defineConfig({
   site: "https://misoapps.com",
   output: "server",
   adapter: cloudflare({ platformProxy: { enabled: true } }),
+  // Locales for EmDash content (each entry, menu and term carries one). The
+  // /vi routing itself is ours — src/middleware.ts — hence "manual".
+  i18n: {
+    locales: ["en", "vi"],
+    defaultLocale: "en",
+    routing: "manual",
+  },
   cache: { provider: cacheCloudflare() },
   routeRules: {
     "/": { maxAge: 300, swr: 86400 },
@@ -16,6 +23,11 @@ export default defineConfig({
     "/apps/*": { maxAge: 300, swr: 86400 },
     "/blog": { maxAge: 300, swr: 86400 },
     "/blog/*": { maxAge: 300, swr: 86400 },
+    "/vi": { maxAge: 300, swr: 86400 },
+    "/vi/services": { maxAge: 300, swr: 86400 },
+    "/vi/apps/*": { maxAge: 300, swr: 86400 },
+    "/vi/blog": { maxAge: 300, swr: 86400 },
+    "/vi/blog/*": { maxAge: 300, swr: 86400 },
     "/sitemap.xml": { maxAge: 3600 },
     "/rss.xml": { maxAge: 3600 },
   },

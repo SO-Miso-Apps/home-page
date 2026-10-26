@@ -14,6 +14,8 @@ if (form) {
   const done = document.querySelector<HTMLElement>("[data-contact-done]");
   const serviceField = form.querySelector("#contact-service");
   const service = serviceField instanceof HTMLSelectElement ? serviceField : null;
+  // Status lines in the page language, rendered onto the form by ContactForm.
+  const say = form.dataset;
 
   // The route only enforces a minimum fill time when it receives this stamp.
   if (started) started.value = String(Date.now());
@@ -35,7 +37,7 @@ if (form) {
     event.preventDefault();
     for (const slot of form.querySelectorAll<HTMLElement>("[data-contact-error]")) slot.textContent = "";
     for (const field of form.querySelectorAll("[aria-invalid]")) field.removeAttribute("aria-invalid");
-    if (status) status.textContent = "Sending…";
+    if (status) status.textContent = say.msgSending ?? "Sending…";
     if (submit) submit.disabled = true;
 
     try {
@@ -74,14 +76,11 @@ if (form) {
       if ("message" in payload && typeof payload.message === "string") {
         if (status) status.textContent = payload.message;
       } else if (status) {
-        status.textContent = firstInvalid
-          ? "Please check the highlighted fields."
-          : "Something went wrong. Please try again.";
+        status.textContent = (firstInvalid ? say.msgCheck : say.msgRetry) ?? "";
       }
     } catch {
       if (status) {
-        status.textContent =
-          "Could not reach the server. Please try again, or email hi@misoapps.com.";
+        status.textContent = say.msgOffline ?? "";
       }
     } finally {
       if (submit) submit.disabled = false;

@@ -2,9 +2,36 @@
 import { getMenu, getWidgetArea } from "emdash";
 import { WidgetArea } from "emdash/ui";
 import BrandMark from "./BrandMark.astro";
+import { getLang, localizeHref } from "../i18n";
 
-const menu = await getMenu("footer");
-const contactArea = await getWidgetArea("footer-contact");
+const lang = getLang(Astro.locals);
+const copy = {
+  en: {
+    home: "Miso Apps home",
+    blurb: "Building reliable Shopify and commerce apps for merchants who need sharper operations, stronger conversion paths, and dependable support.",
+    nav: "Footer navigation",
+    company: "Company",
+    feeds: "Feeds",
+    rights: "All rights reserved.",
+    origin: "Built and supported from Hanoi, Vietnam",
+  },
+  vi: {
+    home: "Miso Apps – trang chủ",
+    blurb: "Xây dựng các app Shopify và thương mại điện tử đáng tin cậy cho những nhà bán hàng cần vận hành gọn hơn, chuyển đổi tốt hơn và được hỗ trợ tận tình.",
+    nav: "Điều hướng chân trang",
+    company: "Công ty",
+    feeds: "Nguồn tin",
+    rights: "Bảo lưu mọi quyền.",
+    origin: "Phát triển và hỗ trợ từ Hà Nội, Việt Nam",
+  },
+}[lang];
+
+const menu = await getMenu("footer", { locale: lang });
+// Widget areas carry no locale, so the Vietnamese copy is a sibling area;
+// until an editor fills it, the English one stands in.
+const viArea = lang === "vi" ? await getWidgetArea("footer-contact-vi") : null;
+const contactName = viArea?.widgets.length ? "footer-contact-vi" : "footer-contact";
+const contactArea = viArea?.widgets.length ? viArea : await getWidgetArea("footer-contact");
 const year = new Date().getFullYear();
 ---
 
@@ -12,24 +39,21 @@ const year = new Date().getFullYear();
   <div class="container">
     <div class="footer__grid">
       <div class="footer__brand">
-        <a class="footer__brand-link" href="/" aria-label="Miso Apps home">
+        <a class="footer__brand-link" href={localizeHref("/", lang)} aria-label={copy.home}>
           <BrandMark size={30} />
         </a>
-        <p>
-          Building reliable Shopify and commerce apps for merchants who need sharper
-          operations, stronger conversion paths, and dependable support.
-        </p>
+        <p>{copy.blurb}</p>
       </div>
 
       {
         menu?.items.length ? (
-          <nav class="footer__col" aria-label="Footer navigation">
-            <h2 class="footer__title">Company</h2>
+          <nav class="footer__col" aria-label={copy.nav}>
+            <h2 class="footer__title">{copy.company}</h2>
             <ul class="footer__list">
               {menu.items.map((item) => (
                 <li>
                   <a
-                    href={item.url}
+                    href={localizeHref(item.url, lang)}
                     target={item.target}
                     rel={item.target === "_blank" ? "noopener noreferrer" : undefined}
                   >
@@ -46,13 +70,13 @@ const year = new Date().getFullYear();
         contactArea && contactArea.widgets.length > 0 && (
           <div class="footer__col">
             {/* No static heading: the editor's widget carries its own title. */}
-            <WidgetArea name="footer-contact" class="contact-area" />
+            <WidgetArea name={contactName} class="contact-area" />
           </div>
         )
       }
 
       <div class="footer__col">
-        <h2 class="footer__title">Feeds</h2>
+        <h2 class="footer__title">{copy.feeds}</h2>
         <ul class="footer__list">
           <li><a href="/rss.xml">RSS</a></li>
           <li><a href="/sitemap.xml">Sitemap</a></li>
@@ -61,10 +85,10 @@ const year = new Date().getFullYear();
     </div>
 
     <div class="footer__legal">
-      <p>© {year} Miso Apps. All rights reserved.</p>
+      <p>© {year} Miso Apps. {copy.rights}</p>
       <p class="footer__origin">
         <span class="footer__pulse" aria-hidden="true"></span>
-        Built and supported from Hanoi, Vietnam
+        {copy.origin}
       </p>
     </div>
   </div>

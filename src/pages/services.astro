@@ -4,82 +4,168 @@ import ContactForm from "../components/ContactForm.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import ServiceTracks from "../components/ServiceTracks.astro";
-import { SERVICES } from "../services";
-
-const title = "Custom app and theme development";
-const description =
-  "Custom Shopify and Shopline app development, plus storefront themes built to your brand — scoped against your store, quoted before the build starts, and reviewed on a development store before launch.";
+import { getLang, localizeHref } from "../i18n";
+import { SERVICES_BY_LANG } from "../services";
 
 // A static route, so the copy ships with the deploy instead of the CMS. The
 // page is deliberately not a `pages` entry: an editor-created page with the
 // slug `services` would be shadowed by this file, and prose blocks cannot
 // express two tracks with their own deliverables.
-const steps = [
-  {
-    title: "Send the workflow",
-    body: "Describe the job in a few lines: what your team does by hand today, which app or theme it lives in, and what should happen instead.",
+const lang = getLang(Astro.locals);
+const copy = {
+  en: {
+    title: "Custom app and theme development",
+    description:
+      "Custom Shopify and Shopline app development, plus storefront themes built to your brand — scoped against your store, quoted before the build starts, and reviewed on a development store before launch.",
+    eyebrow: "Services",
+    h1: "Custom apps and themes, built to your store's spec.",
+    lede: "Two ways to work with us beyond the catalog: an app for the workflow your team runs by hand, and a storefront theme built to your brand. Both start from your store, are scoped and quoted before the build begins, and are reviewed on a development store before a customer ever sees them.",
+    primary: "Tell us what you need built",
+    secondary: "Browse the app catalog",
+    tracks: {
+      eyebrow: "What we build",
+      title: "Two tracks, one way of working.",
+      lead: "Pick the one that matches the job. Both are built on the same platform APIs, reviewed on a development store, and handed over with the code and the notes.",
+    },
+    process: {
+      eyebrow: "How it runs",
+      title: "From request to launch, in four steps.",
+      lead: "No discovery decks and no handoffs to a team you never met. You hear the scope, the price and the risks before any code is written.",
+    },
+    steps: [
+      {
+        title: "Send the workflow",
+        body: "Describe the job in a few lines: what your team does by hand today, which app or theme it lives in, and what should happen instead.",
+      },
+      {
+        title: "Scope and quote",
+        body: "We look at your store, confirm what is in and what is out, and come back with the scope, the timeline and a price for the work.",
+      },
+      {
+        title: "Build and review",
+        body: "You test every flow on a development store as it lands — private app install or theme preview — so copy, edge cases and permissions settle before launch.",
+      },
+      {
+        title: "Launch and hand over",
+        body: "The app is installed or listed, the theme is published, and you keep the code, the written notes and a direct line to the people who built it.",
+      },
+    ],
+    needsHead: {
+      eyebrow: "Before we start",
+      title: "What we need from you.",
+      lead: "Four things, and the request can move. If any of them are still open, say so in the first message — it is usually the difference between a quick quote and a round of guessing.",
+    },
+    needs: [
+      {
+        label: "Store access",
+        body: "Your store URL and a collaborator or staff account on a Shopify or Shopline store we can work in.",
+      },
+      {
+        label: "Brand assets",
+        body: "Logo files, fonts, colour values and product photography — or tell us what still has to be produced.",
+      },
+      {
+        label: "References",
+        body: "Two or three stores, themes or apps that feel right, and what you like about each one.",
+      },
+      {
+        label: "Constraints",
+        body: "Your launch window, the budget range you are working to, and anything about the store that cannot change.",
+      },
+    ],
+    request: {
+      eyebrow: "Start a request",
+      title: "Tell us what needs building.",
+      lead: "Describe the job in a few lines. We answer with the scope, the timeline and the price — and say so when an app from the catalog already does it.",
+    },
   },
-  {
-    title: "Scope and quote",
-    body: "We look at your store, confirm what is in and what is out, and come back with the scope, the timeline and a price for the work.",
+  vi: {
+    title: "Phát triển app và theme theo yêu cầu",
+    description:
+      "Phát triển app Shopify, Shopline theo yêu cầu và theme làm theo thương hiệu của bạn — khảo sát trên chính cửa hàng, báo giá trước khi làm và kiểm thử trên cửa hàng phát triển trước khi ra mắt.",
+    eyebrow: "Dịch vụ",
+    h1: "App và theme làm riêng, đúng theo yêu cầu cửa hàng của bạn.",
+    lede: "Hai cách làm việc cùng chúng tôi ngoài các app có sẵn: một app cho quy trình đội của bạn đang làm tay, và một theme làm theo thương hiệu của bạn. Cả hai đều bắt đầu từ cửa hàng của bạn, được chốt phạm vi và báo giá trước khi làm, và được kiểm thử trên cửa hàng phát triển trước khi khách hàng nhìn thấy.",
+    primary: "Cho chúng tôi biết bạn cần gì",
+    secondary: "Xem các app có sẵn",
+    tracks: {
+      eyebrow: "Chúng tôi làm gì",
+      title: "Hai hướng, một cách làm.",
+      lead: "Chọn hướng phù hợp với công việc. Cả hai đều xây trên cùng API của nền tảng, kiểm thử trên cửa hàng phát triển, và bàn giao kèm mã nguồn lẫn tài liệu.",
+    },
+    process: {
+      eyebrow: "Quy trình",
+      title: "Từ yêu cầu đến ra mắt, trong bốn bước.",
+      lead: "Không có slide khảo sát dài dòng, không chuyển giao cho một đội bạn chưa từng gặp. Bạn nắm được phạm vi, chi phí và rủi ro trước khi dòng code đầu tiên được viết.",
+    },
+    steps: [
+      {
+        title: "Gửi quy trình",
+        body: "Mô tả công việc trong vài dòng: đội của bạn hiện đang làm tay việc gì, nó nằm trong app hay theme nào, và lẽ ra nó phải diễn ra thế nào.",
+      },
+      {
+        title: "Chốt phạm vi và báo giá",
+        body: "Chúng tôi xem cửa hàng của bạn, xác nhận việc gì nằm trong và ngoài phạm vi, rồi gửi lại phạm vi, tiến độ và chi phí.",
+      },
+      {
+        title: "Xây dựng và kiểm thử",
+        body: "Bạn thử từng luồng trên cửa hàng phát triển ngay khi nó hoàn thành — cài app riêng hoặc xem trước theme — để nội dung, trường hợp biên và phân quyền được chốt trước khi ra mắt.",
+      },
+      {
+        title: "Ra mắt và bàn giao",
+        body: "App được cài hoặc đăng lên App Store, theme được xuất bản, và bạn giữ mã nguồn, tài liệu cùng liên lạc trực tiếp với những người đã làm ra nó.",
+      },
+    ],
+    needsHead: {
+      eyebrow: "Trước khi bắt đầu",
+      title: "Chúng tôi cần gì từ bạn.",
+      lead: "Bốn thứ, và yêu cầu có thể bắt đầu. Nếu thứ nào còn chưa rõ, hãy nói ngay trong tin nhắn đầu tiên — thường đó là khác biệt giữa một báo giá nhanh và một vòng phỏng đoán.",
+    },
+    needs: [
+      {
+        label: "Quyền truy cập cửa hàng",
+        body: "Địa chỉ cửa hàng và một tài khoản collaborator hoặc staff trên cửa hàng Shopify hoặc Shopline để chúng tôi làm việc.",
+      },
+      {
+        label: "Tài sản thương hiệu",
+        body: "File logo, font chữ, mã màu và ảnh sản phẩm — hoặc cho chúng tôi biết những gì còn cần làm thêm.",
+      },
+      {
+        label: "Tham khảo",
+        body: "Hai ba cửa hàng, theme hoặc app mà bạn thấy ưng, và điều bạn thích ở từng cái.",
+      },
+      {
+        label: "Ràng buộc",
+        body: "Thời điểm ra mắt, mức ngân sách dự kiến, và những gì trên cửa hàng không được thay đổi.",
+      },
+    ],
+    request: {
+      eyebrow: "Gửi yêu cầu",
+      title: "Cho chúng tôi biết cần làm gì.",
+      lead: "Mô tả công việc trong vài dòng. Chúng tôi sẽ trả lời bằng phạm vi, tiến độ và chi phí — và nói thẳng nếu đã có app sẵn làm được việc đó.",
+    },
   },
-  {
-    title: "Build and review",
-    body: "You test every flow on a development store as it lands — private app install or theme preview — so copy, edge cases and permissions settle before launch.",
-  },
-  {
-    title: "Launch and hand over",
-    body: "The app is installed or listed, the theme is published, and you keep the code, the written notes and a direct line to the people who built it.",
-  },
-];
-
-const needs = [
-  {
-    label: "Store access",
-    body: "Your store URL and a collaborator or staff account on a Shopify or Shopline store we can work in.",
-  },
-  {
-    label: "Brand assets",
-    body: "Logo files, fonts, colour values and product photography — or tell us what still has to be produced.",
-  },
-  {
-    label: "References",
-    body: "Two or three stores, themes or apps that feel right, and what you like about each one.",
-  },
-  {
-    label: "Constraints",
-    body: "Your launch window, the budget range you are working to, and anything about the store that cannot change.",
-  },
-];
-
-const seo = { title, description };
+}[lang];
 ---
 
-<Base title={seo.title} description={seo.description}>
+<Base title={copy.title} description={copy.description}>
   <section class="section head-section" aria-labelledby="services-title">
     <div class="container">
       <div class="page-head">
         <span class="eyebrow">
           <span class="eyebrow__dot" />
-          Services
+          {copy.eyebrow}
         </span>
-        <h1 id="services-title">
-          Custom apps and themes, built to your store's spec.
-        </h1>
-        <p class="lede">
-          Two ways to work with us beyond the catalog: an app for the workflow your team runs by
-          hand, and a storefront theme built to your brand. Both start from your store, are scoped
-          and quoted before the build begins, and are reviewed on a development store before a
-          customer ever sees them.
-        </p>
+        <h1 id="services-title">{copy.h1}</h1>
+        <p class="lede">{copy.lede}</p>
         <div class="page-head__actions">
           <a class="btn btn--brand btn--lg" href="#request">
-            Tell us what you need built
+            {copy.primary}
             <svg class="btn__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
               <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </a>
-          <a class="btn btn--ghost btn--lg" href="/#apps">Browse the app catalog</a>
+          <a class="btn btn--ghost btn--lg" href={localizeHref("/#apps", lang)}>{copy.secondary}</a>
         </div>
       </div>
     </div>
@@ -87,36 +173,21 @@ const seo = { title, description };
 
   <section class="section section--tight" aria-labelledby="tracks-title">
     <div class="container">
-      <SectionHeader
-        id="tracks-title"
-        eyebrow="What we build"
-        title="Two tracks, one way of working."
-        lead="Pick the one that matches the job. Both are built on the same platform APIs, reviewed on a development store, and handed over with the code and the notes."
-      />
+      <SectionHeader id="tracks-title" eyebrow={copy.tracks.eyebrow} title={copy.tracks.title} lead={copy.tracks.lead} />
       <div class="tracks-wrap">
-        <ServiceTracks tracks={SERVICES} variant="full" />
+        <ServiceTracks tracks={SERVICES_BY_LANG[lang]} variant="full" />
       </div>
     </div>
   </section>
 
-  <ProcessSteps
-    eyebrow="How it runs"
-    title="From request to launch, in four steps."
-    lead="No discovery decks and no handoffs to a team you never met. You hear the scope, the price and the risks before any code is written."
-    steps={steps}
-  />
+  <ProcessSteps eyebrow={copy.process.eyebrow} title={copy.process.title} lead={copy.process.lead} steps={copy.steps} />
 
   <section class="section" aria-labelledby="needs-title">
     <div class="container">
-      <SectionHeader
-        id="needs-title"
-        eyebrow="Before we start"
-        title="What we need from you."
-        lead="Four things, and the request can move. If any of them are still open, say so in the first message — it is usually the difference between a quick quote and a round of guessing."
-      />
+      <SectionHeader id="needs-title" eyebrow={copy.needsHead.eyebrow} title={copy.needsHead.title} lead={copy.needsHead.lead} />
       <dl class="needs">
         {
-          needs.map((need) => (
+          copy.needs.map((need) => (
             <div class="needs__row">
               <dt class="needs__label">{need.label}</dt>
               <dd class="needs__body">{need.body}</dd>
@@ -129,12 +200,7 @@ const seo = { title, description };
 
   <section class="section request" id="request" aria-labelledby="request-title">
     <div class="container">
-      <SectionHeader
-        id="request-title"
-        eyebrow="Start a request"
-        title="Tell us what needs building."
-        lead="Describe the job in a few lines. We answer with the scope, the timeline and the price — and say so when an app from the catalog already does it."
-      />
+      <SectionHeader id="request-title" eyebrow={copy.request.eyebrow} title={copy.request.title} lead={copy.request.lead} />
       <div class="request__body">
         <ContactForm />
       </div>

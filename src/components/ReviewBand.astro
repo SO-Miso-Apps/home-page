@@ -1,0 +1,280 @@
+---
+import type { ContentEntry } from "emdash";
+import type { App } from "../../emdash-env";
+import AppMark from "./AppMark.astro";
+import { getLang, localizeHref } from "../i18n";
+
+interface Props {
+  apps: ContentEntry<App>[];
+}
+
+// Social proof without a single invented quote: every number here is summed
+// from the rating and review count an editor enters per app, and every row
+// links to the listing's own review page, where the words live.
+const { apps } = Astro.props;
+const lang = getLang(Astro.locals);
+const locale = lang === "vi" ? "vi-VN" : "en-US";
+
+const rated = apps.filter((app) => typeof app.data.rating_value === "number");
+const totalReviews = rated.reduce((total, app) => total + (app.data.review_count ?? 0), 0);
+// Weighted by review count, so one five-star app with a single review cannot
+// outvote an app with a hundred.
+const weight = (app: ContentEntry<App>) => Math.max(app.data.review_count ?? 0, 1);
+const average = rated.length
+  ? rated.reduce((total, app) => total + (app.data.rating_value ?? 0) * weight(app), 0) /
+    rated.reduce((total, app) => total + weight(app), 0)
+  : null;
+
+const fmt = (n: number, digits = 0) =>
+  n.toLocaleString(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits });
+const reviewsUrl = (url: string) => `${url.replace(/[?#].*$/, "").replace(/\/+$/, "")}/reviews`;
+
+const copy = {
+  en: {
+    eyebrow: "Merchant reviews",
+    title: "Rated by the stores that run them.",
+    reviews: (n: number) => `${n === 1 ? "review" : "reviews"} on the Shopify App Store`,
+    average: "Average rating",
+    stars: (r: string) => `${r} out of 5 stars`,
+    read: "Read reviews",
+    count: (n: number) => `${fmt(n)} ${n === 1 ? "review" : "reviews"}`,
+    newApp: "New listing",
+  },
+  vi: {
+    eyebrow: "Đánh giá từ nhà bán hàng",
+    title: "Được chấm điểm bởi chính các cửa hàng đang dùng.",
+    reviews: (_n: number) => "đánh giá trên Shopify App Store",
+    average: "Điểm trung bình",
+    stars: (r: string) => `${r} trên 5 sao`,
+    read: "Đọc đánh giá",
+    count: (n: number) => `${fmt(n)} đánh giá`,
+    newApp: "Mới ra mắt",
+  },
+}[lang];
+---
+
+{
+  rated.length > 0 && average !== null && (
+    <section class="section section--tight" aria-labelledby="reviews-title">
+      <div class="container">
+        <div class="reviews" data-reveal>
+          <div class="reviews__summary">
+            <span class="eyebrow">
+              <span class="eyebrow__dot" />
+              {copy.eyebrow}
+            </span>
+            <h2 id="reviews-title">{copy.title}</h2>
+            <div class="reviews__score">
+              <span class="reviews__value num">{fmt(average, 1)}</span>
+              <div class="reviews__meta">
+                <span class="stars" style={`--fill: ${(average / 5) * 100}%`} role="img" aria-label={copy.stars(fmt(average, 1))} />
+                <span class="reviews__label">{copy.average}</span>
+              </div>
+            </div>
+            <p class="reviews__badge">
+              <span class="num">{fmt(totalReviews)}</span>
+              <span>{copy.reviews(totalReviews)}</span>
+            </p>
+          </div>
+
+          <ul class="reviews__list">
+            {apps.map((app) => (
+              <li class="reviews__row">
+                <AppMark seed={app.id} size={36} />
+                <div class="reviews__app">
+                  <a class="reviews__name" href={localizeHref(`/apps/${app.id}`, lang)}>{app.data.name}</a>
+                  <span class="reviews__sub">
+                    {typeof app.data.rating_value === "number" ? (
+                      <>
+                        <span class="stars stars--sm" style={`--fill: ${(app.data.rating_value / 5) * 100}%`} role="img" aria-label={copy.stars(fmt(app.data.rating_value, 1))} />
+                        <span class="num">{fmt(app.data.rating_value, 1)}</span>
+                        <span aria-hidden="true">·</span>
+                        <span>{copy.count(app.data.review_count ?? 0)}</span>
+                      </>
+                    ) : (
+                      copy.newApp
+                    )}
+                  </span>
+                </div>
+                {app.data.app_store_url && typeof app.data.rating_value === "number" && (
+                  <a class="reviews__link" href={reviewsUrl(app.data.app_store_url)} target="_blank" rel="noopener noreferrer">
+                    {copy.read}
+                    <span class="sr-only">: {app.data.name}</span>
+                    <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false">
+                      <path d="M5 11 11 5M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .reviews {
+    display: grid;
+    gap: 2rem;
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    border: 1px solid var(--line);
+    border-radius: var(--r-2xl);
+    background: var(--surface);
+    box-shadow: var(--shadow-1), var(--edge);
+  }
+
+  @media (min-width: 960px) {
+    .reviews {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 3.5rem;
+      align-items: center;
+    }
+  }
+
+  .reviews__summary {
+    display: grid;
+    justify-items: start;
+    gap: 1.1rem;
+  }
+
+  .reviews__summary h2 {
+    font-size: var(--step-3);
+  }
+
+  .reviews__score {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .reviews__value {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 4.25rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+
+  .reviews__meta {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .reviews__label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+  }
+
+  /* Five stars drawn once in a mask; --fill paints the share that is earned. */
+  .stars {
+    --size: 18px;
+    display: inline-block;
+    width: calc(var(--size) * 5);
+    height: var(--size);
+    background: linear-gradient(90deg, var(--brand) var(--fill), var(--line-strong) var(--fill));
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='m10 1.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.6 7.7l5.8-.8z'/%3E%3C/svg%3E") 0 0 / var(--size) var(--size) repeat-x;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='m10 1.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.6 7.7l5.8-.8z'/%3E%3C/svg%3E") 0 0 / var(--size) var(--size) repeat-x;
+  }
+
+  .stars--sm {
+    --size: 12px;
+  }
+
+  .reviews__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.9rem 0.4rem 0.45rem;
+    border: 1px solid var(--brand-line);
+    border-radius: var(--r-pill);
+    background: var(--brand-soft);
+    font-size: 0.875rem;
+    color: var(--ink-muted);
+  }
+
+  .reviews__badge .num {
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--r-pill);
+    background: var(--brand);
+    color: var(--brand-fg);
+    font-weight: 600;
+  }
+
+  .reviews__list {
+    display: grid;
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .reviews__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.9rem;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .reviews__app {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .reviews__name {
+    overflow: hidden;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .reviews__name:hover {
+    color: var(--brand-ink);
+  }
+
+  .reviews__sub {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    color: var(--ink-subtle);
+  }
+
+  .reviews__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 40px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--brand-ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .reviews__link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 479px) {
+    .reviews__row {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+
+    .reviews__link {
+      grid-column: 2;
+      min-height: 32px;
+    }
+  }
+</style>

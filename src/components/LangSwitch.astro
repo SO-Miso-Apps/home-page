@@ -1,0 +1,74 @@
+---
+import { LANG_NAMES, LANGS, getLang, localizeHref, splitLang } from "../i18n";
+
+// Plain links to this page in each language — no JavaScript needed to switch.
+// scripts/lang.ts only remembers the choice, so the head script in Base.astro
+// stops guessing from the browser on the next visit.
+const lang = getLang(Astro.locals);
+const path = splitLang(Astro.url.pathname).path;
+const label = lang === "vi" ? "Ngôn ngữ" : "Language";
+---
+
+<nav class="lang" aria-label={label}>
+  {
+    LANGS.map((code) => (
+      <a
+        class="lang__seg"
+        href={localizeHref(`${path}${Astro.url.search}`, code)}
+        hreflang={code}
+        lang={LANG_NAMES[code].htmlLang}
+        aria-current={code === lang ? "true" : undefined}
+        data-lang-set={code}
+        title={LANG_NAMES[code].long}
+      >
+        <span aria-hidden="true">{LANG_NAMES[code].short}</span>
+        <span class="sr-only">{LANG_NAMES[code].long}</span>
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--surface-2);
+  }
+
+  .lang__seg {
+    display: grid;
+    place-items: center;
+    min-width: 34px;
+    height: 24px;
+    padding: 0 0.5rem;
+    border-radius: var(--r-pill);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--ink-subtle);
+    text-decoration: none;
+    transition:
+      color var(--dur-2) var(--ease-quart),
+      background-color var(--dur-2) var(--ease-quart);
+  }
+
+  .lang__seg:hover {
+    color: var(--ink);
+  }
+
+  .lang__seg[aria-current="true"] {
+    background: var(--surface);
+    color: var(--brand-ink);
+    box-shadow: var(--shadow-1), var(--edge);
+  }
+</style>
+
+<script>
+  import "../scripts/lang";
+</script>

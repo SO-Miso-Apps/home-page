@@ -1,7 +1,8 @@
 import type { APIRoute } from "astro";
 import { env } from "cloudflare:workers";
+import { DEFAULT_LANG, isLang, localizeHref } from "../../i18n";
 import {
-  CONTACT_FORM_TO,
+  CONTACT_COPY,
   HONEYPOT_FIELD,
   MIN_FILL_MS,
   RATE_LIMIT_PER_HOUR,
@@ -23,6 +24,8 @@ const NO_STORE = { "Cache-Control": "no-store" } as const;
  */
 export const POST: APIRoute = async ({ request }) => {
   const wantsJson = (request.headers.get("accept") ?? "").includes("application/json");
+  // The form's hidden `lang` field; until the payload is read, English.
+  let lang = DEFAULT_LANG;
 
   const settle = (
     state: "ok" | "invalid" | "limited" | "failed",
@@ -36,7 +39,7 @@ export const POST: APIRoute = async ({ request }) => {
         })
       : new Response(null, {
           status: 303,
-          headers: { ...NO_STORE, Location: `/services?contact=${state}#request` },
+          headers: { ...NO_STORE, Location: localizeHref(`/services?contact=${state}#request`, lang) },
         });
 
   let raw: Record<string, unknown> = {};
@@ -56,6 +59,8 @@ export const POST: APIRoute = async ({ request }) => {
     console.error("contact: unreadable payload", error);
     return settle("invalid", { ok: false, errors: {} }, 400);
   }
+  if (isLang(raw.lang)) lang = raw.lang;
+  const say = CONTACT_COPY[lang];
 
   // Bots fill the hidden field and submit within milliseconds. Both cases get an
   // answer identical to success: a bot that learns nothing retries nothing, and
@@ -79,16 +84,13 @@ export const POST: APIRoute = async ({ request }) => {
   if (attempts >= RATE_LIMIT_PER_HOUR) {
     return settle(
       "limited",
-      {
-        ok: false,
-        message: `Too many messages from this connection. Try again in an hour, or email ${CONTACT_FORM_TO}.`,
-      },
+      { ok: false, message: say.limited },
       429,
     );
   }
   await env.CACHE.put(limitKey, String(attempts + 1), { expirationTtl: 3_600 });
 
-  const { values, errors } = validateContact(raw);
+  const { values, errors } = validateContact(raw, lang);
   if (Object.keys(errors).length > 0) {
     return settle("invalid", { ok: false, errors }, 400);
   }
@@ -97,12 +99,12 @@ export const POST: APIRoute = async ({ request }) => {
     console.error("contact: EMAIL binding is missing — add send_email to wrangler.jsonc");
     return settle(
       "failed",
-      { ok: false, message: `The form is not wired up yet. Email ${CONTACT_FORM_TO} instead.` },
+      { ok: false, message: say.unwired },
       503,
     );
   }
 
-  const message = buildContactMessage(values);
+  const message = buildContactMessage(values, lang);
   try {
     await env.EMAIL.send(message);
   } catch (error) {
@@ -110,7 +112,7 @@ export const POST: APIRoute = async ({ request }) => {
     console.error("contact: send failed", code, error instanceof Error ? error.message : String(error));
     return settle(
       "failed",
-      { ok: false, message: `Sending failed on our side. Email ${CONTACT_FORM_TO} and it will reach us.` },
+      { ok: false, message: say.failed },
       502,
     );
   }

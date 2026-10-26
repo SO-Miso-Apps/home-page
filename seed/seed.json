@@ -209,6 +209,114 @@
             { "_type": "block", "_key": "lt-h1", "style": "normal", "children": [{ "_type": "span", "_key": "lt-h1s", "text": "Make your store legible to AI assistants." }] }
           ]
         }
+      },
+      {
+        "id": "app-auto-tags-vi",
+        "slug": "so-auto-tags-all-in-one",
+        "locale": "vi",
+        "translationOf": "app-auto-tags",
+        "status": "published",
+        "data": {
+          "name": "SO: Auto Tags | All-in-One",
+          "tagline": "Tự động hoá việc quản lý cửa hàng bằng gắn tag theo quy tắc cho đơn hàng, khách hàng và sản phẩm. Dành cho các đội cần dữ liệu gọn gàng hơn và ít việc thủ công hơn.",
+          "badge": "Vận hành",
+          "sort_order": 1,
+          "rating_value": 5.0,
+          "review_count": 3,
+          "app_store_url": "https://apps.shopify.com/so-operations-suite-with-ai",
+          "seo_title": "SO: Auto Tags | All-in-One — gắn tag theo quy tắc cho Shopify",
+          "seo_description": "Tự động gắn tag cho đơn hàng, khách hàng và sản phẩm Shopify bằng quy tắc tuỳ chỉnh, công cụ dọn dẹp hàng loạt và tự động hoá quy trình.",
+          "features": [
+            { "title": "Quy tắc tuỳ chỉnh cho đơn hàng, khách hàng và sản phẩm", "description": "Nhắm đúng những bản ghi cần gắn tag bằng điều kiện do bạn đặt." },
+            { "title": "Công cụ thay thế, gộp và dọn dẹp tag hàng loạt", "description": "Sửa tag lộn xộn tích tụ nhiều năm chỉ trong một lần chạy." },
+            { "title": "Tự động hoá các việc quản trị lặp lại", "description": "Để việc vận hành cửa hàng hằng ngày tự chạy." },
+            { "title": "Quản lý và báo cáo tag theo thời gian thực", "description": "Theo dõi hoạt động gắn tag ngay khi nó diễn ra." }
+          ],
+          "hero": [
+            { "_type": "block", "_key": "auto-tags-vi-h-1", "style": "normal", "children": [{ "_type": "span", "_key": "auto-tags-vi-h-1s", "text": "Dữ liệu cửa hàng gọn gàng mà không cần làm thủ công." }] }
+          ]
+        }
+      },
+      {
+        "id": "app-sticky-atc-vi",
+        "slug": "so-sticky-add-to-cart",
+        "locale": "vi",
+        "translationOf": "app-sticky-atc",
+        "status": "published",
+        "data": {
+          "name": "SO: Sticky Add To Cart",
+          "tagline": "Giữ nút mua hàng luôn hiển thị khi khách lướt trang. Thanh có thể tuỳ chỉnh, tương thích mọi màn hình và tập trung vào tăng tỉ lệ chuyển đổi trang sản phẩm.",
+          "badge": "Chuyển đổi",
+          "sort_order": 2,
+          "rating_value": 5.0,
+          "review_count": 1,
+          "app_store_url": "https://apps.shopify.com/so-sticky-add-to-cart",
+          "seo_title": "SO: Sticky Add To Cart — nút mua hàng luôn hiển thị",
+          "seo_description": "Thanh thêm vào giỏ cố định, tuỳ chỉnh được và tương thích mọi màn hình, giúp tăng chuyển đổi trang sản phẩm Shopify.",
+          "features": [
+            { "title": "Nút thêm vào giỏ luôn hiển thị", "description": "Nút mua hàng đi theo khách suốt trang." },
+            { "title": "Bố cục tương thích di động và máy tính", "description": "Một thanh hợp với mọi theme và mọi màn hình." },
+            { "title": "Tuỳ chỉnh giao diện theo theme cửa hàng", "description": "Khớp màu sắc, nội dung và vị trí với thương hiệu." },
+            { "title": "Theo dõi hiệu quả cho các thử nghiệm", "description": "Đo tác động của từng phiên bản." }
+          ],
+          "hero": [
+            { "_type": "block", "_key": "sticky-atc-vi-h-1", "style": "normal", "children": [{ "_type": "span", "_key": "sticky-atc-vi-h-1s", "text": "Nút mua hàng luôn chỉ cách một lần chạm." }] }
+          ]
+        }
+      },
+      {
+        "id": "app-history-revert-vi",
+        "slug": "so-product-history-revert",
+        "locale": "vi",
+        "translationOf": "app-history-revert",
+        "status": "published",
+        "data": {
+          "name": "SO: Product History & Revert",
+          "tagline": "Theo dõi mọi chỉnh sửa sản phẩm theo thời gian thực và khôi phục giá trị cũ khi có sai sót. Dành cho các đội nhiều người cùng chỉnh sửa, cần lịch sử phiên bản sản phẩm mà không phải dùng bảng tính.",
+          "badge": "Khôi phục",
+          "sort_order": 3,
+          "rating_value": 5.0,
+          "review_count": 1,
+          "app_store_url": "https://apps.shopify.com/so-history-revert",
+          "seo_title": "SO: Product History & Revert — lịch sử phiên bản cho sản phẩm Shopify",
+          "seo_description": "Theo dõi mọi chỉnh sửa sản phẩm theo thời gian thực và khôi phục từng trường hoặc cả phiên bản chỉ với một cú nhấp. Dành cho đội Shopify nhiều người chỉnh sửa.",
+          "features": [
+            { "title": "Tự động ghi lại thay đổi ở các trường sản phẩm", "description": "Mọi chỉnh sửa được lưu ngay khi xảy ra." },
+            { "title": "So sánh trước và sau cho từng chỉnh sửa", "description": "Biết chính xác cái gì đã đổi và ai đã đổi." },
+            { "title": "Khôi phục từng trường hoặc cả phiên bản bằng một cú nhấp", "description": "Sửa sai mà không cần bảng tính." },
+            { "title": "Lịch sử cho biến thể, metafield, danh mục và media", "description": "Bao quát toàn bộ dữ liệu sản phẩm." }
+          ],
+          "hero": [
+            { "_type": "block", "_key": "history-revert-vi-h-1", "style": "normal", "children": [{ "_type": "span", "_key": "history-revert-vi-h-1s", "text": "Mọi chỉnh sửa sản phẩm đều được ghi lại và có thể hoàn tác." }] }
+          ]
+        }
+      },
+      {
+        "id": "app-llms-txt-vi",
+        "slug": "so-llms-txt",
+        "locale": "vi",
+        "translationOf": "app-llms-txt",
+        "status": "published",
+        "data": {
+          "name": "SO: llms.txt",
+          "tagline": "Tạo file llms.txt giúp các trợ lý AI hiểu nội dung cửa hàng. Một bước thiết thực để cửa hàng dễ được AI tìm thấy hơn.",
+          "badge": "Sẵn sàng cho AI",
+          "sort_order": 4,
+          "rating_value": null,
+          "review_count": 0,
+          "app_store_url": "https://apps.shopline.com/detail?appHandle=so_llms_txt",
+          "seo_title": "SO: llms.txt — nội dung cửa hàng AI đọc được cho Shopline",
+          "seo_description": "Tạo file llms.txt giúp trợ lý AI hiểu nội dung cửa hàng Shopline của bạn, tự cập nhật theo lịch khi nội dung thay đổi.",
+          "features": [
+            { "title": "Tự động tạo llms.txt", "description": "File tự tạo và tự làm mới." },
+            { "title": "Cấu trúc nội dung AI đọc được", "description": "Trợ lý AI có một bản đồ rõ ràng về cửa hàng." },
+            { "title": "Tích hợp Shopline đơn giản", "description": "Cài là chạy — không cần sửa theme." },
+            { "title": "Cập nhật theo lịch khi nội dung cửa hàng thay đổi", "description": "Khả năng được tìm thấy luôn cập nhật." }
+          ],
+          "hero": [
+            { "_type": "block", "_key": "llms-txt-vi-h-1", "style": "normal", "children": [{ "_type": "span", "_key": "llms-txt-vi-h-1s", "text": "Giúp các trợ lý AI đọc hiểu cửa hàng của bạn." }] }
+          ]
+        }
       }
     ],
     "posts": [
@@ -225,6 +333,24 @@
           ],
           "seo_title": "Hello from Miso Apps",
           "seo_description": "Why we build focused commerce apps, and what you will find on this blog."
+        },
+        "taxonomies": { "category": ["product-updates"] }
+      },
+      {
+        "id": "post-welcome-vi",
+        "slug": "hello-from-miso-apps",
+        "locale": "vi",
+        "translationOf": "post-welcome",
+        "status": "published",
+        "data": {
+          "title": "Xin chào từ Miso Apps",
+          "excerpt": "Vì sao chúng tôi làm những app thương mại tập trung, và bạn sẽ đọc được gì trên blog này.",
+          "content": [
+            { "_type": "block", "_key": "w-vi-1", "style": "normal", "children": [{ "_type": "span", "_key": "w-vi-1s", "text": "Miso Apps thiết kế và phát hành các app Shopify và Shopline tập trung vào tự động hoá, tăng chuyển đổi và dữ liệu cửa hàng mà AI đọc được. Blog này là nơi chúng tôi chia sẻ cập nhật sản phẩm và kinh nghiệm thực tế cho nhà bán hàng." }] },
+            { "_type": "block", "_key": "w-vi-2", "style": "normal", "children": [{ "_type": "span", "_key": "w-vi-2s", "text": "Bài viết sẽ ngắn và cụ thể: cái gì vừa ra mắt, cái gì đã thay đổi, và cách tận dụng nó cho cửa hàng của bạn ngay hôm nay." }] }
+          ],
+          "seo_title": "Xin chào từ Miso Apps",
+          "seo_description": "Vì sao chúng tôi làm những app thương mại tập trung, và bạn sẽ đọc được gì trên blog này."
         },
         "taxonomies": { "category": ["product-updates"] }
       }
@@ -272,11 +398,59 @@
             { "_type": "block", "_key": "pr-p3", "style": "normal", "children": [{ "_type": "span", "_key": "pr-p3s", "text": "For any privacy request, email hi@misoapps.com or write to Miso Apps, Hanoi, Vietnam." }] }
           ]
         }
+      },
+      {
+        "id": "page-about-vi",
+        "slug": "about",
+        "locale": "vi",
+        "translationOf": "page-about",
+        "status": "published",
+        "data": {
+          "title": "Giới thiệu",
+          "template": "Default",
+          "seo_title": "Giới thiệu",
+          "seo_description": "Miso Apps là studio phát triển app thương mại, làm các sản phẩm Shopify và Shopline chuyên nghiệp cho tự động hoá, tăng chuyển đổi và vận hành cửa hàng.",
+          "content": [
+            { "_type": "block", "_key": "ab-vi-1", "style": "h2", "children": [{ "_type": "span", "_key": "ab-vi-1s", "text": "Studio app thương mại xoay quanh công việc thực tế của nhà bán hàng." }] },
+            { "_type": "block", "_key": "ab-vi-2", "style": "normal", "children": [{ "_type": "span", "_key": "ab-vi-2s", "text": "Chúng tôi thiết kế, xây dựng và duy trì các app tập trung cho nhà bán hàng trên Shopify và Shopline. Đội ngũ chú trọng tốc độ, giao diện dễ đoán, và phần mềm vẫn chạy tốt sau ngày ra mắt." }] },
+            { "_type": "block", "_key": "ab-vi-3", "style": "h3", "children": [{ "_type": "span", "_key": "ab-vi-3s", "text": "Phạm vi sản phẩm tập trung" }] },
+            { "_type": "block", "_key": "ab-vi-4", "style": "normal", "children": [{ "_type": "span", "_key": "ab-vi-4s", "text": "Chúng tôi ưu tiên những app giải quyết rõ ràng một vấn đề cụ thể của nhà bán hàng, hơn là bộ tính năng đồ sộ khiến công việc hằng ngày khó hơn." }] },
+            { "_type": "block", "_key": "ab-vi-5", "style": "h3", "children": [{ "_type": "span", "_key": "ab-vi-5s", "text": "Kỹ thuật dễ bảo trì" }] },
+            { "_type": "block", "_key": "ab-vi-6", "style": "normal", "children": [{ "_type": "span", "_key": "ab-vi-6s", "text": "API nền tảng, phạm vi quyền truy cập, ngân sách hiệu năng và công cụ hỗ trợ là một phần của chất lượng sản phẩm ngay từ ngày đầu." }] },
+            { "_type": "block", "_key": "ab-vi-7", "style": "h3", "children": [{ "_type": "span", "_key": "ab-vi-7s", "text": "Hỗ trợ sát với nhà bán hàng" }] },
+            { "_type": "block", "_key": "ab-vi-8", "style": "normal", "children": [{ "_type": "span", "_key": "ab-vi-8s", "text": "Hỗ trợ được viết cho chính người đang vận hành cửa hàng, với các bước rõ ràng và câu trả lời thiết thực thay vì những ticket mơ hồ." }] },
+            { "_type": "block", "_key": "ab-vi-9", "style": "h3", "children": [{ "_type": "span", "_key": "ab-vi-9s", "text": "Tin cậy từ trong thiết kế" }] },
+            { "_type": "block", "_key": "ab-vi-10", "style": "normal", "children": [{ "_type": "span", "_key": "ab-vi-10s", "text": "Chúng tôi chỉ truy cập dữ liệu khi thật sự cần, giải thích rõ app cần gì, và tránh những cách làm gây bất ngờ về quyền riêng tư hay rủi ro cho theme." }] }
+          ]
+        }
+      },
+      {
+        "id": "page-privacy-vi",
+        "slug": "privacy",
+        "locale": "vi",
+        "translationOf": "page-privacy",
+        "status": "published",
+        "data": {
+          "title": "Chính sách bảo mật",
+          "template": "Full Width",
+          "seo_title": "Chính sách bảo mật",
+          "seo_description": "Tìm hiểu cách Miso Apps bảo vệ quyền riêng tư và xử lý dữ liệu của bạn.",
+          "content": [
+            { "_type": "block", "_key": "pr-vi-1", "style": "normal", "children": [{ "_type": "span", "_key": "pr-vi-1s", "text": "Cập nhật lần cuối: 10 tháng 11, 2025. Chính sách này giải thích Miso Apps thu thập thông tin gì, vì sao, và bạn có những lựa chọn nào. Bản tiếng Anh là bản có giá trị pháp lý nếu có khác biệt." }] },
+            { "_type": "block", "_key": "pr-vi-2", "style": "h2", "children": [{ "_type": "span", "_key": "pr-vi-2s", "text": "Cách chúng tôi sử dụng thông tin" }] },
+            { "_type": "block", "_key": "pr-vi-3", "style": "normal", "children": [{ "_type": "span", "_key": "pr-vi-3s", "text": "Chúng tôi dùng thông tin để cung cấp, duy trì và cải thiện dịch vụ; để trả lời yêu cầu và gửi các cập nhật quan trọng; để phát hiện và ngăn chặn gian lận, lạm dụng và mối đe doạ bảo mật; để phân tích cách sử dụng và cải thiện trải nghiệm; để tuân thủ nghĩa vụ pháp lý và thực thi điều khoản của chúng tôi; và, khi bạn đồng ý, để gửi tài liệu quảng bá." }] },
+            { "_type": "block", "_key": "pr-vi-4", "style": "h2", "children": [{ "_type": "span", "_key": "pr-vi-4s", "text": "Quyền của bạn" }] },
+            { "_type": "block", "_key": "pr-vi-5", "style": "normal", "children": [{ "_type": "span", "_key": "pr-vi-5s", "text": "Bạn có thể yêu cầu bản sao dữ liệu cá nhân chúng tôi đang lưu (truy cập); cập nhật hoặc sửa thông tin chưa chính xác (chỉnh sửa); yêu cầu xoá dữ liệu cá nhân (xoá); nhận dữ liệu ở định dạng có thể chuyển đi (di chuyển); huỷ đăng ký nhận thông tin tiếp thị (từ chối); và phản đối một số hoạt động xử lý dữ liệu." }] },
+            { "_type": "block", "_key": "pr-vi-6", "style": "h2", "children": [{ "_type": "span", "_key": "pr-vi-6s", "text": "Liên hệ" }] },
+            { "_type": "block", "_key": "pr-vi-7", "style": "normal", "children": [{ "_type": "span", "_key": "pr-vi-7s", "text": "Với mọi yêu cầu về quyền riêng tư, hãy email hi@misoapps.com hoặc gửi thư tới Miso Apps, Hà Nội, Việt Nam." }] }
+          ]
+        }
       }
     ]
   },
   "menus": [
     {
+      "id": "menu:primary:en",
       "name": "primary",
       "label": "Primary navigation",
       "items": [
@@ -287,6 +461,7 @@
       ]
     },
     {
+      "id": "menu:footer:en",
       "name": "footer",
       "label": "Footer navigation",
       "items": [
@@ -295,6 +470,33 @@
         { "type": "custom", "label": "Blog", "url": "/blog", "target": "_self" },
         { "type": "page", "label": "About", "ref": "page-about", "collection": "pages" },
         { "type": "page", "label": "Privacy Policy", "ref": "page-privacy", "collection": "pages" }
+      ]
+    },
+    {
+      "id": "menu:primary:vi",
+      "name": "primary",
+      "label": "Primary navigation",
+      "locale": "vi",
+      "translationOf": "menu:primary:en",
+      "items": [
+        { "type": "custom", "label": "Ứng dụng", "url": "/#apps", "target": "_self" },
+        { "type": "custom", "label": "Dịch vụ", "url": "/services", "target": "_self" },
+        { "type": "custom", "label": "Blog", "url": "/blog", "target": "_self" },
+        { "type": "page", "label": "Giới thiệu", "ref": "page-about-vi", "collection": "pages" }
+      ]
+    },
+    {
+      "id": "menu:footer:vi",
+      "name": "footer",
+      "label": "Footer navigation",
+      "locale": "vi",
+      "translationOf": "menu:footer:en",
+      "items": [
+        { "type": "custom", "label": "Trang chủ", "url": "/", "target": "_self" },
+        { "type": "custom", "label": "Dịch vụ", "url": "/services", "target": "_self" },
+        { "type": "custom", "label": "Blog", "url": "/blog", "target": "_self" },
+        { "type": "page", "label": "Giới thiệu", "ref": "page-about-vi", "collection": "pages" },
+        { "type": "page", "label": "Chính sách bảo mật", "ref": "page-privacy-vi", "collection": "pages" }
       ]
     }
   ],
@@ -320,6 +522,29 @@
       "widgets": [
         { "type": "component", "title": "Recent posts", "componentId": "core:recent-posts", "props": { "count": 5 } },
         { "type": "component", "title": "Categories", "componentId": "core:categories", "props": {} }
+      ]
+    },
+    {
+      "name": "footer-contact-vi",
+      "label": "Footer contact (Tiếng Việt)",
+      "widgets": [
+        {
+          "type": "content",
+          "title": "Liên hệ",
+          "content": [
+            { "_type": "block", "_key": "fc-vi-1", "style": "normal", "children": [{ "_type": "span", "_key": "fc-vi-1s", "text": "hi@misoapps.com" }] },
+            { "_type": "block", "_key": "fc-vi-2", "style": "normal", "children": [{ "_type": "span", "_key": "fc-vi-2s", "text": "+84 35-7654-619" }] },
+            { "_type": "block", "_key": "fc-vi-3", "style": "normal", "children": [{ "_type": "span", "_key": "fc-vi-3s", "text": "Hà Nội, Việt Nam" }] }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blog-sidebar-vi",
+      "label": "Blog sidebar (Tiếng Việt)",
+      "widgets": [
+        { "type": "component", "title": "Bài viết mới", "componentId": "core:recent-posts", "props": { "count": 5 } },
+        { "type": "component", "title": "Chuyên mục", "componentId": "core:categories", "props": {} }
       ]
     }
   ],

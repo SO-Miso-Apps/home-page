@@ -1,19 +1,29 @@
 ---
-import { getEmDashCollection, getSeoMeta } from "emdash";
+import { getSeoMeta } from "emdash";
+import type { App } from "../../emdash-env";
 import Base from "../layouts/Base.astro";
 import AppCard from "../components/AppCard.astro";
 import AppMark from "../components/AppMark.astro";
 import CtaPanel from "../components/CtaPanel.astro";
+import Faq from "../components/Faq.astro";
 import Marquee from "../components/Marquee.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
+import ReviewBand from "../components/ReviewBand.astro";
 import SectionHeader from "../components/SectionHeader.astro";
 import ServiceTracks from "../components/ServiceTracks.astro";
 import StatStrip from "../components/StatStrip.astro";
-import { SERVICES } from "../services";
+import { FAQ_BY_LANG } from "../faq";
+import { getLang, localizeHref } from "../i18n";
+import { getLocalizedCollection } from "../lib/content";
+import { SERVICES_BY_LANG } from "../services";
 
-const { entries: apps, error, cacheHint } = await getEmDashCollection("apps", {
-  orderBy: { sort_order: "asc" },
-});
+const lang = getLang(Astro.locals);
+
+const { entries: apps, error, cacheHint } = await getLocalizedCollection<"apps", App>(
+  "apps",
+  { orderBy: { sort_order: "asc" } },
+  lang,
+);
 if (error) {
   console.error("Failed to load apps:", error);
   return new Response("Unable to load apps", { status: 500 });
@@ -41,11 +51,109 @@ const averageRating = rated.length
   ? rated.reduce((total, app) => total + (app.data.rating_value ?? 0), 0) / rated.length
   : null;
 
+const copy = {
+  en: {
+    title: "Commerce apps for stores that keep moving",
+    // The site-wide default already says this in English; null keeps it.
+    eyebrow: "Shopify app studio",
+    h1: ["Commerce apps built for stores", "that have to keep moving."],
+    lede: "Miso Apps designs and ships focused Shopify and Shopline apps for automation, conversion, and AI-readable storefront data. The work is clean, fast, and built around merchant operations.",
+    viewApps: "View our apps",
+    contact: "Contact us",
+    listings: "App Store listings",
+    live: (n: number) => `${n} live`,
+    glance: "Studio at a glance",
+    stats: ["Apps on the App Store", "Merchant stores reached", "Countries served", "Average app rating"],
+    support: "Support 24/7",
+    apps: {
+      eyebrow: "Our apps",
+      title: "Focused products, measurable results.",
+      lead: "Every app below is live on the Shopify App Store. Each one does a single operational job properly, and each listing page is built from the same CMS entry the store team edits.",
+    },
+    services: {
+      eyebrow: "Services",
+      title: "When the catalog is close but not close enough.",
+      lead: "Beyond the apps: a custom app for the workflow your team still runs by hand, and a theme built to your brand instead of stretched around someone else's. Both are scoped against your store and reviewed before launch.",
+      more: "How a custom build runs",
+    },
+    process: {
+      title: "Ship something merchants can trust on a busy Monday.",
+      lead: "Four steps, in this order, every time. No long discovery decks and no handoffs to a team you never met.",
+      steps: [
+        { title: "Scope on your store", body: "We start from the workflow itself: order volume, who edits what, and which parts of the admin your team works around." },
+        { title: "Build on the Shopify APIs", body: "Admin GraphQL, webhooks, and Functions. No brittle theme hacks, and nothing that slows the storefront down." },
+        { title: "Review on a live store", body: "You test every flow on a real development store before it reaches merchants. Copy, edge cases, and permissions are settled there." },
+        { title: "Ship and keep the pager on", body: "Listed on the App Store, watched for review notices and API changes, and answered by the people who wrote the code." },
+      ],
+    },
+    faq: {
+      eyebrow: "FAQ",
+      title: "Questions merchants ask first.",
+      lead: "Short answers to what comes up before a project starts. Anything else, ask us directly.",
+    },
+    cta: {
+      eyebrow: "Get started",
+      title: "Put an app to work on your store this week.",
+      body: "Install from the App Store, or tell us which operational job is costing your team the most time.",
+      primary: "Request a quote",
+      secondary: "Browse the apps",
+    },
+  },
+  vi: {
+    title: "App thương mại điện tử cho cửa hàng không ngừng vận hành",
+    eyebrow: "Studio app Shopify",
+    h1: ["App thương mại điện tử cho những cửa hàng", "không được phép đứng yên."],
+    lede: "Miso Apps thiết kế và phát hành các app Shopify, Shopline chuyên biệt cho tự động hóa, tăng chuyển đổi và dữ liệu cửa hàng mà AI đọc được. Gọn, nhanh và xây quanh cách nhà bán hàng thực sự vận hành.",
+    viewApps: "Xem các app",
+    contact: "Liên hệ ngay",
+    listings: "App trên App Store",
+    live: (n: number) => `${n} đang hoạt động`,
+    glance: "Tổng quan về studio",
+    stats: ["App trên App Store", "Cửa hàng đã tiếp cận", "Quốc gia phục vụ", "Điểm đánh giá trung bình"],
+    support: "Hỗ trợ 24/7",
+    apps: {
+      eyebrow: "Sản phẩm",
+      title: "Sản phẩm chuyên biệt, kết quả đo được.",
+      lead: "Mọi app dưới đây đều đang có mặt trên Shopify App Store. Mỗi app làm thật tốt một việc vận hành, và mỗi trang giới thiệu được dựng từ chính nội dung CMS mà đội ngũ cập nhật.",
+    },
+    services: {
+      eyebrow: "Dịch vụ",
+      title: "Khi app có sẵn gần đúng nhưng chưa đủ đúng.",
+      lead: "Ngoài các app: một app riêng cho quy trình đội của bạn vẫn làm tay, và một theme làm theo thương hiệu của bạn thay vì gò thương hiệu vào theme của người khác. Cả hai đều được khảo sát trên cửa hàng của bạn và kiểm thử trước khi ra mắt.",
+      more: "Quy trình một dự án theo yêu cầu",
+    },
+    process: {
+      title: "Làm ra thứ nhà bán hàng tin dùng cả vào ngày bận nhất.",
+      lead: "Bốn bước, đúng thứ tự này, lần nào cũng vậy. Không có slide khảo sát dài dòng, không chuyển giao cho một đội bạn chưa từng gặp.",
+      steps: [
+        { title: "Khảo sát trên cửa hàng của bạn", body: "Chúng tôi bắt đầu từ chính quy trình: lượng đơn hàng, ai chỉnh sửa gì, và những phần nào trong admin đội của bạn đang phải đi đường vòng." },
+        { title: "Xây trên API của Shopify", body: "Admin GraphQL, webhooks và Functions. Không chắp vá theme dễ vỡ, không làm chậm storefront." },
+        { title: "Kiểm thử trên cửa hàng thật", body: "Bạn thử mọi luồng trên một cửa hàng phát triển trước khi tới tay khách hàng. Nội dung, trường hợp biên và phân quyền đều được chốt tại đây." },
+        { title: "Ra mắt và luôn trực hỗ trợ", body: "Đăng trên App Store, theo dõi thông báo review và thay đổi API, và được trả lời bởi chính những người viết code." },
+      ],
+    },
+    faq: {
+      eyebrow: "Câu hỏi thường gặp",
+      title: "Những điều nhà bán hàng hay hỏi trước tiên.",
+      lead: "Trả lời ngắn cho các câu hỏi trước khi bắt đầu dự án. Câu hỏi khác, cứ hỏi trực tiếp chúng tôi.",
+    },
+    cta: {
+      eyebrow: "Bắt đầu",
+      title: "Đưa một app vào làm việc cho cửa hàng của bạn ngay tuần này.",
+      body: "Cài đặt từ App Store, hoặc cho chúng tôi biết việc vận hành nào đang tốn thời gian của đội bạn nhất.",
+      primary: "Yêu cầu báo giá",
+      secondary: "Xem các app",
+    },
+  },
+}[lang];
+
+const contactHref = localizeHref("/services#request", lang);
+
 const stats = [
-  { value: String(apps.length), label: "Apps on the App Store" },
-  { value: "10K+", label: "Merchant stores reached" },
-  { value: "50+", label: "Countries served" },
-  { value: averageRating ? averageRating.toFixed(1) : "—", label: "Average app rating" },
+  { value: String(apps.length), label: copy.stats[0] },
+  { value: "10K+", label: copy.stats[1] },
+  { value: "50+", label: copy.stats[2] },
+  { value: averageRating ? averageRating.toFixed(1) : "—", label: copy.stats[3] },
 ];
 
 const ticker = [
@@ -54,45 +162,41 @@ const ticker = [
   "Shopline",
   "Admin GraphQL",
   "Webhooks",
-  "Support 24/7",
+  copy.support,
 ];
 ---
 
-<Base title="Commerce apps for stores that keep moving" description={seo.description ?? undefined} image={seo.ogImage ?? undefined} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
+<Base title={copy.title} description={lang === "vi" ? undefined : (seo.description ?? undefined)} image={seo.ogImage ?? undefined} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
   <section class="hero" data-hero>
     <div class="container hero__grid">
       <div class="hero__copy">
         <span class="eyebrow" data-hero-item>
           <span class="eyebrow__dot" />
-          Shopify app studio
+          {copy.eyebrow}
         </span>
         <h1 data-hero-item>
-          <span class="hero__line">Commerce apps built for stores</span>
-          <span class="hero__line hero__line--dim">that have to keep moving.</span>
+          <span class="hero__line">{copy.h1[0]}</span>
+          <span class="hero__line hero__line--dim">{copy.h1[1]}</span>
         </h1>
-        <p class="lede" data-hero-item>
-          Miso Apps designs and ships focused Shopify and Shopline apps for
-          automation, conversion, and AI-readable storefront data. The work is
-          clean, fast, and built around merchant operations.
-        </p>
+        <p class="lede" data-hero-item>{copy.lede}</p>
         <div class="hero__actions" data-hero-item>
-          <a class="btn btn--brand btn--lg" href="#apps">
-            View our apps
+          <a class="btn btn--brand btn--lg" href={contactHref}>
+            {copy.contact}
             <svg class="btn__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
               <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </a>
-          <a class="btn btn--ghost btn--lg" href="/about">About the studio</a>
+          <a class="btn btn--ghost btn--lg" href="#apps">{copy.viewApps}</a>
         </div>
       </div>
 
       <div class="hero__art" data-hero-art>
         <div class="hero__panel glass" data-float>
           <div class="hero__panel-top">
-            <span class="hero__panel-label">App Store listings</span>
+            <span class="hero__panel-label">{copy.listings}</span>
             <span class="hero__status num">
               <span class="hero__status-dot" aria-hidden="true" />
-              {apps.length} live
+              {copy.live(apps.length)}
             </span>
           </div>
 
@@ -116,7 +220,7 @@ const ticker = [
     </div>
   </section>
 
-  <section class="section section--tight" aria-label="Studio at a glance">
+  <section class="section section--tight" aria-label={copy.glance}>
     <div class="container">
       <Marquee items={ticker} />
       <StatStrip stats={stats} class="hero__stats" />
@@ -125,12 +229,7 @@ const ticker = [
 
   <section class="section" id="apps" aria-labelledby="apps-title">
     <div class="container">
-      <SectionHeader
-        id="apps-title"
-        eyebrow="Our apps"
-        title="Focused products, measurable results."
-        lead="Every app below is live on the Shopify App Store. Each one does a single operational job properly, and each listing page is built from the same CMS entry the store team edits."
-      />
+      <SectionHeader id="apps-title" eyebrow={copy.apps.eyebrow} title={copy.apps.title} lead={copy.apps.lead} />
       <div class="bento">
         {
           apps.map((app, index) => {
@@ -148,18 +247,13 @@ const ticker = [
 
   <section class="section" id="services" aria-labelledby="services-title">
     <div class="container">
-      <SectionHeader
-        id="services-title"
-        eyebrow="Services"
-        title="When the catalog is close but not close enough."
-        lead="Beyond the apps: a custom app for the workflow your team still runs by hand, and a theme built to your brand instead of stretched around someone else's. Both are scoped against your store and reviewed before launch."
-      />
+      <SectionHeader id="services-title" eyebrow={copy.services.eyebrow} title={copy.services.title} lead={copy.services.lead} />
       <div class="tracks-wrap">
-        <ServiceTracks tracks={SERVICES} />
+        <ServiceTracks tracks={SERVICES_BY_LANG[lang]} />
       </div>
       <div class="services__more">
-        <a class="btn btn--ghost" href="/services">
-          How a custom build runs
+        <a class="btn btn--ghost" href={localizeHref("/services", lang)}>
+          {copy.services.more}
           <svg class="btn__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
             <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
@@ -168,36 +262,19 @@ const ticker = [
     </div>
   </section>
 
-  <ProcessSteps
-    title="Ship something merchants can trust on a busy Monday."
-    lead="Four steps, in this order, every time. No long discovery decks and no handoffs to a team you never met."
-    steps={[
-      {
-        title: "Scope on your store",
-        body: "We start from the workflow itself: order volume, who edits what, and which parts of the admin your team works around.",
-      },
-      {
-        title: "Build on the Shopify APIs",
-        body: "Admin GraphQL, webhooks, and Functions. No brittle theme hacks, and nothing that slows the storefront down.",
-      },
-      {
-        title: "Review on a live store",
-        body: "You test every flow on a real development store before it reaches merchants. Copy, edge cases, and permissions are settled there.",
-      },
-      {
-        title: "Ship and keep the pager on",
-        body: "Listed on the App Store, watched for review notices and API changes, and answered by the people who wrote the code.",
-      },
-    ]}
-  />
+  <ReviewBand apps={apps} />
+
+  <ProcessSteps title={copy.process.title} lead={copy.process.lead} steps={copy.process.steps} />
+
+  <Faq eyebrow={copy.faq.eyebrow} title={copy.faq.title} lead={copy.faq.lead} items={FAQ_BY_LANG[lang]} />
 
   <CtaPanel
     seed="home-cta"
-    eyebrow="Get started"
-    title="Put an app to work on your store this week."
-    body="Install from the App Store, or tell us which operational job is costing your team the most time."
-    primary={{ label: "Browse the apps", href: "#apps" }}
-    secondary={{ label: "About the studio", href: "/about" }}
+    eyebrow={copy.cta.eyebrow}
+    title={copy.cta.title}
+    body={copy.cta.body}
+    primary={{ label: copy.cta.primary, href: contactHref }}
+    secondary={{ label: copy.cta.secondary, href: "#apps" }}
   />
 </Base>
 

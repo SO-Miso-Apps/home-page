@@ -26,3 +26,10 @@ declare namespace Cloudflare {
 }
 
 interface Env extends MisoBindings {}
+
+declare namespace App {
+  interface Locals {
+    /** Set by middleware.ts from the URL prefix; read it through getLang(). */
+    lang?: import("./i18n").Lang;
+  }
+}
