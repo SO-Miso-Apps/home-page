@@ -1,4 +1,4 @@
-import { getEmDashCollection, type CollectionFilter, type CollectionResult, type InferCollectionData } from "emdash";
+import { getEmDashCollection, getEmDashEntry, type CollectionFilter, type CollectionResult, type InferCollectionData } from "emdash";
 import { DEFAULT_LANG, type Lang } from "../i18n";
 
 // Distributes over the cursor/offset union, which a plain Omit would collapse.
@@ -7,8 +7,8 @@ type Result<D> = CollectionResult<D>;
 type Hint = Result<unknown>["cacheHint"];
 
 /**
- * A collection list in `lang`. EmDash entry lookups fall back to English but
- * list queries do not, so a /vi list read on its own would drop every entry
+ * A collection list in `lang`. EmDash list queries do not fall back to
+ * English, so a /vi list read on its own would drop every entry
  * nobody has translated yet. Instead the English list sets the catalog, its
  * order and its paging, and each entry is swapped for its translation where
  * one exists. Entries that exist only in Vietnamese are not listed.
@@ -48,6 +48,17 @@ export async function getLocalizedCollection<T extends string, D = InferCollecti
     }),
     cacheHint: mergeHints(base.cacheHint, local.cacheHint),
   };
+}
+
+/**
+ * One entry in `lang`, or in English when it has no translation yet. EmDash
+ * 0.38 builds a [vi, en] chain but stops at the first locale's not-found
+ * error, so a /vi page for an untranslated post would 404 without this.
+ */
+export async function getLocalizedEntry<T extends string, D = InferCollectionData<T>>(type: T, id: string, lang: Lang) {
+  const local = await getEmDashEntry<T, D>(type, id, { locale: lang });
+  if (lang === DEFAULT_LANG || local.entry) return local;
+  return getEmDashEntry<T, D>(type, id, { locale: DEFAULT_LANG });
 }
 
 function mergeHints(a: Hint, b: Hint): Hint {

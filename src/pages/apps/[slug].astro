@@ -1,6 +1,6 @@
 ---
 import { LiveEntryNotFoundError } from "astro/content/runtime";
-import { decodeSlug, getEmDashEntry, getSeoMeta } from "emdash";
+import { decodeSlug, getSeoMeta } from "emdash";
 import type { App } from "../../../emdash-env";
 import { Image, PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
@@ -10,6 +10,7 @@ import CtaPanel from "../../components/CtaPanel.astro";
 import FeatureGrid from "../../components/FeatureGrid.astro";
 import ScreenshotGallery from "../../components/ScreenshotGallery.astro";
 import { getLang, localizeHref, splitLang } from "../../i18n";
+import { getLocalizedEntry } from "../../lib/content";
 import { getLocalizedCollection } from "../../lib/content";
 
 const lang = getLang(Astro.locals);
@@ -17,7 +18,7 @@ const slug = decodeSlug(Astro.params.slug);
 if (!slug) return Astro.rewrite(localizeHref("/404", lang));
 // Translations share the English slug; an app nobody has translated yet falls
 // back to its English entry rather than a 404.
-const { entry: app, error, isPreview, cacheHint } = await getEmDashEntry("apps", slug, { locale: lang });
+const { entry: app, error, isPreview, cacheHint } = await getLocalizedEntry("apps", slug, lang);
 
 if (error) {
   // Astro live collections surface a missing entry as LiveEntryNotFoundError
