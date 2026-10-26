@@ -2,7 +2,7 @@
 // RSS channel header (rss.xml.ts) so the feed can never drift from the site.
 export const SITE_TITLE = "Miso Apps";
 export const SITE_DESCRIPTION =
-  "Miso Apps designs and ships focused Shopify and Shopline apps for automation, conversion, and AI-readable storefront data.";
+  "Miso Apps designs and customizes Shopify themes, and builds focused Shopify apps for automation, conversion, and AI-readable store data.";
 
 export const SITE_FEED_TITLE = `${SITE_TITLE} Blog`;
 
@@ -14,7 +14,7 @@ export const CONTACT_PHONE = "+84 35-7654-619";
 export const CONTACT_PHONE_HREF = "tel:+84357654619";
 
 export const SITE_DESCRIPTION_VI =
-  "Miso Apps thiết kế và phát hành các app Shopify và Shopline chuyên biệt cho tự động hóa, tăng chuyển đổi và dữ liệu cửa hàng mà AI đọc được.";
+  "Miso Apps thiết kế và tùy chỉnh theme Shopify, đồng thời làm các app Shopify gọn nhẹ giúp cửa hàng tự động hóa việc vặt, bán tốt hơn và dễ được AI đọc hiểu.";
 
 export function escapeXml(value: string): string {
   return value

@@ -1,8 +1,8 @@
 // Questions a merchant asks before writing in. Every answer restates something
 // the site already commits to elsewhere — the service deliverables in
 // services.ts, the "What you need" list and process on /services, the budget
-// ranges in lib/contact.ts, the reply time in ContactForm — so change those
-// first and this second, never the other way round.
+// ranges in lib/contact.ts, the reply time in ContactForm, the phone number in
+// the footer — so change those first and this second, never the other way round.
 import type { Lang } from "./i18n";
 
 export interface FaqItem {
@@ -13,66 +13,66 @@ export interface FaqItem {
 export const FAQ_BY_LANG: Record<Lang, FaqItem[]> = {
   en: [
     {
-      question: "Which platforms do you build for?",
+      question: "Can you work on the theme we already have?",
       answer:
-        "Shopify and Shopline. Our own apps are listed on the Shopify App Store, and custom apps and themes are built on the platform APIs — Admin GraphQL, webhooks, Shopify Functions, Liquid theme sections — rather than storefront hacks.",
+        "Yes, and that is most of what we do. We customize the theme your store already runs — new sections, layout and style changes, speed fixes — inside Liquid and the theme editor, so your team can still edit it without us.",
     },
     {
-      question: "How is a custom build priced?",
+      question: "How is the work priced?",
       answer:
-        "Each build is quoted after we scope it against your store, and the quote comes before the build starts. The request form asks for a rough range — from under $1,000 to $8,000+, or “prefer to discuss” — so the first proposal fits what you had in mind.",
-    },
-    {
-      question: "Who owns the code when the project ends?",
-      answer:
-        "You do. Handover includes repository access (or the theme files), written setup notes, and a walkthrough with the people on your team who will run it.",
-    },
-    {
-      question: "What happens after launch?",
-      answer:
-        "We stay on it: App Store review notices, Shopify API changes and fixes are answered by the people who wrote the code, not a support desk you have never met.",
+        "Each job is quoted after we look at it against your store, and the quote comes before any work starts. The request form asks for a rough range — from under $1,000 to $8,000+, or “prefer to discuss” — so the first proposal fits what you had in mind.",
     },
     {
       question: "What do you need from us to start?",
       answer:
-        "Your store URL, a short description of the job, and a collaborator or staff account on a store we can work in. Everything is reviewed on a development store before it reaches your customers.",
+        "Your store URL, a few lines on what you want changed, and a collaborator or staff account. We work on a copy of your theme and you review it there before anything reaches your customers.",
+    },
+    {
+      question: "Who owns the code when the project ends?",
+      answer:
+        "You do. Handover includes the theme files or repository access, written notes on what changed, and a walkthrough with the people on your team who will run it.",
+    },
+    {
+      question: "Do you build apps as well?",
+      answer:
+        "Yes. We publish our own apps on the Shopify App Store and build custom ones on the official APIs — Admin GraphQL, webhooks, Shopify Functions. We work on Shopify and Shopline.",
     },
     {
       question: "How quickly will we hear back?",
       answer:
-        "Within one working day of sending the request form. If it is urgent, call us — the number is at the top of every page.",
+        "Within one working day of sending the request form. If it is urgent, call us — the number is in the footer of every page.",
     },
   ],
   vi: [
     {
-      question: "Miso Apps làm cho những nền tảng nào?",
+      question: "Các bạn có sửa được theme cửa hàng đang dùng không?",
       answer:
-        "Shopify và Shopline. Các app của chúng tôi có mặt trên Shopify App Store; app và theme theo yêu cầu đều được xây trên API chính thức của nền tảng — Admin GraphQL, webhooks, Shopify Functions, section của theme Liquid — chứ không chắp vá trên storefront.",
+        "Được, và đó là phần lớn công việc của chúng tôi. Chúng tôi tùy chỉnh ngay trên theme bạn đang chạy — thêm section, đổi bố cục và giao diện, tối ưu tốc độ — bằng Liquid và trình chỉnh sửa theme, nên sau này đội của bạn vẫn tự sửa được mà không cần chúng tôi.",
     },
     {
-      question: "Chi phí một dự án theo yêu cầu tính thế nào?",
+      question: "Chi phí được tính thế nào?",
       answer:
-        "Mỗi dự án được báo giá sau khi chúng tôi khảo sát phạm vi trên chính cửa hàng của bạn, và bạn nhận báo giá trước khi bắt đầu làm. Form yêu cầu có ô chọn mức ngân sách — từ dưới $1.000 đến trên $8.000, hoặc “muốn trao đổi thêm” — để đề xuất đầu tiên sát với dự tính của bạn.",
+        "Chúng tôi xem yêu cầu trên chính cửa hàng của bạn rồi mới báo giá, và bạn có báo giá trước khi bắt tay vào làm. Trong form có mục chọn mức ngân sách — từ dưới $1.000 đến trên $8.000, hoặc “muốn trao đổi thêm” — để đề xuất đầu tiên sát với dự tính của bạn.",
     },
     {
-      question: "Kết thúc dự án, ai sở hữu mã nguồn?",
+      question: "Cần chuẩn bị gì để bắt đầu?",
       answer:
-        "Bạn. Khi bàn giao, bạn nhận quyền truy cập repository (hoặc toàn bộ file theme), tài liệu cài đặt bằng văn bản và một buổi hướng dẫn với những người trong đội sẽ vận hành.",
+        "Địa chỉ cửa hàng, vài dòng mô tả bạn muốn đổi gì, và một tài khoản collaborator hoặc staff. Chúng tôi làm trên bản sao của theme, bạn xem và duyệt ở đó trước khi khách hàng thấy bất cứ thay đổi nào.",
     },
     {
-      question: "Sau khi ra mắt thì sao?",
+      question: "Làm xong thì mã nguồn thuộc về ai?",
       answer:
-        "Chúng tôi vẫn theo dõi: thông báo review của App Store, thay đổi API của Shopify và các bản sửa lỗi đều do chính người viết code xử lý, không qua một bộ phận hỗ trợ xa lạ.",
+        "Thuộc về bạn. Khi bàn giao, bạn nhận đủ file theme hoặc quyền truy cập repository, ghi chú những gì đã thay đổi, và một buổi hướng dẫn cho người sẽ quản lý cửa hàng.",
     },
     {
-      question: "Để bắt đầu, chúng tôi cần chuẩn bị gì?",
+      question: "Các bạn có làm app không?",
       answer:
-        "Địa chỉ cửa hàng, vài dòng mô tả công việc, và một tài khoản collaborator hoặc staff trên cửa hàng để chúng tôi làm việc. Mọi thứ được kiểm thử trên cửa hàng phát triển trước khi tới tay khách của bạn.",
+        "Có. Chúng tôi có app riêng trên Shopify App Store và nhận làm app theo yêu cầu trên API chính thức — Admin GraphQL, webhooks, Shopify Functions. Chúng tôi làm cho cả Shopify và Shopline.",
     },
     {
-      question: "Bao lâu thì nhận được phản hồi?",
+      question: "Bao lâu thì có phản hồi?",
       answer:
-        "Trong vòng một ngày làm việc kể từ khi gửi form. Nếu gấp, hãy gọi cho chúng tôi — số điện thoại nằm ở đầu mỗi trang.",
+        "Trong vòng một ngày làm việc sau khi bạn gửi form. Nếu gấp, bạn cứ gọi cho chúng tôi — số điện thoại ở cuối mỗi trang.",
     },
   ],
 };

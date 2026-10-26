@@ -44,16 +44,15 @@ const { label = copy.label, class: className } = Astro.props;
     display: inline-flex;
     align-items: center;
     gap: 2px;
-    padding: 3px;
-    border: 1px solid var(--line);
+    padding: 4px;
     border-radius: var(--r-pill);
-    background: var(--surface-2);
+    background: var(--tofu);
   }
   .seg {
     display: grid;
     place-items: center;
-    width: 30px;
-    height: 26px;
+    width: 32px;
+    height: 30px;
     padding: 0;
     border: 0;
     border-radius: var(--r-pill);
@@ -83,7 +82,7 @@ const { label = copy.label, class: className } = Astro.props;
   :global(html[data-theme-choice="dark"]) .seg[data-theme-set="dark"] {
     background: var(--surface);
     color: var(--brand-ink);
-    box-shadow: var(--shadow-1), var(--edge);
+    box-shadow: var(--shadow-1);
   }
 </style>
 

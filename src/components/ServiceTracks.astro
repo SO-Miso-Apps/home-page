@@ -1,129 +1,111 @@
 ---
 import type { ServiceTrack } from "../services";
-import { getLang, localizeHref } from "../i18n";
+import { getLang } from "../i18n";
 
 interface Props {
   tracks: ServiceTrack[];
-  /**
-   * `compact` is the home-page summary: number, title (linking to its anchor on
-   * /services) and one sentence. `full` adds the stack line, what the client
-   * ends up owning, who the track fits and a link to the request form.
-   */
-  variant?: "compact" | "full";
   class?: string;
 }
 
-const { tracks, variant = "compact", class: className } = Astro.props;
+// Each track in full on /services: the stack line, what the client ends up
+// owning, who the track fits and a link to the request form. The first track
+// (theme work, the one the studio leads with) sits on peach, the rest on tofu.
+const { tracks, class: className } = Astro.props;
 const lang = getLang(Astro.locals);
 const copy = {
-  en: { fits: "Fits:", quote: "Request a quote" },
-  vi: { fits: "Phù hợp:", quote: "Yêu cầu báo giá" },
+  en: { fits: "A good fit for:", quote: "Ask for a quote" },
+  vi: { fits: "Phù hợp với:", quote: "Nhận báo giá" },
 }[lang];
 ---
 
-<ol class:list={["tracks", `tracks--${variant}`, className]} data-reveal>
+<ol class:list={["tracks", className]} data-reveal>
   {
     tracks.map((track, index) => (
-      <li class="track" id={track.id}>
-        <span class="track__num num">{String(index + 1).padStart(2, "0")}</span>
-        <div class="track__body">
-          <h3 class="track__title">
-            {variant === "compact" ? <a href={localizeHref(`/services#${track.id}`, lang)}>{track.title}</a> : track.title}
-          </h3>
-          <p class="track__summary">{track.summary}</p>
-
-          {variant === "full" && (
-            <>
-              <p class="track__stack">{track.stack}</p>
-              <ul class="track__list">
-                {track.deliverables.map((item) => (
-                  <li class="track__item">
-                    <svg class="track__tick" viewBox="0 0 14 14" width="13" height="13" aria-hidden="true" focusable="false">
-                      <path d="M2.5 7.5 5.5 10.5 11.5 3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <p class="track__best">
-                <strong>{copy.fits}</strong> {track.bestFor}
-              </p>
-              <a class="track__link" href="#request" data-contact-service={track.id}>
-                {copy.quote}
-                <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
-                  <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              </a>
-            </>
-          )}
-        </div>
+      <li class:list={["track", index === 0 ? "tone-peach" : "tone-tofu"]} id={track.id}>
+        <span class="track__num" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+        <h3 class="track__title">{track.title}</h3>
+        <p class="track__summary">{track.summary}</p>
+        <p class="track__stack">{track.stack}</p>
+        <ul class="track__list">
+          {track.deliverables.map((item) => (
+            <li class="track__item">
+              <svg class="track__tick" viewBox="0 0 14 14" width="13" height="13" aria-hidden="true" focusable="false">
+                <path d="M2.5 7.5 5.5 10.5 11.5 3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="track__best">
+          <strong>{copy.fits}</strong> {track.bestFor}
+        </p>
+        <a class:list={["btn", index === 0 ? "btn--brand" : "btn--primary", "track__link"]} href="#request" data-contact-service={track.id}>
+          {copy.quote}
+          <svg class="btn__arrow" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false">
+            <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
       </li>
     ))
   }
 </ol>
 
 <style>
-  /* Hairline cells with at most two columns — the same rule the feature list
-     follows, so the page reads as one surface instead of a row of boxes. */
   .tracks {
     list-style: none;
     padding: 0;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    column-gap: clamp(1.5rem, 4vw, 3.5rem);
+    gap: 1rem;
   }
   .track {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 0.5rem 1.25rem;
-    padding-block: 1.75rem;
-    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 3.5vw, 2.5rem);
+    border-radius: var(--r-xl);
     /* Clears the sticky header when a home-page link lands on the anchor. */
     scroll-margin-top: 6rem;
   }
   .track__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 2.25rem;
+    font-weight: 500;
+    line-height: 1;
     color: var(--brand-ink);
-    font-size: 0.8125rem;
-    padding-top: 0.3rem;
   }
   .track__title {
-    font-size: var(--step-2);
+    margin-top: 1rem;
+    font-size: var(--step-3);
     letter-spacing: -0.025em;
   }
-  .track__title a {
-    color: inherit;
-    text-decoration: none;
-  }
-  .track__title a:hover {
-    color: var(--brand-ink);
-  }
   .track__summary {
-    margin-top: 0.6rem;
+    margin-top: 0.75rem;
     max-width: 54ch;
-    color: var(--ink-muted);
-    font-size: 0.9375rem;
+    color: var(--tone-muted);
     line-height: 1.65;
   }
   .track__stack {
     margin-top: 1rem;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--ink-subtle);
+    color: var(--tone-muted);
   }
   .track__list {
     list-style: none;
     padding: 0;
-    margin-top: 1.35rem;
+    margin-top: 1.5rem;
     display: grid;
-    gap: 0.7rem;
+    gap: 0.75rem;
   }
   .track__item {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
-    gap: 0.6rem;
-    color: var(--ink-muted);
+    gap: 0.65rem;
+    color: var(--tone-muted);
     font-size: 0.9375rem;
     line-height: 1.6;
   }
@@ -132,32 +114,32 @@ const copy = {
     color: var(--brand-ink);
   }
   .track__best {
-    margin-top: 1.35rem;
+    margin-top: 1.5rem;
     padding-top: 1.25rem;
-    border-top: 1px solid var(--line);
-    color: var(--ink-subtle);
-    font-size: 0.875rem;
+    border-top: 1px solid color-mix(in oklab, currentColor 16%, transparent);
+    color: var(--tone-muted);
+    font-size: 0.9375rem;
     line-height: 1.6;
   }
   .track__best strong {
-    color: var(--ink);
+    color: inherit;
     font-weight: 600;
   }
-  .track__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin-top: 1rem;
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--brand-ink);
-    text-decoration: none;
+  .tone-peach .track__best strong {
+    color: var(--peach-ink);
   }
-  .track__link:hover {
-    text-decoration: underline;
+  .tone-tofu .track__best strong {
+    color: var(--ink);
+  }
+  /* Pinned to the card's foot so both buttons line up side by side. */
+  .track__best {
+    margin-bottom: 1.5rem;
+  }
+  .track__link {
+    margin-top: auto;
   }
 
-  @media (min-width: 760px) {
+  @media (min-width: 860px) {
     .tracks {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }

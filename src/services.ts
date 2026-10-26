@@ -1,8 +1,7 @@
-// The two service tracks the studio sells beyond the app catalog: a custom app
-// built around a merchant's workflow, and a storefront theme built to their
-// brand. One source, rendered twice — the home section summarises a track and
-// links to its anchor on /services, which renders the same track in full — so
-// the short promise and the detail page can never drift apart.
+// The two service tracks the studio sells beyond the app catalog: theme design
+// and customization, which leads, and a custom app built around a merchant's
+// workflow. The home page links to each track's anchor on /services, and the
+// contact form offers the same tracks, in this order, as its service options.
 //
 // SERVICES is the English copy and the one the contact email is written from;
 // SERVICES_BY_LANG adds the Vietnamese copy of the same tracks, same ids.
@@ -24,6 +23,22 @@ export interface ServiceTrack {
 
 export const SERVICES: ServiceTrack[] = [
   {
+    id: "custom-themes",
+    title: "Theme design and customization",
+    summary:
+      "Changes to the theme your store already runs — new sections, layout and style work, speed fixes — or a theme designed from scratch for your brand.",
+    stack: "Liquid · Theme sections and blocks · Shopify · Shopline themes",
+    bestFor:
+      "Brands whose storefront has outgrown what the theme settings allow, and whose team still wants to edit it without a developer.",
+    deliverables: [
+      "Sections and blocks your team can edit, so copy, merchandising and promotions change from the theme editor.",
+      "Layout and style changes made in the theme's own code, so theme updates and the editor keep working.",
+      "Every page you sell on covered: home, collection, product, cart, and the pages in between.",
+      "A performance and accessibility pass — Core Web Vitals, keyboard navigation, contrast, no layout shift.",
+      "Handover: the theme files, notes on what changed, and help with the theme updates that follow.",
+    ],
+  },
+  {
     id: "custom-apps",
     title: "Custom app development",
     summary:
@@ -39,55 +54,39 @@ export const SERVICES: ServiceTrack[] = [
       "Support after launch: review notices, API changes, and fixes answered by the people who wrote the code.",
     ],
   },
-  {
-    id: "custom-themes",
-    title: "Custom theme development",
-    summary:
-      "A storefront theme built to your brand and your catalog — or a rework of the theme you already run.",
-    stack: "Liquid · Theme sections and blocks · Shopify · Shopline themes",
-    bestFor:
-      "Brands whose storefront no longer fits what a marketplace theme can be stretched into, and whose team wants to edit it without a developer.",
-    deliverables: [
-      "Merchant-editable sections and blocks, so your team changes copy, merchandising and promotions from the theme editor.",
-      "Design tokens for colour, type and spacing, so the storefront stays consistent as the catalog grows.",
-      "Templates for every surface you sell on: home, collection, product, cart, and the pages in between.",
-      "A performance and accessibility pass — Core Web Vitals budget, keyboard navigation, contrast, no layout shift.",
-      "Handover: the theme files, setup notes, and support for the update path that follows.",
-    ],
-  },
 ];
 
 const SERVICES_VI: ServiceTrack[] = [
   {
-    id: "custom-apps",
-    title: "Phát triển app theo yêu cầu",
+    id: "custom-themes",
+    title: "Thiết kế và tùy chỉnh theme",
     summary:
-      "Một app Shopify hoặc Shopline được xây quanh đúng quy trình mà đội của bạn vẫn đang làm tay mỗi ngày.",
-    stack: "Shopify Admin GraphQL · Webhooks · Shopify Functions · Shopline APIs",
+      "Sửa ngay trên theme cửa hàng đang dùng — thêm section, đổi bố cục và giao diện, tăng tốc độ tải trang — hoặc thiết kế theme mới theo thương hiệu của bạn.",
+    stack: "Liquid · Section và block · Theme Shopify · Theme Shopline",
     bestFor:
-      "Cửa hàng có vận hành đã vượt quá bảng tính và thao tác thủ công trong admin, hoặc cần một tính năng mà app có sẵn không đáp ứng được.",
+      "Thương hiệu thấy phần cài đặt sẵn của theme không còn đủ dùng, nhưng vẫn muốn đội mình tự chỉnh sửa mà không cần lập trình viên.",
     deliverables: [
-      "Tài liệu phạm vi: quy trình, dữ liệu liên quan và cách xử lý các trường hợp biên — trước khi viết dòng code nào.",
-      "Bản thân app: cài riêng cho cửa hàng của bạn, hoặc xây để đăng công khai trên App Store.",
-      "Giao diện quản trị theo đúng cách đội của bạn đang làm việc, không phải một trang cài đặt chung chung.",
-      "Bàn giao: quyền truy cập repository, ghi chú cài đặt bằng văn bản và buổi hướng dẫn với người sẽ vận hành app.",
-      "Hỗ trợ sau khi ra mắt: thông báo review, thay đổi API và sửa lỗi — do chính người viết code trả lời.",
+      "Section và block mà đội của bạn tự chỉnh được: đổi nội dung, sắp xếp sản phẩm, chạy khuyến mãi ngay trong trình chỉnh sửa theme.",
+      "Bố cục và giao diện được sửa trong chính mã nguồn theme, nên vẫn cập nhật theme và dùng trình chỉnh sửa như bình thường.",
+      "Đủ các trang bán hàng: trang chủ, danh mục, sản phẩm, giỏ hàng và các trang khác.",
+      "Kiểm tra tốc độ và khả năng truy cập: Core Web Vitals, dùng được bằng bàn phím, đủ độ tương phản, không nhảy bố cục.",
+      "Bàn giao: file theme, ghi chú những gì đã thay đổi, và hỗ trợ khi bạn cập nhật theme về sau.",
     ],
   },
   {
-    id: "custom-themes",
-    title: "Phát triển theme theo yêu cầu",
+    id: "custom-apps",
+    title: "Làm app theo yêu cầu",
     summary:
-      "Một theme cửa hàng được thiết kế theo thương hiệu và danh mục sản phẩm của bạn — hoặc làm lại theme bạn đang dùng.",
-    stack: "Liquid · Theme sections và blocks · Shopify · Shopline themes",
+      "App Shopify hoặc Shopline làm riêng cho những việc đội của bạn vẫn đang làm tay mỗi ngày.",
+    stack: "Shopify Admin GraphQL · Webhooks · Shopify Functions · Shopline API",
     bestFor:
-      "Thương hiệu mà giao diện cửa hàng đã không còn vừa với những gì một theme mua sẵn có thể co kéo, và đội ngũ muốn tự chỉnh sửa mà không cần lập trình viên.",
+      "Cửa hàng đã quá tải với bảng tính và thao tác tay trong trang quản trị, hoặc cần một tính năng mà app có sẵn không làm được.",
     deliverables: [
-      "Sections và blocks mà đội của bạn tự chỉnh được — nội dung, trưng bày sản phẩm và khuyến mãi ngay trong theme editor.",
-      "Design token cho màu sắc, chữ và khoảng cách, để cửa hàng luôn nhất quán khi danh mục lớn dần.",
-      "Template cho mọi trang bạn bán hàng: trang chủ, danh mục, sản phẩm, giỏ hàng và các trang ở giữa.",
-      "Rà soát hiệu năng và khả năng tiếp cận — ngân sách Core Web Vitals, điều hướng bằng bàn phím, độ tương phản, không xô lệch bố cục.",
-      "Bàn giao: file theme, ghi chú cài đặt và hỗ trợ cho các lần cập nhật sau đó.",
+      "Bản mô tả phạm vi: quy trình, dữ liệu liên quan và cách xử lý các trường hợp đặc biệt — chốt trước khi viết code.",
+      "App hoàn chỉnh, cài riêng cho cửa hàng của bạn hoặc đăng công khai trên App Store.",
+      "Trang quản trị theo đúng cách đội của bạn đang làm việc, không phải một trang cài đặt chung chung.",
+      "Bàn giao: quyền truy cập repository, hướng dẫn cài đặt bằng văn bản, và một buổi hướng dẫn cho người sẽ dùng app.",
+      "Hỗ trợ sau khi ra mắt: phản hồi từ App Store, thay đổi API và sửa lỗi đều do chính người viết code xử lý.",
     ],
   },
 ];

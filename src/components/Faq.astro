@@ -56,11 +56,14 @@ const { eyebrow, title, lead, items, id = "faq" } = Astro.props;
   }
 
   .faq__list {
-    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 0.625rem;
   }
 
   .faq__item {
-    border-bottom: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: var(--tofu);
+    transition: background-color var(--dur-2) var(--ease-quart);
   }
 
   .faq__q {
@@ -69,18 +72,24 @@ const { eyebrow, title, lead, items, id = "faq" } = Astro.props;
     align-items: center;
     gap: 1rem;
     min-height: 64px;
-    padding-block: 1rem;
+    padding: 1.1rem 1.25rem 1.1rem 1.5rem;
+    border-radius: inherit;
     cursor: pointer;
     list-style: none;
     font-family: var(--font-display);
     font-size: var(--step-1);
-    font-weight: 600;
-    letter-spacing: -0.015em;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
     color: var(--ink);
   }
 
   .faq__q::-webkit-details-marker {
     display: none;
+  }
+
+  .faq__q:focus-visible {
+    outline-offset: -2px;
   }
 
   .faq__num {
@@ -92,14 +101,15 @@ const { eyebrow, title, lead, items, id = "faq" } = Astro.props;
 
   .faq__icon {
     position: relative;
-    width: 28px;
-    height: 28px;
-    border: 1px solid var(--line);
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background: var(--surface);
+    color: var(--ink-muted);
     transition:
       transform var(--dur-2) var(--ease-spring),
-      background-color var(--dur-2) var(--ease-quart);
+      background-color var(--dur-2) var(--ease-quart),
+      color var(--dur-2) var(--ease-quart);
   }
 
   .faq__icon::before,
@@ -108,10 +118,10 @@ const { eyebrow, title, lead, items, id = "faq" } = Astro.props;
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 10px;
-    height: 1.5px;
+    width: 11px;
+    height: 1.6px;
     border-radius: 2px;
-    background: var(--ink-muted);
+    background: currentColor;
     transform: translate(-50%, -50%);
   }
 
@@ -119,25 +129,30 @@ const { eyebrow, title, lead, items, id = "faq" } = Astro.props;
     transform: translate(-50%, -50%) rotate(90deg);
   }
 
-  .faq__item[open] .faq__icon {
-    transform: rotate(45deg);
-    background: var(--brand-soft);
+  .faq__q:hover .faq__icon {
+    color: var(--brand-ink);
   }
 
-  .faq__q:hover .faq__icon {
-    background: var(--surface-2);
+  .faq__item[open] .faq__icon {
+    transform: rotate(45deg);
+    background: var(--peach);
+    color: var(--peach-ink);
   }
 
   .faq__a {
     max-width: var(--measure);
-    padding: 0 2.75rem 1.5rem 2.25rem;
+    padding: 0 3.75rem 1.5rem 3.6rem;
     color: var(--ink-muted);
   }
 
   @media (max-width: 559px) {
+    .faq__q {
+      padding-left: 1.15rem;
+      gap: 0.75rem;
+    }
+
     .faq__a {
-      padding-left: 0;
-      padding-right: 0;
+      padding: 0 1.15rem 1.25rem;
     }
   }
 </style>

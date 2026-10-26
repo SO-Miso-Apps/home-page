@@ -13,10 +13,12 @@ interface Props {
   /** Stable seed — pass the entry slug. */
   seed: string;
   size?: number;
+  /** Ground the glyph sits on; `brand` is the default miso orange. */
+  tone?: "brand" | "peach" | "seaweed" | "tofu";
   class?: string;
 }
 
-const { seed, size = 56, class: className } = Astro.props;
+const { seed, size = 56, tone = "brand", class: className } = Astro.props;
 
 const MOTIFS = ["bars", "arc", "rings", "wave"] as const;
 const hash = hashString(seed);
@@ -26,7 +28,7 @@ const radius = Math.round(size * 0.28);
 ---
 
 <span
-  class:list={["mark", className]}
+  class:list={["mark", `mark--${tone}`, className]}
   style={`--mark-size:${size}px;--mark-angle:${angle}deg;--mark-radius:${radius}px`}
   aria-hidden="true"
 >
@@ -78,14 +80,24 @@ const radius = Math.round(size * 0.28);
     flex: none;
     border-radius: var(--mark-radius);
     background: linear-gradient(var(--mark-angle), var(--brand), var(--brand-hover));
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.28),
-      0 6px 16px -8px var(--brand-line);
+    color: var(--brand-fg);
+  }
+  .mark--peach {
+    background: var(--peach);
+    color: var(--peach-ink);
+  }
+  .mark--seaweed {
+    background: var(--seaweed);
+    color: var(--seaweed-accent);
+  }
+  .mark--tofu {
+    background: var(--tofu);
+    color: var(--brand);
   }
   .mark__glyph {
-    width: 62%;
-    height: 62%;
-    fill: var(--brand-fg);
-    stroke: var(--brand-fg);
+    width: 58%;
+    height: 58%;
+    fill: currentColor;
+    stroke: currentColor;
   }
 </style>

@@ -41,8 +41,8 @@ const copy = {
     newApp: "New listing",
   },
   vi: {
-    eyebrow: "Đánh giá từ nhà bán hàng",
-    title: "Được chấm điểm bởi chính các cửa hàng đang dùng.",
+    eyebrow: "Đánh giá trên App Store",
+    title: "Điểm số do chính các cửa hàng đang dùng app chấm.",
     reviews: (_n: number) => "đánh giá trên Shopify App Store",
     average: "Điểm trung bình",
     stars: (r: string) => `${r} trên 5 sao`,
@@ -57,7 +57,7 @@ const copy = {
   rated.length > 0 && average !== null && (
     <section class="section section--tight" aria-labelledby="reviews-title">
       <div class="container">
-        <div class="reviews" data-reveal>
+        <div class="reviews tone-peach" data-reveal>
           <div class="reviews__summary">
             <span class="eyebrow">
               <span class="eyebrow__dot" />
@@ -80,7 +80,7 @@ const copy = {
           <ul class="reviews__list">
             {apps.map((app) => (
               <li class="reviews__row">
-                <AppMark seed={app.id} size={36} />
+                <AppMark seed={app.id} size={40} />
                 <div class="reviews__app">
                   <a class="reviews__name" href={localizeHref(`/apps/${app.id}`, lang)}>{app.data.name}</a>
                   <span class="reviews__sub">
@@ -118,11 +118,9 @@ const copy = {
   .reviews {
     display: grid;
     gap: 2rem;
-    padding: clamp(1.5rem, 4vw, 2.75rem);
-    border: 1px solid var(--line);
+    padding: clamp(1.5rem, 4vw, 3rem);
     border-radius: var(--r-2xl);
-    background: var(--surface);
-    box-shadow: var(--shadow-1), var(--edge);
+    --rule: color-mix(in oklab, var(--peach-ink) 18%, transparent);
   }
 
   @media (min-width: 960px) {
@@ -155,7 +153,7 @@ const copy = {
     font-weight: 600;
     line-height: 1;
     letter-spacing: -0.04em;
-    color: var(--ink);
+    color: var(--peach-ink);
   }
 
   .reviews__meta {
@@ -166,9 +164,9 @@ const copy = {
   .reviews__label {
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ink-subtle);
+    color: var(--tone-muted);
   }
 
   /* Five stars drawn once in a mask; --fill paints the share that is earned. */
@@ -177,7 +175,7 @@ const copy = {
     display: inline-block;
     width: calc(var(--size) * 5);
     height: var(--size);
-    background: linear-gradient(90deg, var(--brand) var(--fill), var(--line-strong) var(--fill));
+    background: linear-gradient(90deg, var(--brand) var(--fill), var(--rule) var(--fill));
     -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='m10 1.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.6 7.7l5.8-.8z'/%3E%3C/svg%3E") 0 0 / var(--size) var(--size) repeat-x;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='m10 1.6 2.6 5.3 5.8.8-4.2 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.6 7.7l5.8-.8z'/%3E%3C/svg%3E") 0 0 / var(--size) var(--size) repeat-x;
   }
@@ -191,9 +189,8 @@ const copy = {
     align-items: center;
     gap: 0.6rem;
     padding: 0.4rem 0.9rem 0.4rem 0.45rem;
-    border: 1px solid var(--brand-line);
     border-radius: var(--r-pill);
-    background: var(--brand-soft);
+    background: var(--surface);
     font-size: 0.875rem;
     color: var(--ink-muted);
   }
@@ -210,7 +207,7 @@ const copy = {
     display: grid;
     list-style: none;
     padding: 0;
-    border-top: 1px solid var(--line);
+    border-top: 1px solid var(--rule);
   }
 
   .reviews__row {
@@ -219,7 +216,7 @@ const copy = {
     align-items: center;
     gap: 0.9rem;
     padding-block: 0.9rem;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--rule);
   }
 
   .reviews__app {
@@ -231,14 +228,15 @@ const copy = {
   .reviews__name {
     overflow: hidden;
     font-weight: 600;
-    color: var(--ink);
+    color: var(--peach-ink);
     text-decoration: none;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .reviews__name:hover {
-    color: var(--brand-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   .reviews__sub {
@@ -247,7 +245,7 @@ const copy = {
     align-items: center;
     gap: 0.4rem;
     font-size: 0.8125rem;
-    color: var(--ink-subtle);
+    color: var(--tone-muted);
   }
 
   .reviews__link {
@@ -256,8 +254,8 @@ const copy = {
     gap: 0.3rem;
     min-height: 40px;
     font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--brand-ink);
+    font-weight: 600;
+    color: var(--peach-ink);
     text-decoration: none;
     white-space: nowrap;
   }

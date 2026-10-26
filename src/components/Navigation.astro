@@ -1,13 +1,14 @@
 ---
 import { getMenu } from "emdash";
 import BrandMark from "./BrandMark.astro";
+import LangSwitch from "./LangSwitch.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import { getLang, localizeHref, splitLang } from "../i18n";
 
 const lang = getLang(Astro.locals);
 const copy = {
-  en: { home: "Miso Apps home", primary: "Primary", appearance: "Appearance", themeMenu: "Color theme (menu)", theme: "Color theme", open: "Open menu", cta: "Contact us" },
-  vi: { home: "Miso Apps – trang chủ", primary: "Điều hướng chính", appearance: "Giao diện", themeMenu: "Chế độ màu (menu)", theme: "Chế độ màu", open: "Mở menu", cta: "Liên hệ ngay" },
+  en: { home: "Miso Apps home", primary: "Primary", appearance: "Appearance", themeMenu: "Color theme (menu)", theme: "Color theme", open: "Open menu", cta: "Get a quote" },
+  vi: { home: "Miso Apps – trang chủ", primary: "Menu chính", appearance: "Giao diện", themeMenu: "Chế độ màu (menu)", theme: "Chế độ màu", open: "Mở menu", cta: "Nhận báo giá" },
 }[lang];
 
 // The menu is per locale in EmDash, falling back to the English one; its
@@ -57,17 +58,15 @@ const isCurrent = (url: string): boolean => {
         <span class="nav__foot-label">{copy.appearance}</span>
         <ThemeToggle label={copy.themeMenu} />
       </div>
-      <a class="btn btn--brand nav__cta-menu" href={contactHref}>{copy.cta}</a>
+      <a class="btn btn--primary nav__cta-menu" href={contactHref}>{copy.cta}</a>
     </nav>
 
     <div class="header__actions">
+      <LangSwitch />
       <div class="header__theme">
         <ThemeToggle label={copy.theme} />
       </div>
-      <a class="btn btn--brand btn--sm header__cta" href={contactHref}>
-        {copy.cta}
-        <span class="btn__arrow" aria-hidden="true">→</span>
-      </a>
+      <a class="btn btn--primary header__cta" href={contactHref}>{copy.cta}</a>
       <button class="burger" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-menu">
         <span class="sr-only">{copy.open}</span>
         <span class="burger__box" aria-hidden="true">
@@ -84,9 +83,9 @@ const isCurrent = (url: string): boolean => {
     position: sticky;
     top: 0;
     z-index: var(--z-sticky);
-    background: color-mix(in oklab, var(--canvas) 82%, transparent);
-    -webkit-backdrop-filter: blur(16px) saturate(1.6);
-    backdrop-filter: blur(16px) saturate(1.6);
+    background: color-mix(in oklab, var(--canvas) 86%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
     border-bottom: 1px solid transparent;
     transition:
       border-color var(--dur-2) var(--ease-quart),
@@ -95,20 +94,22 @@ const isCurrent = (url: string): boolean => {
 
   /* Toggled by ScrollTrigger once the page has moved — see scripts/motion.ts. */
   .site-header.is-scrolled {
-    background: color-mix(in oklab, var(--canvas) 92%, transparent);
+    background: color-mix(in oklab, var(--canvas) 94%, transparent);
     border-bottom-color: var(--line);
   }
 
   .header__inner {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 1rem;
-    min-height: 68px;
+    min-height: 80px;
   }
 
   .header__brand {
     display: inline-flex;
     align-items: center;
+    min-height: 44px;
     text-decoration: none;
     margin-right: auto;
   }
@@ -119,23 +120,26 @@ const isCurrent = (url: string): boolean => {
     gap: 0.5rem;
   }
 
+  /* Desktop: the links sit in one tofu pill, the current page lifted white. */
   .nav__list {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 4px;
+    padding: 5px;
     list-style: none;
-    padding: 0;
+    border-radius: var(--r-pill);
+    background: var(--tofu);
   }
 
   .nav__link {
     display: inline-flex;
     align-items: center;
     min-height: 40px;
-    padding: 0 0.85rem;
+    padding: 0 1rem;
     border-radius: var(--r-pill);
     font-size: 0.9375rem;
     font-weight: 500;
-    color: var(--ink-muted);
+    color: var(--ink);
     text-decoration: none;
     transition:
       color var(--dur-2) var(--ease-quart),
@@ -143,13 +147,12 @@ const isCurrent = (url: string): boolean => {
   }
 
   .nav__link:hover {
-    color: var(--ink);
-    background: var(--surface-2);
+    color: var(--brand-ink);
   }
 
   .nav__link[aria-current="page"] {
-    color: var(--ink);
-    background: var(--brand-soft);
+    background: var(--surface);
+    box-shadow: var(--shadow-1);
   }
 
   .nav__foot,
@@ -160,12 +163,12 @@ const isCurrent = (url: string): boolean => {
   .burger {
     display: none;
     place-items: center;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     padding: 0;
-    border: 1px solid var(--line);
-    border-radius: var(--r-sm);
-    background: var(--surface);
+    border: 0;
+    border-radius: var(--r-pill);
+    background: var(--tofu);
     color: var(--ink);
     cursor: pointer;
   }
@@ -211,23 +214,23 @@ const isCurrent = (url: string): boolean => {
   }
 
   @media (max-width: 959px) {
+    .header__inner {
+      min-height: 68px;
+    }
+
     .burger {
       display: grid;
-    }
-    .header__theme {
-      display: none;
     }
 
     .nav__cta-menu {
       display: inline-flex;
-      justify-content: center;
     }
 
     .nav {
       position: absolute;
       left: var(--gutter);
       right: var(--gutter);
-      top: calc(100% - 6px);
+      top: calc(100% - 4px);
       display: grid;
       gap: 0.5rem;
       padding: 0.75rem;
@@ -252,13 +255,26 @@ const isCurrent = (url: string): boolean => {
 
     .nav__list {
       display: grid;
-      gap: 0.15rem;
+      gap: 2px;
+      padding: 0;
+      background: none;
     }
 
     .nav__link {
       min-height: 48px;
-      font-size: 1rem;
-      border-radius: var(--r-sm);
+      font-size: 1.0625rem;
+      border-radius: var(--r-md);
+    }
+
+    .nav__link[aria-current="page"] {
+      background: var(--tofu);
+      box-shadow: none;
+    }
+  }
+
+  @media (max-width: 959px) {
+    .header__theme {
+      display: none;
     }
 
     .nav__foot {
@@ -272,8 +288,8 @@ const isCurrent = (url: string): boolean => {
 
     .nav__foot-label {
       font-family: var(--font-mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       color: var(--ink-subtle);
     }

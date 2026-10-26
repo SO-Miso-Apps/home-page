@@ -75,15 +75,18 @@ const copy = {
       scroll-snap-align: start;
     }
   }
+  /* Each frame sits in a tofu tray, like the portfolio shots on the home page. */
   .shot {
     margin: 0;
+    padding: clamp(0.75rem, 2vw, 1.25rem);
+    border-radius: var(--r-xl);
+    background: var(--tofu);
   }
   .shot :global(img) {
     display: block;
     width: 100%;
-    border-radius: var(--r-lg);
-    border: 1px solid var(--line);
-    background: var(--surface-2);
-    box-shadow: var(--shadow-2);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    box-shadow: var(--shadow-1);
   }
 </style>
