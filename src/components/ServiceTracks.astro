@@ -13,15 +13,39 @@ interface Props {
 const { tracks, class: className } = Astro.props;
 const lang = getLang(Astro.locals);
 const copy = {
-  en: { fits: "A good fit for:", quote: "Ask for a quote" },
-  vi: { fits: "Phù hợp với:", quote: "Nhận báo giá" },
+  en: {
+    fits: "A good fit for:",
+    quote: "Ask for a quote",
+    shots: {
+      "custom-themes": "A demo store in the Shopify theme editor, adding a custom “Shop the look” section from the section picker",
+      "custom-apps": "A demo app inside the Shopify admin: a list of restock requests by product, with their status",
+    } as Record<string, string>,
+  },
+  vi: {
+    fits: "Phù hợp với:",
+    quote: "Nhận báo giá",
+    shots: {
+      "custom-themes": "Cửa hàng demo trong trình chỉnh sửa theme Shopify, đang thêm section riêng “Shop the look” từ danh sách section",
+      "custom-apps": "Một app demo trong trang quản trị Shopify: danh sách yêu cầu nhập lại hàng theo sản phẩm, kèm trạng thái",
+    } as Record<string, string>,
+  },
 }[lang];
+// A demo screenshot per track, keyed by track id.
+const SHOTS: Record<string, string> = {
+  "custom-themes": "/demo/editor-add-section.webp",
+  "custom-apps": "/demo/app-admin.webp",
+};
 ---
 
 <ol class:list={["tracks", className]} data-reveal>
   {
     tracks.map((track, index) => (
       <li class:list={["track", index === 0 ? "tone-peach" : "tone-tofu"]} id={track.id}>
+        {SHOTS[track.id] && (
+          <div class="track__shot">
+            <img src={SHOTS[track.id]} width="1440" height="900" alt={copy.shots[track.id]} loading="lazy" decoding="async" />
+          </div>
+        )}
         <span class="track__num" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
         <h3 class="track__title">{track.title}</h3>
         <p class="track__summary">{track.summary}</p>
@@ -66,6 +90,17 @@ const copy = {
     border-radius: var(--r-xl);
     /* Clears the sticky header when a home-page link lands on the anchor. */
     scroll-margin-top: 6rem;
+  }
+  .track__shot {
+    align-self: stretch;
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+  }
+  .track__shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-2);
   }
   .track__num {
     font-family: var(--font-display);

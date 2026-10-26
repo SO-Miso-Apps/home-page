@@ -63,9 +63,9 @@ const copy = {
       eyebrow: "Theme services",
       title: "What we can do with your theme",
       cards: [
-        { title: "A new theme", body: "A storefront designed around your brand and your products, with every page you sell on: home, collection, product, cart." },
-        { title: "Rework the theme you have", body: "New sections, a rebuilt layout, a fresh look for a single template — without giving up the theme you already run." },
-        { title: "Faster and easier to use", body: "A pass over Core Web Vitals, keyboard navigation, contrast, and the layout shift that happens while a page loads." },
+        { title: "A new theme", body: "A storefront designed around your brand and your products, with every page you sell on: home, collection, product, cart.", shot: "A collection page on a demo store, with filters and a four-column product grid" },
+        { title: "Rework the theme you have", body: "New sections, a rebuilt layout, a fresh look for a single template — without giving up the theme you already run.", shot: "A section being dragged into a new place on a demo store in the theme editor" },
+        { title: "Faster and easier to use", body: "A pass over Core Web Vitals, keyboard navigation, contrast, and the layout shift that happens while a page loads.", shot: "A demo store's product page with a visible keyboard focus ring on the add-to-cart button" },
       ],
       more: "Service details",
       apps: "Need an app built around your own workflow instead?",
@@ -121,9 +121,9 @@ const copy = {
       eyebrow: "Dịch vụ theme",
       title: "Chúng tôi nhận làm gì với theme của bạn",
       cards: [
-        { title: "Làm theme mới", body: "Giao diện riêng theo thương hiệu và sản phẩm của bạn, đủ mọi trang bán hàng: trang chủ, danh mục, sản phẩm, giỏ hàng." },
-        { title: "Chỉnh theme đang dùng", body: "Thêm section, sửa bố cục, đổi giao diện từng trang mà không phải bỏ theme hiện tại." },
-        { title: "Tăng tốc và dễ dùng hơn", body: "Rà soát Core Web Vitals, điều hướng bằng bàn phím, độ tương phản và hiện tượng giật bố cục khi tải trang." },
+        { title: "Làm theme mới", body: "Giao diện riêng theo thương hiệu và sản phẩm của bạn, đủ mọi trang bán hàng: trang chủ, danh mục, sản phẩm, giỏ hàng.", shot: "Trang danh mục của một cửa hàng demo, có bộ lọc và lưới sản phẩm bốn cột" },
+        { title: "Chỉnh theme đang dùng", body: "Thêm section, sửa bố cục, đổi giao diện từng trang mà không phải bỏ theme hiện tại.", shot: "Một section đang được kéo sang vị trí mới trên cửa hàng demo trong trình chỉnh sửa theme" },
+        { title: "Tăng tốc và dễ dùng hơn", body: "Rà soát Core Web Vitals, điều hướng bằng bàn phím, độ tương phản và hiện tượng giật bố cục khi tải trang.", shot: "Trang sản phẩm của cửa hàng demo, nút thêm vào giỏ đang có viền focus bàn phím rõ ràng" },
       ],
       more: "Chi tiết dịch vụ",
       apps: "Bạn cần một app làm riêng theo quy trình của mình?",
@@ -160,6 +160,8 @@ const copy = {
 const contactHref = localizeHref("/services#request", lang);
 const work = getWork(lang);
 const TONES = ["peach", "tofu", "seaweed"] as const;
+// One demo-store screenshot per service card, in card order.
+const SERVICE_SHOTS = ["/demo/svc-collection.webp", "/demo/svc-editor-drag.webp", "/demo/svc-product-focus.webp"];
 ---
 
 <Base title={copy.title} description={lang === "vi" ? undefined : (seo.description ?? undefined)} image={seo.ogImage ?? undefined} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
@@ -255,6 +257,9 @@ const TONES = ["peach", "tofu", "seaweed"] as const;
               <span class="service__num">{String(index + 1).padStart(2, "0")}</span>
               <h3>{card.title}</h3>
               <p>{card.body}</p>
+              <div class="service__shot">
+                <img src={SERVICE_SHOTS[index]} width="1440" height="960" alt={card.shot} loading="lazy" decoding="async" />
+              </div>
             </li>
           ))
         }
@@ -297,7 +302,7 @@ const TONES = ["peach", "tofu", "seaweed"] as const;
 
   <Faq eyebrow={copy.faq.eyebrow} title={copy.faq.title} lead={copy.faq.lead} items={FAQ_BY_LANG[lang]} />
 
-  <CtaPanel title={copy.cta.title} body={copy.cta.body} primary={{ label: copy.cta.primary, href: contactHref }} />
+  <CtaPanel title={copy.cta.title} body={copy.cta.body} primary={{ label: copy.cta.primary, href: contactHref }} showcase />
 </Base>
 
 <style>
@@ -534,6 +539,25 @@ const TONES = ["peach", "tofu", "seaweed"] as const;
   .service p {
     color: var(--tone-muted);
     line-height: 1.7;
+  }
+
+  /* Pinned to the bottom so the three screenshots line up across the row. */
+  .service__shot {
+    margin-top: auto;
+    padding-top: 0.65rem;
+  }
+
+  .service__shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-2);
+    transition: transform var(--dur-3) var(--ease-quart);
+  }
+
+  .service:hover .service__shot img {
+    transform: translateY(-3px);
   }
 
   .services__foot {
