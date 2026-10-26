@@ -107,6 +107,12 @@ export const PRICING_PLANS: PricingPlan[] = [
   },
 ];
 
+/** How the two markets are named, on the pricing switch and the budget select. */
+export const MARKET_LABELS: Record<Lang, Record<Market, string>> = {
+  en: { vn: "Vietnam · VND", intl: "International · USD" },
+  vi: { vn: "Việt Nam · VND", intl: "Quốc tế · USD" },
+};
+
 const MARKET_FOR_LANG: Record<Lang, Market> = { en: "intl", vi: "vn" };
 export const defaultMarket = (lang: Lang): Market => MARKET_FOR_LANG[lang];
 

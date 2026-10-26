@@ -46,7 +46,10 @@ const copy = {
     lede: "We build new themes from scratch or rework the one you already run — home, collection, product, cart. Every part stays editable in the theme editor, so you never need a developer for a change.",
     primary: "Send a request",
     secondary: "See how we work",
-    collage: ["section · banner", "section · featured products", "section · reviews"],
+    art: {
+      editor: "A demo store open in the Shopify theme editor, with its image banner selected",
+      phone: "The same demo store's product page on a phone",
+    },
     work: {
       eyebrow: "Recent work",
       title: "Storefronts we've customized",
@@ -101,7 +104,10 @@ const copy = {
     lede: "Chúng tôi làm theme mới từ đầu hoặc chỉnh lại theme bạn đang dùng — trang chủ, danh mục, sản phẩm, giỏ hàng. Mọi phần đều sửa được trong trình chỉnh sửa theme, không cần nhờ lập trình viên.",
     primary: "Gửi yêu cầu",
     secondary: "Xem cách chúng tôi làm",
-    collage: ["section · banner", "section · sản phẩm nổi bật", "section · đánh giá"],
+    art: {
+      editor: "Một cửa hàng demo đang mở trong trình chỉnh sửa theme Shopify, phần banner đang được chọn",
+      phone: "Trang sản phẩm của cửa hàng demo đó trên điện thoại",
+    },
     work: {
       eyebrow: "Dự án đã làm",
       title: "Những cửa hàng chúng tôi đã chỉnh theme",
@@ -173,30 +179,23 @@ const TONES = ["peach", "tofu", "seaweed"] as const;
       </div>
     </div>
 
-    {/* A theme, drawn as the sections a merchant stacks in the editor. */}
-    <div class="container collage" aria-hidden="true" data-hero-art>
-      <div class="collage__block tone-seaweed collage__block--banner">
-        <span class="collage__label">{copy.collage[0]}</span>
-        <span class="collage__lines">
-          <span class="collage__line collage__line--strong" style="width: 70%"></span>
-          <span class="collage__line" style="width: 45%"></span>
-          <span class="collage__pill"></span>
-        </span>
+    {/* A demo store (products from mock.shop) in the theme editor, with its
+        product page on a phone. Tone blocks sit behind as the backdrop. */}
+    <div class="container stage" data-hero-art>
+      <span class="stage__tone stage__tone--left tone-seaweed" aria-hidden="true"></span>
+      <span class="stage__tone stage__tone--right tone-peach" aria-hidden="true"></span>
+      <div class="stage__editor">
+        <img
+          src="/demo/theme-editor.webp"
+          width="1760"
+          height="1100"
+          alt={copy.art.editor}
+          fetchpriority="high"
+          decoding="async"
+        />
       </div>
-      <div class="collage__block tone-peach collage__block--products">
-        <span class="collage__label">{copy.collage[1]}</span>
-        <span class="collage__grid">
-          <span></span><span></span><span></span><span></span>
-        </span>
-      </div>
-      <div class="collage__block tone-tofu collage__block--reviews">
-        <span class="collage__label">{copy.collage[2]}</span>
-        <span class="collage__lines">
-          <span class="collage__stars">★★★★★</span>
-          <span class="collage__line" style="width: 90%"></span>
-          <span class="collage__line" style="width: 75%"></span>
-          <span class="collage__line" style="width: 55%"></span>
-        </span>
+      <div class="stage__phone" data-float>
+        <img src="/demo/product-mobile.webp" width="660" height="1428" alt={copy.art.phone} decoding="async" />
       </div>
     </div>
   </section>
@@ -334,105 +333,68 @@ const TONES = ["peach", "tofu", "seaweed"] as const;
     gap: 0.75rem;
   }
 
-  /* --- Collage ------------------------------------------------------------ */
-  .collage {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: end;
-    gap: clamp(0.5rem, 1.5vw, 1rem);
+  /* --- Stage ------------------------------------------------------------- */
+  .stage {
+    position: relative;
     margin-top: clamp(3rem, 7vw, 5rem);
+    padding-inline: clamp(1rem, 6vw, 5rem);
+    padding-bottom: clamp(1.5rem, 4vw, 3rem);
+    /* The rotated tone blocks reach the screen edge on phones; keep their
+       corners from widening the page. */
+    overflow-x: clip;
   }
 
-  .collage__block {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: clamp(0.85rem, 2vw, 1.5rem);
-    border-radius: clamp(1.1rem, 2.6vw, 2rem);
+  .stage__tone {
+    position: absolute;
+    border-radius: clamp(1.25rem, 3vw, 2.25rem);
   }
 
-  .collage__block--banner {
-    height: clamp(150px, 26vw, 300px);
-    transform: rotate(-2deg);
+  .stage__tone--left {
+    left: 0;
+    top: 16%;
+    width: 42%;
+    height: 72%;
+    transform: rotate(-3deg);
   }
 
-  .collage__block--products {
-    height: clamp(180px, 31vw, 360px);
+  .stage__tone--right {
+    right: 0;
+    top: 4%;
+    width: 38%;
+    height: 82%;
+    transform: rotate(2.5deg);
   }
 
-  .collage__block--reviews {
-    height: clamp(140px, 24vw, 280px);
-    transform: rotate(2deg);
+  .stage__editor {
+    position: relative;
+    max-width: 960px;
+    margin-inline: auto;
+    border-radius: clamp(0.6rem, 1.4vw, 1rem);
+    overflow: hidden;
+    box-shadow: var(--shadow-3), 0 0 0 1px color-mix(in oklab, var(--ink) 10%, transparent);
   }
 
-  .collage__label {
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    color: var(--tone-muted);
-  }
-
-  .collage__lines {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  .collage__line {
+  .stage__editor img,
+  .stage__phone img {
     display: block;
-    height: 10px;
-    border-radius: 6px;
-    background: var(--tofu-line);
+    width: 100%;
+    height: auto;
   }
 
-  .tone-seaweed .collage__line {
-    background: color-mix(in oklab, var(--seaweed-ink) 45%, transparent);
+  /* A phone, drawn as a dark bezel around the screenshot. */
+  .stage__phone {
+    position: absolute;
+    right: clamp(0.25rem, 3vw, 2.5rem);
+    bottom: 0;
+    width: clamp(96px, 21%, 240px);
+    padding: clamp(4px, 0.6vw, 8px);
+    border-radius: clamp(1.1rem, 2.6vw, 2.2rem);
+    background: #1d1a17;
+    box-shadow: var(--shadow-3);
   }
 
-  .tone-seaweed .collage__line--strong {
-    height: 16px;
-    background: var(--seaweed-ink);
-  }
-
-  .collage__pill {
-    display: block;
-    width: 34%;
-    height: 28px;
-    margin-top: 0.4rem;
-    border-radius: var(--r-pill);
-    background: var(--brand);
-  }
-
-  /* Fills what the label leaves, so the tiles never spill past the block. */
-  .collage__grid {
-    flex: 1;
-    min-height: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    gap: clamp(0.4rem, 1vw, 0.65rem);
-  }
-
-  .collage__grid span {
-    border-radius: clamp(0.6rem, 1.4vw, 1.1rem);
-    background: var(--surface);
-  }
-
-  .collage__stars {
-    color: var(--brand);
-    letter-spacing: 0.15em;
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 639px) {
-    .collage__label,
-    .collage__stars {
-      display: none;
-    }
-    .collage__pill {
-      height: 18px;
-      width: 50%;
-    }
+  .stage__phone img {
+    border-radius: clamp(0.85rem, 2.1vw, 1.75rem);
   }
 
   /* --- Work --------------------------------------------------------------- */
