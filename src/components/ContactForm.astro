@@ -2,6 +2,7 @@
 import { CONTACT_COPY, HONEYPOT_FIELD, optionsFor } from "../lib/contact";
 import { getLang } from "../i18n";
 import { CONTACT_EMAIL } from "../site";
+import { findPlan, planMessage } from "../pricing";
 
 /**
  * Contact form. Posts to /api/contact.
@@ -25,6 +26,11 @@ const banners: Record<string, { tone: "ok" | "error"; message: string }> = {
   failed: { tone: "error", message: say.failed },
 };
 const banner = state ? banners[state] : undefined;
+
+// A pricing card links here with `?plan=`; its message opens with the plan so
+// the visitor only has to add the details.
+const plan = findPlan(Astro.url.searchParams.get("plan"));
+const messageStart = plan ? planMessage(plan, lang) : "";
 
 const fields: {
   name: string;
@@ -138,7 +144,7 @@ const fields: {
       maxlength="4000"
       rows="6"
       placeholder={say.messageHint}
-      aria-describedby="contact-message-error"></textarea>
+      aria-describedby="contact-message-error">{messageStart}</textarea>
     <span class="field__error" id="contact-message-error" data-contact-error="message" />
   </p>
 

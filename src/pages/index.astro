@@ -5,6 +5,7 @@ import Base from "../layouts/Base.astro";
 import AppCard from "../components/AppCard.astro";
 import CtaPanel from "../components/CtaPanel.astro";
 import Faq from "../components/Faq.astro";
+import PricingPlans from "../components/PricingPlans.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
 import ReviewBand from "../components/ReviewBand.astro";
 import SectionHeader from "../components/SectionHeader.astro";
@@ -273,6 +274,8 @@ const TONES = ["peach", "tofu", "seaweed"] as const;
       </div>
     </div>
   </section>
+
+  <PricingPlans />
 
   <ProcessSteps id="process" band eyebrow={copy.process.eyebrow} title={copy.process.title} steps={copy.process.steps} />
 

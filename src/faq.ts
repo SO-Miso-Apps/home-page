@@ -1,7 +1,7 @@
 // Questions a merchant asks before writing in. Every answer restates something
 // the site already commits to elsewhere — the service deliverables in
-// services.ts, the "What you need" list and process on /services, the budget
-// ranges in lib/contact.ts, the reply time in ContactForm, the phone number in
+// services.ts, the "What you need" list and process on /services, the packages
+// in pricing.ts, the reply time in ContactForm, the phone number in
 // the footer — so change those first and this second, never the other way round.
 import type { Lang } from "./i18n";
 
@@ -20,7 +20,7 @@ export const FAQ_BY_LANG: Record<Lang, FaqItem[]> = {
     {
       question: "How is the work priced?",
       answer:
-        "Each job is quoted after we look at it against your store, and the quote comes before any work starts. The request form asks for a rough range — from under $1,000 to $8,000+, or “prefer to discuss” — so the first proposal fits what you had in mind.",
+        "The pricing table lists indicative prices for each theme package — in VND for stores in Vietnam, in USD for stores abroad. Your exact quote comes after we look at the job on your store, and before any work starts. App work is quoted separately.",
     },
     {
       question: "What do you need from us to start?",
@@ -52,7 +52,7 @@ export const FAQ_BY_LANG: Record<Lang, FaqItem[]> = {
     {
       question: "Chi phí được tính thế nào?",
       answer:
-        "Chúng tôi xem yêu cầu trên chính cửa hàng của bạn rồi mới báo giá, và bạn có báo giá trước khi bắt tay vào làm. Trong form có mục chọn mức ngân sách — từ dưới $1.000 đến trên $8.000, hoặc “muốn trao đổi thêm” — để đề xuất đầu tiên sát với dự tính của bạn.",
+        "Bảng giá có giá tham khảo cho từng gói theme — tính bằng VND nếu cửa hàng ở Việt Nam, USD nếu ở nước ngoài. Báo giá chính xác được gửi sau khi chúng tôi xem yêu cầu trên cửa hàng của bạn, và trước khi bắt đầu làm. Việc làm app được báo giá riêng.",
     },
     {
       question: "Cần chuẩn bị gì để bắt đầu?",

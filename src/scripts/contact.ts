@@ -94,8 +94,31 @@ if (form) {
     if ([...service.options].some((option) => option.value === value)) service.value = value;
   };
 
+  // A pricing card's link also names its plan in the message. On this page it
+  // fills the form in place instead of reloading; a message the visitor has
+  // started writing is never replaced.
+  const message = form.querySelector("#contact-message");
+  const messageField = message instanceof HTMLTextAreaElement ? message : null;
+  let prefilled = messageField?.value ?? "";
+  const startMessage = (text: string | undefined): void => {
+    if (!messageField || text === undefined) return;
+    if (messageField.value.trim() !== "" && messageField.value !== prefilled) return;
+    messageField.value = text;
+    prefilled = text;
+  };
+
   selectService(new URLSearchParams(window.location.search).get("service"));
   for (const link of document.querySelectorAll<HTMLElement>("[data-contact-service]")) {
-    link.addEventListener("click", () => selectService(link.dataset.contactService));
+    link.addEventListener("click", (event) => {
+      selectService(link.dataset.contactService);
+      if (link.dataset.contactMessage === undefined) return;
+      event.preventDefault();
+      startMessage(link.dataset.contactMessage);
+      document.querySelector("#request")?.scrollIntoView({ block: "start" });
+      if (messageField) {
+        messageField.focus({ preventScroll: true });
+        messageField.setSelectionRange(messageField.value.length, messageField.value.length);
+      }
+    });
   }
 }
