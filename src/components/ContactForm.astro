@@ -186,7 +186,7 @@ const fields: {
   .contact__grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 1.5rem clamp(1.5rem, 4vw, 3.5rem);
+    gap: 1.25rem 1.5rem;
   }
   .field {
     display: grid;
@@ -194,22 +194,20 @@ const fields: {
     align-content: start;
   }
   .field label {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-subtle);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink);
   }
-  /* Hairline inputs, matching the page's rule-over-box structure. */
+  /* Filled inputs on white, so the form reads clearly on the tofu band. */
   .field :is(input, select, textarea) {
     width: 100%;
-    padding: 0.6rem 0;
+    min-height: 48px;
+    padding: 0.7rem 1rem;
     font: inherit;
     color: var(--ink);
-    background: transparent;
-    border: 0;
-    border-bottom: 1px solid var(--line-strong);
-    border-radius: 0;
+    background: var(--surface);
+    border: 1px solid var(--tofu-line);
+    border-radius: var(--r-md);
     transition: border-color var(--dur-2) var(--ease-quart);
   }
   .field select {
@@ -223,13 +221,16 @@ const fields: {
   .field :is(input, select, textarea)::placeholder {
     color: var(--ink-subtle);
   }
+  .field :is(input, select, textarea):hover {
+    border-color: var(--line-strong);
+  }
   .field :is(input, select, textarea):focus-visible {
     outline: 2px solid var(--brand);
-    outline-offset: 3px;
-    border-bottom-color: var(--brand);
+    outline-offset: 2px;
+    border-color: var(--brand);
   }
   .field :is(input, select, textarea)[aria-invalid="true"] {
-    border-bottom-color: var(--danger);
+    border-color: var(--danger);
   }
   .field__error:empty {
     display: none;
@@ -240,10 +241,10 @@ const fields: {
   }
   .contact__banner {
     padding: 0.9rem 1.1rem;
-    border: 1px solid var(--line-strong);
-    border-left: 2px solid var(--brand);
-    border-radius: var(--r-xs);
-    background: var(--surface-2);
+    border: 1px solid var(--tofu-line);
+    border-left: 3px solid var(--brand);
+    border-radius: var(--r-md);
+    background: var(--surface);
     font-size: 0.9375rem;
     color: var(--ink);
   }
@@ -259,13 +260,12 @@ const fields: {
   .contact__note {
     margin: 0;
     font-size: 0.875rem;
-    color: var(--ink-subtle);
+    color: var(--ink-muted);
   }
   .contact__done {
     display: grid;
     gap: 0.6rem;
     padding: clamp(1.5rem, 3vw, 2rem);
-    border: 1px solid var(--line);
     border-radius: var(--r-lg);
     background: var(--surface);
   }

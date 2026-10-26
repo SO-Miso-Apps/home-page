@@ -3,19 +3,15 @@ import { getSeoMeta } from "emdash";
 import type { App } from "../../emdash-env";
 import Base from "../layouts/Base.astro";
 import AppCard from "../components/AppCard.astro";
-import AppMark from "../components/AppMark.astro";
 import CtaPanel from "../components/CtaPanel.astro";
 import Faq from "../components/Faq.astro";
-import Marquee from "../components/Marquee.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
 import ReviewBand from "../components/ReviewBand.astro";
 import SectionHeader from "../components/SectionHeader.astro";
-import ServiceTracks from "../components/ServiceTracks.astro";
-import StatStrip from "../components/StatStrip.astro";
 import { FAQ_BY_LANG } from "../faq";
 import { getLang, localizeHref } from "../i18n";
 import { getLocalizedCollection } from "../lib/content";
-import { SERVICES_BY_LANG } from "../services";
+import { getWork } from "../work";
 
 const lang = getLang(Astro.locals);
 
@@ -38,509 +34,568 @@ const seo = getSeoMeta({ data: {} }, {
   path: Astro.url.pathname,
 });
 
-// Bento rhythm: cells alternate long/short so the grid never reads as a row of
-// equal boxes. Two entries or fewer fall back to a half-width pair.
-const RHYTHM = [4, 2, 2, 4];
-const spanFor = (index: number) => (apps.length <= 2 ? 3 : RHYTHM[index % RHYTHM.length]);
-
-// The rating tile is computed from the catalog so it can never drift from the
-// entries an editor publishes; the other three are studio claims from the
-// previous site and stay as written.
-const rated = apps.filter((app) => typeof app.data.rating_value === "number");
-const averageRating = rated.length
-  ? rated.reduce((total, app) => total + (app.data.rating_value ?? 0), 0) / rated.length
-  : null;
-
+// The home page leads with the theme service; the app catalog follows it.
+// Every claim here is one the studio can show: the live storefronts in
+// work.ts, the steps on /services, the apps in the CMS. No invented numbers.
 const copy = {
   en: {
-    title: "Commerce apps for stores that keep moving",
-    // The site-wide default already says this in English; null keeps it.
-    eyebrow: "Shopify app studio",
-    h1: ["Commerce apps built for stores", "that have to keep moving."],
-    lede: "Miso Apps designs and ships focused Shopify and Shopline apps for automation, conversion, and AI-readable storefront data. The work is clean, fast, and built around merchant operations.",
-    viewApps: "View our apps",
-    contact: "Contact us",
-    listings: "App Store listings",
-    live: (n: number) => `${n} live`,
-    glance: "Studio at a glance",
-    stats: ["Apps on the App Store", "Merchant stores reached", "Countries served", "Average app rating"],
-    support: "Support 24/7",
-    apps: {
-      eyebrow: "Our apps",
-      title: "Focused products, measurable results.",
-      lead: "Every app below is live on the Shopify App Store. Each one does a single operational job properly, and each listing page is built from the same CMS entry the store team edits.",
+    title: "Shopify theme design and customization",
+    chip: "Shopify theme design and customization",
+    h1: { before: "Your store, ", em: "exactly", after: " as you pictured it." },
+    lede: "We build new themes from scratch or rework the one you already run — home, collection, product, cart. Every part stays editable in the theme editor, so you never need a developer for a change.",
+    primary: "Send a request",
+    secondary: "See how we work",
+    collage: ["section · banner", "section · featured products", "section · reviews"],
+    work: {
+      eyebrow: "Recent work",
+      title: "Storefronts we've customized",
+      lead: "Two Shopify stores selling today on themes we've worked on. Go and click around.",
+      theme: "Theme",
+      visit: "Visit store",
+      newTab: "(opens in a new tab)",
+      shot: (domain: string) => `Home page of ${domain}`,
     },
     services: {
-      eyebrow: "Services",
-      title: "When the catalog is close but not close enough.",
-      lead: "Beyond the apps: a custom app for the workflow your team still runs by hand, and a theme built to your brand instead of stretched around someone else's. Both are scoped against your store and reviewed before launch.",
-      more: "How a custom build runs",
+      eyebrow: "Theme services",
+      title: "What we can do with your theme",
+      cards: [
+        { title: "A new theme", body: "A storefront designed around your brand and your products, with every page you sell on: home, collection, product, cart." },
+        { title: "Rework the theme you have", body: "New sections, a rebuilt layout, a fresh look for a single template — without giving up the theme you already run." },
+        { title: "Faster and easier to use", body: "A pass over Core Web Vitals, keyboard navigation, contrast, and the layout shift that happens while a page loads." },
+      ],
+      more: "Service details",
+      apps: "Need an app built around your own workflow instead?",
+      appsLink: "Custom app development",
     },
     process: {
-      title: "Ship something merchants can trust on a busy Monday.",
-      lead: "Four steps, in this order, every time. No long discovery decks and no handoffs to a team you never met.",
+      eyebrow: "How we work",
+      title: "Four steps, and you sign off on each one",
       steps: [
-        { title: "Scope on your store", body: "We start from the workflow itself: order volume, who edits what, and which parts of the admin your team works around." },
-        { title: "Build on the Shopify APIs", body: "Admin GraphQL, webhooks, and Functions. No brittle theme hacks, and nothing that slows the storefront down." },
-        { title: "Review on a live store", body: "You test every flow on a real development store before it reaches merchants. Copy, edge cases, and permissions are settled there." },
-        { title: "Ship and keep the pager on", body: "Listed on the App Store, watched for review notices and API changes, and answered by the people who wrote the code." },
+        { title: "Tell us what you need", body: "A few lines about your store, the theme you run, and what you want to change." },
+        { title: "Review and quote", body: "We look at the live store, agree the scope, and quote before any work starts." },
+        { title: "Approve on a preview", body: "Each part is shown on a preview of your theme as it's finished, so you comment before anything goes live." },
+        { title: "Handover", body: "The theme is published. You keep every file, written notes, and a direct line to the person who built it." },
       ],
+    },
+    apps: {
+      eyebrow: "Our apps",
+      title: "Apps from Miso",
+      lead: "Alongside theme work, we make our own apps for the Shopify App Store.",
     },
     faq: {
       eyebrow: "FAQ",
-      title: "Questions merchants ask first.",
-      lead: "Short answers to what comes up before a project starts. Anything else, ask us directly.",
+      title: "What people ask us first",
+      lead: "Short answers to what comes up before a project starts. Anything else, just ask.",
     },
     cta: {
-      eyebrow: "Get started",
-      title: "Put an app to work on your store this week.",
-      body: "Install from the App Store, or tell us which operational job is costing your team the most time.",
-      primary: "Request a quote",
-      secondary: "Browse the apps",
+      title: "What would you change about your store?",
+      body: "Describe it in a few lines. We'll reply with a scope of work and a quote.",
+      primary: "Send a request",
     },
   },
   vi: {
-    title: "App thương mại điện tử cho cửa hàng không ngừng vận hành",
-    eyebrow: "Studio app Shopify",
-    h1: ["App thương mại điện tử cho những cửa hàng", "không được phép đứng yên."],
-    lede: "Miso Apps thiết kế và phát hành các app Shopify, Shopline chuyên biệt cho tự động hóa, tăng chuyển đổi và dữ liệu cửa hàng mà AI đọc được. Gọn, nhanh và xây quanh cách nhà bán hàng thực sự vận hành.",
-    viewApps: "Xem các app",
-    contact: "Liên hệ ngay",
-    listings: "App trên App Store",
-    live: (n: number) => `${n} đang hoạt động`,
-    glance: "Tổng quan về studio",
-    stats: ["App trên App Store", "Cửa hàng đã tiếp cận", "Quốc gia phục vụ", "Điểm đánh giá trung bình"],
-    support: "Hỗ trợ 24/7",
-    apps: {
-      eyebrow: "Sản phẩm",
-      title: "Sản phẩm chuyên biệt, kết quả đo được.",
-      lead: "Mọi app dưới đây đều đang có mặt trên Shopify App Store. Mỗi app làm thật tốt một việc vận hành, và mỗi trang giới thiệu được dựng từ chính nội dung CMS mà đội ngũ cập nhật.",
+    title: "Thiết kế và tùy chỉnh theme Shopify",
+    chip: "Thiết kế và tùy chỉnh theme Shopify",
+    h1: { before: "Cửa hàng của bạn, ", em: "đúng", after: " như bạn hình dung." },
+    lede: "Chúng tôi làm theme mới từ đầu hoặc chỉnh lại theme bạn đang dùng — trang chủ, danh mục, sản phẩm, giỏ hàng. Mọi phần đều sửa được trong trình chỉnh sửa theme, không cần nhờ lập trình viên.",
+    primary: "Gửi yêu cầu",
+    secondary: "Xem cách chúng tôi làm",
+    collage: ["section · banner", "section · sản phẩm nổi bật", "section · đánh giá"],
+    work: {
+      eyebrow: "Dự án đã làm",
+      title: "Những cửa hàng chúng tôi đã chỉnh theme",
+      lead: "Hai cửa hàng Shopify đang bán hàng mỗi ngày trên theme do chúng tôi chỉnh. Bạn cứ vào xem và bấm thử.",
+      theme: "Theme",
+      visit: "Xem cửa hàng",
+      newTab: "(mở trong tab mới)",
+      shot: (domain: string) => `Trang chủ của ${domain}`,
     },
     services: {
-      eyebrow: "Dịch vụ",
-      title: "Khi app có sẵn gần đúng nhưng chưa đủ đúng.",
-      lead: "Ngoài các app: một app riêng cho quy trình đội của bạn vẫn làm tay, và một theme làm theo thương hiệu của bạn thay vì gò thương hiệu vào theme của người khác. Cả hai đều được khảo sát trên cửa hàng của bạn và kiểm thử trước khi ra mắt.",
-      more: "Quy trình một dự án theo yêu cầu",
+      eyebrow: "Dịch vụ theme",
+      title: "Chúng tôi nhận làm gì với theme của bạn",
+      cards: [
+        { title: "Làm theme mới", body: "Giao diện riêng theo thương hiệu và sản phẩm của bạn, đủ mọi trang bán hàng: trang chủ, danh mục, sản phẩm, giỏ hàng." },
+        { title: "Chỉnh theme đang dùng", body: "Thêm section, sửa bố cục, đổi giao diện từng trang mà không phải bỏ theme hiện tại." },
+        { title: "Tăng tốc và dễ dùng hơn", body: "Rà soát Core Web Vitals, điều hướng bằng bàn phím, độ tương phản và hiện tượng giật bố cục khi tải trang." },
+      ],
+      more: "Chi tiết dịch vụ",
+      apps: "Bạn cần một app làm riêng theo quy trình của mình?",
+      appsLink: "Dịch vụ làm app theo yêu cầu",
     },
     process: {
-      title: "Làm ra thứ nhà bán hàng tin dùng cả vào ngày bận nhất.",
-      lead: "Bốn bước, đúng thứ tự này, lần nào cũng vậy. Không có slide khảo sát dài dòng, không chuyển giao cho một đội bạn chưa từng gặp.",
+      eyebrow: "Cách chúng tôi làm",
+      title: "Bốn bước, bạn duyệt ở từng bước",
       steps: [
-        { title: "Khảo sát trên cửa hàng của bạn", body: "Chúng tôi bắt đầu từ chính quy trình: lượng đơn hàng, ai chỉnh sửa gì, và những phần nào trong admin đội của bạn đang phải đi đường vòng." },
-        { title: "Xây trên API của Shopify", body: "Admin GraphQL, webhooks và Functions. Không chắp vá theme dễ vỡ, không làm chậm storefront." },
-        { title: "Kiểm thử trên cửa hàng thật", body: "Bạn thử mọi luồng trên một cửa hàng phát triển trước khi tới tay khách hàng. Nội dung, trường hợp biên và phân quyền đều được chốt tại đây." },
-        { title: "Ra mắt và luôn trực hỗ trợ", body: "Đăng trên App Store, theo dõi thông báo review và thay đổi API, và được trả lời bởi chính những người viết code." },
+        { title: "Gửi mô tả", body: "Vài dòng về cửa hàng, theme đang dùng và điều bạn muốn thay đổi." },
+        { title: "Khảo sát và báo giá", body: "Chúng tôi xem cửa hàng thật, chốt phạm vi và báo giá trước khi bắt tay vào làm." },
+        { title: "Duyệt trên bản xem trước", body: "Phần nào xong, bạn xem ngay trên bản xem trước của theme và góp ý trước khi công khai." },
+        { title: "Bàn giao", body: "Theme được xuất bản. Bạn giữ toàn bộ file, tài liệu hướng dẫn và liên hệ trực tiếp với người đã làm." },
       ],
     },
+    apps: {
+      eyebrow: "Ứng dụng",
+      title: "Ứng dụng của Miso",
+      lead: "Ngoài làm theme, chúng tôi còn có các app trên Shopify App Store.",
+    },
     faq: {
-      eyebrow: "Câu hỏi thường gặp",
-      title: "Những điều nhà bán hàng hay hỏi trước tiên.",
-      lead: "Trả lời ngắn cho các câu hỏi trước khi bắt đầu dự án. Câu hỏi khác, cứ hỏi trực tiếp chúng tôi.",
+      eyebrow: "Hỏi đáp",
+      title: "Những câu chúng tôi hay được hỏi",
+      lead: "Trả lời ngắn gọn những điều thường gặp trước khi bắt đầu dự án. Còn thắc mắc gì khác, bạn cứ hỏi thẳng chúng tôi.",
     },
     cta: {
-      eyebrow: "Bắt đầu",
-      title: "Đưa một app vào làm việc cho cửa hàng của bạn ngay tuần này.",
-      body: "Cài đặt từ App Store, hoặc cho chúng tôi biết việc vận hành nào đang tốn thời gian của đội bạn nhất.",
-      primary: "Yêu cầu báo giá",
-      secondary: "Xem các app",
+      title: "Bạn muốn đổi gì trên cửa hàng?",
+      body: "Mô tả trong vài dòng, chúng tôi sẽ phản hồi kèm phạm vi công việc và báo giá.",
+      primary: "Gửi yêu cầu",
     },
   },
 }[lang];
 
 const contactHref = localizeHref("/services#request", lang);
-
-const stats = [
-  { value: String(apps.length), label: copy.stats[0] },
-  { value: "10K+", label: copy.stats[1] },
-  { value: "50+", label: copy.stats[2] },
-  { value: averageRating ? averageRating.toFixed(1) : "—", label: copy.stats[3] },
-];
-
-const ticker = [
-  ...apps.map((app) => app.data.badge).filter((badge): badge is string => Boolean(badge)),
-  "Shopify",
-  "Shopline",
-  "Admin GraphQL",
-  "Webhooks",
-  copy.support,
-];
+const work = getWork(lang);
+const TONES = ["peach", "tofu", "seaweed"] as const;
 ---
 
 <Base title={copy.title} description={lang === "vi" ? undefined : (seo.description ?? undefined)} image={seo.ogImage ?? undefined} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
   <section class="hero" data-hero>
-    <div class="container hero__grid">
-      <div class="hero__copy">
-        <span class="eyebrow" data-hero-item>
-          <span class="eyebrow__dot" />
-          {copy.eyebrow}
+    <div class="container hero__copy">
+      <span class="chip" data-hero-item>{copy.chip}</span>
+      <h1 data-hero-item>{copy.h1.before}<em>{copy.h1.em}</em>{copy.h1.after}</h1>
+      <p class="lede hero__lede" data-hero-item>{copy.lede}</p>
+      <div class="hero__actions" data-hero-item>
+        <a class="btn btn--brand btn--lg" href={contactHref}>
+          {copy.primary}
+          <svg class="btn__arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+        <a class="btn btn--ghost btn--lg" href="#process">{copy.secondary}</a>
+      </div>
+    </div>
+
+    {/* A theme, drawn as the sections a merchant stacks in the editor. */}
+    <div class="container collage" aria-hidden="true" data-hero-art>
+      <div class="collage__block tone-seaweed collage__block--banner">
+        <span class="collage__label">{copy.collage[0]}</span>
+        <span class="collage__lines">
+          <span class="collage__line collage__line--strong" style="width: 70%"></span>
+          <span class="collage__line" style="width: 45%"></span>
+          <span class="collage__pill"></span>
         </span>
-        <h1 data-hero-item>
-          <span class="hero__line">{copy.h1[0]}</span>
-          <span class="hero__line hero__line--dim">{copy.h1[1]}</span>
-        </h1>
-        <p class="lede" data-hero-item>{copy.lede}</p>
-        <div class="hero__actions" data-hero-item>
-          <a class="btn btn--brand btn--lg" href={contactHref}>
-            {copy.contact}
-            <svg class="btn__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
-              <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </a>
-          <a class="btn btn--ghost btn--lg" href="#apps">{copy.viewApps}</a>
-        </div>
       </div>
-
-      <div class="hero__art" data-hero-art>
-        <div class="hero__panel glass" data-float>
-          <div class="hero__panel-top">
-            <span class="hero__panel-label">{copy.listings}</span>
-            <span class="hero__status num">
-              <span class="hero__status-dot" aria-hidden="true" />
-              {copy.live(apps.length)}
-            </span>
-          </div>
-
-          <div class="orb-wrap">
-            <div class="orb" aria-hidden="true" />
-          </div>
-
-          <ul class="hero__apps">
-            {
-              apps.map((app) => (
-                <li class="hero__app">
-                  <AppMark seed={app.id} size={30} />
-                  <span class="hero__app-name">{app.data.name}</span>
-                  {app.data.badge && <span class="hero__app-badge">{app.data.badge}</span>}
-                </li>
-              ))
-            }
-          </ul>
-        </div>
+      <div class="collage__block tone-peach collage__block--products">
+        <span class="collage__label">{copy.collage[1]}</span>
+        <span class="collage__grid">
+          <span></span><span></span><span></span><span></span>
+        </span>
+      </div>
+      <div class="collage__block tone-tofu collage__block--reviews">
+        <span class="collage__label">{copy.collage[2]}</span>
+        <span class="collage__lines">
+          <span class="collage__stars">★★★★★</span>
+          <span class="collage__line" style="width: 90%"></span>
+          <span class="collage__line" style="width: 75%"></span>
+          <span class="collage__line" style="width: 55%"></span>
+        </span>
       </div>
     </div>
   </section>
 
-  <section class="section section--tight" aria-label={copy.glance}>
+  <section class="section" id="work" aria-labelledby="work-title">
     <div class="container">
-      <Marquee items={ticker} />
-      <StatStrip stats={stats} class="hero__stats" />
-    </div>
-  </section>
-
-  <section class="section" id="apps" aria-labelledby="apps-title">
-    <div class="container">
-      <SectionHeader id="apps-title" eyebrow={copy.apps.eyebrow} title={copy.apps.title} lead={copy.apps.lead} />
-      <div class="bento">
+      <SectionHeader id="work-title" eyebrow={copy.work.eyebrow} title={copy.work.title} lead={copy.work.lead} />
+      <ul class="work">
         {
-          apps.map((app, index) => {
-            const span = spanFor(index);
-            return (
-              <div class="bento__cell" data-span={span}>
-                <AppCard app={app} variant={span >= 4 ? "wide" : "narrow"} />
+          work.map((item) => (
+            <li class="work__item" data-reveal>
+              <div class="work__shot">
+                <img
+                  src={item.image.src}
+                  width={item.image.width}
+                  height={item.image.height}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
-            );
-          })
+              <div class="work__body">
+                <div class="work__tags">
+                  {item.tags.map((tag) => <span class="badge">{tag}</span>)}
+                </div>
+                <h3 class="work__domain">
+                  <a href={item.url} target="_blank" rel="noopener noreferrer">
+                    {item.domain}
+                    <span class="sr-only"> {copy.work.newTab}</span>
+                  </a>
+                </h3>
+                <p class="work__about">{item.about}</p>
+                <p class="work__theme">
+                  <span class="dim">{copy.work.theme}:</span> {item.theme}
+                </p>
+                <span class="work__visit" aria-hidden="true">
+                  {copy.work.visit}
+                  <svg viewBox="0 0 16 16" width="14" height="14" focusable="false">
+                    <path d="M5 11 11 5M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+            </li>
+          ))
         }
-      </div>
+      </ul>
     </div>
   </section>
 
-  <section class="section" id="services" aria-labelledby="services-title">
+  <section class="section services" id="services" aria-labelledby="services-title">
     <div class="container">
-      <SectionHeader id="services-title" eyebrow={copy.services.eyebrow} title={copy.services.title} lead={copy.services.lead} />
-      <div class="tracks-wrap">
-        <ServiceTracks tracks={SERVICES_BY_LANG[lang]} />
-      </div>
-      <div class="services__more">
-        <a class="btn btn--ghost" href={localizeHref("/services", lang)}>
+      <SectionHeader id="services-title" eyebrow={copy.services.eyebrow} title={copy.services.title} />
+      <ol class="services__grid">
+        {
+          copy.services.cards.map((card, index) => (
+            <li class:list={["service", `tone-${TONES[index % TONES.length]}`]} data-reveal>
+              <span class="service__num">{String(index + 1).padStart(2, "0")}</span>
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="services__foot">
+        <a class="btn btn--ghost" href={localizeHref("/services#custom-themes", lang)}>
           {copy.services.more}
           <svg class="btn__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
             <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </a>
+        <p class="services__apps">
+          {copy.services.apps}{" "}
+          <a href={localizeHref("/services#custom-apps", lang)}>{copy.services.appsLink}</a>
+        </p>
       </div>
+    </div>
+  </section>
+
+  <ProcessSteps id="process" band eyebrow={copy.process.eyebrow} title={copy.process.title} steps={copy.process.steps} />
+
+  <section class="section" id="apps" aria-labelledby="apps-title">
+    <div class="container">
+      <SectionHeader id="apps-title" eyebrow={copy.apps.eyebrow} title={copy.apps.title} lead={copy.apps.lead} />
+      <ul class="apps">
+        {
+          apps.map((app, index) => (
+            <li>
+              <AppCard app={app} tone={(["peach", "seaweed", "brand", "tofu"] as const)[index % 4]} />
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
   <ReviewBand apps={apps} />
 
-  <ProcessSteps title={copy.process.title} lead={copy.process.lead} steps={copy.process.steps} />
-
   <Faq eyebrow={copy.faq.eyebrow} title={copy.faq.title} lead={copy.faq.lead} items={FAQ_BY_LANG[lang]} />
 
-  <CtaPanel
-    seed="home-cta"
-    eyebrow={copy.cta.eyebrow}
-    title={copy.cta.title}
-    body={copy.cta.body}
-    primary={{ label: copy.cta.primary, href: contactHref }}
-    secondary={{ label: copy.cta.secondary, href: "#apps" }}
-  />
+  <CtaPanel title={copy.cta.title} body={copy.cta.body} primary={{ label: copy.cta.primary, href: contactHref }} />
 </Base>
 
 <style>
+  /* --- Hero --------------------------------------------------------------- */
   .hero {
-    position: relative;
-    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(1rem, 3vw, 2rem);
-  }
-
-  /* Ambient wash behind the hero copy — one soft radial, no outer glow. Kept
-     inside the container's horizontal bounds so it can never widen the page. */
-  .hero::before {
-    content: "";
-    position: absolute;
-    inset: -20% 0 auto 0;
-    height: 70%;
-    background: radial-gradient(
-      ellipse 72% 62% at 18% 0%,
-      color-mix(in oklab, var(--brand) 13%, transparent),
-      transparent 70%
-    );
-    pointer-events: none;
-    z-index: -1;
-  }
-
-  .hero__grid {
-    display: grid;
-    gap: clamp(2.5rem, 5vw, 4rem);
-    align-items: center;
+    padding-block: clamp(3rem, 8vw, 6rem) 0;
   }
 
   .hero__copy {
-    display: grid;
-    justify-items: start;
-    gap: 1.25rem;
-  }
-
-  .hero__line {
-    display: block;
-  }
-
-  .hero__line--dim {
-    color: var(--ink-subtle);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: clamp(1.25rem, 2.4vw, 1.75rem);
   }
 
   h1 {
-    font-size: var(--step-5);
-    letter-spacing: -0.035em;
+    font-size: var(--step-hero);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    max-width: 15ch;
+  }
+
+  .hero__lede {
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+    max-width: 58ch;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 0.75rem;
-    margin-top: 0.5rem;
   }
 
-  .hero__art {
+  /* --- Collage ------------------------------------------------------------ */
+  .collage {
     display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    margin-top: clamp(3rem, 7vw, 5rem);
   }
 
-  .hero__panel {
-    display: grid;
-    gap: 1.25rem;
-    padding: 1.25rem;
-    border-radius: var(--r-2xl);
-  }
-
-  .hero__panel-top {
+  .collage__block {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: space-between;
     gap: 1rem;
+    padding: clamp(0.85rem, 2vw, 1.5rem);
+    border-radius: clamp(1.1rem, 2.6vw, 2rem);
   }
 
-  .hero__panel-label {
+  .collage__block--banner {
+    height: clamp(150px, 26vw, 300px);
+    transform: rotate(-2deg);
+  }
+
+  .collage__block--products {
+    height: clamp(180px, 31vw, 360px);
+  }
+
+  .collage__block--reviews {
+    height: clamp(140px, 24vw, 280px);
+    transform: rotate(2deg);
+  }
+
+  .collage__label {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-subtle);
+    font-size: 0.8125rem;
+    color: var(--tone-muted);
   }
 
-  .hero__status {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.75rem;
-    color: var(--brand-ink);
+  .collage__lines {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
   }
 
-  .hero__status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-    box-shadow: 0 0 0 3px var(--brand-soft);
+  .collage__line {
+    display: block;
+    height: 10px;
+    border-radius: 6px;
+    background: var(--tofu-line);
   }
 
-  /* --- Orb: the one piece of pure decoration in the hero ---------------- */
-  @property --orb-angle {
-    syntax: "<angle>";
-    inherits: false;
-    initial-value: 0deg;
+  .tone-seaweed .collage__line {
+    background: color-mix(in oklab, var(--seaweed-ink) 45%, transparent);
   }
 
-  .orb-wrap {
+  .tone-seaweed .collage__line--strong {
+    height: 16px;
+    background: var(--seaweed-ink);
+  }
+
+  .collage__pill {
+    display: block;
+    width: 34%;
+    height: 28px;
+    margin-top: 0.4rem;
+    border-radius: var(--r-pill);
+    background: var(--brand);
+  }
+
+  /* Fills what the label leaves, so the tiles never spill past the block. */
+  .collage__grid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.4rem, 1vw, 0.65rem);
+  }
+
+  .collage__grid span {
+    border-radius: clamp(0.6rem, 1.4vw, 1.1rem);
+    background: var(--surface);
+  }
+
+  .collage__stars {
+    color: var(--brand);
+    letter-spacing: 0.15em;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 639px) {
+    .collage__label,
+    .collage__stars {
+      display: none;
+    }
+    .collage__pill {
+      height: 18px;
+      width: 50%;
+    }
+  }
+
+  /* --- Work --------------------------------------------------------------- */
+  .work {
+    list-style: none;
+    padding: 0;
+    margin-top: clamp(2rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .work__item {
     position: relative;
     display: grid;
-    place-items: center;
-    padding-block: 0.5rem;
+    align-content: start;
+    background: var(--tofu);
+    border-radius: var(--r-xl);
+    padding: clamp(0.65rem, 1.2vw, 0.85rem);
   }
 
-  .orb-wrap::before {
-    content: "";
-    position: absolute;
-    inset: 6%;
-    border-radius: 50%;
-    background: radial-gradient(circle, color-mix(in oklab, var(--brand) 26%, transparent), transparent 62%);
-    filter: blur(28px);
-    pointer-events: none;
-  }
-
-  .orb {
-    position: relative;
-    width: min(58%, 190px);
-    aspect-ratio: 1;
-    border-radius: 50%;
+  .work__shot {
+    display: block;
     overflow: hidden;
-    isolation: isolate;
-    background:
-      radial-gradient(circle at 32% 26%, color-mix(in oklab, var(--brand) 32%, #ffffff), transparent 46%),
-      radial-gradient(circle at 74% 78%, color-mix(in oklab, var(--brand-hover) 90%, transparent), transparent 60%),
-      linear-gradient(
-        160deg,
-        color-mix(in oklab, var(--brand) 38%, var(--canvas-deep)),
-        color-mix(in oklab, var(--brand-hover) 58%, var(--canvas-deep))
-      );
+    border-radius: calc(var(--r-xl) - 0.75rem);
+    aspect-ratio: 16 / 10;
+    background: var(--surface);
   }
 
-  /* Kept on a pseudo-element so browsers without @property still render the
-     base gradients above instead of dropping an invalid background list. */
-  .orb::before {
-    content: "";
-    position: absolute;
-    inset: -10%;
-    background: conic-gradient(
-      from var(--orb-angle) at 42% 58%,
-      transparent,
-      color-mix(in oklab, var(--brand) 62%, transparent) 18%,
-      transparent 42%,
-      color-mix(in oklab, var(--brand-on-dark) 48%, transparent) 66%,
-      transparent 88%
-    );
-    filter: blur(14px) saturate(1.2);
-    animation: orb-spin 26s linear infinite;
+  .work__shot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform var(--dur-3) var(--ease-quart);
   }
 
-  .orb::after {
+  .work__item:hover .work__shot img {
+    transform: scale(1.025);
+  }
+
+  .work__body {
+    display: grid;
+    gap: 0.55rem;
+    padding: 1.25rem 0.85rem 0.85rem;
+  }
+
+  .work__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .work__domain {
+    font-size: var(--step-3);
+    letter-spacing: -0.02em;
+  }
+
+  .work__domain a {
+    text-decoration: none;
+  }
+
+  /* The whole card opens the store; the domain is the one real link. */
+  .work__domain a::after {
     content: "";
     position: absolute;
     inset: 0;
-    border-radius: 50%;
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-      inset 0 10px 22px rgba(255, 255, 255, 0.18),
-      inset 0 -16px 30px rgba(0, 0, 0, 0.3);
+    border-radius: inherit;
   }
 
-  @keyframes orb-spin {
-    to {
-      --orb-angle: 360deg;
-    }
+  .work__about {
+    color: var(--ink-muted);
   }
 
-  .hero__apps {
-    display: grid;
-    gap: 0.25rem;
+  .work__theme {
+    font-size: 0.9375rem;
+  }
+
+  .work__visit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.25rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--brand-ink);
+  }
+
+  .work__visit svg {
+    transition: transform var(--dur-2) var(--ease-quart);
+  }
+
+  .work__item:hover .work__visit svg {
+    transform: translate(2px, -2px);
+  }
+
+  /* --- Services ----------------------------------------------------------- */
+  .services__grid {
     list-style: none;
     padding: 0;
-  }
-
-  .hero__app {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    padding: 0.55rem 0.5rem;
-    border-radius: var(--r-sm);
-    transition: background-color var(--dur-2) var(--ease-quart);
-  }
-
-  .hero__app:hover {
-    background: var(--surface-2);
-  }
-
-  .hero__app-name {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--ink);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .hero__app-badge {
-    margin-left: auto;
-    flex: none;
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-subtle);
-  }
-
-  .hero__stats {
-    margin-top: 2rem;
-  }
-
-  /* --- Bento ------------------------------------------------------------ */
-  .bento {
+    margin-top: clamp(2rem, 4vw, 3rem);
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    grid-auto-flow: dense;
-    gap: 1.25rem;
-    margin-top: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 1rem;
   }
 
-  .bento__cell {
-    grid-column: span 6;
+  .service {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    min-height: 260px;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border-radius: var(--r-xl);
   }
 
-  @media (min-width: 700px) {
-    .bento__cell[data-span="2"] {
-      grid-column: span 3;
-    }
-    .bento__cell[data-span="3"] {
-      grid-column: span 3;
-    }
-    .bento__cell[data-span="4"] {
-      grid-column: span 6;
-    }
+  .service__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.375rem;
+    color: var(--tone-muted);
   }
 
-  @media (min-width: 1040px) {
-    .bento__cell[data-span="2"] {
-      grid-column: span 2;
-    }
-    .bento__cell[data-span="3"] {
-      grid-column: span 3;
-    }
-    .bento__cell[data-span="4"] {
-      grid-column: span 4;
-    }
+  .tone-peach .service__num {
+    color: var(--peach-ink);
   }
 
-  @media (min-width: 960px) {
-    .hero__grid {
-      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-    }
+  .tone-seaweed .service__num {
+    color: var(--seaweed-accent);
   }
 
-  .tracks-wrap {
-    margin-top: 2.5rem;
+  .service h3 {
+    font-size: clamp(1.5rem, 1.3rem + 0.8vw, 1.75rem);
+    line-height: 1.2;
   }
 
-  .services__more {
-    margin-top: 2rem;
+  .service p {
+    color: var(--tone-muted);
+    line-height: 1.7;
+  }
+
+  .services__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    margin-top: 1.75rem;
+  }
+
+  .services__apps {
+    color: var(--ink-muted);
+  }
+
+  .services__apps a {
+    color: var(--brand-ink);
+    font-weight: 500;
+    text-underline-offset: 0.2em;
+  }
+
+  /* --- Apps --------------------------------------------------------------- */
+  .apps {
+    list-style: none;
+    padding: 0;
+    margin-top: clamp(2rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+    gap: 1rem;
   }
 </style>

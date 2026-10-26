@@ -11,13 +11,19 @@ interface Props {
   title: string;
   lead?: string;
   steps: Step[];
+  id?: string;
+  /** Sit the steps on a tofu band instead of the page ground. */
+  band?: boolean;
 }
 
 const lang = getLang(Astro.locals);
-const { eyebrow = lang === "vi" ? "Cách chúng tôi làm việc" : "How we work", title, lead, steps } = Astro.props;
+const { eyebrow = lang === "vi" ? "Cách chúng tôi làm" : "How we work", title, lead, steps, id, band = false } = Astro.props;
+// First step in miso, last in seaweed, the ones between plain: the start and
+// the handover are the two moments the client acts on.
+const toneFor = (index: number) => (index === 0 ? "brand" : index === steps.length - 1 ? "seaweed" : "plain");
 ---
 
-<section class="section" aria-labelledby="process-title">
+<section class:list={["section", "process", { band }]} id={id} aria-labelledby="process-title">
   <div class="container">
     <div class="head" data-reveal>
       <span class="eyebrow">
@@ -28,30 +34,29 @@ const { eyebrow = lang === "vi" ? "Cách chúng tôi làm việc" : "How we work
       {lead && <p class="lede">{lead}</p>}
     </div>
 
-    <div class="steps" data-steps>
-      <div class="steps__track" aria-hidden="true">
-        <span class="steps__rail" data-steps-line />
-      </div>
-      <ol class="steps__list">
-        {
-          steps.map((step, index) => (
-            <li class="steps__item" data-reveal>
-              <span class="steps__dot" aria-hidden="true" />
-              <span class="steps__index num">{String(index + 1).padStart(2, "0")}</span>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
+    <ol class="steps">
+      {
+        steps.map((step, index) => (
+          <li class="steps__item" data-reveal>
+            <span class:list={["steps__num", `steps__num--${toneFor(index)}`]} aria-hidden="true">
+              {index + 1}
+            </span>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>
 
 <style>
+  .process {
+    scroll-margin-top: 4rem;
+  }
   .head {
     display: grid;
-    gap: 0.7rem;
+    gap: 0.75rem;
     margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
     max-width: 58ch;
   }
@@ -59,68 +64,49 @@ const { eyebrow = lang === "vi" ? "Cách chúng tôi làm việc" : "How we work
     font-size: var(--step-4);
   }
   .steps {
-    position: relative;
-  }
-  .steps__track {
-    position: absolute;
-    top: 5px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--line);
-    display: none;
-  }
-  .steps__rail {
-    display: block;
-    height: 100%;
-    background: linear-gradient(to right, var(--brand), var(--brand-line));
-    transform: scaleX(0);
-  }
-  .steps__list {
     list-style: none;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
     gap: 2rem clamp(1.5rem, 3vw, 2.5rem);
   }
   .steps__item {
     display: grid;
-    gap: 0.6rem;
+    gap: 0.75rem;
     align-content: start;
-    padding-top: 1.5rem;
-    position: relative;
   }
-  .steps__dot {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
+  .steps__num {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 0.25rem;
+    border-radius: var(--r-pill);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    background: var(--tofu);
+    color: var(--ink);
+  }
+  .band .steps__num--plain {
     background: var(--surface);
-    border: 2px solid var(--brand);
-    box-shadow: 0 0 0 4px var(--canvas);
   }
-  .steps__index {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    color: var(--ink-subtle);
+  .steps__num--brand {
+    background: var(--brand);
+    color: var(--brand-fg);
+  }
+  .steps__num--seaweed {
+    background: var(--seaweed);
+    color: var(--seaweed-ink);
   }
   .steps__item h3 {
-    font-size: var(--step-1);
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
   .steps__item p {
     color: var(--ink-muted);
-    font-size: 0.9375rem;
     line-height: 1.65;
-  }
-
-  @media (min-width: 760px) {
-    .steps__track {
-      display: block;
-    }
-    .steps__item {
-      padding-top: 2rem;
-    }
   }
 </style>

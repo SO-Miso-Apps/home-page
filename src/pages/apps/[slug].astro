@@ -5,7 +5,7 @@ import type { App } from "../../../emdash-env";
 import { Image, PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
 import AppMark from "../../components/AppMark.astro";
-import CoverArt from "../../components/CoverArt.astro";
+import AppCard from "../../components/AppCard.astro";
 import CtaPanel from "../../components/CtaPanel.astro";
 import FeatureGrid from "../../components/FeatureGrid.astro";
 import ScreenshotGallery from "../../components/ScreenshotGallery.astro";
@@ -33,7 +33,7 @@ if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
 const data = app.data;
 // A translation's id is "vi/<slug>"; the slug is the id in every language, so
-// the art seeds and the sibling filter key on it.
+// the mark's seed and the sibling filter key on it.
 const appId = slug;
 
 // Cross-links to the rest of the catalog. Its cache hint is registered too —
@@ -98,22 +98,22 @@ const copy = {
     pricing: "View pricing",
     reviews: (n: number) => `from ${n} ${n === 1 ? "review" : "reviews"} on the Shopify App Store`,
     icon: `${data.name} icon`,
-    more: "More from Miso Apps",
-    ctaEyebrow: "Get started",
-    ctaTitle: `Ready to try ${data.name}?`,
-    ctaBody: "Install from the Shopify App Store and configure it on your store in one sitting.",
+    more: "More of our apps",
+    ctaEyebrow: "Try it",
+    ctaTitle: `Try ${data.name} on your store`,
+    ctaBody: "Install from the Shopify App Store and set it up in one sitting.",
     seePricing: "See pricing",
   },
   vi: {
     preview: "Đây là bản xem trước chưa xuất bản.",
-    install: "Cài đặt trên App Store",
+    install: "Cài từ App Store",
     pricing: "Xem bảng giá",
     reviews: (n: number) => `từ ${n} đánh giá trên Shopify App Store`,
     icon: `Biểu tượng ${data.name}`,
-    more: "Các app khác của Miso Apps",
-    ctaEyebrow: "Bắt đầu",
-    ctaTitle: `Sẵn sàng dùng thử ${data.name}?`,
-    ctaBody: "Cài đặt từ Shopify App Store và thiết lập trên cửa hàng của bạn chỉ trong một lần.",
+    more: "Các app khác của chúng tôi",
+    ctaEyebrow: "Dùng thử",
+    ctaTitle: `Thử ${data.name} trên cửa hàng của bạn`,
+    ctaBody: "Cài từ Shopify App Store, thiết lập vài phút là chạy.",
     seePricing: "Xem bảng giá",
   },
 }[lang];
@@ -172,10 +172,8 @@ const copy = {
       </div>
 
       <div class="hero__art" data-hero-art>
-        <div class="hero__tile glass" data-float>
-          <div class="hero__tile-art" aria-hidden="true">
-            <CoverArt seed={appId} />
-          </div>
+        <div class="hero__tile tone-peach" data-float>
+          <span class="hero__blob" aria-hidden="true"></span>
           <div class="hero__mark">
             {
               data.icon ? (
@@ -211,19 +209,9 @@ const copy = {
             {copy.more}
           </h2>
           <ul class="more">
-            {otherApps.map((entry) => (
+            {otherApps.map((entry, index) => (
               <li data-reveal>
-                <a class="more__row" href={localizeHref(`/apps/${entry.id}`, lang)}>
-                  <AppMark seed={entry.id} size={40} />
-                  <span class="more__text">
-                    <span class="more__name">{entry.data.name}</span>
-                    <span class="more__tagline">{entry.data.tagline}</span>
-                  </span>
-                  {entry.data.badge && <span class="more__badge">{entry.data.badge}</span>}
-                  <svg class="more__arrow" viewBox="0 0 16 16" width="15" height="15" aria-hidden="true" focusable="false">
-                    <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </a>
+                <AppCard app={entry} tone={(["peach", "seaweed", "brand", "tofu"] as const)[index % 4]} />
               </li>
             ))}
           </ul>
@@ -233,7 +221,6 @@ const copy = {
   }
 
   <CtaPanel
-    seed={`cta-${appId}`}
     eyebrow={copy.ctaEyebrow}
     title={copy.ctaTitle}
     body={copy.ctaBody}
@@ -252,20 +239,6 @@ const copy = {
   .hero {
     position: relative;
     padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 3vw, 2rem);
-  }
-
-  .hero::before {
-    content: "";
-    position: absolute;
-    inset: -20% 0 auto 0;
-    height: 70%;
-    background: radial-gradient(
-      ellipse 62% 60% at 82% 0%,
-      color-mix(in oklab, var(--brand) 13%, transparent),
-      transparent 70%
-    );
-    pointer-events: none;
-    z-index: -1;
   }
 
   .hero__grid {
@@ -332,9 +305,14 @@ const copy = {
     border-radius: var(--r-2xl);
   }
 
-  .hero__tile-art {
+  /* A seaweed blob under the mark: the same bowl palette as the home hero. */
+  .hero__blob {
     position: absolute;
-    inset: 0;
+    width: 58%;
+    aspect-ratio: 1;
+    border-radius: var(--r-blob);
+    background: var(--seaweed);
+    transform: rotate(-8deg);
   }
 
   .hero__mark {
@@ -351,78 +329,14 @@ const copy = {
   .more {
     list-style: none;
     padding: 0;
-    border-top: 1px solid var(--line);
-  }
-
-  .more li {
-    border-bottom: 1px solid var(--line);
-  }
-
-  .more__row {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.1rem 0.25rem;
-    text-decoration: none;
-    transition: padding-left var(--dur-2) var(--ease-quart);
-  }
-
-  .more__row:hover {
-    padding-left: 0.75rem;
-  }
-
-  .more__text {
     display: grid;
-    gap: 0.15rem;
-    min-width: 0;
-  }
-
-  .more__name {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.0625rem;
-    color: var(--ink);
-  }
-
-  .more__tagline {
-    color: var(--ink-muted);
-    font-size: 0.875rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 62ch;
-  }
-
-  .more__badge {
-    margin-left: auto;
-    flex: none;
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-subtle);
-  }
-
-  .more__arrow {
-    flex: none;
-    color: var(--brand-ink);
-    transition: transform var(--dur-2) var(--ease-quart);
-  }
-
-  .more__row:hover .more__arrow {
-    transform: translateX(3px);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr));
+    gap: 1rem;
   }
 
   @media (min-width: 960px) {
     .hero__grid {
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    }
-  }
-
-  @media (max-width: 599px) {
-    .more__tagline,
-    .more__badge {
-      display: none;
     }
   }
 </style>

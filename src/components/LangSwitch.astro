@@ -11,19 +11,22 @@ const label = lang === "vi" ? "Ngôn ngữ" : "Language";
 
 <nav class="lang" aria-label={label}>
   {
-    LANGS.map((code) => (
-      <a
-        class="lang__seg"
-        href={localizeHref(`${path}${Astro.url.search}`, code)}
-        hreflang={code}
-        lang={LANG_NAMES[code].htmlLang}
-        aria-current={code === lang ? "true" : undefined}
-        data-lang-set={code}
-        title={LANG_NAMES[code].long}
-      >
-        <span aria-hidden="true">{LANG_NAMES[code].short}</span>
-        <span class="sr-only">{LANG_NAMES[code].long}</span>
-      </a>
+    LANGS.map((code, i) => (
+      <>
+        {i > 0 && <span class="lang__sep" aria-hidden="true">/</span>}
+        <a
+          class="lang__seg"
+          href={localizeHref(`${path}${Astro.url.search}`, code)}
+          hreflang={code}
+          lang={LANG_NAMES[code].htmlLang}
+          aria-current={code === lang ? "true" : undefined}
+          data-lang-set={code}
+          title={LANG_NAMES[code].long}
+        >
+          <span aria-hidden="true">{LANG_NAMES[code].short}</span>
+          <span class="sr-only">{LANG_NAMES[code].long}</span>
+        </a>
+      </>
     ))
   }
 </nav>
@@ -33,39 +36,36 @@ const label = lang === "vi" ? "Ngôn ngữ" : "Language";
     display: inline-flex;
     align-items: center;
     flex: none;
-    gap: 2px;
-    padding: 3px;
-    border: 1px solid var(--line);
-    border-radius: var(--r-pill);
-    background: var(--surface-2);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--ink-subtle);
+  }
+
+  .lang__sep {
+    padding-inline: 1px;
   }
 
   .lang__seg {
     display: grid;
     place-items: center;
-    min-width: 34px;
-    height: 24px;
-    padding: 0 0.5rem;
-    border-radius: var(--r-pill);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    color: var(--ink-subtle);
+    min-width: 30px;
+    min-height: 44px;
+    color: var(--ink-muted);
     text-decoration: none;
-    transition:
-      color var(--dur-2) var(--ease-quart),
-      background-color var(--dur-2) var(--ease-quart);
+    transition: color var(--dur-2) var(--ease-quart);
   }
 
   .lang__seg:hover {
-    color: var(--ink);
+    color: var(--brand-ink);
   }
 
   .lang__seg[aria-current="true"] {
-    background: var(--surface);
-    color: var(--brand-ink);
-    box-shadow: var(--shadow-1), var(--edge);
+    color: var(--ink);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
   }
 </style>
 

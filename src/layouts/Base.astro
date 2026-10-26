@@ -2,7 +2,6 @@
 import "../styles/global.css";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
-import TopBar from "../components/TopBar.astro";
 import { LANG_NAMES, LANG_SCRIPT, LANGS, getLang, localizeHref, splitLang } from "../i18n";
 import { SITE_DESCRIPTION, SITE_DESCRIPTION_VI, SITE_TITLE } from "../site";
 
@@ -16,8 +15,8 @@ interface Props {
 
 const lang = getLang(Astro.locals);
 const copy = {
-  en: { description: SITE_DESCRIPTION, studio: "Professional Shopify app studio", skip: "Skip to content" },
-  vi: { description: SITE_DESCRIPTION_VI, studio: "Studio app Shopify chuyên nghiệp", skip: "Bỏ qua đến nội dung" },
+  en: { description: SITE_DESCRIPTION, studio: "Shopify theme design and apps", skip: "Skip to content" },
+  vi: { description: SITE_DESCRIPTION_VI, studio: "Thiết kế theme và app Shopify", skip: "Chuyển đến nội dung chính" },
 }[lang];
 
 const {
@@ -90,12 +89,12 @@ const alternates = LANGS.map((code) => ({ code, href: new URL(localizeHref(path,
     {image && <meta property="og:image" content={new URL(image, origin)} />}
     <meta property="og:url" content={canonicalHref} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#f6f7f4" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0b0e0c" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fcfcfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#151412" media="(prefers-color-scheme: dark)" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=IBM+Plex+Mono:wght@400;500&family=Onest:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <script>
@@ -104,12 +103,10 @@ const alternates = LANGS.map((code) => ({ code, href: new URL(localizeHref(path,
   </head>
   <body>
     <a class="skip-link" href="#main-content">{copy.skip}</a>
-    <TopBar />
     <Navigation />
     <main id="main-content">
       <slot />
     </main>
     <Footer />
-    <div class="grain" aria-hidden="true"></div>
   </body>
 </html>

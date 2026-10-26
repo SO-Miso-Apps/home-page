@@ -1,6 +1,10 @@
 /* ==========================================================================
-   Miso Apps — design system
+   Miso Apps — design system "Bát miso"
    --------------------------------------------------------------------------
+   Warm paper ground, one miso-orange accent, and three soft "ingredient"
+   tones (peach, tofu, seaweed) for blocks. Rounded everywhere: pills for
+   controls, 18–40px radii for cards and sections.
+
    Two token tiers. Primitives hold raw values; semantic tokens name roles and
    are the only thing components may reference.
 
@@ -13,32 +17,36 @@
 :root {
   color-scheme: light;
 
-  /* --- Radii: tightened inside, softer outside ------------------------- */
+  /* --- Radii: pills for controls, generous curves for blocks ----------- */
   --r-xs: 8px;
   --r-sm: 12px;
-  --r-md: 16px;
-  --r-lg: 22px;
-  --r-xl: 28px;
-  --r-2xl: 36px;
+  --r-md: 18px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+  --r-2xl: 40px;
   --r-pill: 999px;
+  --r-blob: 50% 50% 46% 54% / 40% 40% 60% 60%;
 
   /* --- Type ------------------------------------------------------------ */
-  --font-display: "Outfit", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  /* All three ship a Vietnamese subset, so diacritics never fall back to a
+     system face mid-word. */
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Onest", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --step--1: 0.8125rem;
   --step-0: 1rem;
   --step-1: 1.0625rem;
   --step-2: clamp(1.25rem, 1.12rem + 0.5vw, 1.5rem);
   --step-3: clamp(1.5rem, 1.26rem + 1vw, 2rem);
-  --step-4: clamp(1.85rem, 1.4rem + 1.9vw, 2.6rem);
-  --step-5: clamp(2.25rem, 1.55rem + 3vw, 3.6rem);
+  --step-4: clamp(1.9rem, 1.4rem + 2vw, 2.85rem);
+  --step-5: clamp(2.4rem, 1.6rem + 3.4vw, 4rem);
+  --step-hero: clamp(2.75rem, 1.4rem + 5.6vw, 6rem);
 
   /* --- Space ----------------------------------------------------------- */
-  --gutter: clamp(1.125rem, 4vw, 2rem);
+  --gutter: clamp(1rem, 4vw, 2rem);
   --container: 1240px;
-  --measure: 66ch;
+  --measure: 62ch;
   --section-y: clamp(4rem, 9vw, 7.5rem);
 
   /* --- Motion ---------------------------------------------------------- */
@@ -52,8 +60,6 @@
   --z-sticky: 20;
   --z-overlay: 40;
   --z-modal: 60;
-
-  --grain-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* --- Semantic: light --------------------------------------------------- */
@@ -61,79 +67,92 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --canvas: #f6f7f4;
-  --canvas-deep: #eceee8;
+  --canvas: #fcfcfa;
+  --canvas-deep: #f3efe6;
   --surface: #ffffff;
-  --surface-2: #f1f3ee;
-  --surface-glass: rgba(255, 255, 255, 0.72);
+  --surface-2: #f3efe6;
 
-  --ink: #141815;
-  --ink-muted: #5c6862;
-  --ink-subtle: #686f6b;
+  --ink: #1b1a17;
+  --ink-muted: #5e5a52;
+  /* 4.97:1 on tofu, the lowest ground it sits on. */
+  --ink-subtle: #6b665d;
 
-  --brand: #138f5b;
-  --brand-hover: #0f6f49;
+  /* Miso orange. White text on it is 4.96:1; on its own it clears 4.83:1 on
+     the canvas, so large display text may use it directly. */
+  --brand: #c2481a;
+  --brand-hover: #9c3810;
   --brand-fg: #ffffff;
-  /* Text/icon-safe brand. `--brand` clears only the 3:1 non-text threshold on
-     the light canvas (3.82:1), so small text uses this darker mix (4.99:1). */
-  --brand-ink: #107a4e;
-  --brand-soft: rgba(19, 143, 91, 0.1);
-  --brand-line: rgba(19, 143, 91, 0.3);
-  --brand-on-dark: #2fb273;
+  /* Text-safe orange for small type on every ground, tofu included (5.2:1). */
+  --brand-ink: #ae3f15;
+  --brand-soft: #fce3d3;
+  --brand-line: rgba(194, 72, 26, 0.32);
 
-  --line: rgba(20, 24, 21, 0.1);
-  --line-strong: rgba(20, 24, 21, 0.18);
-  --ring: rgba(19, 143, 91, 0.45);
+  /* Ingredient tones for blocks. Each has its own ink pair; never put
+     --ink-muted on a tone, use the matching *-muted instead. */
+  --peach: #fce3d3;
+  --peach-ink: #8a3210;
+  --peach-muted: #4a3a30;
+  --tofu: #f3efe6;
+  --tofu-line: #e2dbcc;
+  --seaweed: #1e4a3b;
+  --seaweed-ink: #f3efe6;
+  --seaweed-muted: #d3e6dc;
+  --seaweed-accent: #b8e0cc;
 
-  /* The one non-brand hue in the system, for form validation only: 6.08:1 on
-     the canvas, 6.53:1 on a surface. Marketing copy never uses it. */
+  --line: rgba(27, 26, 23, 0.1);
+  --line-strong: rgba(27, 26, 23, 0.18);
+  --ring: rgba(194, 72, 26, 0.5);
+
+  /* Form validation only: 6.1:1 on the canvas. Marketing copy never uses it. */
   --danger: #b4232a;
 
-  --shadow-1: 0 1px 2px rgba(14, 26, 19, 0.05), 0 1px 1px rgba(14, 26, 19, 0.03);
-  --shadow-2: 0 2px 4px rgba(14, 26, 19, 0.04), 0 14px 28px -14px rgba(14, 26, 19, 0.12);
-  --shadow-3: 0 4px 10px rgba(14, 26, 19, 0.05), 0 34px 60px -28px rgba(14, 26, 19, 0.2);
-  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.8);
-
-  --grain-opacity: 0.024;
-  --art-blend: normal;
+  --shadow-1: 0 1px 2px rgba(40, 30, 20, 0.06);
+  --shadow-2: 0 2px 4px rgba(40, 30, 20, 0.04), 0 16px 30px -18px rgba(40, 30, 20, 0.18);
+  --shadow-3: 0 4px 10px rgba(40, 30, 20, 0.05), 0 34px 60px -30px rgba(40, 30, 20, 0.28);
 }
 
 /* --- Semantic: dark ---------------------------------------------------- */
+/* Same bowl, lights down: roasted ground, the orange lifted so it reads as
+   text, tones deepened so their ink pairs keep 7:1+. */
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --canvas: #0b0e0c;
-  --canvas-deep: #070907;
-  --surface: #131714;
-  --surface-2: #1a1f1b;
-  --surface-glass: rgba(19, 23, 20, 0.72);
+  --canvas: #151412;
+  --canvas-deep: #100f0e;
+  --surface: #1f1d1a;
+  --surface-2: #26231f;
 
-  --ink: #e9eee9;
-  --ink-muted: #9aa69f;
-  --ink-subtle: #7d8981;
+  --ink: #f3efe6;
+  --ink-muted: #b5ae9f;
+  --ink-subtle: #a39c8d;
 
-  --brand: #2fb273;
-  --brand-hover: #43c885;
-  --brand-fg: #06120c;
-  --brand-ink: #2fb273;
-  --brand-soft: rgba(47, 178, 115, 0.14);
-  --brand-line: rgba(47, 178, 115, 0.34);
-  --brand-on-dark: #2fb273;
+  --brand: #ee7c4c;
+  --brand-hover: #f39a72;
+  --brand-fg: #151412;
+  --brand-ink: #ee7c4c;
+  --brand-soft: #3a2419;
+  --brand-line: rgba(238, 124, 76, 0.36);
 
-  --line: rgba(233, 238, 233, 0.1);
-  --line-strong: rgba(233, 238, 233, 0.2);
-  --ring: rgba(47, 178, 115, 0.5);
+  --peach: #3a2419;
+  --peach-ink: #f7b892;
+  --peach-muted: #d9c3b4;
+  --tofu: #24211d;
+  --tofu-line: #36322b;
+  --seaweed: #24493b;
+  --seaweed-ink: #f3efe6;
+  --seaweed-muted: #d3e6dc;
+  --seaweed-accent: #b8e0cc;
 
-  /* Form validation only; 8.55:1 on the dark canvas, 7.97:1 on a surface. */
+  --line: rgba(243, 239, 230, 0.1);
+  --line-strong: rgba(243, 239, 230, 0.2);
+  --ring: rgba(238, 124, 76, 0.55);
+
+  /* Form validation only; 8.5:1 on the dark canvas. */
   --danger: #f78f8a;
 
   --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-2: 0 2px 4px rgba(0, 0, 0, 0.3), 0 16px 32px -16px rgba(0, 0, 0, 0.55);
   --shadow-3: 0 4px 10px rgba(0, 0, 0, 0.35), 0 36px 64px -30px rgba(0, 0, 0, 0.7);
-  --edge: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-
-  --grain-opacity: 0.05;
-  --art-blend: screen;
 }
 
 /* ==========================================================================
@@ -153,12 +172,13 @@ html {
   font-size: 100%;
   line-height: 1.65;
   scroll-behavior: smooth;
-  scroll-padding-top: 88px;
+  scroll-padding-top: 96px;
   -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
+  background: var(--canvas);
   overflow-x: hidden;
 }
 
@@ -167,16 +187,22 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
+  font-optical-sizing: auto;
   font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
+  letter-spacing: -0.015em;
+  /* Vietnamese stacks diacritics above and below; 1.1 keeps them clear. */
+  line-height: 1.12;
   color: var(--ink);
   margin: 0;
   text-wrap: balance;
 }
 
-h1 {
-  font-weight: 700;
+h1 em,
+h2 em,
+h3 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--brand);
 }
 
 p {
@@ -201,8 +227,8 @@ ol {
 }
 
 ::selection {
-  background: var(--brand-soft);
-  color: var(--ink);
+  background: var(--peach);
+  color: var(--peach-ink);
 }
 
 :focus-visible {
@@ -234,11 +260,18 @@ ol {
   padding-block: clamp(2.5rem, 5vw, 4rem);
 }
 
+/* A full-bleed tofu band, inset from the viewport edge like a tray. */
+.band {
+  background: var(--tofu);
+  border-radius: var(--r-2xl);
+  margin-inline: clamp(0.5rem, 1.5vw, 1.25rem);
+}
+
 .hairline {
   height: 1px;
   border: 0;
   margin: 0;
-  background: linear-gradient(to right, transparent, var(--line-strong) 18%, var(--line-strong) 82%, transparent);
+  background: var(--line);
 }
 
 /* ==========================================================================
@@ -250,19 +283,32 @@ ol {
   align-items: center;
   gap: 0.5rem;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--brand-ink);
 }
 
 .eyebrow__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: var(--r-blob);
   background: var(--brand);
   flex: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--peach-ink);
+  background: var(--peach);
+  border-radius: var(--r-pill);
+  padding: 0.5rem 0.95rem;
 }
 
 .lede {
@@ -291,12 +337,13 @@ ol {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
+  min-height: 44px;
   font-family: var(--font-body);
   font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1;
-  padding: 0.85rem 1.35rem;
+  padding: 0.85rem 1.4rem;
   border: 1px solid transparent;
   border-radius: var(--r-pill);
   text-decoration: none;
@@ -321,33 +368,27 @@ ol {
 .btn--primary {
   background: var(--ink);
   color: var(--canvas);
-  box-shadow: var(--shadow-2);
 }
 
 .btn--primary:hover {
   transform: translateY(-1px);
-  box-shadow: var(--shadow-3);
+  box-shadow: var(--shadow-2);
 }
 
 .btn--brand {
-  /* Starts at --brand-ink, not --brand: white on #138f5b is 4.11:1, under AA. */
-  background: linear-gradient(to bottom, var(--brand-ink), var(--brand-hover));
+  background: var(--brand);
   color: var(--brand-fg);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22),
-    0 1px 2px rgba(14, 26, 19, 0.18),
-    0 10px 22px -12px var(--brand-line);
 }
 
 .btn--brand:hover {
+  background: var(--brand-hover);
   transform: translateY(-1px);
 }
 
 .btn--ghost {
-  background: var(--surface);
+  background: var(--tofu);
   color: var(--ink);
-  border-color: var(--line-strong);
-  box-shadow: var(--shadow-1);
+  border-color: var(--tofu-line);
 }
 
 .btn--ghost:hover {
@@ -367,12 +408,13 @@ ol {
 
 .btn--sm {
   font-size: 0.875rem;
-  padding: 0.6rem 1rem;
+  min-height: 40px;
+  padding: 0.6rem 1.05rem;
 }
 
 .btn--lg {
   font-size: 1rem;
-  padding: 1rem 1.6rem;
+  padding: 1.05rem 1.7rem;
 }
 
 .btn__arrow {
@@ -392,15 +434,34 @@ ol {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
-  box-shadow: var(--shadow-2);
+  box-shadow: var(--shadow-1);
 }
 
-.glass {
-  background: var(--surface-glass);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
-  backdrop-filter: blur(14px) saturate(1.4);
-  border: 1px solid var(--line);
-  box-shadow: var(--edge), var(--shadow-2);
+/* Toned blocks: set the ground and the text pair together. */
+.tone-peach {
+  background: var(--peach);
+  color: var(--peach-ink);
+  --tone-muted: var(--peach-muted);
+}
+
+.tone-tofu {
+  background: var(--tofu);
+  color: var(--ink);
+  --tone-muted: var(--ink-muted);
+}
+
+.tone-seaweed {
+  background: var(--seaweed);
+  color: var(--seaweed-ink);
+  --tone-muted: var(--seaweed-muted);
+}
+
+.tone-peach :is(h2, h3, h4) {
+  color: var(--peach-ink);
+}
+
+.tone-seaweed :is(h2, h3, h4) {
+  color: var(--seaweed-ink);
 }
 
 .badge {
@@ -410,16 +471,15 @@ ol {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--brand-ink);
-  background: var(--brand-soft);
-  border: 1px solid var(--brand-line);
+  color: var(--peach-ink);
+  background: var(--peach);
   border-radius: var(--r-pill);
-  padding: 0.3rem 0.65rem;
+  padding: 0.3rem 0.7rem;
 }
 
-/* Decorative art: gradient wash + pattern, never content. */
+/* Decorative art: soft tone wash, never content. */
 .art {
   position: absolute;
   inset: 0;
@@ -432,21 +492,18 @@ ol {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 90% 70% at 15% 0%, color-mix(in oklab, var(--brand) 40%, transparent), transparent 60%),
-    radial-gradient(ellipse 70% 60% at 100% 100%, color-mix(in oklab, var(--art-2, var(--brand)) 55%, transparent), transparent 65%),
-    linear-gradient(160deg, var(--surface-2), var(--surface));
+    radial-gradient(ellipse 80% 70% at 12% 0%, var(--peach), transparent 62%),
+    radial-gradient(ellipse 70% 60% at 100% 100%, color-mix(in oklab, var(--art-2, var(--brand)) 30%, transparent), transparent 66%),
+    var(--tofu);
 }
 
 .art__grid {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(to right, var(--line) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
-  background-size: 28px 28px;
+  background-image: radial-gradient(var(--tofu-line) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
   -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 30%, #000 20%, transparent 72%);
   mask-image: radial-gradient(ellipse 80% 80% at 50% 30%, #000 20%, transparent 72%);
-  opacity: 0.8;
 }
 
 /* ==========================================================================
@@ -456,7 +513,7 @@ ol {
 .prose {
   color: var(--ink-muted);
   font-size: var(--step-1);
-  line-height: 1.75;
+  line-height: 1.8;
 }
 
 .prose > * + * {
@@ -512,8 +569,11 @@ ol {
 }
 
 .prose blockquote {
-  border-left: 2px solid var(--brand-line);
-  padding-left: 1.25rem;
+  margin-inline: 0;
+  background: var(--tofu);
+  border-radius: var(--r-md);
+  padding: 1rem 1.25rem;
+  font-family: var(--font-display);
   font-style: italic;
   color: var(--ink);
 }
@@ -521,15 +581,15 @@ ol {
 .prose code {
   font-family: var(--font-mono);
   font-size: 0.88em;
-  background: var(--surface-2);
-  border: 1px solid var(--line);
+  background: var(--tofu);
+  border: 1px solid var(--tofu-line);
   border-radius: var(--r-xs);
   padding: 0.12em 0.4em;
 }
 
 .prose pre {
-  background: var(--surface-2);
-  border: 1px solid var(--line);
+  background: var(--tofu);
+  border: 1px solid var(--tofu-line);
   border-radius: var(--r-md);
   padding: 1.15rem 1.25rem;
   overflow-x: auto;
@@ -552,7 +612,6 @@ ol {
 
 .prose img {
   border-radius: var(--r-md);
-  border: 1px solid var(--line);
 }
 
 .prose table {
@@ -570,7 +629,6 @@ ol {
 
 .prose th {
   color: var(--ink);
-  font-family: var(--font-display);
   font-weight: 600;
 }
 
@@ -594,9 +652,9 @@ ol {
 
 .widget__title {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-subtle);
 }
@@ -645,8 +703,8 @@ ol {
   color: var(--ink);
   background: var(--surface);
   border: 1px solid var(--line-strong);
-  border-radius: var(--r-sm);
-  padding: 0.55rem 0.75rem;
+  border-radius: var(--r-pill);
+  padding: 0.55rem 0.9rem;
   width: 100%;
 }
 
@@ -654,7 +712,7 @@ ol {
   font: inherit;
   font-weight: 600;
   color: var(--brand-fg);
-  background: var(--brand-ink);
+  background: var(--brand);
   border: 0;
   border-radius: var(--r-pill);
   padding: 0.6rem 1.1rem;
@@ -696,16 +754,6 @@ ol {
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
-}
-
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-overlay);
-  pointer-events: none;
-  background-image: var(--grain-url);
-  opacity: var(--grain-opacity);
-  mix-blend-mode: var(--art-blend);
 }
 
 /* ==========================================================================

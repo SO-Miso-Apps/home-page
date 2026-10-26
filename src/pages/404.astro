@@ -8,16 +8,16 @@ const copy = {
     title: "Page not found",
     h1: "This page took a wrong turn.",
     lede: "The address you followed does not exist on this site. It may have been renamed, or the link that brought you here may be out of date.",
-    links: ["Home", "Our apps", "Blog", "About"],
+    links: ["Home", "Services", "Our apps", "Blog"],
   },
   vi: {
     title: "Không tìm thấy trang",
-    h1: "Trang này đã đi lạc đường.",
-    lede: "Địa chỉ bạn vừa mở không tồn tại trên trang web này. Có thể trang đã được đổi tên, hoặc đường dẫn đưa bạn tới đây đã cũ.",
-    links: ["Trang chủ", "Các app", "Blog", "Giới thiệu"],
+    h1: "Không tìm thấy trang này.",
+    lede: "Có thể trang đã đổi địa chỉ, hoặc đường dẫn bạn bấm vào đã cũ. Bạn thử một trong các trang dưới đây nhé.",
+    links: ["Trang chủ", "Dịch vụ", "Các app", "Blog"],
   },
 }[lang];
-const links = ["/", "/#apps", "/blog", "/about"].map((href, index) => ({
+const links = ["/", "/services", "/#apps", "/blog"].map((href, index) => ({
   label: copy.links[index],
   href: localizeHref(href, lang),
 }));
@@ -26,7 +26,7 @@ const links = ["/", "/#apps", "/blog", "/about"].map((href, index) => ({
 <Base title={copy.title} robots="noindex">
   <section class="notfound">
     <div class="container notfound__inner">
-      <span class="notfound__code num" aria-hidden="true">404</span>
+      <span class="notfound__code" aria-hidden="true">404</span>
       <h1>{copy.h1}</h1>
       <p class="lede">{copy.lede}</p>
       <ul class="notfound__links">
@@ -59,13 +59,12 @@ const links = ["/", "/#apps", "/blog", "/about"].map((href, index) => ({
     max-width: 60ch;
   }
   .notfound__code {
-    font-size: clamp(3.5rem, 12vw, 7rem);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(4rem, 14vw, 8rem);
     line-height: 0.9;
     font-weight: 500;
-    color: transparent;
-    background: linear-gradient(to bottom, var(--brand), color-mix(in oklab, var(--brand) 25%, transparent));
-    -webkit-background-clip: text;
-    background-clip: text;
+    color: var(--brand);
     letter-spacing: -0.04em;
   }
   h1 {
@@ -86,9 +85,9 @@ const links = ["/", "/#apps", "/blog", "/about"].map((href, index) => ({
     gap: 0.4rem;
     min-height: 44px;
     padding: 0 1.1rem;
-    border: 1px solid var(--line-strong);
+    border: 1px solid var(--tofu-line);
     border-radius: var(--r-pill);
-    background: var(--surface);
+    background: var(--tofu);
     color: var(--ink);
     font-size: 0.9375rem;
     font-weight: 600;
