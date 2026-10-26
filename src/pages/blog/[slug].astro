@@ -1,16 +1,17 @@
 ---
 import { LiveEntryNotFoundError } from "astro/content/runtime";
-import { decodeSlug, getEmDashEntry, getSeoMeta } from "emdash";
+import { decodeSlug, getSeoMeta } from "emdash";
 import { PortableText } from "emdash/ui";
 import Base from "../../layouts/Base.astro";
 import { getLang, localizeHref, splitLang } from "../../i18n";
+import { getLocalizedEntry } from "../../lib/content";
 
 const lang = getLang(Astro.locals);
 const notFound = localizeHref("/404", lang);
 const slug = decodeSlug(Astro.params.slug);
 if (!slug) return Astro.rewrite(notFound);
 // Falls back to the English post until a translation is published.
-const { entry: post, error, isPreview, cacheHint } = await getEmDashEntry("posts", slug, { locale: lang });
+const { entry: post, error, isPreview, cacheHint } = await getLocalizedEntry("posts", slug, lang);
 
 if (error) {
   // Astro live collections surface a missing entry as LiveEntryNotFoundError
