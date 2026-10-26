@@ -1,7 +1,7 @@
 ---
 import SectionHeader from "./SectionHeader.astro";
 import { getLang, localizeHref } from "../i18n";
-import { PRICING_PLANS, defaultMarket, formatDuration, formatPrice, planMessage, type Market } from "../pricing";
+import { MARKET_LABELS, PRICING_PLANS, defaultMarket, formatDuration, formatPrice, planMessage, type Market } from "../pricing";
 
 interface Props {
   id?: string;
@@ -24,7 +24,6 @@ const copy = {
     title: "Theme packages",
     lead: "Three packages for theme work. Need an app built? Send a request and we will quote it separately.",
     legend: "Where is your store?",
-    market: { vn: "Vietnam · VND", intl: "International · USD" },
     quoted: "Quoted per project",
     takes: "Takes about",
     quote: "Ask for a quote",
@@ -35,7 +34,6 @@ const copy = {
     title: "Chọn gói hợp với cửa hàng của bạn",
     lead: "Ba gói cho việc làm theme. Cần làm app? Bạn cứ gửi yêu cầu, chúng tôi báo giá riêng.",
     legend: "Cửa hàng của bạn ở đâu?",
-    market: { vn: "Việt Nam · VND", intl: "Quốc tế · USD" },
     quoted: "Báo giá theo dự án",
     takes: "Thời gian làm khoảng",
     quote: "Nhận báo giá",
@@ -66,7 +64,7 @@ const plans = PRICING_PLANS.map((plan, index) => ({
           markets.map((market) => (
             <label class="market__option">
               <input class="sr-only" type="radio" name={`${id}-market`} value={market} checked={market === start} />
-              {copy.market[market]}
+              {MARKET_LABELS[lang][market]}
             </label>
           ))
         }
@@ -82,7 +80,7 @@ const plans = PRICING_PLANS.map((plan, index) => ({
             <p class="plan__price">
               {plan.prices.map((price) => (
                 <span class="plan__amount" data-market={price.market}>
-                  <span class="sr-only">{copy.market[price.market]}: </span>
+                  <span class="sr-only">{MARKET_LABELS[lang][price.market]}: </span>
                   {price.label}
                 </span>
               ))}

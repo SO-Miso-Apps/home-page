@@ -23,6 +23,10 @@ const copy = {
     lede: "Most of our work is on the theme a store already runs: new sections, layout and style changes, speed fixes. When the job needs more than a theme can do, we build the app for it. Either way you get a scope and a price before we start, and you review everything before customers see it.",
     primary: "Send a request",
     secondary: "See our apps",
+    art: {
+      store: "Home page of a demo store, with a banner and featured products",
+      phone: "The demo store's product page on a phone",
+    },
     tracks: {
       eyebrow: "What we do",
       title: "Two kinds of work, one way of doing it.",
@@ -89,6 +93,10 @@ const copy = {
     lede: "Phần lớn việc chúng tôi làm là sửa trên chính theme cửa hàng đang dùng: thêm section, đổi bố cục và giao diện, tăng tốc độ tải trang. Khi theme không đủ sức, chúng tôi làm app riêng cho việc đó. Dù là gì, bạn đều có phạm vi và báo giá trước khi bắt đầu, và được duyệt mọi thứ trước khi khách hàng nhìn thấy.",
     primary: "Gửi yêu cầu",
     secondary: "Xem các app của chúng tôi",
+    art: {
+      store: "Trang chủ của một cửa hàng demo, có banner và sản phẩm nổi bật",
+      phone: "Trang sản phẩm của cửa hàng demo đó trên điện thoại",
+    },
     tracks: {
       eyebrow: "Chúng tôi làm gì",
       title: "Hai mảng việc, chung một cách làm.",
@@ -151,7 +159,7 @@ const copy = {
 
 <Base title={copy.title} description={copy.description}>
   <section class="section head-section" aria-labelledby="services-title">
-    <div class="container">
+    <div class="container head-grid">
       <div class="page-head">
         <span class="eyebrow">
           <span class="eyebrow__dot" />
@@ -167,6 +175,18 @@ const copy = {
             </svg>
           </a>
           <a class="btn btn--ghost btn--lg" href={localizeHref("/#apps", lang)}>{copy.secondary}</a>
+        </div>
+      </div>
+
+      {/* A demo store (products from mock.shop), on desktop and on a phone. */}
+      <div class="head-art" data-reveal>
+        <span class="head-art__tone tone-peach" aria-hidden="true"></span>
+        <div class="head-art__window">
+          <span class="head-art__bar" aria-hidden="true"><i></i><i></i><i></i></span>
+          <img src="/demo/store-home.webp" width="1440" height="900" alt={copy.art.store} decoding="async" />
+        </div>
+        <div class="head-art__phone">
+          <img src="/demo/product-mobile.webp" width="660" height="1428" alt={copy.art.phone} decoding="async" />
         </div>
       </div>
     </div>
@@ -215,6 +235,16 @@ const copy = {
   .head-section {
     padding-block: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.5rem);
   }
+  .head-grid {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 3.5rem);
+    align-items: center;
+  }
+  @media (min-width: 960px) {
+    .head-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    }
+  }
   .page-head {
     display: grid;
     justify-items: start;
@@ -224,6 +254,54 @@ const copy = {
   h1 {
     font-size: var(--step-5);
     letter-spacing: -0.035em;
+  }
+  /* --- Head art: browser window on a tone block, phone in front ---------- */
+  .head-art {
+    position: relative;
+    padding: clamp(1.25rem, 3vw, 2rem) 0 clamp(2.5rem, 6vw, 3.5rem) clamp(2rem, 7vw, 4.5rem);
+  }
+  .head-art__tone {
+    position: absolute;
+    inset: 0 0 8% 14%;
+    border-radius: var(--r-xl);
+    transform: rotate(2.5deg);
+  }
+  .head-art__window {
+    position: relative;
+    border-radius: var(--r-sm);
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow-3), 0 0 0 1px color-mix(in oklab, var(--ink) 10%, transparent);
+  }
+  .head-art__bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--tofu-line);
+  }
+  .head-art__bar i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--tofu-line);
+  }
+  .head-art img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .head-art__phone {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: clamp(92px, 26%, 190px);
+    padding: clamp(4px, 0.6vw, 7px);
+    border-radius: clamp(1rem, 2.4vw, 1.8rem);
+    background: #1d1a17;
+    box-shadow: var(--shadow-3);
+  }
+  .head-art__phone img {
+    border-radius: clamp(0.8rem, 2vw, 1.45rem);
   }
   .page-head__actions {
     display: flex;

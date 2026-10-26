@@ -128,7 +128,14 @@ const fields: {
     <p class="field">
       <label for="contact-budget">{say.budget}</label>
       <select id="contact-budget" name="budget" aria-describedby="contact-budget-error">
-        {options.budget.map((option) => <option value={option.value}>{option.label}</option>)}
+        <option value={options.budget.open.value}>{options.budget.open.label}</option>
+        {
+          options.budget.groups.map((group) => (
+            <optgroup label={group.label}>
+              {group.options.map((option) => <option value={option.value}>{option.label}</option>)}
+            </optgroup>
+          ))
+        }
       </select>
       <span class="field__error" id="contact-budget-error" data-contact-error="budget" />
     </p>

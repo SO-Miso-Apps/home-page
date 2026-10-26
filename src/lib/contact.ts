@@ -7,6 +7,7 @@ import { SERVICES, SERVICES_BY_LANG } from "../services";
 import type { ServiceTrack } from "../services";
 import { CONTACT_EMAIL, CONTACT_PHONE } from "../site";
 import { DEFAULT_LANG, type Lang } from "../i18n";
+import { MARKET_LABELS, defaultMarket, type Market } from "../pricing";
 
 /** Sender on the `send.` subdomain — the apex MX belongs to Zoho Mail. */
 export const CONTACT_FORM_FROM = "forms@send.misoapps.com";
@@ -30,13 +31,24 @@ export const SERVICE_OPTIONS: { value: string; label: string }[] = [
 ];
 
 // Ranges are a business call, not a technical one: edit the labels here and the
-// form, the email and the validation all follow.
-export const BUDGET_OPTIONS: { value: string; label: string }[] = [
+// form, the email and the validation all follow. Each range belongs to a market,
+// as in the pricing table: VND for stores in Vietnam, USD for stores abroad.
+export interface BudgetOption {
+  value: string;
+  label: string;
+  market?: Market;
+}
+
+export const BUDGET_OPTIONS: BudgetOption[] = [
   { value: "", label: "Prefer to discuss" },
-  { value: "under-1k", label: "Under $1,000" },
-  { value: "1k-3k", label: "$1,000 – $3,000" },
-  { value: "3k-8k", label: "$3,000 – $8,000" },
-  { value: "8k-plus", label: "$8,000+" },
+  { value: "vnd-under-5m", label: "Under 5 million VND", market: "vn" },
+  { value: "vnd-5m-10m", label: "5 – 10 million VND", market: "vn" },
+  { value: "vnd-10m-30m", label: "10 – 30 million VND", market: "vn" },
+  { value: "vnd-30m-plus", label: "30 million VND+", market: "vn" },
+  { value: "under-1k", label: "Under $1,000", market: "intl" },
+  { value: "1k-3k", label: "$1,000 – $3,000", market: "intl" },
+  { value: "3k-8k", label: "$3,000 – $8,000", market: "intl" },
+  { value: "8k-plus", label: "$8,000+", market: "intl" },
 ];
 
 const SERVICE_OPTIONS_VI: { value: string; label: string }[] = [
@@ -44,21 +56,41 @@ const SERVICE_OPTIONS_VI: { value: string; label: string }[] = [
   { value: "both", label: "Cả hai — theme và app" },
 ];
 
-const BUDGET_OPTIONS_VI: { value: string; label: string }[] = [
+const BUDGET_OPTIONS_VI: BudgetOption[] = [
   { value: "", label: "Muốn trao đổi thêm" },
-  { value: "under-1k", label: "Dưới $1.000" },
-  { value: "1k-3k", label: "$1.000 – $3.000" },
-  { value: "3k-8k", label: "$3.000 – $8.000" },
-  { value: "8k-plus", label: "Trên $8.000" },
+  { value: "vnd-under-5m", label: "Dưới 5 triệu đồng", market: "vn" },
+  { value: "vnd-5m-10m", label: "5 – 10 triệu đồng", market: "vn" },
+  { value: "vnd-10m-30m", label: "10 – 30 triệu đồng", market: "vn" },
+  { value: "vnd-30m-plus", label: "Trên 30 triệu đồng", market: "vn" },
+  { value: "under-1k", label: "Dưới $1.000", market: "intl" },
+  { value: "1k-3k", label: "$1.000 – $3.000", market: "intl" },
+  { value: "3k-8k", label: "$3.000 – $8.000", market: "intl" },
+  { value: "8k-plus", label: "Trên $8.000", market: "intl" },
 ];
+
+/** The budget select: a "let's discuss" choice, then one group per market,
+ * the page language's usual market first. */
+export interface BudgetChoices {
+  open: BudgetOption;
+  groups: { label: string; options: BudgetOption[] }[];
+}
 
 export function optionsFor(lang: Lang): {
   service: { value: string; label: string }[];
-  budget: { value: string; label: string }[];
+  budget: BudgetChoices;
 } {
-  return lang === "vi"
-    ? { service: SERVICE_OPTIONS_VI, budget: BUDGET_OPTIONS_VI }
-    : { service: SERVICE_OPTIONS, budget: BUDGET_OPTIONS };
+  const budget = lang === "vi" ? BUDGET_OPTIONS_VI : BUDGET_OPTIONS;
+  const markets: Market[] = defaultMarket(lang) === "vn" ? ["vn", "intl"] : ["intl", "vn"];
+  return {
+    service: lang === "vi" ? SERVICE_OPTIONS_VI : SERVICE_OPTIONS,
+    budget: {
+      open: budget.find((option) => !option.market)!,
+      groups: markets.map((market) => ({
+        label: MARKET_LABELS[lang][market],
+        options: budget.filter((option) => option.market === market),
+      })),
+    },
+  };
 }
 
 /**
