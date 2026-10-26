@@ -5,14 +5,31 @@ interface Props {
   primary: { label: string; href: string; external?: boolean };
   secondary?: { label: string; href: string; external?: boolean };
   eyebrow?: string;
+  /**
+   * Set the demo store under the copy: a browser window rising from the panel's
+   * bottom edge, flanked by two phone screens on wide screens.
+   */
+  showcase?: boolean;
 }
 
-const { title, body, primary, secondary, eyebrow } = Astro.props;
+const { title, body, primary, secondary, eyebrow, showcase = false } = Astro.props;
 ---
 
 <section class="section section--tight">
   <div class="container">
-    <div class="cta tone-seaweed" data-reveal>
+    <div class:list={["cta tone-seaweed", { "cta--showcase": showcase }]} data-reveal>
+      {
+        showcase && (
+          <div class="cta__phones" aria-hidden="true">
+            <span class="cta__phone cta__phone--left">
+              <img src="/demo/mobile-collection.webp" width="660" height="1428" alt="" loading="lazy" decoding="async" />
+            </span>
+            <span class="cta__phone cta__phone--right">
+              <img src="/demo/mobile-cart.webp" width="660" height="1428" alt="" loading="lazy" decoding="async" />
+            </span>
+          </div>
+        )
+      }
       {eyebrow && <span class="cta__eyebrow">{eyebrow}</span>}
       <h2>{title}</h2>
       {body && <p class="cta__body">{body}</p>}
@@ -41,6 +58,18 @@ const { title, body, primary, secondary, eyebrow } = Astro.props;
           )
         }
       </div>
+      {
+        showcase && (
+          <div class="cta__window" aria-hidden="true">
+            <span class="cta__window-bar">
+              <i />
+              <i />
+              <i />
+            </span>
+            <img src="/demo/store-home.webp" width="1440" height="900" alt="" loading="lazy" decoding="async" />
+          </div>
+        )
+      }
     </div>
   </div>
 </section>
@@ -86,5 +115,82 @@ const { title, body, primary, secondary, eyebrow } = Astro.props;
   }
   .cta__secondary:hover {
     border-color: var(--seaweed-ink);
+  }
+
+  /* The showcase: the demo store's home page in a browser window, rising from
+     the bottom edge, which crops it. Decorative, so it carries no alt text. */
+  .cta--showcase {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding-bottom: 0;
+  }
+  .cta--showcase > :not(.cta__phones) {
+    position: relative;
+    z-index: 1;
+  }
+  .cta__window {
+    width: min(100%, 860px);
+    height: clamp(170px, 30vw, 330px);
+    margin-top: clamp(1rem, 3vw, 2rem);
+    overflow: hidden;
+    border-radius: var(--r-md) var(--r-md) 0 0;
+    background: #faf8f4;
+    box-shadow: 0 -12px 50px -18px rgba(0, 0, 0, 0.45);
+  }
+  .cta__window-bar {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+    background: #ece8e1;
+  }
+  .cta__window-bar i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #cfc8bd;
+  }
+  .cta__window img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Phones tilt in from the sides, only where there is room beside the
+     centred copy. */
+  .cta__phones {
+    display: none;
+  }
+  @media (min-width: 1100px) {
+    .cta__phones {
+      display: block;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .cta__phone {
+      position: absolute;
+      top: 3.5rem;
+      width: clamp(150px, 14vw, 190px);
+      padding: 6px;
+      border-radius: 1.9rem;
+      background: #1d1a17;
+      box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.55);
+    }
+    .cta__phone img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 1.5rem;
+    }
+    .cta__phone--left {
+      left: clamp(1.5rem, 4vw, 4rem);
+      transform: rotate(-7deg);
+    }
+    .cta__phone--right {
+      right: clamp(1.5rem, 4vw, 4rem);
+      top: 5.5rem;
+      transform: rotate(6deg);
+    }
   }
 </style>

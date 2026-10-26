@@ -99,6 +99,10 @@ All three ship a Vietnamese subset, so diacritics never fall back mid-word. The 
 
 ## Components
 
+- **`BrandMark`** — the logo: a miso bowl whose two curls of steam form an "m", drawn as an
+  inline SVG in `currentColor` (brand orange) next to the Fraunces "Miso Apps" wordmark.
+  `public/favicon.svg` and `public/apple-touch-icon.png` are the same mark reversed out of an
+  orange rounded tile. The blob shape stays for small decorative dots only.
 - **`.band`** — a tofu tray inset from the viewport edge (`--r-2xl`). Used for the process
   section, the request form on `/services`, and the footer (top corners only).
 - **`.chip`** — peach pill for the hero kicker and work tags. **`.eyebrow`** — mono, brand-ink,
@@ -106,20 +110,26 @@ All three ship a Vietnamese subset, so diacritics never fall back mid-word. The 
 - **Buttons** — all pills, ≥44px tall. `.btn--brand` (orange) is the one primary action per
   view; `.btn--primary` (ink) is the header CTA and secondary-track actions; `.btn--ghost` is
   tofu with a tofu-line border.
-- **Hero collage** (home) — three tilted blocks labelled like theme-editor sections (banner,
-  featured products, reviews). It is `aria-hidden` decoration that says "sections you can
-  edit", not a screenshot.
+- **Hero stage** (home) — the "nori." demo store open in the theme editor, with its product
+  page on a phone (`data-float`), over seaweed and peach tone blocks.
+- **Service cards** (home) — each card ends in a 3:2 demo-store screenshot pinned to the card
+  foot so the three line up: collection page, a section being dragged in the editor, a product
+  page with a visible focus ring.
 - **Work cards** (`src/work.ts`) — real storefront captures in `public/work/`, domain, one-line
   description, theme name, outbound link. Facts only; no results or scope claims until the
   client agrees to them being public.
-- **`ServiceTracks`** — one numbered card per track from `src/services.ts`. The first track
+- **`ServiceTracks`** — one numbered card per track from `src/services.ts`, opening with a
+  16:10 demo screenshot keyed by track id (editor section picker; a demo admin app). The first track
   (theme work) is peach with a brand button, the rest tofu with an ink button; buttons pin to
   the card foot so they line up across the row.
 - **`AppMark`** — a rounded tile with one abstract glyph, toned via `tone="brand|peach|seaweed|
   tofu"`. A placeholder, not a claim about the app's real icon.
 - **`ReviewBand`** — a peach block; numbers come only from each app's CMS rating fields.
 - **`Faq`** — native `<details>` as tofu cards; the open item's icon turns peach and rotates.
-- **`CtaPanel`** — a seaweed block that closes the home and app pages.
+- **`CtaPanel`** — a seaweed block that closes the home and app pages. With `showcase` (home only)
+  the demo store's home page sits under the button in a browser window that rises from the
+  panel's bottom edge, and from 1100px up two tilted phone screens (collection, cart) flank
+  the copy; all decorative, with empty `alt` inside `aria-hidden` wrappers.
 
 ## Layout
 
@@ -176,6 +186,10 @@ GSAP + ScrollTrigger, loaded as one client module (`src/scripts/motion.ts`). Rul
 - Real media first: work cards use real storefront captures; app pages show the uploaded
   `icon` and `screenshots` the moment an editor adds them, and `ScreenshotGallery` renders
   nothing when empty.
+- Demo screenshots in `public/demo/` show "nori.", a fictional store built as static HTML with
+  mock.shop product photos and captured with headless Chrome at 2x (webp via Chrome's canvas
+  encoder, q≈0.9). Alt text always says "demo store" or "demo app"; the screens never show
+  revenue, conversion or other metrics that could read as results. No AI-generated imagery.
 - Generated art is abstract and `aria-hidden`, derived deterministically from the entry slug
   (`src/lib/hash.ts`) so a card keeps its identity across cache hits. It never imitates a
   product screen, chart or metric.

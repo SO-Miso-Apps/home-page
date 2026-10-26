@@ -1,6 +1,6 @@
 ---
 interface Props {
-  /** Rendered size of the blob in px. */
+  /** Rendered size of the mark in px. */
   size?: number;
   /** Show the "Miso Apps" wordmark next to the mark. */
   wordmark?: boolean;
@@ -11,7 +11,24 @@ const { size = 30, wordmark = true, class: className } = Astro.props;
 ---
 
 <span class:list={["brand", className]}>
-  <span class="brand__mark" style={`--size: ${size}px`} aria-hidden="true"></span>
+  <svg
+    class="brand__mark"
+    width={size}
+    height={size}
+    viewBox="0 0 32 32"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d="M4 16.5h24a12 12 0 0 1-24 0Z" fill="currentColor" />
+    <path
+      d="M10 13.5v-3.25a3 3 0 0 1 6 0v3.25M16 10.25a3 3 0 0 1 6 0v3.25"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
   {wordmark && <span class="brand__word">Miso Apps</span>}
 </span>
 
@@ -19,18 +36,15 @@ const { size = 30, wordmark = true, class: className } = Astro.props;
   .brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
     text-decoration: none;
     color: var(--ink);
   }
-  /* A drop of miso: slightly heavier at the bottom, never a perfect circle. */
+  /* A bowl of miso with two curls of steam that read as an "m". */
   .brand__mark {
     display: block;
     flex: none;
-    width: var(--size);
-    height: var(--size);
-    border-radius: var(--r-blob);
-    background: var(--brand);
+    color: var(--brand);
   }
   .brand__word {
     font-family: var(--font-display);

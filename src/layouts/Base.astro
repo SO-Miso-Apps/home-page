@@ -79,6 +79,7 @@ const alternates = LANGS.map((code) => ({ code, href: new URL(localizeHref(path,
     {/* After the alternates: the script looks its target up among them. */}
     {robots?.includes("noindex") ? null : <script is:inline set:html={LANG_SCRIPT} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href={canonicalHref} />
     <link rel="alternate" type="application/rss+xml" title="Miso Apps Blog" href="/rss.xml" />
     <meta property="og:site_name" content={siteName} />
