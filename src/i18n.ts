@@ -13,6 +13,13 @@ export const DEFAULT_LANG: Lang = "en";
 /** localStorage key holding a choice made with the language switcher. */
 export const LANG_STORAGE_KEY = "miso-lang";
 
+/**
+ * The same choice as a cookie, for the Cloudflare redirect rule that sends
+ * visitors in Vietnam to /vi before the edge cache: it cannot read
+ * localStorage, and skips anyone whose cookie says `miso-lang=en`.
+ */
+export const LANG_COOKIE = `${LANG_STORAGE_KEY}=%s; Path=/; Max-Age=31536000; SameSite=Lax`;
+
 export const LANG_NAMES: Record<Lang, { short: string; long: string; htmlLang: string; ogLocale: string }> = {
   en: { short: "EN", long: "English", htmlLang: "en", ogLocale: "en_US" },
   vi: { short: "VI", long: "Tiếng Việt", htmlLang: "vi", ogLocale: "vi_VN" },
@@ -59,6 +66,10 @@ export const LANG_SCRIPT = `(() => {
   const page = document.documentElement.dataset.lang;
   let stored = null;
   try { stored = localStorage.getItem(${JSON.stringify(LANG_STORAGE_KEY)}); } catch {}
+  // Choices made before the cookie existed: copy them over for the edge rule.
+  if ((stored === "en" || stored === "vi") && !document.cookie.includes(${JSON.stringify(LANG_STORAGE_KEY + "=")})) {
+    document.cookie = ${JSON.stringify(LANG_COOKIE)}.replace("%s", stored);
+  }
   // Whichever of the two the browser lists first: an English UI with
   // Vietnamese as a second language stays on English.
   const first = (navigator.languages || [navigator.language]).find((code) => /^(vi|en)\\b/i.test(code || ""));
