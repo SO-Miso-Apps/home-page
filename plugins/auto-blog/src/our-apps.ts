@@ -3,7 +3,7 @@
  * on the Shopify App Store. Comparison posts add one of these as a contender only
  * when the post's category is in its `niches`.
  *
- * Facts (pricing, features, ratings) checked on the App Store listings on 2026-11-03 (Pactly on 2026-11-04). Update this file when a
+ * Facts (pricing, features, ratings) checked on the App Store listings on 2026-11-03 (Pactly and SO: Shipping rules on 2026-11-04). Update this file when a
  * listing, price or feature changes, or when a new app goes live. Never list an
  * app here before its App Store page is public.
  */
@@ -147,6 +147,32 @@ export const OUR_APPS: OurApp[] = [
 		limits: [
 			"Launched in November 2026, so it has no reviews yet",
 			"Built on Shopify's Companies (B2B) feature; it prices company buyers, not general customer tags or segments",
+			"English only",
+		],
+	},
+	{
+		name: "SO: Shipping rules",
+		publisher: "Miso Apps",
+		url: "https://apps.shopify.com/so-shipping-rules",
+		niches: [
+			"shipping rules apps",
+			"hide shipping rates",
+			"rename or reorder delivery methods at checkout",
+			"conditional shipping rates",
+			"estimated delivery date apps",
+		],
+		rating: "No reviews yet",
+		pricing: "Free (no paid plans listed).",
+		features: [
+			"Hide, show, rename or reorder any delivery method at checkout",
+			"36 conditions across address, cart, products, customer and time (for example country, zip code, cart total, weight, collections, customer tags, B2B status, time of day)",
+			"Visual rule builder with AND/OR groups, no code or scripts",
+			"Estimated delivery dates based on delivery days and order cutoff",
+			"Export rules to a file and import them into other stores",
+		],
+		limits: [
+			"Launched in October 2026, so it has no reviews yet",
+			"Controls which existing delivery methods show and how; it does not calculate carrier rates or print labels",
 			"English only",
 		],
 	},

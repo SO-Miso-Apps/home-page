@@ -61,7 +61,7 @@ Our live apps (the only facts you may state about them):
 ${ourAppsBrief()}
 
 When to include our apps:
-- Include one of our live apps only when the article's category is one it genuinely competes in (see "Competes in"). A wishlist comparison gets Themivo Wishlist & Alerts; a sticky add to cart comparison gets SO: Sticky Add To Cart; a product backup or version history comparison gets SO: Product History & Revert; a tagging comparison gets SO: Auto Tags | All-in-One; a B2B, wholesale or company pricing comparison gets Pactly: B2B Company Pricing.
+- Include one of our live apps only when the article's category is one it genuinely competes in (see "Competes in"). A wishlist comparison gets Themivo Wishlist & Alerts; a sticky add to cart comparison gets SO: Sticky Add To Cart; a product backup or version history comparison gets SO: Product History & Revert; a tagging comparison gets SO: Auto Tags | All-in-One; a B2B, wholesale or company pricing comparison gets Pactly: B2B Company Pricing; a shipping rules, hide or rename shipping rates, or delivery date comparison gets SO: Shipping rules.
 - Never squeeze an app into a category it does not serve. For example, SO: Sticky Add To Cart is not an upsell app, and neither is the wishlist app. If none of our apps fits, compare only other apps and do not mention our apps at all.
 - When one fits, it is one contender among equals: its own section and a row in the comparison table, with the same depth, tone and criteria as every other app. Directly under its heading, add the app's italic disclosure line exactly as given in our app list ("Disclosure line").
 
