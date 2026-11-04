@@ -1,0 +1,21 @@
+{
+	"name": "@misoapps/plugin-auto-blog",
+	"version": "0.1.0",
+	"private": true,
+	"description": "EmDash plugin that writes Shopify app comparison posts for misoapps.com with Claude on a schedule",
+	"type": "module",
+	"main": "src/index.ts",
+	"exports": {
+		".": "./src/index.ts"
+	},
+	"files": [
+		"src"
+	],
+	"dependencies": {
+		"@anthropic-ai/sdk": "^1.4.0",
+		"@resvg/resvg-wasm": "2.6.2"
+	},
+	"peerDependencies": {
+		"emdash": ">=1.4.0"
+	}
+}

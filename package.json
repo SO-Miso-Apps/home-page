@@ -8,14 +8,7 @@
     "preview": "wrangler dev",
     "deploy": "astro build && wrangler deploy",
     "check": "astro check",
-    "cf-typegen": "wrangler types",
-    "blog:run": "node tools/blog/publish.ts --app both",
-    "blog:dry": "node tools/blog/publish.ts --app both --dry-run",
-    "blog:test": "node --test tools/blog/lib/*.test.ts",
-    "blog:start": "pm2 start ecosystem.blog.config.json --only miso-blog",
-    "blog:stop": "pm2 stop miso-blog",
-    "blog:check": "tsc -p tools/blog/tsconfig.json",
-    "blog:status": "node tools/blog/status.ts"
+    "cf-typegen": "wrangler types"
   },
   "devEngines": {
     "packageManager": {
@@ -25,21 +18,22 @@
     }
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^14.3.2",
-    "@astrojs/react": "^6.0.6",
-    "@emdash-cms/cloudflare": "^0.38.0",
-    "astro": "^7.3.3",
-    "emdash": "^0.38.0",
+    "@astrojs/cloudflare": "^14.4.4",
+    "@astrojs/react": "^7.1.2",
+    "@emdash-cms/cloudflare": "^1.4.0",
+    "@misoapps/plugin-auto-blog": "workspace:*",
+    "astro": "^7.4.5",
+    "emdash": "^1.4.0",
     "gsap": "^3.15.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "@cloudflare/workers-types": "5.20260917.1",
+    "@astrojs/check": "^0.9.12",
+    "@cloudflare/workers-types": "5.20261031.1",
     "@types/node": "^26.6.1",
     "typescript": "~5.9.3",
-    "wrangler": "^4.134.0"
+    "wrangler": "4.156.1"
   },
   "emdash": {
     "seed": "seed/seed.json"
