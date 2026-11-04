@@ -2,26 +2,56 @@
 import type { App } from "../../emdash-env";
 import { Image } from "emdash/ui";
 import { getLang } from "../i18n";
+import appStoreMedia from "../app-store-media.json";
 
 interface Props {
   screenshots?: App["screenshots"] | null;
-  /** Used to write real alternative text — the repeater carries no caption. */
+  /** The listing the media is pulled from; its path is the key in app-store-media.json. */
+  appStoreUrl?: string | null;
+  /** Used to write real alternative text where the media carries none. */
   appName: string;
 }
 
-const { screenshots, appName } = Astro.props;
+type ListingMedia = { type: "video"; youtubeId: string } | { type: "image"; src: string; alt: string };
+
+const { screenshots, appStoreUrl, appName } = Astro.props;
+
+// The App Store listing is the source of truth for an app's media
+// (scripts/sync-app-store-media.mjs keeps the JSON in step with it). Screenshots
+// attached in the CMS only show for an app the JSON doesn't cover.
+const handle = appStoreUrl ? new URL(appStoreUrl).pathname.split("/").filter(Boolean)[0] : undefined;
+const listing = ((handle && (appStoreMedia as Record<string, ListingMedia[]>)[handle]) || []) as ListingMedia[];
+const video = listing.find((item) => item.type === "video");
+const listingShots = listing.filter((item) => item.type === "image");
 // Editors may save a row before attaching media; drop those rather than
 // rendering an empty frame.
-const shots = (screenshots ?? []).filter((shot) => shot.image);
+const cmsShots = listing.length > 0 ? [] : (screenshots ?? []).filter((shot) => shot.image);
+const count = listingShots.length + cmsShots.length;
+
+/** Shopify's CDN resizes listing images by query string; they're 16:9 at source. */
+const sized = (src: string, width: number) => `${src}?width=${width}&height=${Math.round((width * 9) / 16)}`;
+
 const lang = getLang(Astro.locals);
 const copy = {
-  en: { eyebrow: "Inside the app", title: "Screenshots", alt: (n: number) => `${appName} interface, view ${n} of ${shots.length}` },
-  vi: { eyebrow: "Bên trong app", title: "Ảnh chụp màn hình", alt: (n: number) => `Giao diện ${appName}, ảnh ${n}/${shots.length}` },
+  en: {
+    eyebrow: "Inside the app",
+    title: video ? "Video & screenshots" : "Screenshots",
+    alt: (n: number) => `${appName} interface, view ${n} of ${count}`,
+    play: `Play the ${appName} video`,
+    video: `${appName} promo video`,
+  },
+  vi: {
+    eyebrow: "Bên trong app",
+    title: video ? "Video & ảnh chụp màn hình" : "Ảnh chụp màn hình",
+    alt: (n: number) => `Giao diện ${appName}, ảnh ${n}/${count}`,
+    play: `Phát video ${appName}`,
+    video: `Video giới thiệu ${appName}`,
+  },
 }[lang];
 ---
 
 {
-  shots.length > 0 && (
+  (video || count > 0) && (
     <section class="section" aria-labelledby="shots-title">
       <div class="container">
         <div class="head" data-reveal>
@@ -31,21 +61,87 @@ const copy = {
           </span>
           <h2 id="shots-title">{copy.title}</h2>
         </div>
-        <div class:list={["rail", shots.length > 2 && "rail--scroll"]}>
-          {shots.map((shot, index) => (
-            <figure class="shot" data-reveal>
-              <Image
-                image={shot.image}
-                sizes="(max-width: 760px) 88vw, 520px"
-                alt={copy.alt(index + 1)}
-              />
-            </figure>
-          ))}
-        </div>
+
+        {
+          video?.type === "video" && (
+            <div class="video" data-reveal>
+              {/* A poster until asked: the YouTube player only loads on click. */}
+              <button
+                class="video__frame"
+                type="button"
+                data-youtube={video.youtubeId}
+                data-title={copy.video}
+                aria-label={copy.play}
+              >
+                <img
+                  src={`https://i.ytimg.com/vi/${video.youtubeId}/maxresdefault.jpg`}
+                  alt=""
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="video__play" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="28" height="28" focusable="false">
+                    <path d="M8 5.5v13l10.5-6.5L8 5.5Z" fill="currentColor" />
+                  </svg>
+                </span>
+              </button>
+            </div>
+          )
+        }
+
+        {
+          count > 0 && (
+            <div class:list={["rail", count > 2 && "rail--scroll"]}>
+              {listingShots.map((shot, index) => (
+                <figure class="shot" data-reveal>
+                  <a href={shot.src} target="_blank" rel="noopener noreferrer">
+                    <img
+                      src={sized(shot.src, 1040)}
+                      srcset={`${sized(shot.src, 800)} 800w, ${sized(shot.src, 1600)} 1600w`}
+                      sizes="(max-width: 760px) 88vw, 520px"
+                      width="1600"
+                      height="900"
+                      alt={shot.alt || copy.alt(index + 1)}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                  {shot.alt && <figcaption>{shot.alt}</figcaption>}
+                </figure>
+              ))}
+              {cmsShots.map((shot, index) => (
+                <figure class="shot" data-reveal>
+                  <Image image={shot.image} sizes="(max-width: 760px) 88vw, 520px" alt={copy.alt(index + 1)} />
+                </figure>
+              ))}
+            </div>
+          )
+        }
       </div>
     </section>
   )
 }
+
+<script>
+  for (const button of document.querySelectorAll<HTMLButtonElement>("[data-youtube]")) {
+    button.addEventListener(
+      "click",
+      () => {
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://www.youtube-nocookie.com/embed/${button.dataset.youtube}?autoplay=1&rel=0&modestbranding=1`;
+        iframe.title = button.dataset.title ?? "";
+        iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+        iframe.allowFullscreen = true;
+        iframe.className = "video__frame";
+        button.replaceWith(iframe);
+        iframe.focus();
+      },
+      { once: true },
+    );
+  }
+</script>
 
 <style>
   .head {
@@ -56,6 +152,53 @@ const copy = {
   .head h2 {
     font-size: var(--step-3);
   }
+
+  /* The promo video leads, in the same tofu tray as the screenshots. */
+  .video {
+    max-width: 960px;
+    margin-bottom: 1.25rem;
+    padding: clamp(0.75rem, 2vw, 1.25rem);
+    border-radius: var(--r-xl);
+    background: var(--tofu);
+  }
+  .video :global(.video__frame) {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    border-radius: var(--r-md);
+    background: var(--surface);
+    box-shadow: var(--shadow-1);
+    cursor: pointer;
+  }
+  .video__frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .video__play {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    display: grid;
+    place-items: center;
+    width: 4.25rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    color: var(--brand-fg);
+    background: var(--brand);
+    box-shadow: var(--shadow-3);
+    transform: translate(-50%, -50%);
+    transition: transform 0.2s ease;
+  }
+  .video__frame:hover .video__play,
+  .video__frame:focus-visible .video__play {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+
   .rail {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
@@ -82,11 +225,21 @@ const copy = {
     border-radius: var(--r-xl);
     background: var(--tofu);
   }
+  .shot a {
+    display: block;
+    border-radius: var(--r-md);
+  }
   .shot :global(img) {
     display: block;
     width: 100%;
+    height: auto;
     border-radius: var(--r-md);
     background: var(--surface);
     box-shadow: var(--shadow-1);
+  }
+  .shot figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--ink-muted);
   }
 </style>

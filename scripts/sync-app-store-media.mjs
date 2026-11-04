@@ -1,0 +1,52 @@
+// Pulls each app's listing media — the promo video or promotional image, then
+// the screenshots, in the order the listing shows them — from the Shopify App
+// Store into src/app-store-media.json, keyed by the listing handle (the path
+// of an app's app_store_url). Re-run after a listing's media changes:
+//
+//   node scripts/sync-app-store-media.mjs
+//
+// The page reads the JSON at build time; images stay on Shopify's CDN.
+import { writeFile } from "node:fs/promises";
+
+const HANDLES = [
+  "so-operations-suite-with-ai",
+  "so-sticky-add-to-cart",
+  "so-history-revert",
+  "so-shipping-rules",
+  "tierly-b2b-company-pricing",
+];
+
+const OUT = new URL("../src/app-store-media.json", import.meta.url);
+const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36";
+
+const decode = (text) =>
+  text.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+
+async function readListing(handle) {
+  const response = await fetch(`https://apps.shopify.com/${handle}`, { headers: { "user-agent": UA, "accept-language": "en" } });
+  if (!response.ok) throw new Error(`${handle}: HTTP ${response.status}`);
+  const html = await response.text();
+
+  const media = [];
+  const video = html.match(/youtube-nocookie\.com\/embed\/([\w-]{6,})/);
+  if (video) media.push({ type: "video", youtubeId: video[1] });
+
+  // The gallery is rendered more than once (inline, then the lightbox); the
+  // first sighting of each image keeps the listing's order.
+  const seen = new Set();
+  const image = /<img[^>]*?alt="([^"]*)"[^>]*?(https:\/\/cdn\.shopify\.com\/app-store\/listing_images\/[^"?\s]+\/(?:desktop_screenshot|promotional_image)\/[^"?\s]+)/g;
+  for (const [, alt, src] of html.matchAll(image)) {
+    if (seen.has(src)) continue;
+    seen.add(src);
+    media.push({ type: "image", src, alt: decode(alt).replace(/\s+/g, " ").trim() });
+  }
+  if (!media.some((item) => item.type === "image")) throw new Error(`${handle}: no screenshots found — has the listing markup changed?`);
+  return media;
+}
+
+const result = {};
+for (const handle of HANDLES) {
+  result[handle] = await readListing(handle);
+  console.log(`${handle}: ${result[handle].map((item) => item.type).join(", ")}`);
+}
+await writeFile(OUT, `${JSON.stringify(result, null, 2)}\n`);
