@@ -53,8 +53,9 @@ const copy = {
     work: {
       eyebrow: "Recent work",
       title: "Storefronts we've customized",
-      lead: "Two Shopify stores selling today on themes we've worked on. Go and click around.",
+      lead: "Shopify stores selling today on themes we've worked on, and demo stores of the themes we make. Go and click around.",
       theme: "Theme",
+      locked: "Password-protected for now",
       visit: "Visit store",
       newTab: "(opens in a new tab)",
       shot: (domain: string) => `Home page of ${domain}`,
@@ -111,8 +112,9 @@ const copy = {
     work: {
       eyebrow: "Dự án đã làm",
       title: "Những cửa hàng chúng tôi đã chỉnh theme",
-      lead: "Hai cửa hàng Shopify đang bán hàng mỗi ngày trên theme do chúng tôi chỉnh. Bạn cứ vào xem và bấm thử.",
+      lead: "Các cửa hàng Shopify đang bán hàng mỗi ngày trên theme do chúng tôi chỉnh, cùng các store demo của theme do chúng tôi làm. Bạn cứ vào xem và bấm thử.",
       theme: "Theme",
+      locked: "Hiện store đang đặt mật khẩu",
       visit: "Xem cửa hàng",
       newTab: "(mở trong tab mới)",
       shot: (domain: string) => `Trang chủ của ${domain}`,
@@ -225,7 +227,7 @@ const SERVICE_SHOTS = ["/demo/svc-collection.webp", "/demo/svc-editor-drag.webp"
                 </div>
                 <h3 class="work__domain">
                   <a href={item.url} target="_blank" rel="noopener noreferrer">
-                    {item.domain}
+                    {item.name}
                     <span class="sr-only"> {copy.work.newTab}</span>
                   </a>
                 </h3>
@@ -233,6 +235,7 @@ const SERVICE_SHOTS = ["/demo/svc-collection.webp", "/demo/svc-editor-drag.webp"
                 <p class="work__theme">
                   <span class="dim">{copy.work.theme}:</span> {item.theme}
                 </p>
+                {item.locked && <p class="work__locked">{copy.work.locked}</p>}
                 <span class="work__visit" aria-hidden="true">
                   {copy.work.visit}
                   <svg viewBox="0 0 16 16" width="14" height="14" focusable="false">
@@ -477,6 +480,11 @@ const SERVICE_SHOTS = ["/demo/svc-collection.webp", "/demo/svc-editor-drag.webp"
 
   .work__theme {
     font-size: 0.9375rem;
+  }
+
+  .work__locked {
+    font-size: 0.9375rem;
+    color: var(--ink-muted);
   }
 
   .work__visit {
