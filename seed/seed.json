@@ -186,27 +186,48 @@
         }
       },
       {
-        "id": "app-llms-txt",
-        "slug": "so-llms-txt",
+        "id": "app-shipping-rules",
+        "slug": "so-shipping-rules",
         "status": "published",
         "data": {
-          "name": "SO: llms.txt",
-          "tagline": "Generate llms.txt files that help AI assistants understand store content. A practical step toward better AI discoverability for modern commerce.",
-          "badge": "AI readiness",
+          "name": "SO: Shipping rules",
+          "tagline": "Show customers only the delivery options that fit their order. Hide, rename or sort shipping rates at checkout with visual rules.",
+          "badge": "Shipping",
           "sort_order": 4,
-          "rating_value": null,
-          "review_count": 0,
-          "app_store_url": "https://apps.shopline.com/detail?appHandle=so_llms_txt",
-          "seo_title": "SO: llms.txt — AI-readable store content for Shopline",
-          "seo_description": "Generate llms.txt files that help AI assistants understand your Shopline store content, with scheduled updates as content changes.",
+          "app_store_url": "https://apps.shopify.com/so-shipping-rules",
+          "seo_title": "SO: Shipping rules — hide, rename and sort shipping rates",
+          "seo_description": "Hide, show, rename or reorder Shopify delivery options at checkout with rules on address, cart, products, customer and time, plus delivery dates.",
           "features": [
-            { "title": "Automatic llms.txt generation", "description": "The file builds and refreshes itself." },
-            { "title": "AI-readable content structure", "description": "Assistants get a clean map of your store." },
-            { "title": "Simple Shopline integration", "description": "Install and go — no theme edits." },
-            { "title": "Scheduled updates as store content changes", "description": "Discoverability stays current." }
+            { "title": "Hide, show, rename or reorder any delivery method", "description": "Customers only see the options that fit their order." },
+            { "title": "36 conditions on address, cart, products, customer and time", "description": "Target exactly the orders a rule should change." },
+            { "title": "Visual rule builder with AND/OR groups", "description": "No code or scripts needed." },
+            { "title": "Estimated delivery dates from your delivery days and cutoff", "description": "Set the right expectation at checkout." }
           ],
           "hero": [
-            { "_type": "block", "_key": "lt-h1", "style": "normal", "children": [{ "_type": "span", "_key": "lt-h1s", "text": "Make your store legible to AI assistants." }] }
+            { "_type": "block", "_key": "sr-h1", "style": "normal", "children": [{ "_type": "span", "_key": "sr-h1s", "text": "The right shipping options for every order." }] }
+          ]
+        }
+      },
+      {
+        "id": "app-pactly",
+        "slug": "pactly-b2b-company-pricing",
+        "status": "published",
+        "data": {
+          "name": "Pactly: B2B Company Pricing",
+          "tagline": "Give every B2B company and location the prices it negotiated, past the native catalog limit. Built for wholesale stores on Shopify Companies without Plus.",
+          "badge": "B2B pricing",
+          "sort_order": 5,
+          "app_store_url": "https://apps.shopify.com/tierly-b2b-company-pricing",
+          "seo_title": "Pactly: B2B Company Pricing — price tiers for Shopify Companies",
+          "seo_description": "Add B2B price tiers on top of native Shopify Companies for Basic, Grow and Advanced stores, per company or location, with fixed prices and CSV import.",
+          "features": [
+            { "title": "Price tiers from storewide, collection and product discounts", "description": "Turn every negotiated deal into a reusable tier." },
+            { "title": "Assign a tier to a company or a single location", "description": "Bulk-assign from one table, with location overrides." },
+            { "title": "Fixed net prices per variant, with CSV import and export", "description": "Set contract prices to the cent." },
+            { "title": "Buyers see their price on product pages and pay it at checkout", "description": "Check any buyer's price first in the simulator." }
+          ],
+          "hero": [
+            { "_type": "block", "_key": "pc-h1", "style": "normal", "children": [{ "_type": "span", "_key": "pc-h1s", "text": "Every B2B account gets the price it negotiated." }] }
           ]
         }
       },
@@ -292,29 +313,52 @@
         }
       },
       {
-        "id": "app-llms-txt-vi",
-        "slug": "so-llms-txt",
+        "id": "app-shipping-rules-vi",
+        "slug": "so-shipping-rules",
         "locale": "vi",
-        "translationOf": "app-llms-txt",
+        "translationOf": "app-shipping-rules",
         "status": "published",
         "data": {
-          "name": "SO: llms.txt",
-          "tagline": "Tạo file llms.txt giúp các trợ lý AI hiểu nội dung cửa hàng. Một bước thiết thực để cửa hàng dễ được AI tìm thấy hơn.",
-          "badge": "Sẵn sàng cho AI",
+          "name": "SO: Shipping rules",
+          "tagline": "Chỉ hiện cho khách những phương thức giao hàng phù hợp với đơn. Ẩn, đổi tên hoặc sắp xếp phí vận chuyển ở checkout bằng quy tắc trực quan.",
+          "badge": "Vận chuyển",
           "sort_order": 4,
-          "rating_value": null,
-          "review_count": 0,
-          "app_store_url": "https://apps.shopline.com/detail?appHandle=so_llms_txt",
-          "seo_title": "SO: llms.txt — nội dung cửa hàng AI đọc được cho Shopline",
-          "seo_description": "Tạo file llms.txt giúp trợ lý AI hiểu nội dung cửa hàng Shopline của bạn, tự cập nhật theo lịch khi nội dung thay đổi.",
+          "app_store_url": "https://apps.shopify.com/so-shipping-rules",
+          "seo_title": "SO: Shipping rules — ẩn, đổi tên và sắp xếp phí vận chuyển",
+          "seo_description": "Ẩn, hiện, đổi tên hoặc sắp xếp phương thức giao hàng ở checkout Shopify theo địa chỉ, giỏ hàng, sản phẩm, khách hàng và thời gian, kèm ngày giao dự kiến.",
           "features": [
-            { "title": "Tự động tạo llms.txt", "description": "File tự tạo và tự làm mới." },
-            { "title": "Cấu trúc nội dung AI đọc được", "description": "Trợ lý AI có một bản đồ rõ ràng về cửa hàng." },
-            { "title": "Tích hợp Shopline đơn giản", "description": "Cài là chạy — không cần sửa theme." },
-            { "title": "Cập nhật theo lịch khi nội dung cửa hàng thay đổi", "description": "Khả năng được tìm thấy luôn cập nhật." }
+            { "title": "Ẩn, hiện, đổi tên hoặc sắp xếp mọi phương thức giao hàng", "description": "Khách chỉ thấy những lựa chọn hợp với đơn của họ." },
+            { "title": "36 điều kiện theo địa chỉ, giỏ hàng, sản phẩm, khách hàng và thời gian", "description": "Áp đúng vào những đơn cần thay đổi." },
+            { "title": "Tạo quy tắc trực quan với nhóm AND/OR", "description": "Không cần code hay script." },
+            { "title": "Ngày giao dự kiến theo ngày giao hàng và giờ chốt đơn", "description": "Báo đúng kỳ vọng ngay ở checkout." }
           ],
           "hero": [
-            { "_type": "block", "_key": "llms-txt-vi-h-1", "style": "normal", "children": [{ "_type": "span", "_key": "llms-txt-vi-h-1s", "text": "Giúp các trợ lý AI đọc hiểu cửa hàng của bạn." }] }
+            { "_type": "block", "_key": "sr-vi-h1", "style": "normal", "children": [{ "_type": "span", "_key": "sr-vi-h1s", "text": "Đúng phương thức giao hàng cho từng đơn." }] }
+          ]
+        }
+      },
+      {
+        "id": "app-pactly-vi",
+        "slug": "pactly-b2b-company-pricing",
+        "locale": "vi",
+        "translationOf": "app-pactly",
+        "status": "published",
+        "data": {
+          "name": "Pactly: B2B Company Pricing",
+          "tagline": "Cho mỗi company và location B2B đúng mức giá đã thoả thuận, vượt giới hạn catalog của Shopify. Dành cho cửa hàng bán sỉ trên Shopify Companies không dùng Plus.",
+          "badge": "Giá B2B",
+          "sort_order": 5,
+          "app_store_url": "https://apps.shopify.com/tierly-b2b-company-pricing",
+          "seo_title": "Pactly: B2B Company Pricing — bảng giá B2B cho Shopify Companies",
+          "seo_description": "Thêm các mức giá B2B trên Shopify Companies cho gói Basic, Grow và Advanced, gán theo company hoặc location, có giá cố định và nhập CSV.",
+          "features": [
+            { "title": "Mức giá từ giảm toàn shop, theo collection và theo sản phẩm", "description": "Biến mỗi thoả thuận thành một mức giá dùng lại được." },
+            { "title": "Gán mức giá cho cả company hoặc từng location", "description": "Gán hàng loạt trong một bảng, ghi đè theo location." },
+            { "title": "Giá cố định theo variant, nhập và xuất CSV", "description": "Đặt giá hợp đồng chính xác đến từng xu." },
+            { "title": "Khách B2B thấy giá của mình trên trang sản phẩm và trả đúng giá đó", "description": "Kiểm tra trước giá của bất kỳ khách nào trong simulator." }
+          ],
+          "hero": [
+            { "_type": "block", "_key": "pc-vi-h1", "style": "normal", "children": [{ "_type": "span", "_key": "pc-vi-h1s", "text": "Mỗi khách B2B một mức giá đã thoả thuận." }] }
           ]
         }
       }
@@ -549,6 +593,8 @@
     }
   ],
   "redirects": [
-    { "source": "/products", "destination": "/", "type": 308, "enabled": true, "groupName": "Old site routes" }
+    { "source": "/products", "destination": "/", "type": 308, "enabled": true, "groupName": "Old site routes" },
+    { "source": "/apps/so-llms-txt", "destination": "/", "type": 308, "enabled": true, "groupName": "Retired apps" },
+    { "source": "/vi/apps/so-llms-txt", "destination": "/vi", "type": 308, "enabled": true, "groupName": "Retired apps" }
   ]
 }
