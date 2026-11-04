@@ -21,7 +21,7 @@ import type { Draft, FigureTemplate, GateFailure, GateResult, PortableBlock } fr
 
 export { BANNED_PHRASES };
 
-const KNOWN_APPS = ["so-product-history-revert", "so-auto-tags-all-in-one", "so-sticky-add-to-cart", "so-llms-txt"];
+const KNOWN_APPS = ["so-product-history-revert", "so-auto-tags-all-in-one", "so-sticky-add-to-cart", "so-shipping-rules", "pactly-b2b-company-pricing"];
 const STATIC_PATHS = ["/", "/blog", "/services"];
 const FIGURES: FigureTemplate[] = ["og-card", "flow", "timeline", "compare-table", "rule-tree"];
 const KEBAB = /^[a-z0-9]+(-[a-z0-9]+)*$/;
