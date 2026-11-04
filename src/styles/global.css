@@ -514,6 +514,17 @@ ol {
   color: var(--ink-muted);
   font-size: var(--step-1);
   line-height: 1.8;
+  /* Colours for EmDash's table block (comparison tables in Auto Blog posts),
+     which otherwise falls back to fixed greys that ignore dark mode. */
+  --color-border: var(--line);
+  --color-surface: var(--tofu);
+  --color-bg-subtle: var(--surface);
+}
+
+.prose .emdash-table {
+  font-size: 0.875em;
+  line-height: 1.55;
+  color: var(--ink);
 }
 
 .prose > * + * {

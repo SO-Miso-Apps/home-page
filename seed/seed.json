@@ -96,8 +96,7 @@
       "hierarchical": true,
       "collections": ["posts"],
       "terms": [
-        { "slug": "product-updates", "label": "Product updates" },
-        { "slug": "merchant-playbook", "label": "Merchant playbook" }
+        { "slug": "app-comparisons", "label": "App comparisons" }
       ]
     },
     {
@@ -319,42 +318,7 @@
         }
       }
     ],
-    "posts": [
-      {
-        "id": "post-welcome",
-        "slug": "hello-from-miso-apps",
-        "status": "published",
-        "data": {
-          "title": "Hello from Miso Apps",
-          "excerpt": "Why we build focused commerce apps, and what you will find on this blog.",
-          "content": [
-            { "_type": "block", "_key": "w-p1", "style": "normal", "children": [{ "_type": "span", "_key": "w-p1s", "text": "Miso Apps designs and ships focused Shopify and Shopline apps for automation, conversion, and AI-readable storefront data. This blog is where we share product updates and practical merchant playbooks." }] },
-            { "_type": "block", "_key": "w-p2", "style": "normal", "children": [{ "_type": "span", "_key": "w-p2s", "text": "Expect short, concrete posts: what shipped, what changed, and how to get value from it in your store today." }] }
-          ],
-          "seo_title": "Hello from Miso Apps",
-          "seo_description": "Why we build focused commerce apps, and what you will find on this blog."
-        },
-        "taxonomies": { "category": ["product-updates"] }
-      },
-      {
-        "id": "post-welcome-vi",
-        "slug": "hello-from-miso-apps",
-        "locale": "vi",
-        "translationOf": "post-welcome",
-        "status": "published",
-        "data": {
-          "title": "Xin chào từ Miso Apps",
-          "excerpt": "Vì sao chúng tôi làm những app thương mại tập trung, và bạn sẽ đọc được gì trên blog này.",
-          "content": [
-            { "_type": "block", "_key": "w-vi-1", "style": "normal", "children": [{ "_type": "span", "_key": "w-vi-1s", "text": "Miso Apps thiết kế và phát hành các app Shopify và Shopline tập trung vào tự động hoá, tăng chuyển đổi và dữ liệu cửa hàng mà AI đọc được. Blog này là nơi chúng tôi chia sẻ cập nhật sản phẩm và kinh nghiệm thực tế cho nhà bán hàng." }] },
-            { "_type": "block", "_key": "w-vi-2", "style": "normal", "children": [{ "_type": "span", "_key": "w-vi-2s", "text": "Bài viết sẽ ngắn và cụ thể: cái gì vừa ra mắt, cái gì đã thay đổi, và cách tận dụng nó cho cửa hàng của bạn ngay hôm nay." }] }
-          ],
-          "seo_title": "Xin chào từ Miso Apps",
-          "seo_description": "Vì sao chúng tôi làm những app thương mại tập trung, và bạn sẽ đọc được gì trên blog này."
-        },
-        "taxonomies": { "category": ["product-updates"] }
-      }
-    ],
+    "posts": [],
     "pages": [
       {
         "id": "page-about",

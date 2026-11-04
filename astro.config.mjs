@@ -4,6 +4,7 @@ import react from "@astrojs/react";
 import { cacheCloudflare } from "@astrojs/cloudflare/cache";
 import emdash from "emdash/astro";
 import { d1, r2, kvCache } from "@emdash-cms/cloudflare";
+import { autoBlogPlugin } from "@misoapps/plugin-auto-blog";
 
 export default defineConfig({
   site: "https://misoapps.com",
@@ -37,6 +38,8 @@ export default defineConfig({
       database: d1({ binding: "DB" }),
       storage: r2({ binding: "MEDIA" }),
       objectCache: kvCache({ binding: "CACHE" }),
+      // Writes Shopify app comparison posts with Claude (admin → Auto Blog).
+      plugins: [autoBlogPlugin()],
     }),
   ],
 });
