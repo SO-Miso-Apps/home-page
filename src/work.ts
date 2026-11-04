@@ -29,9 +29,14 @@ export interface WorkItem {
   tags: string[];
   /** Set when the storefront asks for a password a visitor doesn't have. */
   locked?: boolean;
+  /** Storefront password shown on the card, for demo stores whose password is public. */
+  password?: string;
 }
 
 const SHOT = { width: 1200, height: 750 };
+
+/** Must match the storefront password set on each Almanac demo store. */
+const DEMO_PASSWORD = "1";
 
 const BASE = [
   {
@@ -84,7 +89,8 @@ const BASE = [
     locked: true,
   },
   // Almanac demo stores: their theme's password page signs visitors in with the
-  // shared demo password (themivo-builder demo/stores.json "password_bypass").
+  // shared demo password (themivo-builder demo/stores.json "password_bypass"),
+  // and the card shows it in case a visitor lands on the form anyway.
   {
     id: "almanac-pet",
     kind: "demo",
@@ -93,6 +99,7 @@ const BASE = [
     url: "https://themivo-almanac-pet-demo-saxmy7at.myshopify.com/",
     image: { src: "/work/almanac-pet.webp", ...SHOT },
     theme: "Almanac · Pet preset",
+    password: DEMO_PASSWORD,
   },
   {
     id: "almanac-coffee",
@@ -102,6 +109,7 @@ const BASE = [
     url: "https://themivo-almanac-coffee-demo-imz7cfjp.myshopify.com/",
     image: { src: "/work/almanac-coffee.webp", ...SHOT },
     theme: "Almanac · Coffee preset",
+    password: DEMO_PASSWORD,
   },
   {
     id: "almanac-outdoor",
@@ -111,6 +119,7 @@ const BASE = [
     url: "https://themivo-almanac-outdoor-demo-mzqgubq8.myshopify.com/",
     image: { src: "/work/almanac-outdoor.webp", ...SHOT },
     theme: "Almanac · Outdoor preset",
+    password: DEMO_PASSWORD,
   },
   {
     id: "almanac-jewelry",
@@ -120,6 +129,7 @@ const BASE = [
     url: "https://themivo-almanac-jewelry-demo-ypsxqzqp.myshopify.com/",
     image: { src: "/work/almanac-jewelry.webp", ...SHOT },
     theme: "Almanac · Jewelry preset",
+    password: DEMO_PASSWORD,
   },
   {
     id: "almanac-electronics",
@@ -129,6 +139,7 @@ const BASE = [
     url: "https://themivo-almanac-electronics-demo-gidusfmy.myshopify.com/",
     image: { src: "/work/almanac-electronics.webp", ...SHOT },
     theme: "Almanac · Electronics preset",
+    password: DEMO_PASSWORD,
   },
 ] as const;
 
