@@ -4,10 +4,8 @@
 // public/work/ — retake them when a storefront changes enough that ours no
 // longer matches what a visitor would find. The Vellmar shots are crops of the
 // Theme Store listing captures (misothemes/vellora/docs/launch/listing); the
-// Almanac shots are 1440px themivo-builder renders of the same theme and demo
-// content (`tv shot <preset> index`), cropped below the announcement bar where
-// the store hides an announcement — retake them from the stores once each
-// staging theme is published.
+// Almanac shots are captures of each live store (opened through admin's store
+// preview, motion off), two viewport shots stitched to 16:10.
 //
 // Facts only: the store, what it sells, and the theme it runs. Results and
 // scope details belong here once the client has agreed to them being public.
