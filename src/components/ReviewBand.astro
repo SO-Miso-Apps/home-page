@@ -2,6 +2,7 @@
 import type { ContentEntry } from "emdash";
 import type { App } from "../../emdash-env";
 import AppMark from "./AppMark.astro";
+import { getListing, sizedIcon } from "../lib/app-store";
 import { getLang, localizeHref } from "../i18n";
 
 interface Props {
@@ -27,6 +28,7 @@ const average = rated.length
 
 const fmt = (n: number, digits = 0) =>
   n.toLocaleString(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits });
+const iconOf = new Map(apps.map((app) => [app.id, getListing(app.data.app_store_url)?.icon]));
 const reviewsUrl = (url: string) => `${url.replace(/[?#].*$/, "").replace(/\/+$/, "")}/reviews`;
 
 const copy = {
@@ -80,7 +82,19 @@ const copy = {
           <ul class="reviews__list">
             {apps.map((app) => (
               <li class="reviews__row">
-                <AppMark seed={app.id} size={40} />
+                {iconOf.get(app.id) ? (
+                  <img
+                    class="reviews__icon"
+                    src={sizedIcon(iconOf.get(app.id)!, 80)}
+                    width="40"
+                    height="40"
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <AppMark seed={app.id} size={40} />
+                )}
                 <div class="reviews__app">
                   <a class="reviews__name" href={localizeHref(`/apps/${app.id}`, lang)}>{app.data.name}</a>
                   <span class="reviews__sub">
@@ -217,6 +231,11 @@ const copy = {
     gap: 0.9rem;
     padding-block: 0.9rem;
     border-bottom: 1px solid var(--rule);
+  }
+
+  .reviews__icon {
+    display: block;
+    border-radius: 11px;
   }
 
   .reviews__app {

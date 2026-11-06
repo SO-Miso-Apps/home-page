@@ -1,6 +1,6 @@
-// Pulls each app's listing media — the promo video or promotional image, then
-// the screenshots, in the order the listing shows them — from the Shopify App
-// Store into src/app-store-media.json, keyed by the listing handle (the path
+// Pulls each app's listing icon and media — the promo video or promotional
+// image, then the screenshots, in the order the listing shows them — from the
+// Shopify App Store into src/app-store-media.json, keyed by the listing handle (the path
 // of an app's app_store_url). Re-run after a listing's media changes:
 //
 //   node scripts/sync-app-store-media.mjs
@@ -13,7 +13,7 @@ const HANDLES = [
   "so-sticky-add-to-cart",
   "so-history-revert",
   "so-shipping-rules",
-  "tierly-b2b-company-pricing",
+  "pactly-b2b-company-pricing",
 ];
 
 const OUT = new URL("../src/app-store-media.json", import.meta.url);
@@ -40,13 +40,20 @@ async function readListing(handle) {
     seen.add(src);
     media.push({ type: "image", src, alt: decode(alt).replace(/\s+/g, " ").trim() });
   }
-  if (!media.some((item) => item.type === "image")) throw new Error(`${handle}: no screenshots found — has the listing markup changed?`);
-  return media;
+  const first = media.find((item) => item.type === "image");
+  if (!first) throw new Error(`${handle}: no screenshots found — has the listing markup changed?`);
+
+  // The page also shows other apps' icons; the listing's own sits in the same
+  // listing_images folder as its screenshots.
+  const folder = first.src.slice(0, first.src.indexOf("/", first.src.indexOf("listing_images/") + "listing_images/".length));
+  const icon = html.match(new RegExp(`${folder.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/icon/[^"?\\s]+`));
+  if (!icon) throw new Error(`${handle}: no icon found in ${folder}`);
+  return { icon: icon[0], media };
 }
 
 const result = {};
 for (const handle of HANDLES) {
   result[handle] = await readListing(handle);
-  console.log(`${handle}: ${result[handle].map((item) => item.type).join(", ")}`);
+  console.log(`${handle}: icon, ${result[handle].media.map((item) => item.type).join(", ")}`);
 }
 await writeFile(OUT, `${JSON.stringify(result, null, 2)}\n`);
