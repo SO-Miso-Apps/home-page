@@ -3,6 +3,7 @@ import type { ContentEntry } from "emdash";
 import type { App } from "../../emdash-env";
 import { Image } from "emdash/ui";
 import AppMark from "./AppMark.astro";
+import { getListing, sizedIcon } from "../lib/app-store";
 import { getLang, localizeHref } from "../i18n";
 
 interface Props {
@@ -16,11 +17,18 @@ const { app, tone = "peach", class: className } = Astro.props;
 const data = app.data;
 const lang = getLang(Astro.locals);
 const href = localizeHref(`/apps/${app.id}`, lang);
+const listingIcon = getListing(data.app_store_url)?.icon;
 ---
 
 <article class:list={["app-card", className]} data-reveal>
   <div class:list={["app-card__tile", `app-card__tile--${tone}`]} aria-hidden="true">
-    {data.icon ? <Image image={data.icon} width={44} height={44} alt="" /> : <AppMark seed={app.id} size={64} tone={tone} class="app-card__mark" />}
+    {data.icon ? (
+      <Image image={data.icon} width={44} height={44} alt="" />
+    ) : listingIcon ? (
+      <img class="app-card__icon" src={sizedIcon(listingIcon, 128)} width="64" height="64" alt="" loading="lazy" decoding="async" />
+    ) : (
+      <AppMark seed={app.id} size={64} tone={tone} class="app-card__mark" />
+    )}
   </div>
 
   <div class="app-card__body">
@@ -75,6 +83,13 @@ const href = localizeHref(`/apps/${app.id}`, lang);
   .app-card__tile :global(img) {
     display: block;
     border-radius: var(--r-sm);
+  }
+
+  /* The listing icon is a full-bleed square with its own ground. */
+  .app-card__tile .app-card__icon {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
   }
 
   .app-card__tile--peach {

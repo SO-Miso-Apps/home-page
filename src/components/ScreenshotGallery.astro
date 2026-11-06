@@ -2,7 +2,7 @@
 import type { App } from "../../emdash-env";
 import { Image } from "emdash/ui";
 import { getLang } from "../i18n";
-import appStoreMedia from "../app-store-media.json";
+import { getListing } from "../lib/app-store";
 
 interface Props {
   screenshots?: App["screenshots"] | null;
@@ -12,15 +12,12 @@ interface Props {
   appName: string;
 }
 
-type ListingMedia = { type: "video"; youtubeId: string } | { type: "image"; src: string; alt: string };
-
 const { screenshots, appStoreUrl, appName } = Astro.props;
 
 // The App Store listing is the source of truth for an app's media
 // (scripts/sync-app-store-media.mjs keeps the JSON in step with it). Screenshots
 // attached in the CMS only show for an app the JSON doesn't cover.
-const handle = appStoreUrl ? new URL(appStoreUrl).pathname.split("/").filter(Boolean)[0] : undefined;
-const listing = ((handle && (appStoreMedia as Record<string, ListingMedia[]>)[handle]) || []) as ListingMedia[];
+const listing = getListing(appStoreUrl)?.media ?? [];
 const video = listing.find((item) => item.type === "video");
 const listingShots = listing.filter((item) => item.type === "image");
 // Editors may save a row before attaching media; drop those rather than

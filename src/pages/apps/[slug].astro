@@ -11,6 +11,7 @@ import FeatureGrid from "../../components/FeatureGrid.astro";
 import ScreenshotGallery from "../../components/ScreenshotGallery.astro";
 import { getLang, localizeHref, splitLang } from "../../i18n";
 import { getLocalizedEntry } from "../../lib/content";
+import { getListing, sizedIcon } from "../../lib/app-store";
 import { getLocalizedCollection } from "../../lib/content";
 
 const lang = getLang(Astro.locals);
@@ -35,6 +36,7 @@ const data = app.data;
 // A translation's id is "vi/<slug>"; the slug is the id in every language, so
 // the mark's seed and the sibling filter key on it.
 const appId = slug;
+const listingIcon = getListing(data.app_store_url)?.icon;
 
 // Cross-links to the rest of the catalog. Its cache hint is registered too —
 // Astro accumulates tags across set() calls, so publishing an entry also
@@ -178,6 +180,8 @@ const copy = {
             {
               data.icon ? (
                 <Image image={data.icon} width={116} height={116} alt={copy.icon} />
+              ) : listingIcon ? (
+                <img src={sizedIcon(listingIcon, 232)} width="116" height="116" alt={copy.icon} />
               ) : (
                 <AppMark seed={appId} size={116} />
               )
@@ -319,6 +323,11 @@ const copy = {
     position: relative;
     border-radius: var(--r-xl);
     box-shadow: var(--shadow-3);
+  }
+
+  .hero__mark img {
+    display: block;
+    border-radius: inherit;
   }
 
   .more__title {

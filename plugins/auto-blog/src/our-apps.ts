@@ -125,7 +125,7 @@ export const OUR_APPS: OurApp[] = [
 	{
 		name: "Pactly: B2B Company Pricing",
 		publisher: "Miso Apps",
-		url: "https://apps.shopify.com/tierly-b2b-company-pricing",
+		url: "https://apps.shopify.com/pactly-b2b-company-pricing",
 		niches: [
 			"b2b pricing apps",
 			"wholesale pricing apps",
