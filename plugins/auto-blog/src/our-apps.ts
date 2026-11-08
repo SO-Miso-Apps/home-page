@@ -143,11 +143,11 @@ export const OUR_APPS: OurApp[] = [
 			"Fixed net prices per variant and tier, with CSV import and export",
 			"Logged-in buyers see their prices on product pages; one automatic discount charges the same prices at checkout",
 			"A simulator that shows what a buyer pays and which rule set the price",
+			"Available in English, Vietnamese, French, German, Spanish, Italian, Portuguese (Brazil), Dutch, Japanese and Chinese (Simplified)",
 		],
 		limits: [
 			"Launched in November 2026, so it has no reviews yet",
 			"Built on Shopify's Companies (B2B) feature; it prices company buyers, not general customer tags or segments",
-			"English only",
 		],
 	},
 	{
