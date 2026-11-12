@@ -12,15 +12,15 @@ interface Props {
   lead?: string;
   steps: Step[];
   id?: string;
-  /** Sit the steps on a tofu band instead of the page ground. */
+  /** Sit the steps on a mist band instead of the page ground. */
   band?: boolean;
 }
 
 const lang = getLang(Astro.locals);
 const { eyebrow = lang === "vi" ? "Cách chúng tôi làm" : "How we work", title, lead, steps, id, band = false } = Astro.props;
-// First step in miso, last in seaweed, the ones between plain: the start and
+// First step in miso, last in night, the ones between plain: the start and
 // the handover are the two moments the client acts on.
-const toneFor = (index: number) => (index === 0 ? "brand" : index === steps.length - 1 ? "seaweed" : "plain");
+const toneFor = (index: number) => (index === 0 ? "brand" : index === steps.length - 1 ? "night" : "plain");
 ---
 
 <section class:list={["section", "process", { band }]} id={id} aria-labelledby="process-title">
@@ -85,7 +85,7 @@ const toneFor = (index: number) => (index === 0 ? "brand" : index === steps.leng
     font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 600;
-    background: var(--tofu);
+    background: var(--mist);
     color: var(--ink);
   }
   .band .steps__num--plain {
@@ -95,9 +95,9 @@ const toneFor = (index: number) => (index === 0 ? "brand" : index === steps.leng
     background: var(--brand);
     color: var(--brand-fg);
   }
-  .steps__num--seaweed {
-    background: var(--seaweed);
-    color: var(--seaweed-ink);
+  .steps__num--night {
+    background: var(--night);
+    color: var(--night-ink);
   }
   .steps__item h3 {
     font-family: var(--font-body);

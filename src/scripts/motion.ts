@@ -91,6 +91,22 @@ mm.add("(prefers-reduced-motion: no-preference)", () => {
     }
   }
 
+  // Hero wall: the three storefront columns slide in from staggered offsets,
+  // then drift apart while the hero scrolls away. Scroll-linked only, so the
+  // wall is still whenever the page is.
+  const wallCols = gsap.utils.toArray<HTMLElement>("[data-wall-col]");
+  if (wallCols.length > 0) {
+    const drift = [-12, 10, -18];
+    wallCols.forEach((col, index) => {
+      gsap.from(col, { yPercent: index % 2 ? -8 : 8, duration: 1.4, delay: 0.1 + index * 0.08, ease: "power3.out" });
+      gsap.to(col, {
+        yPercent: drift[index % drift.length],
+        ease: "none",
+        scrollTrigger: { trigger: "[data-hero]", start: "top top", end: "bottom top", scrub: 0.6 },
+      });
+    });
+  }
+
   // --- Scroll reveals -----------------------------------------------------
   const revealTargets = gsap.utils.toArray<HTMLElement>("[data-reveal]");
   if (revealTargets.length > 0) {

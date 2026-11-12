@@ -9,7 +9,7 @@ interface Props {
 
 // Each track in full on /services: the stack line, what the client ends up
 // owning, who the track fits and a link to the request form. The first track
-// (theme work, the one the studio leads with) sits on peach, the rest on tofu.
+// (theme work, the one the studio leads with) sits on tint, the rest on mist.
 const { tracks, class: className } = Astro.props;
 const lang = getLang(Astro.locals);
 const copy = {
@@ -40,7 +40,7 @@ const SHOTS: Record<string, string> = {
 <ol class:list={["tracks", className]} data-reveal>
   {
     tracks.map((track, index) => (
-      <li class:list={["track", index === 0 ? "tone-peach" : "tone-tofu"]} id={track.id}>
+      <li class:list={["track", index === 0 ? "tone-tint" : "tone-mist"]} id={track.id}>
         {SHOTS[track.id] && (
           <div class="track__shot">
             <img src={SHOTS[track.id]} width="1440" height="900" alt={copy.shots[track.id]} loading="lazy" decoding="async" />
@@ -104,7 +104,7 @@ const SHOTS: Record<string, string> = {
   }
   .track__num {
     font-family: var(--font-display);
-    font-style: italic;
+    font-style: normal;
     font-size: 2.25rem;
     font-weight: 500;
     line-height: 1;
@@ -160,10 +160,10 @@ const SHOTS: Record<string, string> = {
     color: inherit;
     font-weight: 600;
   }
-  .tone-peach .track__best strong {
-    color: var(--peach-ink);
+  .tone-tint .track__best strong {
+    color: var(--tint-ink);
   }
-  .tone-tofu .track__best strong {
+  .tone-mist .track__best strong {
     color: var(--ink);
   }
   /* Pinned to the card's foot so both buttons line up side by side. */

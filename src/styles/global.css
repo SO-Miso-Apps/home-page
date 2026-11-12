@@ -1,9 +1,10 @@
 /* ==========================================================================
-   Miso Apps — design system "Bát miso"
+   Miso Apps — design system "Studio"
    --------------------------------------------------------------------------
-   Warm paper ground, one miso-orange accent, and three soft "ingredient"
-   tones (peach, tofu, seaweed) for blocks. Rounded everywhere: pills for
-   controls, 18–40px radii for cards and sections.
+   A monochrome studio: near-white ground, near-black ink, black blocks for
+   weight, and one accent — Miso orange — used sparingly. Type is one grotesk
+   family (Geist) set tight and large; shapes are crisp: pills for controls,
+   12–20px radii for cards, 28px for bands.
 
    Two token tiers. Primitives hold raw values; semantic tokens name roles and
    are the only thing components may reference.
@@ -17,36 +18,40 @@
 :root {
   color-scheme: light;
 
-  /* --- Radii: pills for controls, generous curves for blocks ----------- */
-  --r-xs: 8px;
-  --r-sm: 12px;
-  --r-md: 18px;
-  --r-lg: 24px;
-  --r-xl: 32px;
-  --r-2xl: 40px;
+  /* --- Radii: pills for controls, crisp curves for blocks -------------- */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 20px;
+  --r-2xl: 28px;
   --r-pill: 999px;
-  --r-blob: 50% 50% 46% 54% / 40% 40% 60% 60%;
 
   /* --- Type ------------------------------------------------------------ */
-  /* All three ship a Vietnamese subset, so diacritics never fall back to a
-     system face mid-word. */
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
-  --font-body: "Onest", ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  /* Geist and Geist Mono both ship a Vietnamese subset, so diacritics never
+     fall back to a system face mid-word. */
+  --font-display: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-body: "Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --step--1: 0.8125rem;
   --step-0: 1rem;
   --step-1: 1.0625rem;
   --step-2: clamp(1.25rem, 1.12rem + 0.5vw, 1.5rem);
-  --step-3: clamp(1.5rem, 1.26rem + 1vw, 2rem);
-  --step-4: clamp(1.9rem, 1.4rem + 2vw, 2.85rem);
-  --step-5: clamp(2.4rem, 1.6rem + 3.4vw, 4rem);
-  --step-hero: clamp(2.75rem, 1.4rem + 5.6vw, 6rem);
+  --step-3: clamp(1.5rem, 1.22rem + 1.1vw, 2.1rem);
+  --step-4: clamp(2rem, 1.4rem + 2.4vw, 3.1rem);
+  --step-5: clamp(2.5rem, 1.5rem + 4vw, 4.4rem);
+  --step-hero: clamp(2.9rem, 1.2rem + 6.4vw, 6.5rem);
+
+  /* Display tracking: tighter as type gets bigger. */
+  --track-hero: -0.045em;
+  --track-display: -0.035em;
+  --track-heading: -0.02em;
 
   /* --- Space ----------------------------------------------------------- */
   --gutter: clamp(1rem, 4vw, 2rem);
   --container: 1240px;
-  --measure: 62ch;
+  --measure: 60ch;
   --section-y: clamp(4rem, 9vw, 7.5rem);
 
   /* --- Motion ---------------------------------------------------------- */
@@ -67,87 +72,87 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --canvas: #fcfcfa;
-  --canvas-deep: #f3efe6;
+  --canvas: #f6f6f3;
+  --canvas-deep: #ecebe6;
   --surface: #ffffff;
-  --surface-2: #f3efe6;
+  --surface-2: #ecebe6;
 
-  --ink: #1b1a17;
-  --ink-muted: #5e5a52;
-  /* 4.97:1 on tofu, the lowest ground it sits on. */
-  --ink-subtle: #6b665d;
+  --ink: #121212;
+  --ink-muted: #55534e;
+  /* Clears AA on mist, the lowest ground it sits on. */
+  --ink-subtle: #64625c;
 
-  /* Miso orange. White text on it is 4.96:1; on its own it clears 4.83:1 on
-     the canvas, so large display text may use it directly. */
-  --brand: #c2481a;
-  --brand-hover: #9c3810;
-  --brand-fg: #ffffff;
-  /* Text-safe orange for small type on every ground, tofu included (5.2:1). */
-  --brand-ink: #ae3f15;
-  --brand-soft: #fce3d3;
-  --brand-line: rgba(194, 72, 26, 0.32);
+  /* Miso orange. It is bright, so text ON it is ink, not white (5.5:1);
+     on its own it is for fills and display-size type only. */
+  --brand: #f05a1a;
+  --brand-hover: #ff6b2c;
+  --brand-fg: #121212;
+  /* Text-safe orange for small type on every light ground, mist included. */
+  --brand-ink: #b83f0c;
+  --brand-soft: #fde8dc;
+  --brand-line: rgba(240, 90, 26, 0.4);
 
-  /* Ingredient tones for blocks. Each has its own ink pair; never put
-     --ink-muted on a tone, use the matching *-muted instead. */
-  --peach: #fce3d3;
-  --peach-ink: #8a3210;
-  --peach-muted: #4a3a30;
-  --tofu: #f3efe6;
-  --tofu-line: #e2dbcc;
-  --seaweed: #1e4a3b;
-  --seaweed-ink: #f3efe6;
-  --seaweed-muted: #d3e6dc;
-  --seaweed-accent: #b8e0cc;
+  /* Block tones. Each has its own ink pair; never put --ink-muted on a
+     tone, use the matching *-muted instead. */
+  --tint: #fde8dc;
+  --tint-ink: #121212;
+  --tint-muted: #4f4640;
+  --mist: #ecebe6;
+  --mist-line: #d9d7cf;
+  --night: #121212;
+  --night-ink: #f4f4f0;
+  --night-muted: #a9a8a2;
+  --night-accent: #ff7a3d;
 
-  --line: rgba(27, 26, 23, 0.1);
-  --line-strong: rgba(27, 26, 23, 0.18);
-  --ring: rgba(194, 72, 26, 0.5);
+  --line: rgba(18, 18, 18, 0.1);
+  --line-strong: rgba(18, 18, 18, 0.2);
+  --ring: rgba(240, 90, 26, 0.55);
 
-  /* Form validation only: 6.1:1 on the canvas. Marketing copy never uses it. */
+  /* Form validation only. Marketing copy never uses it. */
   --danger: #b4232a;
 
-  --shadow-1: 0 1px 2px rgba(40, 30, 20, 0.06);
-  --shadow-2: 0 2px 4px rgba(40, 30, 20, 0.04), 0 16px 30px -18px rgba(40, 30, 20, 0.18);
-  --shadow-3: 0 4px 10px rgba(40, 30, 20, 0.05), 0 34px 60px -30px rgba(40, 30, 20, 0.28);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-2: 0 2px 4px rgba(0, 0, 0, 0.04), 0 16px 30px -18px rgba(0, 0, 0, 0.2);
+  --shadow-3: 0 4px 10px rgba(0, 0, 0, 0.05), 0 34px 60px -30px rgba(0, 0, 0, 0.3);
 }
 
 /* --- Semantic: dark ---------------------------------------------------- */
-/* Same bowl, lights down: roasted ground, the orange lifted so it reads as
-   text, tones deepened so their ink pairs keep 7:1+. */
+/* Lights off: a near-black ground (never #000), the orange lifted a step,
+   and the night block raised above the canvas so it still reads as a block. */
 :root[data-theme="dark"] {
   color-scheme: dark;
 
-  --canvas: #151412;
-  --canvas-deep: #100f0e;
-  --surface: #1f1d1a;
-  --surface-2: #26231f;
+  --canvas: #0f0f0e;
+  --canvas-deep: #0a0a09;
+  --surface: #181817;
+  --surface-2: #1f1f1d;
 
-  --ink: #f3efe6;
-  --ink-muted: #b5ae9f;
-  --ink-subtle: #a39c8d;
+  --ink: #f4f4f0;
+  --ink-muted: #b0afa8;
+  --ink-subtle: #9d9c95;
 
-  --brand: #ee7c4c;
-  --brand-hover: #f39a72;
-  --brand-fg: #151412;
-  --brand-ink: #ee7c4c;
-  --brand-soft: #3a2419;
-  --brand-line: rgba(238, 124, 76, 0.36);
+  --brand: #ff6b2c;
+  --brand-hover: #ff8a57;
+  --brand-fg: #121212;
+  --brand-ink: #ff7a3d;
+  --brand-soft: #33190c;
+  --brand-line: rgba(255, 107, 44, 0.42);
 
-  --peach: #3a2419;
-  --peach-ink: #f7b892;
-  --peach-muted: #d9c3b4;
-  --tofu: #24211d;
-  --tofu-line: #36322b;
-  --seaweed: #24493b;
-  --seaweed-ink: #f3efe6;
-  --seaweed-muted: #d3e6dc;
-  --seaweed-accent: #b8e0cc;
+  --tint: #2e1a10;
+  --tint-ink: #f6ece5;
+  --tint-muted: #d6c4b8;
+  --mist: #1c1c1a;
+  --mist-line: #2f2f2c;
+  --night: #262624;
+  --night-ink: #f4f4f0;
+  --night-muted: #b0afa8;
+  --night-accent: #ff7a3d;
 
-  --line: rgba(243, 239, 230, 0.1);
-  --line-strong: rgba(243, 239, 230, 0.2);
-  --ring: rgba(238, 124, 76, 0.55);
+  --line: rgba(244, 244, 240, 0.1);
+  --line-strong: rgba(244, 244, 240, 0.2);
+  --ring: rgba(255, 107, 44, 0.6);
 
-  /* Form validation only; 8.5:1 on the dark canvas. */
+  /* Form validation only. */
   --danger: #f78f8a;
 
   --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -187,21 +192,26 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-optical-sizing: auto;
   font-weight: 600;
-  letter-spacing: -0.015em;
+  letter-spacing: var(--track-heading);
   /* Vietnamese stacks diacritics above and below; 1.1 keeps them clear. */
-  line-height: 1.12;
+  line-height: 1.1;
   color: var(--ink);
   margin: 0;
   text-wrap: balance;
 }
 
+h1,
+h2 {
+  letter-spacing: var(--track-display);
+}
+
+/* The one emphasised word per headline: orange, upright, same weight.
+   Geist has no italic, and a synthesised slant would look broken. */
 h1 em,
 h2 em,
 h3 em {
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
   color: var(--brand);
 }
 
@@ -227,8 +237,8 @@ ol {
 }
 
 ::selection {
-  background: var(--peach);
-  color: var(--peach-ink);
+  background: var(--tint);
+  color: var(--tint-ink);
 }
 
 :focus-visible {
@@ -260,9 +270,9 @@ ol {
   padding-block: clamp(2.5rem, 5vw, 4rem);
 }
 
-/* A full-bleed tofu band, inset from the viewport edge like a tray. */
+/* A full-bleed mist band, inset from the viewport edge like a tray. */
 .band {
-  background: var(--tofu);
+  background: var(--mist);
   border-radius: var(--r-2xl);
   margin-inline: clamp(0.5rem, 1.5vw, 1.25rem);
 }
@@ -293,22 +303,9 @@ ol {
 .eyebrow__dot {
   width: 7px;
   height: 7px;
-  border-radius: var(--r-blob);
+  border-radius: 50%;
   background: var(--brand);
   flex: none;
-}
-
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1.2;
-  color: var(--peach-ink);
-  background: var(--peach);
-  border-radius: var(--r-pill);
-  padding: 0.5rem 0.95rem;
 }
 
 .lede {
@@ -386,9 +383,9 @@ ol {
 }
 
 .btn--ghost {
-  background: var(--tofu);
+  background: var(--mist);
   color: var(--ink);
-  border-color: var(--tofu-line);
+  border-color: var(--mist-line);
 }
 
 .btn--ghost:hover {
@@ -438,30 +435,30 @@ ol {
 }
 
 /* Toned blocks: set the ground and the text pair together. */
-.tone-peach {
-  background: var(--peach);
-  color: var(--peach-ink);
-  --tone-muted: var(--peach-muted);
+.tone-tint {
+  background: var(--tint);
+  color: var(--tint-ink);
+  --tone-muted: var(--tint-muted);
 }
 
-.tone-tofu {
-  background: var(--tofu);
+.tone-mist {
+  background: var(--mist);
   color: var(--ink);
   --tone-muted: var(--ink-muted);
 }
 
-.tone-seaweed {
-  background: var(--seaweed);
-  color: var(--seaweed-ink);
-  --tone-muted: var(--seaweed-muted);
+.tone-night {
+  background: var(--night);
+  color: var(--night-ink);
+  --tone-muted: var(--night-muted);
 }
 
-.tone-peach :is(h2, h3, h4) {
-  color: var(--peach-ink);
+.tone-tint :is(h2, h3, h4) {
+  color: var(--tint-ink);
 }
 
-.tone-seaweed :is(h2, h3, h4) {
-  color: var(--seaweed-ink);
+.tone-night :is(h2, h3, h4) {
+  color: var(--night-ink);
 }
 
 .badge {
@@ -473,8 +470,8 @@ ol {
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--peach-ink);
-  background: var(--peach);
+  color: var(--tint-ink);
+  background: var(--tint);
   border-radius: var(--r-pill);
   padding: 0.3rem 0.7rem;
 }
@@ -492,15 +489,15 @@ ol {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 70% at 12% 0%, var(--peach), transparent 62%),
+    radial-gradient(ellipse 80% 70% at 12% 0%, var(--tint), transparent 62%),
     radial-gradient(ellipse 70% 60% at 100% 100%, color-mix(in oklab, var(--art-2, var(--brand)) 30%, transparent), transparent 66%),
-    var(--tofu);
+    var(--mist);
 }
 
 .art__grid {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(var(--tofu-line) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(var(--mist-line) 1.5px, transparent 1.5px);
   background-size: 22px 22px;
   -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 30%, #000 20%, transparent 72%);
   mask-image: radial-gradient(ellipse 80% 80% at 50% 30%, #000 20%, transparent 72%);
@@ -517,7 +514,7 @@ ol {
   /* Colours for EmDash's table block (comparison tables in Auto Blog posts),
      which otherwise falls back to fixed greys that ignore dark mode. */
   --color-border: var(--line);
-  --color-surface: var(--tofu);
+  --color-surface: var(--mist);
   --color-bg-subtle: var(--surface);
 }
 
@@ -581,26 +578,26 @@ ol {
 
 .prose blockquote {
   margin-inline: 0;
-  background: var(--tofu);
+  background: var(--mist);
   border-radius: var(--r-md);
   padding: 1rem 1.25rem;
   font-family: var(--font-display);
-  font-style: italic;
+  font-weight: 500;
   color: var(--ink);
 }
 
 .prose code {
   font-family: var(--font-mono);
   font-size: 0.88em;
-  background: var(--tofu);
-  border: 1px solid var(--tofu-line);
+  background: var(--mist);
+  border: 1px solid var(--mist-line);
   border-radius: var(--r-xs);
   padding: 0.12em 0.4em;
 }
 
 .prose pre {
-  background: var(--tofu);
-  border: 1px solid var(--tofu-line);
+  background: var(--mist);
+  border: 1px solid var(--mist-line);
   border-radius: var(--r-md);
   padding: 1.15rem 1.25rem;
   overflow-x: auto;

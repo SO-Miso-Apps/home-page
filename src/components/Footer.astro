@@ -8,7 +8,7 @@ const lang = getLang(Astro.locals);
 const copy = {
   en: {
     home: "Miso Apps home",
-    blurb: "We design and customize Shopify themes, and build small apps that take the busywork off a store.",
+    blurb: "Shopify theme design, customization and apps. One small, hands-on studio.",
     nav: "Footer navigation",
     company: "Company",
     contact: "Contact",
@@ -18,7 +18,7 @@ const copy = {
   },
   vi: {
     home: "Miso Apps – trang chủ",
-    blurb: "Chúng tôi thiết kế, tùy chỉnh theme Shopify và làm các app nhỏ giúp cửa hàng bớt việc vặt.",
+    blurb: "Thiết kế, tùy biến theme và app Shopify. Một studio nhỏ, làm tận tay.",
     nav: "Liên kết cuối trang",
     company: "Công ty",
     contact: "Liên hệ",
@@ -96,7 +96,7 @@ const year = new Date().getFullYear();
   .site-footer {
     margin: clamp(4rem, 9vw, 7rem) clamp(0.5rem, 1.5vw, 1.25rem) 0;
     border-radius: var(--r-2xl) var(--r-2xl) 0 0;
-    background: var(--tofu);
+    background: var(--mist);
   }
 
   .footer__grid {
@@ -166,7 +166,7 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     gap: 0.75rem 1.5rem;
     padding-block: 1.25rem 1.5rem;
-    border-top: 1px solid var(--tofu-line);
+    border-top: 1px solid var(--mist-line);
     color: var(--ink-subtle);
     font-size: 0.875rem;
   }
@@ -180,7 +180,7 @@ const year = new Date().getFullYear();
   .footer__blob {
     width: 9px;
     height: 9px;
-    border-radius: var(--r-blob);
+    border-radius: 50%;
     background: var(--brand);
     flex: none;
   }

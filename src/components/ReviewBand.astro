@@ -4,6 +4,7 @@ import type { App } from "../../emdash-env";
 import AppMark from "./AppMark.astro";
 import { getListing, sizedIcon } from "../lib/app-store";
 import { getLang, localizeHref } from "../i18n";
+import { getRating, summarizeRatings } from "../lib/ratings";
 
 interface Props {
   apps: ContentEntry<App>[];
@@ -16,15 +17,8 @@ const { apps } = Astro.props;
 const lang = getLang(Astro.locals);
 const locale = lang === "vi" ? "vi-VN" : "en-US";
 
-const rated = apps.filter((app) => typeof app.data.rating_value === "number");
-const totalReviews = rated.reduce((total, app) => total + (app.data.review_count ?? 0), 0);
-// Weighted by review count, so one five-star app with a single review cannot
-// outvote an app with a hundred.
-const weight = (app: ContentEntry<App>) => Math.max(app.data.review_count ?? 0, 1);
-const average = rated.length
-  ? rated.reduce((total, app) => total + (app.data.rating_value ?? 0) * weight(app), 0) /
-    rated.reduce((total, app) => total + weight(app), 0)
-  : null;
+const { rated, totalReviews, average } = summarizeRatings(apps);
+const ratingOf = new Map(apps.map((app) => [app.id, getRating(app)]));
 
 const fmt = (n: number, digits = 0) =>
   n.toLocaleString(locale, { minimumFractionDigits: digits, maximumFractionDigits: digits });
@@ -40,17 +34,17 @@ const copy = {
     stars: (r: string) => `${r} out of 5 stars`,
     read: "Read reviews",
     count: (n: number) => `${fmt(n)} ${n === 1 ? "review" : "reviews"}`,
-    newApp: "New listing",
+    newApp: "No reviews yet",
   },
   vi: {
     eyebrow: "Đánh giá trên App Store",
-    title: "Điểm số do chính các cửa hàng đang dùng app chấm.",
+    title: "Cửa hàng dùng thật, chấm điểm thật.",
     reviews: (_n: number) => "đánh giá trên Shopify App Store",
     average: "Điểm trung bình",
     stars: (r: string) => `${r} trên 5 sao`,
     read: "Đọc đánh giá",
     count: (n: number) => `${fmt(n)} đánh giá`,
-    newApp: "Mới ra mắt",
+    newApp: "Chưa có đánh giá",
   },
 }[lang];
 ---
@@ -59,7 +53,7 @@ const copy = {
   rated.length > 0 && average !== null && (
     <section class="section section--tight" aria-labelledby="reviews-title">
       <div class="container">
-        <div class="reviews tone-peach" data-reveal>
+        <div class="reviews tone-tint" data-reveal>
           <div class="reviews__summary">
             <span class="eyebrow">
               <span class="eyebrow__dot" />
@@ -98,19 +92,19 @@ const copy = {
                 <div class="reviews__app">
                   <a class="reviews__name" href={localizeHref(`/apps/${app.id}`, lang)}>{app.data.name}</a>
                   <span class="reviews__sub">
-                    {typeof app.data.rating_value === "number" ? (
+                    {ratingOf.get(app.id) ? (
                       <>
-                        <span class="stars stars--sm" style={`--fill: ${(app.data.rating_value / 5) * 100}%`} role="img" aria-label={copy.stars(fmt(app.data.rating_value, 1))} />
-                        <span class="num">{fmt(app.data.rating_value, 1)}</span>
+                        <span class="stars stars--sm" style={`--fill: ${(ratingOf.get(app.id)!.value / 5) * 100}%`} role="img" aria-label={copy.stars(fmt(ratingOf.get(app.id)!.value, 1))} />
+                        <span class="num">{fmt(ratingOf.get(app.id)!.value, 1)}</span>
                         <span aria-hidden="true">·</span>
-                        <span>{copy.count(app.data.review_count ?? 0)}</span>
+                        <span>{copy.count(ratingOf.get(app.id)!.count)}</span>
                       </>
                     ) : (
                       copy.newApp
                     )}
                   </span>
                 </div>
-                {app.data.app_store_url && typeof app.data.rating_value === "number" && (
+                {app.data.app_store_url && ratingOf.get(app.id) && (
                   <a class="reviews__link" href={reviewsUrl(app.data.app_store_url)} target="_blank" rel="noopener noreferrer">
                     {copy.read}
                     <span class="sr-only">: {app.data.name}</span>
@@ -134,7 +128,7 @@ const copy = {
     gap: 2rem;
     padding: clamp(1.5rem, 4vw, 3rem);
     border-radius: var(--r-2xl);
-    --rule: color-mix(in oklab, var(--peach-ink) 18%, transparent);
+    --rule: color-mix(in oklab, var(--tint-ink) 18%, transparent);
   }
 
   @media (min-width: 960px) {
@@ -167,7 +161,7 @@ const copy = {
     font-weight: 600;
     line-height: 1;
     letter-spacing: -0.04em;
-    color: var(--peach-ink);
+    color: var(--tint-ink);
   }
 
   .reviews__meta {
@@ -247,7 +241,7 @@ const copy = {
   .reviews__name {
     overflow: hidden;
     font-weight: 600;
-    color: var(--peach-ink);
+    color: var(--tint-ink);
     text-decoration: none;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -274,7 +268,7 @@ const copy = {
     min-height: 40px;
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--peach-ink);
+    color: var(--tint-ink);
     text-decoration: none;
     white-space: nowrap;
   }

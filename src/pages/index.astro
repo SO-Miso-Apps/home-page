@@ -12,6 +12,7 @@ import SectionHeader from "../components/SectionHeader.astro";
 import { FAQ_BY_LANG } from "../faq";
 import { getLang, localizeHref } from "../i18n";
 import { getLocalizedCollection } from "../lib/content";
+import { summarizeRatings } from "../lib/ratings";
 import { getWork } from "../work";
 
 const lang = getLang(Astro.locals);
@@ -40,20 +41,20 @@ const seo = getSeoMeta({ data: {} }, {
 // work.ts, the steps on /services, the apps in the CMS. No invented numbers.
 const copy = {
   en: {
-    title: "Shopify theme design and customization",
-    chip: "Shopify theme design and customization",
-    h1: { before: "Your store, ", em: "exactly", after: " as you pictured it." },
-    lede: "We build new themes from scratch or rework the one you already run — home, collection, product, cart. Every part stays editable in the theme editor, so you never need a developer for a change.",
-    primary: "Send a request",
-    secondary: "See how we work",
-    art: {
-      editor: "A demo store open in the Shopify theme editor, with its image banner selected",
-      phone: "The same demo store's product page on a phone",
+    title: "Shopify theme design, customization and apps",
+    h1: { before: "Shopify themes for brands that ", em: "stand out", after: "." },
+    lede: "New themes, reworked themes, and the apps behind them. Every page stays editable in the theme editor — no developer needed for a change.",
+    primary: "Get a quote",
+    secondary: "See the work",
+    proof: {
+      stores: "live storefronts",
+      rating: "on the Shopify App Store",
+      stars: (r: string) => `${r} out of 5 stars`,
     },
     work: {
-      eyebrow: "Recent work",
-      title: "Storefronts we've customized",
-      lead: "Shopify stores selling today on themes we've worked on, and demo stores of the themes we make. Go and click around.",
+      eyebrow: "Selected work",
+      title: "Live stores. Real themes.",
+      lead: "Stores selling today on themes we've worked on, plus demo stores of our own themes. Click around.",
       theme: "Theme",
       locked: "Password-protected for now",
       password: "Store password",
@@ -63,57 +64,57 @@ const copy = {
     },
     services: {
       eyebrow: "Theme services",
-      title: "What we can do with your theme",
+      title: "Three ways we work on your theme.",
       cards: [
-        { title: "A new theme", body: "A storefront designed around your brand and your products, with every page you sell on: home, collection, product, cart.", shot: "A collection page on a demo store, with filters and a four-column product grid" },
-        { title: "Rework the theme you have", body: "New sections, a rebuilt layout, a fresh look for a single template — without giving up the theme you already run.", shot: "A section being dragged into a new place on a demo store in the theme editor" },
-        { title: "Faster and easier to use", body: "A pass over Core Web Vitals, keyboard navigation, contrast, and the layout shift that happens while a page loads.", shot: "A demo store's product page with a visible keyboard focus ring on the add-to-cart button" },
+        { title: "A new theme", body: "Designed around your brand, with every page you sell on: home, collection, product, cart.", shot: "A collection page on a demo store, with filters and a four-column product grid" },
+        { title: "Rework your theme", body: "New sections, new layouts, a new look — on the theme you already run.", shot: "A section being dragged into a new place on a demo store in the theme editor" },
+        { title: "Faster, more accessible", body: "Core Web Vitals, keyboard navigation, contrast, and no layout shift while a page loads.", shot: "A demo store's product page with a visible keyboard focus ring on the add-to-cart button" },
       ],
-      more: "Service details",
-      apps: "Need an app built around your own workflow instead?",
+      more: "All services",
+      apps: "Need a custom app instead?",
       appsLink: "Custom app development",
     },
     process: {
       eyebrow: "How we work",
-      title: "Four steps, and you sign off on each one",
+      title: "Four steps. You sign off on each.",
       steps: [
-        { title: "Tell us what you need", body: "A few lines about your store, the theme you run, and what you want to change." },
-        { title: "Review and quote", body: "We look at the live store, agree the scope, and quote before any work starts." },
-        { title: "Approve on a preview", body: "Each part is shown on a preview of your theme as it's finished, so you comment before anything goes live." },
-        { title: "Handover", body: "The theme is published. You keep every file, written notes, and a direct line to the person who built it." },
+        { title: "Brief", body: "A few lines on your store, your theme, and what should change." },
+        { title: "Quote", body: "We review the live store, agree the scope, and quote before work starts." },
+        { title: "Preview", body: "Every part lands on a preview of your theme first. You comment before it goes live." },
+        { title: "Handover", body: "The theme is published. You keep every file, the notes, and a direct line to whoever built it." },
       ],
     },
     apps: {
       eyebrow: "Our apps",
-      title: "Apps from Miso",
-      lead: "Alongside theme work, we make our own apps for the Shopify App Store.",
+      title: "Apps by Miso.",
+      lead: "Built by the same team, listed on the Shopify App Store.",
     },
     faq: {
       eyebrow: "FAQ",
-      title: "What people ask us first",
-      lead: "Short answers to what comes up before a project starts. Anything else, just ask.",
+      title: "Before you ask.",
+      lead: "Short answers to the usual questions. Anything else, ask us.",
     },
     cta: {
-      title: "What would you change about your store?",
-      body: "Describe it in a few lines. We'll reply with a scope of work and a quote.",
-      primary: "Send a request",
+      title: "Tell us what to change.",
+      body: "A few lines is enough. We reply within one working day with a scope and a quote.",
+      primary: "Get a quote",
     },
   },
   vi: {
-    title: "Thiết kế và tùy chỉnh theme Shopify",
-    chip: "Thiết kế và tùy chỉnh theme Shopify",
-    h1: { before: "Cửa hàng của bạn, ", em: "đúng", after: " như bạn hình dung." },
-    lede: "Chúng tôi làm theme mới từ đầu hoặc chỉnh lại theme bạn đang dùng — trang chủ, danh mục, sản phẩm, giỏ hàng. Mọi phần đều sửa được trong trình chỉnh sửa theme, không cần nhờ lập trình viên.",
-    primary: "Gửi yêu cầu",
-    secondary: "Xem cách chúng tôi làm",
-    art: {
-      editor: "Một cửa hàng demo đang mở trong trình chỉnh sửa theme Shopify, phần banner đang được chọn",
-      phone: "Trang sản phẩm của cửa hàng demo đó trên điện thoại",
+    title: "Thiết kế, tùy biến theme và app Shopify",
+    h1: { before: "Theme Shopify cho thương hiệu muốn ", em: "khác biệt", after: "." },
+    lede: "Làm theme mới, chỉnh theme đang dùng, và cả app đi kèm. Mọi trang vẫn sửa được trong trình chỉnh sửa theme — không cần nhờ lập trình viên.",
+    primary: "Nhận báo giá",
+    secondary: "Xem dự án",
+    proof: {
+      stores: "cửa hàng đang chạy",
+      rating: "trên Shopify App Store",
+      stars: (r: string) => `${r} trên 5 sao`,
     },
     work: {
-      eyebrow: "Dự án đã làm",
-      title: "Những cửa hàng chúng tôi đã chỉnh theme",
-      lead: "Các cửa hàng Shopify đang bán hàng mỗi ngày trên theme do chúng tôi chỉnh, cùng các store demo của theme do chúng tôi làm. Bạn cứ vào xem và bấm thử.",
+      eyebrow: "Dự án",
+      title: "Cửa hàng thật. Theme thật.",
+      lead: "Các cửa hàng đang bán hàng trên theme chúng tôi đã làm, cùng store demo theme của Miso. Cứ vào bấm thử.",
       theme: "Theme",
       locked: "Hiện store đang đặt mật khẩu",
       password: "Mật khẩu store",
@@ -123,85 +124,108 @@ const copy = {
     },
     services: {
       eyebrow: "Dịch vụ theme",
-      title: "Chúng tôi nhận làm gì với theme của bạn",
+      title: "Ba cách chúng tôi làm theme cho bạn.",
       cards: [
-        { title: "Làm theme mới", body: "Giao diện riêng theo thương hiệu và sản phẩm của bạn, đủ mọi trang bán hàng: trang chủ, danh mục, sản phẩm, giỏ hàng.", shot: "Trang danh mục của một cửa hàng demo, có bộ lọc và lưới sản phẩm bốn cột" },
-        { title: "Chỉnh theme đang dùng", body: "Thêm section, sửa bố cục, đổi giao diện từng trang mà không phải bỏ theme hiện tại.", shot: "Một section đang được kéo sang vị trí mới trên cửa hàng demo trong trình chỉnh sửa theme" },
-        { title: "Tăng tốc và dễ dùng hơn", body: "Rà soát Core Web Vitals, điều hướng bằng bàn phím, độ tương phản và hiện tượng giật bố cục khi tải trang.", shot: "Trang sản phẩm của cửa hàng demo, nút thêm vào giỏ đang có viền focus bàn phím rõ ràng" },
+        { title: "Theme mới", body: "Thiết kế theo thương hiệu, đủ mọi trang bán hàng: trang chủ, danh mục, sản phẩm, giỏ hàng.", shot: "Trang danh mục của một cửa hàng demo, có bộ lọc và lưới sản phẩm bốn cột" },
+        { title: "Chỉnh theme đang dùng", body: "Thêm section, đổi bố cục, làm mới giao diện — ngay trên theme hiện tại.", shot: "Một section đang được kéo sang vị trí mới trên cửa hàng demo trong trình chỉnh sửa theme" },
+        { title: "Nhanh hơn, dễ dùng hơn", body: "Core Web Vitals, điều hướng bàn phím, độ tương phản, không giật bố cục khi tải trang.", shot: "Trang sản phẩm của cửa hàng demo, nút thêm vào giỏ đang có viền focus bàn phím rõ ràng" },
       ],
-      more: "Chi tiết dịch vụ",
-      apps: "Bạn cần một app làm riêng theo quy trình của mình?",
-      appsLink: "Dịch vụ làm app theo yêu cầu",
+      more: "Tất cả dịch vụ",
+      apps: "Cần một app làm riêng?",
+      appsLink: "Làm app theo yêu cầu",
     },
     process: {
-      eyebrow: "Cách chúng tôi làm",
-      title: "Bốn bước, bạn duyệt ở từng bước",
+      eyebrow: "Cách làm",
+      title: "Bốn bước. Bạn duyệt từng bước.",
       steps: [
-        { title: "Gửi mô tả", body: "Vài dòng về cửa hàng, theme đang dùng và điều bạn muốn thay đổi." },
-        { title: "Khảo sát và báo giá", body: "Chúng tôi xem cửa hàng thật, chốt phạm vi và báo giá trước khi bắt tay vào làm." },
-        { title: "Duyệt trên bản xem trước", body: "Phần nào xong, bạn xem ngay trên bản xem trước của theme và góp ý trước khi công khai." },
-        { title: "Bàn giao", body: "Theme được xuất bản. Bạn giữ toàn bộ file, tài liệu hướng dẫn và liên hệ trực tiếp với người đã làm." },
+        { title: "Gửi mô tả", body: "Vài dòng về cửa hàng, theme đang dùng và điều cần đổi." },
+        { title: "Báo giá", body: "Chúng tôi xem cửa hàng thật, chốt phạm vi và báo giá trước khi làm." },
+        { title: "Duyệt bản xem trước", body: "Mỗi phần lên bản xem trước của theme trước. Bạn góp ý rồi mới công khai." },
+        { title: "Bàn giao", body: "Theme được xuất bản. Bạn giữ toàn bộ file, tài liệu và liên hệ trực tiếp với người đã làm." },
       ],
     },
     apps: {
       eyebrow: "Ứng dụng",
-      title: "Ứng dụng của Miso",
-      lead: "Ngoài làm theme, chúng tôi còn có các app trên Shopify App Store.",
+      title: "App của Miso.",
+      lead: "Do chính đội ngũ này làm, có trên Shopify App Store.",
     },
     faq: {
       eyebrow: "Hỏi đáp",
-      title: "Những câu chúng tôi hay được hỏi",
-      lead: "Trả lời ngắn gọn những điều thường gặp trước khi bắt đầu dự án. Còn thắc mắc gì khác, bạn cứ hỏi thẳng chúng tôi.",
+      title: "Trước khi bạn hỏi.",
+      lead: "Trả lời ngắn cho những câu hay gặp. Còn gì khác, cứ hỏi chúng tôi.",
     },
     cta: {
-      title: "Bạn muốn đổi gì trên cửa hàng?",
-      body: "Mô tả trong vài dòng, chúng tôi sẽ phản hồi kèm phạm vi công việc và báo giá.",
-      primary: "Gửi yêu cầu",
+      title: "Bạn muốn đổi gì?",
+      body: "Vài dòng là đủ. Chúng tôi phản hồi trong một ngày làm việc, kèm phạm vi và báo giá.",
+      primary: "Nhận báo giá",
     },
   },
 }[lang];
 
 const contactHref = localizeHref("/services#request", lang);
 const work = getWork(lang);
-const TONES = ["peach", "tofu", "seaweed"] as const;
+const { average } = summarizeRatings(apps);
+const rating = average === null ? null : average.toLocaleString(lang === "vi" ? "vi-VN" : "en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+// The hero wall: every storefront from the work section, dealt into three
+// columns and repeated so each column runs past the panel's top and bottom.
+const WALL_COLUMNS = 3;
+const WALL_DEPTH = 6;
+const wall = Array.from({ length: WALL_COLUMNS }, (_, col) =>
+  Array.from({ length: WALL_DEPTH }, (_, row) => work[(col + row * WALL_COLUMNS) % work.length].image),
+);
+const TONES = ["tint", "mist", "night"] as const;
 // One demo-store screenshot per service card, in card order.
 const SERVICE_SHOTS = ["/demo/svc-collection.webp", "/demo/svc-editor-drag.webp", "/demo/svc-product-focus.webp"];
 ---
 
 <Base title={copy.title} description={lang === "vi" ? undefined : (seo.description ?? undefined)} image={seo.ogImage ?? undefined} canonical={seo.canonical ?? undefined} robots={seo.robots ?? undefined}>
-  <section class="hero" data-hero>
-    <div class="container hero__copy">
-      <span class="chip" data-hero-item>{copy.chip}</span>
-      <h1 data-hero-item>{copy.h1.before}<em>{copy.h1.em}</em>{copy.h1.after}</h1>
-      <p class="lede hero__lede" data-hero-item>{copy.lede}</p>
-      <div class="hero__actions" data-hero-item>
-        <a class="btn btn--brand btn--lg" href={contactHref}>
-          {copy.primary}
-          <svg class="btn__arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
-            <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
-        <a class="btn btn--ghost btn--lg" href="#process">{copy.secondary}</a>
+  <section class="hero" data-hero aria-labelledby="hero-title">
+    <div class="hero__panel tone-night">
+      <div class="hero__copy">
+        <h1 id="hero-title" data-hero-item>{copy.h1.before}<em>{copy.h1.em}</em>{copy.h1.after}</h1>
+        <p class="hero__lede" data-hero-item>{copy.lede}</p>
+        <div class="hero__actions" data-hero-item>
+          <a class="btn btn--brand btn--lg" href={contactHref}>
+            {copy.primary}
+            <svg class="btn__arrow" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+              <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a class="btn btn--outline btn--lg" href="#work">{copy.secondary}</a>
+        </div>
+        <ul class="hero__proof" role="list" data-hero-item>
+          <li>
+            <span class="hero__thumbs" aria-hidden="true">
+              {work.slice(0, 3).map((item) => <img src={item.image.src} width="40" height="40" alt="" decoding="async" />)}
+            </span>
+            <span><strong class="num">{work.length}</strong> {copy.proof.stores}</span>
+          </li>
+          {rating && (
+            <li>
+              <span class="hero__star" role="img" aria-label={copy.proof.stars(rating)}>★</span>
+              <span><strong class="num">{rating}</strong> {copy.proof.rating}</span>
+            </li>
+          )}
+        </ul>
       </div>
-    </div>
 
-    {/* A demo store (products from mock.shop) in the theme editor, with its
-        product page on a phone. Tone blocks sit behind as the backdrop. */}
-    <div class="container stage" data-hero-art>
-      <span class="stage__tone stage__tone--left tone-seaweed" aria-hidden="true"></span>
-      <span class="stage__tone stage__tone--right tone-peach" aria-hidden="true"></span>
-      <div class="stage__editor">
-        <img
-          src="/demo/theme-editor.webp"
-          width="1760"
-          height="1100"
-          alt={copy.art.editor}
-          fetchpriority="high"
-          decoding="async"
-        />
-      </div>
-      <div class="stage__phone" data-float>
-        <img src="/demo/product-mobile.webp" width="660" height="1428" alt={copy.art.phone} decoding="async" />
+      {/* Decorative: the same storefronts the work section lists, as a tilted
+          wall whose columns drift apart on scroll (motion.ts, data-wall-col). */}
+      <div class="hero__wall" aria-hidden="true" data-hero-art>
+        <div class="hero__grid">
+          {
+            wall.map((column, index) => (
+              <div class="hero__col" data-wall-col={index}>
+                {column.map((image) => (
+                  <img src={image.src} width={image.width} height={image.height} alt="" decoding="async" />
+                ))}
+              </div>
+            ))
+          }
+        </div>
+        <div class="hero__phone" data-float>
+          <img src="/demo/product-mobile.webp" width="660" height="1428" alt="" decoding="async" />
+        </div>
       </div>
     </div>
   </section>
@@ -300,7 +324,7 @@ const SERVICE_SHOTS = ["/demo/svc-collection.webp", "/demo/svc-editor-drag.webp"
         {
           apps.map((app, index) => (
             <li>
-              <AppCard app={app} tone={(["peach", "seaweed", "brand", "tofu"] as const)[index % 4]} />
+              <AppCard app={app} tone={(["tint", "night", "brand", "mist"] as const)[index % 4]} />
             </li>
           ))
         }
@@ -317,99 +341,208 @@ const SERVICE_SHOTS = ["/demo/svc-collection.webp", "/demo/svc-editor-drag.webp"
 
 <style>
   /* --- Hero --------------------------------------------------------------- */
+  /* A night panel inset like a band: copy on the left, a tilted wall of real
+     storefront captures on the right that bleeds off the panel's edges. */
   .hero {
-    padding-block: clamp(3rem, 8vw, 6rem) 0;
+    padding-top: clamp(0.5rem, 1.5vw, 1rem);
+  }
+
+  .hero__panel {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin-inline: clamp(0.5rem, 1.5vw, 1.25rem);
+    border-radius: var(--r-2xl);
+    overflow: hidden;
+    isolation: isolate;
   }
 
   .hero__copy {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: clamp(1.25rem, 2.4vw, 1.75rem);
+    align-items: flex-start;
+    gap: clamp(1.25rem, 2.2vw, 1.75rem);
+    padding: clamp(2.5rem, 7vw, 5.5rem) clamp(1.25rem, 5vw, 4.5rem) clamp(2rem, 4vw, 3rem);
   }
 
   h1 {
-    font-size: var(--step-hero);
+    font-size: clamp(2.6rem, 1.2rem + 4.6vw, 5.4rem);
     line-height: 1.08;
-    letter-spacing: -0.03em;
-    max-width: 15ch;
+    letter-spacing: var(--track-hero);
+    color: var(--night-ink);
+    max-width: 13ch;
   }
 
   .hero__lede {
+    color: var(--tone-muted);
     font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
-    max-width: 58ch;
+    line-height: 1.65;
+    max-width: 44ch;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: 0.75rem;
   }
 
-  /* --- Stage ------------------------------------------------------------- */
-  .stage {
+  /* Secondary action on the night ground: a hairline pill. */
+  .btn--outline {
+    background: transparent;
+    color: var(--night-ink);
+    border-color: color-mix(in oklab, var(--night-ink) 26%, transparent);
+  }
+
+  .btn--outline:hover {
+    border-color: color-mix(in oklab, var(--night-ink) 60%, transparent);
+    transform: translateY(-1px);
+  }
+
+  .hero__proof {
+    list-style: none;
+    padding: 1.25rem 0 0;
+    margin-top: 0.25rem;
+    border-top: 1px solid color-mix(in oklab, var(--night-ink) 14%, transparent);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2rem;
+    font-size: 0.9375rem;
+    color: var(--tone-muted);
+  }
+
+  .hero__proof li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .hero__proof strong {
+    color: var(--night-ink);
+    font-weight: 600;
+  }
+
+  .hero__thumbs {
+    display: inline-flex;
+  }
+
+  .hero__thumbs img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    object-position: left top;
+    border-radius: 50%;
+    border: 2px solid var(--night);
+  }
+
+  .hero__thumbs img + img {
+    margin-left: -10px;
+  }
+
+  .hero__star {
+    color: var(--night-accent);
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+
+  /* --- Wall -------------------------------------------------------------- */
+  .hero__wall {
     position: relative;
-    margin-top: clamp(3rem, 7vw, 5rem);
-    padding-inline: clamp(1rem, 6vw, 5rem);
-    padding-bottom: clamp(1.5rem, 4vw, 3rem);
-    /* The rotated tone blocks reach the screen edge on phones; keep their
-       corners from widening the page. */
-    overflow-x: clip;
-  }
-
-  .stage__tone {
-    position: absolute;
-    border-radius: clamp(1.25rem, 3vw, 2.25rem);
-  }
-
-  .stage__tone--left {
-    left: 0;
-    top: 16%;
-    width: 42%;
-    height: 72%;
-    transform: rotate(-3deg);
-  }
-
-  .stage__tone--right {
-    right: 0;
-    top: 4%;
-    width: 38%;
-    height: 82%;
-    transform: rotate(2.5deg);
-  }
-
-  .stage__editor {
-    position: relative;
-    max-width: 960px;
-    margin-inline: auto;
-    border-radius: clamp(0.6rem, 1.4vw, 1rem);
+    height: clamp(320px, 62vw, 460px);
     overflow: hidden;
-    box-shadow: var(--shadow-3), 0 0 0 1px color-mix(in oklab, var(--ink) 10%, transparent);
   }
 
-  .stage__editor img,
-  .stage__phone img {
+  /* Fade the wall into the panel so the captures read as texture, not as a
+     second piece of content. */
+  .hero__wall::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, var(--night) 0%, transparent 22%, transparent 78%, var(--night) 100%);
+  }
+
+  .hero__grid {
+    position: absolute;
+    top: -30%;
+    left: -12%;
+    width: 124%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(0.6rem, 1.2vw, 1rem);
+    rotate: -9deg;
+  }
+
+  .hero__col {
+    display: grid;
+    gap: clamp(0.6rem, 1.2vw, 1rem);
+    align-content: start;
+  }
+
+  .hero__col:nth-child(2) {
+    margin-top: -18%;
+  }
+
+  .hero__col:nth-child(3) {
+    margin-top: -6%;
+  }
+
+  .hero__col img {
     display: block;
     width: 100%;
     height: auto;
+    border-radius: var(--r-md);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--night-ink) 10%, transparent), 0 18px 40px -20px rgba(0, 0, 0, 0.7);
   }
 
   /* A phone, drawn as a dark bezel around the screenshot. */
-  .stage__phone {
+  .hero__phone {
     position: absolute;
-    right: clamp(0.25rem, 3vw, 2.5rem);
-    bottom: 0;
-    width: clamp(96px, 21%, 240px);
-    padding: clamp(4px, 0.6vw, 8px);
-    border-radius: clamp(1.1rem, 2.6vw, 2.2rem);
-    background: #1d1a17;
-    box-shadow: var(--shadow-3);
+    z-index: 2;
+    right: clamp(1rem, 8%, 4rem);
+    bottom: clamp(1rem, 6%, 3rem);
+    width: clamp(110px, 24%, 200px);
+    padding: clamp(4px, 0.6vw, 7px);
+    border-radius: clamp(1.1rem, 2.4vw, 2rem);
+    background: #0a0a0a;
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--night-ink) 14%, transparent), 0 30px 60px -24px rgba(0, 0, 0, 0.8);
   }
 
-  .stage__phone img {
-    border-radius: clamp(0.85rem, 2.1vw, 1.75rem);
+  .hero__phone img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: clamp(0.85rem, 1.9vw, 1.6rem);
+  }
+
+  @media (min-width: 960px) {
+    .hero__panel {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      min-height: min(720px, calc(100dvh - 96px));
+    }
+
+    .hero__copy {
+      justify-content: center;
+      padding-block: clamp(3.5rem, 6vw, 5.5rem);
+    }
+
+    .hero__wall {
+      height: auto;
+    }
+
+    .hero__wall::after {
+      background:
+        linear-gradient(90deg, var(--night) 0%, transparent 26%),
+        linear-gradient(180deg, var(--night) 0%, transparent 16%, transparent 84%, var(--night) 100%);
+    }
+
+    .hero__grid {
+      top: -22%;
+      left: -6%;
+      width: 118%;
+    }
   }
 
   /* --- Work --------------------------------------------------------------- */
@@ -426,7 +559,7 @@ const SERVICE_SHOTS = ["/demo/svc-collection.webp", "/demo/svc-editor-drag.webp"
     position: relative;
     display: grid;
     align-content: start;
-    background: var(--tofu);
+    background: var(--mist);
     border-radius: var(--r-xl);
     padding: clamp(0.65rem, 1.2vw, 0.85rem);
   }
@@ -502,7 +635,7 @@ const SERVICE_SHOTS = ["/demo/svc-collection.webp", "/demo/svc-editor-drag.webp"
     font-family: var(--font-mono);
     font-weight: 600;
     background: var(--surface);
-    border: 1px solid var(--tofu-line);
+    border: 1px solid var(--mist-line);
     border-radius: var(--r-xs);
     padding: 0.1em 0.5em;
   }
@@ -546,17 +679,17 @@ const SERVICE_SHOTS = ["/demo/svc-collection.webp", "/demo/svc-editor-drag.webp"
 
   .service__num {
     font-family: var(--font-display);
-    font-style: italic;
+    font-style: normal;
     font-size: 1.375rem;
     color: var(--tone-muted);
   }
 
-  .tone-peach .service__num {
-    color: var(--peach-ink);
+  .tone-tint .service__num {
+    color: var(--tint-ink);
   }
 
-  .tone-seaweed .service__num {
-    color: var(--seaweed-accent);
+  .tone-night .service__num {
+    color: var(--night-accent);
   }
 
   .service h3 {

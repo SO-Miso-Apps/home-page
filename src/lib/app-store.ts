@@ -4,9 +4,16 @@
 import appStoreMedia from "../app-store-media.json";
 
 export type ListingMedia = { type: "video"; youtubeId: string } | { type: "image"; src: string; alt: string };
+export interface ListingRating {
+  value: number;
+  count: number;
+}
 export interface Listing {
   icon: string;
   media: ListingMedia[];
+  /** As of the last sync: null when the listing has no reviews yet; absent
+      when the sync predates ratings. */
+  rating?: ListingRating | null;
 }
 
 // Listings Shopify has moved to a new handle, for app_store_url values still
