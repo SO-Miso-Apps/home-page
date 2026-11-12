@@ -120,7 +120,7 @@ const isCurrent = (url: string): boolean => {
     gap: 0.5rem;
   }
 
-  /* Desktop: the links sit in one tofu pill, the current page lifted white. */
+  /* Desktop: the links sit in one mist pill, the current page lifted white. */
   .nav__list {
     display: flex;
     align-items: center;
@@ -128,7 +128,7 @@ const isCurrent = (url: string): boolean => {
     padding: 5px;
     list-style: none;
     border-radius: var(--r-pill);
-    background: var(--tofu);
+    background: var(--mist);
   }
 
   .nav__link {
@@ -168,7 +168,7 @@ const isCurrent = (url: string): boolean => {
     padding: 0;
     border: 0;
     border-radius: var(--r-pill);
-    background: var(--tofu);
+    background: var(--mist);
     color: var(--ink);
     cursor: pointer;
   }
@@ -267,7 +267,7 @@ const isCurrent = (url: string): boolean => {
     }
 
     .nav__link[aria-current="page"] {
-      background: var(--tofu);
+      background: var(--mist);
       box-shadow: none;
     }
   }

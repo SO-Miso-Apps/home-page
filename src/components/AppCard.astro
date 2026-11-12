@@ -9,11 +9,11 @@ import { getLang, localizeHref } from "../i18n";
 interface Props {
   app: ContentEntry<App>;
   /** Ground for the icon tile, cycled by the parent list. */
-  tone?: "peach" | "seaweed" | "brand" | "tofu";
+  tone?: "tint" | "night" | "brand" | "mist";
   class?: string;
 }
 
-const { app, tone = "peach", class: className } = Astro.props;
+const { app, tone = "tint", class: className } = Astro.props;
 const data = app.data;
 const lang = getLang(Astro.locals);
 const href = localizeHref(`/apps/${app.id}`, lang);
@@ -51,7 +51,7 @@ const listingIcon = getListing(data.app_store_url)?.icon;
     height: 100%;
     padding: 1.35rem;
     background: var(--surface);
-    border: 1px solid var(--tofu-line);
+    border: 1px solid var(--mist-line);
     border-radius: var(--r-lg);
     transition:
       transform var(--dur-2) var(--ease-quart),
@@ -92,17 +92,17 @@ const listingIcon = getListing(data.app_store_url)?.icon;
     border-radius: inherit;
   }
 
-  .app-card__tile--peach {
-    background: var(--peach);
+  .app-card__tile--tint {
+    background: var(--tint);
   }
-  .app-card__tile--seaweed {
-    background: var(--seaweed);
+  .app-card__tile--night {
+    background: var(--night);
   }
   .app-card__tile--brand {
     background: var(--brand);
   }
-  .app-card__tile--tofu {
-    background: var(--tofu);
+  .app-card__tile--mist {
+    background: var(--mist);
   }
 
   .app-card__body {

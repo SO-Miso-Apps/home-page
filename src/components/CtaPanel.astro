@@ -17,7 +17,7 @@ const { title, body, primary, secondary, eyebrow, showcase = false } = Astro.pro
 
 <section class="section section--tight">
   <div class="container">
-    <div class:list={["cta tone-seaweed", { "cta--showcase": showcase }]} data-reveal>
+    <div class:list={["cta tone-night", { "cta--showcase": showcase }]} data-reveal>
       {
         showcase && (
           <div class="cta__phones" aria-hidden="true">
@@ -89,14 +89,14 @@ const { title, body, primary, secondary, eyebrow, showcase = false } = Astro.pro
     font-size: 0.75rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--seaweed-accent);
+    color: var(--night-accent);
   }
   .cta h2 {
     font-size: var(--step-5);
     max-width: 16ch;
   }
   .cta__body {
-    color: var(--seaweed-muted);
+    color: var(--night-muted);
     font-size: var(--step-1);
     line-height: 1.7;
     max-width: 52ch;
@@ -110,11 +110,11 @@ const { title, body, primary, secondary, eyebrow, showcase = false } = Astro.pro
   }
   .cta__secondary {
     background: transparent;
-    color: var(--seaweed-ink);
-    border-color: color-mix(in oklab, var(--seaweed-ink) 40%, transparent);
+    color: var(--night-ink);
+    border-color: color-mix(in oklab, var(--night-ink) 40%, transparent);
   }
   .cta__secondary:hover {
-    border-color: var(--seaweed-ink);
+    border-color: var(--night-ink);
   }
 
   /* The showcase: the demo store's home page in a browser window, rising from

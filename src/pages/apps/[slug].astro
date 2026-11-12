@@ -12,6 +12,7 @@ import ScreenshotGallery from "../../components/ScreenshotGallery.astro";
 import { getLang, localizeHref, splitLang } from "../../i18n";
 import { getLocalizedEntry } from "../../lib/content";
 import { getListing, sizedIcon } from "../../lib/app-store";
+import { getRating } from "../../lib/ratings";
 import { getLocalizedCollection } from "../../lib/content";
 
 const lang = getLang(Astro.locals);
@@ -36,7 +37,10 @@ const data = app.data;
 // A translation's id is "vi/<slug>"; the slug is the id in every language, so
 // the mark's seed and the sibling filter key on it.
 const appId = slug;
-const listingIcon = getListing(data.app_store_url)?.icon;
+const listing = getListing(data.app_store_url);
+const listingIcon = listing?.icon;
+// Up to three listing screenshots fan out behind the icon in the hero.
+const heroShots = (listing?.media ?? []).flatMap((item) => (item.type === "image" ? [item] : [])).slice(0, 3);
 
 // Cross-links to the rest of the catalog. Its cache hint is registered too —
 // Astro accumulates tags across set() calls, so publishing an entry also
@@ -79,17 +83,15 @@ const jsonld: Record<string, unknown> = {
     url: data.pricing_url ?? data.app_store_url,
   },
 };
-if (data.rating_value != null && (data.review_count ?? 0) > 0) {
+// Synced from the listing (see src/lib/ratings.ts); null until the app has a review.
+const appRating = getRating(app);
+if (appRating) {
   jsonld.aggregateRating = {
     "@type": "AggregateRating",
-    ratingValue: data.rating_value,
-    reviewCount: data.review_count,
+    ratingValue: appRating.value,
+    reviewCount: appRating.count,
   };
 }
-
-const rating = data.rating_value ?? null;
-const reviewCount = data.review_count ?? 0;
-const stars = rating == null ? 0 : Math.round(rating);
 
 const ctaHref = data.pricing_url ?? data.app_store_url;
 
@@ -98,7 +100,9 @@ const copy = {
     preview: "This is an unpublished preview.",
     install: "Install on the App Store",
     pricing: "View pricing",
-    reviews: (n: number) => `from ${n} ${n === 1 ? "review" : "reviews"} on the Shopify App Store`,
+    reviews: (n: number) => `${n} ${n === 1 ? "review" : "reviews"} on the Shopify App Store`,
+    stars: (r: string) => `${r} out of 5 stars`,
+    read: "Read reviews",
     icon: `${data.name} icon`,
     more: "More of our apps",
     ctaEyebrow: "Try it",
@@ -110,7 +114,9 @@ const copy = {
     preview: "Đây là bản xem trước chưa xuất bản.",
     install: "Cài từ App Store",
     pricing: "Xem bảng giá",
-    reviews: (n: number) => `từ ${n} đánh giá trên Shopify App Store`,
+    reviews: (n: number) => `${n} đánh giá trên Shopify App Store`,
+    stars: (r: string) => `${r} trên 5 sao`,
+    read: "Đọc đánh giá",
     icon: `Biểu tượng ${data.name}`,
     more: "Các app khác của chúng tôi",
     ctaEyebrow: "Dùng thử",
@@ -126,17 +132,17 @@ const copy = {
   {isPreview && <p class="container preview-note">{copy.preview}</p>}
 
   <section class="hero" data-hero>
-    <div class="container hero__grid">
+    <div class="hero__panel tone-night">
       <div class="hero__copy">
         {
           data.badge && (
-            <span class="badge" data-hero-item>
+            <span class="hero__badge" data-hero-item>
               {data.badge}
             </span>
           )
         }
         <h1 data-hero-item>{data.name}</h1>
-        <p class="lede" data-hero-item>{data.tagline}</p>
+        <p class="hero__lede" data-hero-item>{data.tagline}</p>
 
         <div class="hero__actions" data-hero-item>
           <a class="btn btn--brand btn--lg" href={data.app_store_url} target="_blank" rel="noopener noreferrer">
@@ -147,7 +153,7 @@ const copy = {
           </a>
           {
             data.pricing_url && (
-              <a class="btn btn--ghost btn--lg" href={data.pricing_url} target="_blank" rel="noopener noreferrer">
+              <a class="btn btn--outline btn--lg" href={data.pricing_url} target="_blank" rel="noopener noreferrer">
                 {copy.pricing}
               </a>
             )
@@ -155,38 +161,48 @@ const copy = {
         </div>
 
         {
-          rating != null && reviewCount > 0 && (
-            <p class="rating" data-hero-item>
-              <span class="rating__stars" aria-hidden="true">
-                {Array.from({ length: 5 }, (_, index) => (
-                  <svg viewBox="0 0 16 16" width="13" height="13" class:list={[index < stars ? "on" : "off"]} focusable="false">
-                    <path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6L8 1.6Z" />
+          appRating && (
+            <div class="rating" data-hero-item>
+              <span class="rating__value num">{appRating.value.toFixed(1)}</span>
+              <span class="rating__body">
+                <span class="rating__stars" role="img" aria-label={copy.stars(appRating.value.toFixed(1))}>
+                  {Array.from({ length: 5 }, (_, index) => (
+                    <svg viewBox="0 0 16 16" width="15" height="15" class:list={[index < Math.round(appRating.value) ? "on" : "off"]} aria-hidden="true" focusable="false">
+                      <path d="M8 1.6l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.4l-3.8 2 .7-4.3-3.1-3 4.3-.6L8 1.6Z" />
+                    </svg>
+                  ))}
+                </span>
+                <a class="rating__meta" href={`${data.app_store_url.replace(/[?#].*$/, "").replace(/\/+$/, "")}/reviews`} target="_blank" rel="noopener noreferrer">
+                  {copy.reviews(appRating.count)}
+                  <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false">
+                    <path d="M5 11 11 5M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
-                ))}
+                </a>
               </span>
-              <span class="num">{rating.toFixed(1)}</span>
-              <span class="rating__meta">
-                {copy.reviews(reviewCount)}
-              </span>
-            </p>
+            </div>
           )
         }
       </div>
 
-      <div class="hero__art" data-hero-art>
-        <div class="hero__tile tone-peach" data-float>
-          <span class="hero__blob" aria-hidden="true"></span>
-          <div class="hero__mark">
-            {
-              data.icon ? (
-                <Image image={data.icon} width={116} height={116} alt={copy.icon} />
-              ) : listingIcon ? (
-                <img src={sizedIcon(listingIcon, 232)} width="116" height="116" alt={copy.icon} />
-              ) : (
-                <AppMark seed={appId} size={116} />
-              )
-            }
+      {/* Decorative: the listing's own screenshots fanned out behind the icon. */}
+      <div class:list={["hero__art", { "hero__art--solo": heroShots.length === 0 }]} data-hero-art>
+        {heroShots.length > 0 && (
+          <div class="hero__shots" aria-hidden="true">
+            {heroShots.map((shot) => (
+              <img src={shot.src} width="1600" height="900" alt="" decoding="async" />
+            ))}
           </div>
+        )}
+        <div class="hero__mark" data-float>
+          {
+            data.icon ? (
+              <Image image={data.icon} width={128} height={128} alt={copy.icon} />
+            ) : listingIcon ? (
+              <img src={sizedIcon(listingIcon, 256)} width="128" height="128" alt={copy.icon} />
+            ) : (
+              <AppMark seed={appId} size={128} />
+            )
+          }
         </div>
       </div>
     </div>
@@ -215,7 +231,7 @@ const copy = {
           <ul class="more">
             {otherApps.map((entry, index) => (
               <li data-reveal>
-                <AppCard app={entry} tone={(["peach", "seaweed", "brand", "tofu"] as const)[index % 4]} />
+                <AppCard app={entry} tone={(["tint", "night", "brand", "mist"] as const)[index % 4]} />
               </li>
             ))}
           </ul>
@@ -240,43 +256,103 @@ const copy = {
     font-size: 0.875rem;
   }
 
+  /* --- Hero: the home page's night panel, with the listing behind the icon */
   .hero {
-    position: relative;
-    padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(1rem, 3vw, 2rem);
+    padding-top: clamp(0.5rem, 1.5vw, 1rem);
   }
 
-  .hero__grid {
+  .hero__panel {
     display: grid;
-    gap: clamp(2.5rem, 5vw, 4rem);
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
+    margin-inline: clamp(0.5rem, 1.5vw, 1.25rem);
+    border-radius: var(--r-2xl);
+    overflow: hidden;
+    isolation: isolate;
   }
 
   .hero__copy {
-    display: grid;
-    justify-items: start;
-    gap: 1.15rem;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.1rem, 2vw, 1.5rem);
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 5vw, 4.5rem) clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .hero__badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--night-accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hero__badge::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
   }
 
   h1 {
     font-size: var(--step-5);
-    letter-spacing: -0.035em;
+    letter-spacing: var(--track-hero);
+    color: var(--night-ink);
+    max-width: 16ch;
+  }
+
+  .hero__lede {
+    color: var(--tone-muted);
+    font-size: var(--step-1);
+    line-height: 1.65;
+    max-width: 48ch;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: 0.35rem;
   }
 
+  .btn--outline {
+    background: transparent;
+    color: var(--night-ink);
+    border-color: color-mix(in oklab, var(--night-ink) 26%, transparent);
+  }
+
+  .btn--outline:hover {
+    border-color: color-mix(in oklab, var(--night-ink) 60%, transparent);
+    transform: translateY(-1px);
+  }
+
+  /* Rating: the number large, stars and the review link stacked beside it. */
   .rating {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    font-size: 0.9375rem;
-    color: var(--ink-muted);
-    margin-top: 0.35rem;
+    gap: 0.9rem;
+    padding-top: 1.25rem;
+    margin-top: 0.25rem;
+    border-top: 1px solid color-mix(in oklab, var(--night-ink) 14%, transparent);
+  }
+
+  .rating__value {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--night-ink);
+  }
+
+  .rating__body {
+    display: grid;
+    gap: 0.3rem;
   }
 
   .rating__stars {
@@ -285,49 +361,121 @@ const copy = {
   }
 
   .rating__stars svg {
-    fill: var(--ink-subtle);
+    fill: color-mix(in oklab, var(--night-ink) 22%, transparent);
   }
 
   .rating__stars svg.on {
-    fill: var(--brand);
+    fill: var(--night-accent);
   }
 
   .rating__meta {
-    color: var(--ink-subtle);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+    color: var(--tone-muted);
+    text-decoration: none;
+    transition: color var(--dur-2) var(--ease-quart);
   }
 
+  .rating__meta:hover {
+    color: var(--night-ink);
+  }
+
+  /* --- Art ---------------------------------------------------------------- */
   .hero__art {
-    display: grid;
-  }
-
-  .hero__tile {
     position: relative;
+    min-height: clamp(280px, 60vw, 420px);
     display: grid;
     place-items: center;
-    aspect-ratio: 5 / 4;
     overflow: hidden;
-    border-radius: var(--r-2xl);
   }
 
-  /* A seaweed blob under the mark: the same bowl palette as the home hero. */
-  .hero__blob {
+  .hero__art::after {
+    content: "";
     position: absolute;
-    width: 58%;
-    aspect-ratio: 1;
-    border-radius: var(--r-blob);
-    background: var(--seaweed);
-    transform: rotate(-8deg);
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, var(--night) 0%, transparent 18%, transparent 82%, var(--night) 100%);
+  }
+
+  .hero__art--solo::after {
+    display: none;
+  }
+
+  /* Three screenshots in a fanned stack, tilted like the home wall. */
+  .hero__shots {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero__shots img {
+    position: absolute;
+    width: 74%;
+    height: auto;
+    border-radius: var(--r-md);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--night-ink) 12%, transparent), 0 24px 50px -24px rgba(0, 0, 0, 0.8);
+  }
+
+  .hero__shots img:nth-child(1) {
+    top: 6%;
+    left: 4%;
+    rotate: -10deg;
+    opacity: 0.55;
+  }
+
+  .hero__shots img:nth-child(2) {
+    top: 24%;
+    left: 22%;
+    rotate: -4deg;
+    opacity: 0.8;
+  }
+
+  .hero__shots img:nth-child(3) {
+    top: 46%;
+    left: 12%;
+    rotate: 3deg;
   }
 
   .hero__mark {
     position: relative;
-    border-radius: var(--r-xl);
-    box-shadow: var(--shadow-3);
+    z-index: 2;
+    border-radius: 28%;
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--night-ink) 14%, transparent), 0 30px 60px -20px rgba(0, 0, 0, 0.85);
+  }
+
+  .hero__art:not(.hero__art--solo) .hero__mark {
+    position: absolute;
+    right: clamp(1rem, 8%, 3.5rem);
+    bottom: clamp(1rem, 10%, 3.5rem);
   }
 
   .hero__mark img {
     display: block;
     border-radius: inherit;
+  }
+
+  @media (min-width: 960px) {
+    .hero__panel {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      min-height: min(600px, calc(100dvh - 120px));
+    }
+
+    .hero__copy {
+      justify-content: center;
+      padding-block: clamp(3rem, 5vw, 4.5rem);
+    }
+
+    .hero__art {
+      min-height: 0;
+    }
+
+    .hero__art::after {
+      background:
+        linear-gradient(90deg, var(--night) 0%, transparent 20%),
+        linear-gradient(180deg, var(--night) 0%, transparent 14%, transparent 86%, var(--night) 100%);
+    }
   }
 
   .more__title {
@@ -343,9 +491,4 @@ const copy = {
     gap: 1rem;
   }
 
-  @media (min-width: 960px) {
-    .hero__grid {
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    }
-  }
 </style>

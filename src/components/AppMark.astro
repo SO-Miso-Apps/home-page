@@ -14,7 +14,7 @@ interface Props {
   seed: string;
   size?: number;
   /** Ground the glyph sits on; `brand` is the default miso orange. */
-  tone?: "brand" | "peach" | "seaweed" | "tofu";
+  tone?: "brand" | "tint" | "night" | "mist";
   class?: string;
 }
 
@@ -82,16 +82,16 @@ const radius = Math.round(size * 0.28);
     background: linear-gradient(var(--mark-angle), var(--brand), var(--brand-hover));
     color: var(--brand-fg);
   }
-  .mark--peach {
-    background: var(--peach);
-    color: var(--peach-ink);
+  .mark--tint {
+    background: var(--tint);
+    color: var(--tint-ink);
   }
-  .mark--seaweed {
-    background: var(--seaweed);
-    color: var(--seaweed-accent);
+  .mark--night {
+    background: var(--night);
+    color: var(--night-accent);
   }
-  .mark--tofu {
-    background: var(--tofu);
+  .mark--mist {
+    background: var(--mist);
     color: var(--brand);
   }
   .mark__glyph {

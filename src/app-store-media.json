@@ -37,7 +37,11 @@
         "src": "https://cdn.shopify.com/app-store/listing_images/19bf67fa5af3b5624828c70d7219d69b/desktop_screenshot/CJWgl4Wzw5EDEAE=.png",
         "alt": "Keep your store data clean and organized."
       }
-    ]
+    ],
+    "rating": {
+      "value": 5,
+      "count": 3
+    }
   },
   "so-sticky-add-to-cart": {
     "icon": "https://cdn.shopify.com/app-store/listing_images/9e6a49bd1bad358f8861e1ce835a686b/icon/COGo5ZTr0pADEAE=.png",
@@ -67,7 +71,8 @@
         "src": "https://cdn.shopify.com/app-store/listing_images/9e6a49bd1bad358f8861e1ce835a686b/desktop_screenshot/CNzDkpXr0pADEAE=.png",
         "alt": "Multi-Language Support"
       }
-    ]
+    ],
+    "rating": null
   },
   "so-history-revert": {
     "icon": "https://cdn.shopify.com/app-store/listing_images/daa016f199f6abf2f99753f8a4196fcc/icon/CIqoteeVsZEDEAE=.png",
@@ -106,7 +111,11 @@
         "src": "https://cdn.shopify.com/app-store/listing_images/daa016f199f6abf2f99753f8a4196fcc/desktop_screenshot/CObj2t2Cz5cDEAE=.png",
         "alt": "Product editor with unsaved fields, each save credited to staff"
       }
-    ]
+    ],
+    "rating": {
+      "value": 5,
+      "count": 5
+    }
   },
   "so-shipping-rules": {
     "icon": "https://cdn.shopify.com/app-store/listing_images/c094dfb6b96230506ea50ba286c37747/icon/CMffzonmqpcDEAE=.png",
@@ -145,7 +154,8 @@
         "src": "https://cdn.shopify.com/app-store/listing_images/c094dfb6b96230506ea50ba286c37747/desktop_screenshot/CPHtst30qpcDEAE=.png",
         "alt": "Checkout showing only the allowed delivery method"
       }
-    ]
+    ],
+    "rating": null
   },
   "pactly-b2b-company-pricing": {
     "icon": "https://cdn.shopify.com/app-store/listing_images/f7003440101b35b2cecadf02073bd3ad/icon/CPHmqffutJcDEAE=.png",
@@ -184,6 +194,7 @@
         "src": "https://cdn.shopify.com/app-store/listing_images/f7003440101b35b2cecadf02073bd3ad/desktop_screenshot/CJWK0dvIy5cDEAE=.png",
         "alt": "Price simulator showing a buyer's price and the rule behind it"
       }
-    ]
+    ],
+    "rating": null
   }
 }

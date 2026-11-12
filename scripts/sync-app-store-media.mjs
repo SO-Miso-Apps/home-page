@@ -1,7 +1,8 @@
-// Pulls each app's listing icon and media — the promo video or promotional
-// image, then the screenshots, in the order the listing shows them — from the
-// Shopify App Store into src/app-store-media.json, keyed by the listing handle (the path
-// of an app's app_store_url). Re-run after a listing's media changes:
+// Pulls each app's listing icon, media — the promo video or promotional
+// image, then the screenshots, in the order the listing shows them — and its
+// rating from the Shopify App Store into src/app-store-media.json, keyed by the
+// listing handle (the path of an app's app_store_url). Re-run after a listing's
+// media changes or it gets new reviews:
 //
 //   node scripts/sync-app-store-media.mjs
 //
@@ -48,12 +49,24 @@ async function readListing(handle) {
   const folder = first.src.slice(0, first.src.indexOf("/", first.src.indexOf("listing_images/") + "listing_images/".length));
   const icon = html.match(new RegExp(`${folder.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/icon/[^"?\\s]+`));
   if (!icon) throw new Error(`${handle}: no icon found in ${folder}`);
-  return { icon: icon[0], media };
+
+  // The listing's JSON-LD carries aggregateRating once it has a review;
+  // before that the page says "No reviews yet". null means zero reviews.
+  let rating;
+  const value = html.match(/"ratingValue":\s*"?([\d.]+)"?/);
+  const count = html.match(/"ratingCount":\s*"?(\d+)"?/);
+  if (value && count) rating = { value: Number(value[1]), count: Number(count[1]) };
+  else if (/No reviews yet/.test(html)) rating = null;
+  else throw new Error(`${handle}: no rating found — has the listing markup changed?`);
+
+  return { icon: icon[0], media, rating };
 }
 
 const result = {};
 for (const handle of HANDLES) {
   result[handle] = await readListing(handle);
-  console.log(`${handle}: icon, ${result[handle].media.map((item) => item.type).join(", ")}`);
+  const { media, rating } = result[handle];
+  const stars = rating ? `${rating.value} from ${rating.count} reviews` : "no reviews";
+  console.log(`${handle}: icon, ${media.map((item) => item.type).join(", ")}; ${stars}`);
 }
 await writeFile(OUT, `${JSON.stringify(result, null, 2)}\n`);

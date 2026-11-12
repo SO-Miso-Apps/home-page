@@ -16,12 +16,12 @@ const { id = "pricing" } = Astro.props;
 const lang = getLang(Astro.locals);
 const start = defaultMarket(lang);
 const markets: Market[] = ["vn", "intl"];
-const TONES = ["tofu", "peach", "seaweed"] as const;
+const TONES = ["mist", "tint", "night"] as const;
 
 const copy = {
   en: {
     eyebrow: "Pricing",
-    title: "Theme packages",
+    title: "Theme packages.",
     lead: "Three packages for theme work. Need an app built? Send a request and we will quote it separately.",
     legend: "Where is your store?",
     quoted: "Quoted per project",
@@ -31,7 +31,7 @@ const copy = {
   },
   vi: {
     eyebrow: "Bảng giá",
-    title: "Chọn gói hợp với cửa hàng của bạn",
+    title: "Các gói theme.",
     lead: "Ba gói cho việc làm theme. Cần làm app? Bạn cứ gửi yêu cầu, chúng tôi báo giá riêng.",
     legend: "Cửa hàng của bạn ở đâu?",
     quoted: "Báo giá theo dự án",
@@ -101,7 +101,7 @@ const plans = PRICING_PLANS.map((plan, index) => ({
               ))}
             </ul>
             <a
-              class:list={["btn", plan.tone === "peach" ? "btn--brand" : plan.tone === "seaweed" ? "plan__link--light" : "btn--primary", "plan__link"]}
+              class:list={["btn", plan.tone === "tint" ? "btn--brand" : plan.tone === "night" ? "plan__link--light" : "btn--primary", "plan__link"]}
               href={plan.href}
               data-contact-service="custom-themes"
               data-contact-message={plan.message}
@@ -147,9 +147,9 @@ const plans = PRICING_PLANS.map((plan, index) => ({
     gap: 0.25rem;
     margin: 0;
     padding: 0.3rem;
-    border: 1px solid var(--tofu-line);
+    border: 1px solid var(--mist-line);
     border-radius: var(--r-pill);
-    background: var(--tofu);
+    background: var(--mist);
   }
 
   .market__option {
@@ -236,12 +236,12 @@ const plans = PRICING_PLANS.map((plan, index) => ({
     display: block;
   }
 
-  .tone-peach .plan__price {
-    color: var(--peach-ink);
+  .tone-tint .plan__price {
+    color: var(--tint-ink);
   }
 
-  .tone-seaweed .plan__price {
-    color: var(--seaweed-accent);
+  .tone-night .plan__price {
+    color: var(--night-accent);
   }
 
   .plan__duration {
@@ -279,8 +279,8 @@ const plans = PRICING_PLANS.map((plan, index) => ({
     color: var(--brand-ink);
   }
 
-  .tone-seaweed .plan__tick {
-    color: var(--seaweed-accent);
+  .tone-night .plan__tick {
+    color: var(--night-accent);
   }
 
   /* Pinned to the card's foot so the three buttons line up. */
@@ -292,10 +292,10 @@ const plans = PRICING_PLANS.map((plan, index) => ({
     margin-bottom: 1.75rem;
   }
 
-  /* Seaweed card: a tofu-light pill, so orange stays on the middle plan. */
+  /* Night card: a mist-light pill, so orange stays on the middle plan. */
   .plan__link--light {
-    background: var(--seaweed-ink);
-    color: var(--seaweed);
+    background: var(--night-ink);
+    color: var(--night);
   }
 
   .plan__link--light:hover {

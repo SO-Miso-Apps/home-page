@@ -19,22 +19,22 @@ const copy = {
     description:
       "Shopify and Shopline theme design and customization, plus custom apps built around your workflow — looked at against your store, quoted before work starts, and reviewed on a copy of your theme before launch.",
     eyebrow: "Services",
-    h1: { before: "Your theme, ", em: "reworked", after: " to fit the store you run now." },
-    lede: "Most of our work is on the theme a store already runs: new sections, layout and style changes, speed fixes. When the job needs more than a theme can do, we build the app for it. Either way you get a scope and a price before we start, and you review everything before customers see it.",
-    primary: "Send a request",
-    secondary: "See our apps",
+    h1: { before: "Your theme, ", em: "reworked", after: "." },
+    lede: "Most of our work is on the theme you already run: new sections, new layouts, more speed. When a theme can't do the job, we build the app. Scope and price come first, and you review everything before customers see it.",
+    primary: "Get a quote",
+    secondary: "Our apps",
     art: {
       store: "Home page of a demo store, with a banner and featured products",
       phone: "The demo store's product page on a phone",
     },
     tracks: {
       eyebrow: "What we do",
-      title: "Two kinds of work, one way of doing it.",
+      title: "Two kinds of work. One process.",
       lead: "Pick the one that fits the job, or describe the problem and we will tell you which it is.",
     },
     process: {
       eyebrow: "How it works",
-      title: "From request to launch in four steps.",
+      title: "Request to launch in four steps.",
       lead: "No long discovery phase and no handoff to people you have not met. You know the scope, the price and the risks before any code is written.",
     },
     steps: [
@@ -80,7 +80,7 @@ const copy = {
     ],
     request: {
       eyebrow: "Send a request",
-      title: "What would you like to change?",
+      title: "What should change?",
       lead: "Describe the job in a few lines. We reply with the scope, the timeline and the price — and tell you if one of our existing apps already does it.",
     },
   },
@@ -89,22 +89,22 @@ const copy = {
     description:
       "Thiết kế, tùy chỉnh theme Shopify và Shopline, cùng app làm riêng theo quy trình của bạn — xem trực tiếp trên cửa hàng, báo giá trước khi làm và duyệt trên bản sao theme trước khi ra mắt.",
     eyebrow: "Dịch vụ",
-    h1: { before: "Chỉnh lại theme cho ", em: "vừa", after: " với cửa hàng bạn đang có." },
-    lede: "Phần lớn việc chúng tôi làm là sửa trên chính theme cửa hàng đang dùng: thêm section, đổi bố cục và giao diện, tăng tốc độ tải trang. Khi theme không đủ sức, chúng tôi làm app riêng cho việc đó. Dù là gì, bạn đều có phạm vi và báo giá trước khi bắt đầu, và được duyệt mọi thứ trước khi khách hàng nhìn thấy.",
-    primary: "Gửi yêu cầu",
-    secondary: "Xem các app của chúng tôi",
+    h1: { before: "Chỉnh theme cho ", em: "vừa", after: " cửa hàng." },
+    lede: "Phần lớn việc là sửa trên chính theme bạn đang dùng: section mới, bố cục mới, tải nhanh hơn. Khi theme không đủ sức, chúng tôi làm app. Phạm vi và giá có trước, và bạn duyệt mọi thứ trước khi khách nhìn thấy.",
+    primary: "Nhận báo giá",
+    secondary: "Xem app",
     art: {
       store: "Trang chủ của một cửa hàng demo, có banner và sản phẩm nổi bật",
       phone: "Trang sản phẩm của cửa hàng demo đó trên điện thoại",
     },
     tracks: {
       eyebrow: "Chúng tôi làm gì",
-      title: "Hai mảng việc, chung một cách làm.",
+      title: "Hai mảng việc. Một cách làm.",
       lead: "Chọn mảng hợp với việc bạn cần, hoặc cứ kể vấn đề, chúng tôi sẽ nói nó thuộc mảng nào.",
     },
     process: {
       eyebrow: "Cách chúng tôi làm",
-      title: "Bốn bước từ lúc nhận yêu cầu đến khi ra mắt.",
+      title: "Bốn bước, từ yêu cầu đến ra mắt.",
       lead: "Không có giai đoạn khảo sát kéo dài, không chuyển qua người bạn chưa từng gặp. Bạn biết phạm vi, chi phí và rủi ro trước khi chúng tôi viết dòng code đầu tiên.",
     },
     steps: [
@@ -150,7 +150,7 @@ const copy = {
     ],
     request: {
       eyebrow: "Gửi yêu cầu",
-      title: "Bạn muốn đổi gì trên cửa hàng?",
+      title: "Bạn muốn đổi gì?",
       lead: "Mô tả trong vài dòng. Chúng tôi sẽ trả lời kèm phạm vi, thời gian và báo giá — và nói luôn nếu đã có app sẵn của chúng tôi làm được việc đó.",
     },
   },
@@ -180,7 +180,7 @@ const copy = {
 
       {/* A demo store (products from mock.shop), on desktop and on a phone. */}
       <div class="head-art" data-reveal>
-        <span class="head-art__tone tone-peach" aria-hidden="true"></span>
+        <span class="head-art__tone tone-tint" aria-hidden="true"></span>
         <div class="head-art__window">
           <span class="head-art__bar" aria-hidden="true"><i></i><i></i><i></i></span>
           <img src="/demo/store-home.webp" width="1440" height="900" alt={copy.art.store} decoding="async" />
@@ -253,7 +253,7 @@ const copy = {
   }
   h1 {
     font-size: var(--step-5);
-    letter-spacing: -0.035em;
+    letter-spacing: var(--track-hero);
   }
   /* --- Head art: browser window on a tone block, phone in front ---------- */
   .head-art {
@@ -277,13 +277,13 @@ const copy = {
     display: flex;
     gap: 6px;
     padding: 10px 12px;
-    border-bottom: 1px solid var(--tofu-line);
+    border-bottom: 1px solid var(--mist-line);
   }
   .head-art__bar i {
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: var(--tofu-line);
+    background: var(--mist-line);
   }
   .head-art img {
     display: block;
@@ -326,7 +326,7 @@ const copy = {
     align-content: start;
     padding: 1.5rem;
     border-radius: var(--r-lg);
-    background: var(--tofu);
+    background: var(--mist);
   }
   .needs__label {
     font-weight: 600;
