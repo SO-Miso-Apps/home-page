@@ -8,6 +8,14 @@ import {
 	loadSettings,
 	topicQueue,
 } from "./settings.js";
+import {
+	type ArticleType,
+	guessType,
+	isArticleType,
+	nextTypeByMix,
+	parseQueuedTopic,
+} from "./article-types.js";
+import { planPost } from "./plan.js";
 import { researchTopic } from "./research.js";
 import type { CoverMedia } from "./cover.js";
 import { articleToPortableText } from "./tables.js";
@@ -18,12 +26,16 @@ const KV_LOCK = "state:running";
 const KV_LOG = "state:log";
 const KV_USED_TOPICS = "state:usedTopics";
 const KV_LAST_SCHEDULED_DAY = "state:lastScheduledDay";
+/** Post id -> article type, for the type mix and cover backfills. */
+const KV_POST_TYPES = "state:postTypes";
 /** A run older than this is treated as crashed and its lock is taken over. */
 const LOCK_STALE_MS = 12 * 60 * 1000;
 const LOG_SIZE = 25;
 /** Whole run (research + writing) stays under EmDash's 10-minute cron lock and the 9-minute hook timeout. */
 const RUN_BUDGET_MS = 8.5 * 60 * 1000;
-/** App Store research gets at most this much of the budget. */
+/** Topic planning gets at most this much of the budget. */
+const PLAN_BUDGET_MS = 60 * 1000;
+/** Research gets at most this much of the budget. */
 const RESEARCH_BUDGET_MS = 3.5 * 60 * 1000;
 
 export type Trigger = "schedule" | "manual";
@@ -35,6 +47,7 @@ export interface RunLogEntry {
 	title?: string;
 	postId?: string;
 	topic?: string | null;
+	type?: ArticleType;
 	model?: string;
 	tokens?: { input: number; output: number };
 	error?: string;
@@ -96,10 +109,32 @@ async function markTopicUsed(ctx: PluginContext, topic: string): Promise<void> {
 	await ctx.kv.set(KV_USED_TOPICS, [...new Set([...used, normalizeTopic(topic)])].slice(-500));
 }
 
-async function existingPosts(ctx: PluginContext): Promise<{ title: string; slug: string | null }[]> {
+interface ExistingPost {
+	id: string;
+	title: string;
+	slug: string | null;
+}
+
+export async function readPostTypes(ctx: PluginContext): Promise<Record<string, ArticleType>> {
+	return (await ctx.kv.get<Record<string, ArticleType>>(KV_POST_TYPES)) ?? {};
+}
+
+async function recordPostType(ctx: PluginContext, postId: string, type: ArticleType): Promise<void> {
+	const types = await readPostTypes(ctx);
+	types[postId] = type;
+	await ctx.kv.set(KV_POST_TYPES, types);
+}
+
+/** Recorded types, or a guess from the title for posts written before types were recorded. */
+async function typesOf(ctx: PluginContext, posts: ExistingPost[]): Promise<ArticleType[]> {
+	const recorded = await readPostTypes(ctx);
+	return posts.map((p) => (isArticleType(recorded[p.id]) ? recorded[p.id] : guessType(p.title)));
+}
+
+async function existingPosts(ctx: PluginContext): Promise<ExistingPost[]> {
 	const content = ctx.content;
 	if (!content) return [];
-	const posts: { title: string; slug: string | null }[] = [];
+	const posts: ExistingPost[] = [];
 	let cursor: string | undefined;
 	// Up to 200 recent posts is plenty of context for avoiding repeats and linking.
 	for (let page = 0; page < 4; page++) {
@@ -111,7 +146,7 @@ async function existingPosts(ctx: PluginContext): Promise<{ title: string; slug:
 		for (const item of result.items) {
 			if (typeof item.data.title !== "string") continue;
 			// Only published posts have a live URL worth linking to.
-			posts.push({ title: item.data.title, slug: item.publishedAt ? item.slug : null });
+			posts.push({ id: item.id, title: item.data.title, slug: item.publishedAt ? item.slug : null });
 		}
 		if (!result.hasMore || !result.cursor) break;
 		cursor = result.cursor;
@@ -177,6 +212,7 @@ export async function runOnce(ctx: PluginContext, trigger: Trigger): Promise<Run
 	const startedAt = Date.now();
 	const settings = await loadSettings(ctx);
 	let topic: string | null = null;
+	let articleType: ArticleType | undefined;
 
 	try {
 		if (trigger === "schedule") {
@@ -198,23 +234,46 @@ export async function runOnce(ctx: PluginContext, trigger: Trigger): Promise<Run
 		const titles = posts.map((p) => p.title);
 		const today = new Date();
 
-		// 1. Research the App Store so competitor facts are real.
+		// 1. Settle the topic and its type. A queued topic may carry a type prefix
+		// ("feature: ..."); otherwise Claude classifies it, or picks a fresh topic
+		// of the type the blog has least of against the target mix.
+		const queued = topic ? parseQueuedTopic(topic) : null;
+		let plan: { topic: string; type: ArticleType; angle: string; inputTokens: number; outputTokens: number };
+		if (queued?.type) {
+			plan = { topic: queued.topic, type: queued.type, angle: "", inputTokens: 0, outputTokens: 0 };
+		} else {
+			plan = await planPost({
+				apiKey,
+				model: settings.model,
+				topic: queued?.topic ?? null,
+				wantedType: nextTypeByMix(await typesOf(ctx, posts)),
+				existingTitles: titles,
+				brief: settings.brief,
+				timeoutMs: PLAN_BUDGET_MS,
+			});
+		}
+		topic = plan.topic;
+		articleType = plan.type;
+
+		// 2. Research, so facts about apps, Shopify and studies are real.
 		const research = await researchTopic({
 			apiKey,
 			model: settings.model,
-			topic,
-			existingTitles: titles,
+			topic: plan.topic,
+			type: plan.type,
+			angle: plan.angle,
 			brief: settings.brief,
 			timeoutMs: RESEARCH_BUDGET_MS,
 			today,
 		});
-		topic = research.topic;
 
-		// 2. Write the article from the research notes.
+		// 3. Write the article from the research notes.
 		const result = await writeArticle({
 			apiKey,
 			model: settings.model,
-			topic: research.topic,
+			topic: plan.topic,
+			type: plan.type,
+			angle: plan.angle,
 			research: research.notes,
 			existingPosts: posts,
 			brief: settings.brief,
@@ -244,7 +303,7 @@ export async function runOnce(ctx: PluginContext, trigger: Trigger): Promise<Run
 			featuredImage = await createCover(ctx, {
 				title: article.title,
 				slug: created.slug ?? slugify(article.urlSlug || article.title),
-				type: research.type,
+				type: plan.type,
 				checkedMonth: today.toLocaleString("en-US", { month: "long", year: "numeric", timeZone: "UTC" }),
 			});
 		} catch (error) {
@@ -261,6 +320,7 @@ export async function runOnce(ctx: PluginContext, trigger: Trigger): Promise<Run
 			: created;
 
 		if (queuedTopic) await markTopicUsed(ctx, queuedTopic);
+		await recordPostType(ctx, item.id, plan.type);
 
 		try {
 			await assignTerms(ctx, item.id, article);
@@ -287,10 +347,11 @@ export async function runOnce(ctx: PluginContext, trigger: Trigger): Promise<Run
 			title: article.title,
 			postId: item.id,
 			topic,
+			type: plan.type,
 			model: result.model,
 			tokens: {
-				input: research.inputTokens + result.inputTokens,
-				output: research.outputTokens + result.outputTokens,
+				input: plan.inputTokens + research.inputTokens + result.inputTokens,
+				output: plan.outputTokens + research.outputTokens + result.outputTokens,
 			},
 			durationMs: Date.now() - startedAt,
 		};
@@ -308,6 +369,7 @@ export async function runOnce(ctx: PluginContext, trigger: Trigger): Promise<Run
 			trigger,
 			status: "failed",
 			topic,
+			type: articleType,
 			error: message,
 			durationMs: Date.now() - startedAt,
 		};

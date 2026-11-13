@@ -1,15 +1,31 @@
 # Auto Blog (EmDash plugin)
 
-Writes Shopify app comparison posts with Claude on a schedule: researches the
-Shopify App Store (web search and fetch limited to apps.shopify.com), writes a
-neutral comparison as structured JSON, converts it to Portable Text (with the
-comparison table), renders a 1200×630 cover, and saves the post as a draft or
-publishes it. Our own apps (`src/our-apps.ts`) are added only in the niches
-they compete in, with a disclosure line.
+Writes blog posts for Shopify merchants with Claude on a schedule, in eight
+types (`src/article-types.ts`):
+
+| Type | Example | Research sources | Target share |
+| --- | --- | --- | --- |
+| `howto` | How to add a wishlist to Shopify | help.shopify.com, shopify.dev, App Store | 20% |
+| `problem` | Why Shopify customers abandon wishlists | open web (studies, Baymard, NN/g, Shopify) | 15% |
+| `feature` | How to set up price drop alerts in Shopify | help.shopify.com, shopify.dev, App Store | 20% |
+| `best` / `alternatives` / `versus` | Wishlist Hero vs Themivo | apps.shopify.com only | 25% |
+| `technical` | Shopify wishlist API integration guide | shopify.dev, help center, GitHub | 10% |
+| `research` | Does a wishlist increase conversion rates? | open web (original research only) | 10% |
+
+Each run: (1) plan: settle the topic and type (a queued topic, optionally with
+a `type:` prefix, or a fresh topic of the type furthest below its target
+share); (2) research with that type's sources; (3) write structured JSON with
+the type's article structure; then convert to Portable Text (tables and code
+blocks), render a 1200×630 cover with the type's kicker, and save the post as
+a draft or publish it. The type sets the category (`app-comparisons`,
+`how-to`, `troubleshooting`, `developers`, `research`, created on first use)
+and is recorded per post in KV (`state:postTypes`). Our own apps
+(`src/our-apps.ts`) are mentioned only where they genuinely do the job, as one
+option among equals, with a disclosure line.
 
 Admin → **Auto Blog**: Claude API key (stored encrypted with
 `EMDASH_ENCRYPTION_KEY`), schedule (UTC weekdays and hour), draft or publish,
-model, topic queue, editor brief, "Write a post now", and the run log.
+model, topic queue (optional `howto:`, `feature:`, `research:` … prefixes), editor brief, "Write a post now", and the run log.
 
 ## Shared between themivo.com and misoapps.com
 

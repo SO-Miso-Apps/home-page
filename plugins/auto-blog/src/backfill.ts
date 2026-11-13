@@ -1,17 +1,12 @@
 import type { PluginContext } from "emdash";
 
 import { BRAND } from "./brand.js";
-import type { ArticleType } from "./cover-svg.js";
+import { guessType, isArticleType } from "./article-types.js";
+import { readPostTypes } from "./run.js";
 
 const COLLECTION = "posts";
 /** Posts handled per click, to keep one admin request short. */
 const BATCH = 10;
-
-function guessType(title: string): ArticleType {
-	if (/\bvs\.?\b|\bversus\b/i.test(title)) return "versus";
-	if (/alternative/i.test(title)) return "alternatives";
-	return "best";
-}
 
 function hasImage(value: unknown): boolean {
 	return !!value && typeof value === "object" && !!((value as { src?: string }).src || (value as { id?: string }).id);
@@ -45,12 +40,13 @@ export async function backfillCovers(ctx: PluginContext): Promise<{ done: number
 		cursor = result.cursor;
 	}
 
+	const recorded = await readPostTypes(ctx);
 	let done = 0;
 	for (const post of missing.slice(0, BATCH)) {
 		const cover = await createCover(ctx, {
 			title: post.title,
 			slug: post.slug ?? post.id,
-			type: guessType(post.title),
+			type: isArticleType(recorded[post.id]) ? recorded[post.id] : guessType(post.title),
 			checkedMonth: new Date(post.date).toLocaleString("en-US", {
 				month: "long",
 				year: "numeric",

@@ -1,5 +1,6 @@
 import type { PluginContext } from "emdash";
 
+import { ARTICLE_TYPES, TYPE_INFO } from "./article-types.js";
 import { backfillCovers } from "./backfill.js";
 import { isRunning, nextTopic, readLog, runOnce } from "./run.js";
 import { MODELS, WEEKDAYS, getApiKey, loadSettings, parseDays, topicQueue } from "./settings.js";
@@ -50,7 +51,7 @@ async function renderPage(ctx: PluginContext): Promise<BlockResponse> {
 		blocks.push({
 			type: "banner",
 			title: "Writing a post now",
-			description: "Claude is researching the Shopify App Store, then writing the comparison. This usually takes three to seven minutes.",
+			description: "Claude is picking the topic, researching it (the Shopify App Store, Shopify's docs or published studies, depending on the type), then writing the post. This usually takes three to seven minutes.",
 		});
 	}
 
@@ -67,7 +68,7 @@ async function renderPage(ctx: PluginContext): Promise<BlockResponse> {
 			type: "section",
 			text: upcoming
 				? `Next topic: ${upcoming}`
-				: "The topic queue is empty, so Claude picks a fresh app comparison the blog has not covered, mostly in categories where our apps compete.",
+				: "The topic queue is empty, so Claude picks a fresh topic the blog has not covered, of the type the blog has least of (how-to, problem and fix, and feature guides first; then comparisons, developer guides and research), mostly in niches where our apps compete.",
 			accessory: {
 				type: "button",
 				label: "Write a post now",
@@ -149,7 +150,7 @@ async function renderPage(ctx: PluginContext): Promise<BlockResponse> {
 				{
 					type: "text_input",
 					action_id: "topics",
-					label: "Topic queue, one per line, e.g. \"Best wishlist apps for Shopify\", \"Rewind alternatives for Shopify\", \"App A vs App B\" (written top to bottom, each once)",
+					label: `Topic queue, one per line, written top to bottom, each once. Claude works out the type, or set it with a prefix: ${ARTICLE_TYPES.join(", ")}. E.g. "How to add a wishlist to Shopify", "feature: How to set up price drop alerts in Shopify", "research: Does a wishlist increase conversion rates?", "Wishlist Hero vs Themivo Wishlist & Alerts"`,
 					multiline: true,
 					initial_value: settings.topics,
 				},
@@ -172,12 +173,14 @@ async function renderPage(ctx: PluginContext): Promise<BlockResponse> {
 				{ key: "when", label: "When" },
 				{ key: "trigger", label: "Trigger" },
 				{ key: "status", label: "Result" },
+				{ key: "type", label: "Type" },
 				{ key: "detail", label: "Post or error" },
 			],
 			rows: log.map((e) => ({
 				when: formatWhen(e.at),
 				trigger: e.trigger === "manual" ? "Manual" : "Schedule",
 				status: e.status,
+				type: e.type && TYPE_INFO[e.type] ? TYPE_INFO[e.type].label : "",
 				detail: e.status === "failed" ? (e.error ?? "Unknown error") : (e.title ?? ""),
 			})),
 			empty_text: "No runs yet.",

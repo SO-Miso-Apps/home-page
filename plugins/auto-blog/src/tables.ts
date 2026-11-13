@@ -67,8 +67,11 @@ function tableBlock(header: string[], body: string[][]): Record<string, unknown>
 export function tablesToBlocks(markdown: string): string {
 	const lines = markdown.split("\n");
 	const out: string[] = [];
+	let inCode = false;
 	for (let i = 0; i < lines.length; i++) {
+		if (lines[i].startsWith("```")) inCode = !inCode;
 		const isTableStart =
+			!inCode &&
 			TABLE_LINE.test(lines[i]) && i + 1 < lines.length && SEPARATOR_LINE.test(lines[i + 1]);
 		if (!isTableStart) {
 			out.push(lines[i]);

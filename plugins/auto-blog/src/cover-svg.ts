@@ -1,3 +1,4 @@
+import { type ArticleType, TYPE_INFO, isComparison } from "./article-types.js";
 import { BRAND } from "./brand.js";
 import type { FontMetrics } from "./font-metrics.js";
 
@@ -5,12 +6,12 @@ import type { FontMetrics } from "./font-metrics.js";
 export const COVER_WIDTH = 1200;
 export const COVER_HEIGHT = 630;
 
-export type ArticleType = "best" | "alternatives" | "versus";
+export type { ArticleType };
 
 export interface CoverInput {
 	title: string;
 	type: ArticleType;
-	/** e.g. "November 2026": when the App Store listings were checked. */
+	/** e.g. "November 2026": when the App Store listings or sources were checked. */
 	checkedMonth: string;
 }
 
@@ -25,11 +26,9 @@ const LOGO = BRAND.cover.logo
 	.replaceAll("{paper}", PAPER)
 	.replaceAll("{accent}", ACCENT);
 
-const KICKER: Record<ArticleType, string> = {
-	best: "BEST APPS COMPARED",
-	alternatives: "ALTERNATIVES COMPARED",
-	versus: "HEAD TO HEAD",
-};
+function footerLine(type: ArticleType, month: string): string {
+	return isComparison(type) ? `Checked on the Shopify App Store · ${month}` : `Updated · ${month}`;
+}
 
 function escapeXml(value: string): string {
 	return value
@@ -75,10 +74,10 @@ export function buildCoverSvg(input: CoverInput, serif: FontMetrics): string {
   <rect x="40" y="40" width="1120" height="550" rx="28" fill="none" stroke="${LINE}" stroke-width="2"/>
   <g transform="translate(96 82) scale(0.75)">${LOGO}</g>
   <text x="156" y="116" font-family="${SANS}" font-weight="500" font-size="28" fill="${INK}">${escapeXml(BRAND.siteName)}</text>
-  <text x="1104" y="114" text-anchor="end" font-family="${MONO}" font-size="18" letter-spacing="2" fill="${ACCENT}">${KICKER[input.type]}</text>
+  <text x="1104" y="114" text-anchor="end" font-family="${MONO}" font-size="18" letter-spacing="2" fill="${ACCENT}">${TYPE_INFO[input.type].kicker}</text>
   ${titleLines}
   <line x1="96" y1="520" x2="1104" y2="520" stroke="${LINE}" stroke-width="2"/>
-  <text x="96" y="558" font-family="${MONO}" font-size="18" fill="${INK_2}">Checked on the Shopify App Store · ${escapeXml(input.checkedMonth)}</text>
+  <text x="96" y="558" font-family="${MONO}" font-size="18" fill="${INK_2}">${escapeXml(footerLine(input.type, input.checkedMonth))}</text>
   <text x="1104" y="558" text-anchor="end" font-family="${MONO}" font-size="18" fill="${INK_2}">${escapeXml(BRAND.cover.footer)}</text>
 </svg>`;
 }
