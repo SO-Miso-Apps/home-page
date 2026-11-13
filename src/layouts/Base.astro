@@ -43,6 +43,9 @@ const canonicalHref =
 // One alternate per language for the same page — the language switcher and
 // the head script both read these, so they are the only map of the site.
 const alternates = LANGS.map((code) => ({ code, href: new URL(localizeHref(path, code), origin).toString() }));
+// A noindex page (the 404, which every missing URL is rewritten to) must not
+// name a canonical or alternates: they would point crawlers at /404 itself.
+const indexable = !robots?.includes("noindex");
 ---
 
 <!doctype html>
@@ -74,13 +77,13 @@ const alternates = LANGS.map((code) => ({ code, href: new URL(localizeHref(path,
         root.dataset.themeChoice = stored ?? "system";
       })();
     </script>
-    {alternates.map((alt) => <link rel="alternate" hreflang={alt.code} href={alt.href} />)}
-    <link rel="alternate" hreflang="x-default" href={alternates[0].href} />
+    {indexable && alternates.map((alt) => <link rel="alternate" hreflang={alt.code} href={alt.href} />)}
+    {indexable && <link rel="alternate" hreflang="x-default" href={alternates[0].href} />}
     {/* After the alternates: the script looks its target up among them. */}
-    {robots?.includes("noindex") ? null : <script is:inline set:html={LANG_SCRIPT} />}
+    {indexable && <script is:inline set:html={LANG_SCRIPT} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="canonical" href={canonicalHref} />
+    {indexable && <link rel="canonical" href={canonicalHref} />}
     <link rel="alternate" type="application/rss+xml" title="Miso Apps Blog" href="/rss.xml" />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:type" content="website" />
@@ -88,7 +91,7 @@ const alternates = LANGS.map((code) => ({ code, href: new URL(localizeHref(path,
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     {image && <meta property="og:image" content={new URL(image, origin)} />}
-    <meta property="og:url" content={canonicalHref} />
+    {indexable && <meta property="og:url" content={canonicalHref} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#f6f6f3" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)" />
